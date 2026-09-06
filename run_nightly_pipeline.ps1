@@ -5,11 +5,13 @@
 #                            4~9초 랜덤 지연, 프로필 키워드 필터, 네거티브 키워드 필터.
 #                          - 큐레이션 계정(is_curator) 우선 스캔도 이 단계 안에서 자동 수행됨.
 #   Step 2 (10:00~10:15) : 15분 쿨다운 (인스타그램 요청 흐름을 끊어 차단 위험을 낮춤)
-#   Step 3 (10:15~)      : run_manual.py (수집 -> 파싱 -> gonggu.db 저장 -> 카드뉴스 -> view.html)
+#   Step 3 (10:15~)      : run_manual.py (수집 -> 파싱 -> gonggu.db 저장 -> 카드뉴스 -> view.html/index.html)
+#   Step 4                : GitHub Pages 배포 (index.html을 git add/commit/push)
 #
-# 세 단계 모두 오류 없이 끝나면(exit code 0 이고 로그에 Traceback 없음) PC를 절전
-# 모드로 전환한다. 하나라도 문제가 있으면 원인 분석을 위해 절전 모드로 넘어가지
-# 않고 로그만 남긴 채 그대로 둔다.
+# 세 단계 모두 오류 없이 끝나면(exit code 0 이고 로그에 Traceback 없음) index.html을
+# GitHub에 푸시해 웹사이트를 갱신하고 PC를 절전 모드로 전환한다. 하나라도 문제가
+# 있으면 (배포도 절전도) 건너뛰고 원인 분석을 위해 로그만 남긴 채 그대로 둔다 -
+# 파이프라인이 실패한 상태의 데이터를 공개 웹사이트에 배포하지 않기 위함이다.
 #
 # PowerShell 5.1이 네이티브 프로세스의 stderr를 직접 리다이렉트하면 로그가
 # NativeCommandError로 깨지는 문제(run_tonight.ps1에서 실제로 겪음)를 피하기 위해
@@ -69,6 +71,22 @@ $pipelineHasError = (Test-Path $PipelineLog) -and (Select-String -Path $Pipeline
 $allOk = ($discoverExit -eq 0) -and ($pipelineExit -eq 0) -and (-not $discoverHasError) -and (-not $pipelineHasError)
 
 if ($allOk) {
+    Write-Summary "Step 4 시작: GitHub Pages 배포 (git add/commit/push)"
+    # .gitignore가 .env/data//logs//output/ 등을 이미 제외하므로 add -A 로 안전하게 전부 스테이징한다.
+    git add -A 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
+    $commitMsg = "Auto update 캘린더 ({0})" -f (Get-Date -Format "yyyy-MM-dd HH:mm")
+    git commit -m $commitMsg 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
+    if ($LASTEXITCODE -eq 0) {
+        git push origin main 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
+        if ($LASTEXITCODE -eq 0) {
+            Write-Summary "Step 4 완료: GitHub Pages 배포 성공"
+        } else {
+            Write-Summary "Step 4 실패: git push 오류 (네트워크/인증 문제일 수 있음 - 위 로그 확인)"
+        }
+    } else {
+        Write-Summary "Step 4: 어제와 변경 사항 없음 - 커밋/배포 생략"
+    }
+
     Write-Summary "모든 단계 정상 완료 - 절전 모드로 전환합니다."
     rundll32.exe powrprof.dll,SetSuspendState 0,1,0
 } else {
