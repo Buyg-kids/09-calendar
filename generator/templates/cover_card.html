@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 540px;
+    height: 675px;
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    background: linear-gradient(160deg, #2B2B2B 0%, #1a1a1a 100%);
+    color: #fff;
+    padding: 34px 30px;
+    overflow: hidden;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  h1 { font-size: 30px; font-weight: 800; line-height: 1.35; margin-bottom: 8px; }
+  .range { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 28px; }
+  .total { font-size: 13px; color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+  .total b { font-size: 20px; color: #FFD93D; }
+
+  .sections { display: flex; flex-direction: column; gap: 16px; }
+  .section {
+    background: rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 16px 18px;
+    border-left: 5px solid var(--cat-color);
+  }
+  .section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 15px; font-weight: 800; margin-bottom: 8px;
+  }
+  .section-head .name { display: flex; align-items: center; gap: 8px; }
+  .section-head .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--cat-color); }
+  .section-head .count { font-size: 12px; font-weight: 700; color: var(--cat-color); }
+  .highlights { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .highlights li {
+    font-size: 12.5px; color: rgba(255,255,255,0.85);
+    padding-left: 14px; position: relative;
+  }
+  .highlights li::before {
+    content: "·"; position: absolute; left: 0; color: var(--cat-color); font-weight: 900;
+  }
+  .highlights li.more { color: rgba(255,255,255,0.4); }
+  .empty { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+  .footer {
+    position: absolute;
+    bottom: 24px; left: 30px; right: 30px;
+    font-size: 10.5px; color: rgba(255,255,255,0.35); text-align: center;
+  }
+</style>
+</head>
+<body>
+  <span class="badge">영유아 공구 캘린더</span>
+  <h1>{{ title }}</h1>
+  <div class="range">{{ range_text }}</div>
+  <div class="total">이번 주 총 <b>{{ total_count }}건</b>의 공구가 진행됩니다</div>
+
+  <div class="sections">
+    {% for s in sections %}
+    <div class="section" style="--cat-color:{{ s.color }}">
+      <div class="section-head">
+        <span class="name"><span class="dot"></span>{{ s.category }}</span>
+        <span class="count">{{ s.count }}건</span>
+      </div>
+      {% if s.highlights %}
+      <ul class="highlights">
+        {% for h in s.highlights %}<li>{{ h }}</li>{% endfor %}
+        {% if s.count > s.highlights|length %}<li class="more">외 {{ s.count - s.highlights|length }}건</li>{% endif %}
+      </ul>
+      {% else %}
+      <div class="empty">이번 주 예정된 공구 없음</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="footer">다음 페이지에서 카테고리별 상세 캘린더 확인 → · {{ generated_at }}</div>
+</body>
+</html>

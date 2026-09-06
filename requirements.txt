@@ -1,0 +1,10 @@
+playwright
+beautifulsoup4
+requests
+anthropic
+fastapi
+uvicorn[standard]
+apscheduler
+jinja2
+python-dotenv
+pydantic

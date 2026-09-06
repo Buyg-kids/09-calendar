@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>영유아 공구 캘린더</title>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<style>
+  :root { --bg:#FAFAF8; --card:#ffffff; --text:#222; --muted:#888; --border:#eee; --accent:#2B2B2B; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: 'Malgun Gothic','Apple SD Gothic Neo',sans-serif; background:var(--bg); color:var(--text); }
+  header { padding: 20px 28px 4px; }
+  header h1 { font-size: 20px; margin: 0 0 4px; }
+  header p { margin:0; font-size: 12px; color: var(--muted); }
+
+  /* 탭 */
+  .tabs { display:flex; gap: 4px; padding: 16px 28px 0; border-bottom: 1px solid var(--border); }
+  .tab {
+    padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--muted);
+    cursor: pointer; border-bottom: 2px solid transparent; user-select:none;
+    display:flex; align-items:center; gap:6px;
+  }
+  .tab .dot { width:8px; height:8px; border-radius:50%; }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
+  main { padding: 20px 28px 40px; display:grid; grid-template-columns: 1fr 280px; gap:20px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+
+  #calendar { background:var(--card); border-radius:12px; padding:16px; border:1px solid var(--border); }
+
+  .side { display:flex; flex-direction:column; gap:16px; }
+  .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; font-size:12px; }
+  .panel h3 { margin:0 0 8px; font-size:13px; }
+  .panel .muted { color: var(--muted); }
+  .cards-grid { display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+  .cards-grid img { width:100%; border-radius:8px; border:1px solid var(--border); cursor:pointer; }
+
+  .fc-event { cursor:pointer; }
+
+  /* 팝업 모달 */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45);
+    align-items:center; justify-content:center; z-index:1000; padding:20px;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal {
+    background:#fff; border-radius:16px; max-width:360px; width:100%;
+    padding:24px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  }
+  .modal .close {
+    position:absolute; top:14px; right:16px; cursor:pointer; font-size:18px; color:var(--muted);
+    background:none; border:none; line-height:1;
+  }
+  .modal .cat-badge {
+    display:inline-block; font-size:11px; font-weight:700; color:#fff;
+    padding:3px 10px; border-radius:20px; margin-bottom:10px;
+  }
+  .modal h2 { font-size:18px; margin:0 0 14px; line-height:1.4; }
+  .modal .row { margin-bottom:10px; font-size:13px; }
+  .modal .row b { display:block; font-size:11px; color:var(--muted); font-weight:600; margin-bottom:2px; }
+  .modal .benefit { background:#FFF8E8; color:#a67c00; padding:8px 10px; border-radius:8px; font-size:12.5px; margin-bottom:14px; }
+  .modal .link-btn {
+    display:block; text-align:center; background:var(--accent); color:#fff; text-decoration:none;
+    padding:11px; border-radius:10px; font-size:13px; font-weight:700; margin-top:8px;
+  }
+  .modal .link-btn.disabled { background:#e5e5e5; color:#aaa; pointer-events:none; }
+
+  .lightbox {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8);
+    align-items:center; justify-content:center; z-index:1001; padding:20px;
+  }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:100%; max-height:100%; border-radius:8px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>영유아 공구 캘린더</h1>
+    <p>인스타그램 인플루언서 육아용품 / 영유아식품 / 키즈가구 공동구매 일정</p>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-category="">전체</div>
+  </div>
+
+  <main>
+    <div id="calendar"></div>
+    <div class="side">
+      <div class="panel">
+        <h3>최근 생성된 카드뉴스</h3>
+        <div class="cards-grid" id="cardsGrid"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 공구 클릭 팝업 -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="close" id="modalClose">×</button>
+      <span class="cat-badge" id="modalCatBadge"></span>
+      <h2 id="modalTitle"></h2>
+      <div class="row"><b>인플루언서</b><span id="modalInfluencer"></span></div>
+      <div class="row" id="modalBrandRow" style="display:none;"><b>브랜드</b><span id="modalBrand"></span></div>
+      <div class="row"><b>공구 기간</b><span id="modalPeriod"></span></div>
+      <div class="benefit" id="modalBenefit" style="display:none;"></div>
+      <a href="#" target="_blank" class="link-btn" id="modalLink">구매 링크 열기</a>
+    </div>
+  </div>
+
+  <!-- 카드뉴스 확대 보기 -->
+  <div class="lightbox" id="lightbox"><img id="lightboxImg" src="" /></div>
+
+<script>
+  let activeCategory = "";
+  let categoryColors = {};
+
+  // ---- 탭 (전체 / 카테고리별) ----
+  fetch('/api/categories').then(r => r.json()).then(categories => {
+    const tabsEl = document.getElementById('tabs');
+    categories.forEach(c => categoryColors[c.name] = c.color);
+    categories.forEach(c => {
+      const tab = document.createElement('div');
+      tab.className = 'tab';
+      tab.dataset.category = c.name;
+      tab.innerHTML = `<span class="dot" style="background:${c.color}"></span>${c.name}`;
+      tabsEl.appendChild(tab);
+    });
+  });
+
+  document.getElementById('tabs').addEventListener('click', (e) => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeCategory = tab.dataset.category;
+    calendar.refetchEvents();
+  });
+
+  // ---- 팝업 모달 ----
+  const overlay = document.getElementById('modalOverlay');
+  function openModal(props, title) {
+    document.getElementById('modalCatBadge').textContent = props.category;
+    document.getElementById('modalCatBadge').style.background = categoryColors[props.category] || '#999';
+    document.getElementById('modalTitle').textContent = props.product_name;
+    document.getElementById('modalInfluencer').textContent = props.influencer_name;
+
+    const brandRow = document.getElementById('modalBrandRow');
+    if (props.brand) { brandRow.style.display = 'block'; document.getElementById('modalBrand').textContent = props.brand; }
+    else { brandRow.style.display = 'none'; }
+
+    document.getElementById('modalPeriod').textContent =
+      props.end_date && props.end_date !== props.start_date
+        ? `${props.start_date} ~ ${props.end_date}` : props.start_date;
+
+    const benefitEl = document.getElementById('modalBenefit');
+    if (props.key_benefit) { benefitEl.style.display = 'block'; benefitEl.textContent = props.key_benefit; }
+    else { benefitEl.style.display = 'none'; }
+
+    const linkEl = document.getElementById('modalLink');
+    if (props.purchase_link) { linkEl.href = props.purchase_link; linkEl.classList.remove('disabled'); linkEl.textContent = '구매 링크 열기'; }
+    else { linkEl.href = '#'; linkEl.classList.add('disabled'); linkEl.textContent = '구매 링크 정보 없음'; }
+
+    overlay.classList.add('open');
+  }
+  document.getElementById('modalClose').addEventListener('click', () => overlay.classList.remove('open'));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
+
+  // ---- 캘린더 ----
+  const calendarEl = document.getElementById('calendar');
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'ko',
+    height: 'auto',
+    headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,dayGridWeek' },
+    events: function(info, successCallback, failureCallback) {
+      const params = new URLSearchParams({
+        start: info.startStr.slice(0, 10),
+        end: info.endStr.slice(0, 10),
+      });
+      if (activeCategory) params.set('category', activeCategory);
+      fetch('/api/events?' + params.toString())
+        .then(r => r.json())
+        .then(successCallback)
+        .catch(failureCallback);
+    },
+    eventClick: function(info) {
+      openModal(info.event.extendedProps, info.event.title);
+    },
+  });
+  calendar.render();
+
+  // ---- 카드뉴스 미리보기 + 라이트박스 ----
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  fetch('/api/cards').then(r => r.json()).then(urls => {
+    const grid = document.getElementById('cardsGrid');
+    if (!urls.length) { grid.innerHTML = '<div class="muted">아직 생성된 카드가 없습니다.</div>'; return; }
+    grid.innerHTML = urls.map(u => `<img src="${u}" data-full="${u}">`).join('');
+  });
+  document.getElementById('cardsGrid').addEventListener('click', (e) => {
+    if (e.target.tagName !== 'IMG') return;
+    lightboxImg.src = e.target.dataset.full;
+    lightbox.classList.add('open');
+  });
+  lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# 민감 정보 - 절대 커밋 금지 (API 키, 인스타그램 로그인 세션 등)
+.env
+data/
+
+# 매일 새로 생성되는 산출물/로그 - 저장소에 쌓아둘 필요 없음 (index.html은 예외로 루트에 별도 관리)
+logs/
+output/
+
+# 파이썬
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+gonggu.db

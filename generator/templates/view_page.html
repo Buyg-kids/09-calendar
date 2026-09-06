@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{ title }}</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    margin: 0; background: #FAFAF8; color: #222;
+  }
+  header { padding: 20px 24px 8px; }
+  header h1 { font-size: 20px; margin: 0 0 4px; }
+  header p { margin: 0; font-size: 12px; color: #888; }
+
+  .search-wrap { padding: 0 24px 14px; }
+  .search-box { position: relative; width: 100%; max-width: 420px; }
+  #searchInput {
+    width: 100%; padding: 10px 36px 10px 14px; font-size: 16px;
+    border: 1px solid #ddd; border-radius: 20px; outline: none;
+    -webkit-appearance: none; appearance: none; /* iOS가 type=search에 입히는 기본 스타일 제거 */
+  }
+  /* 브라우저 기본 지우기(X) 버튼은 우리가 직접 만든 버튼과 겹치므로 숨긴다 */
+  #searchInput::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+  #searchInput::-ms-clear { display: none; }
+  #searchInput:focus { border-color: #333; }
+  #clearSearch {
+    display: none; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px; border: none; border-radius: 50%; background: #ddd; color: #666;
+    font-size: 15px; line-height: 1; cursor: pointer; padding: 0;
+  }
+  #clearSearch.show { display: block; }
+  .count { font-size: 12px; color: #888; margin-top: 6px; min-height: 16px; }
+
+  /* ---------------- 데스크톱: 캘린더 그리드 ---------------- */
+  .section-title { padding: 0 24px; font-size: 13px; font-weight: 700; color: #555; margin: 4px 0 8px; }
+  .calendar-wrap { padding: 0 24px 28px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .calendar-grid {
+    display: grid; grid-template-columns: repeat(7, minmax(120px, 1fr));
+    gap: 8px; min-width: 840px;
+  }
+  .cal-day { border: 1px solid #eee; border-radius: 10px; padding: 8px; background: #fff; min-height: 130px; }
+  .cal-day-head { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 6px; }
+  .cal-day.today .cal-day-head { color: #d1470f; }
+  .cal-chip {
+    display: block; width: 100%; text-align: left; border: none; cursor: pointer;
+    margin-bottom: 6px; padding: 5px 8px; border-radius: 6px; font-size: 11px;
+    color: #fff; line-height: 1.35; font-family: inherit;
+  }
+  .cal-chip .chip-product { font-weight: 700; display: block; }
+  .cal-chip .chip-influencer { opacity: 0.9; font-size: 10px; display: block; }
+  .cal-empty { font-size: 11px; color: #ccc; padding: 4px 2px; }
+
+  /* ---------------- 데스크톱: 상세 테이블 ---------------- */
+  .table-wrap { padding: 0 24px 40px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; }
+  thead th {
+    text-align: left; padding: 10px 12px; background: #FAFAF8;
+    border-bottom: 2px solid #eee; position: sticky; top: 0;
+  }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  tbody tr:hover { background: #fff8f0; }
+  tbody tr.flash { animation: flashBg 1.6s ease-out; }
+  @keyframes flashBg {
+    0% { background: #FFE9A8; }
+    100% { background: transparent; }
+  }
+  .cat-badge {
+    display: inline-block; padding: 2px 9px; border-radius: 10px;
+    font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap;
+  }
+  .product { font-weight: 700; }
+  .benefit { color: #a67c00; font-size: 12px; }
+  a.link, a.profile-link { color: #2a6cd8; text-decoration: none; }
+  a.link:hover, a.profile-link:hover { text-decoration: underline; }
+  .empty-row td { text-align: center; color: #bbb; padding: 30px; }
+  mark { background: #FFE9A8; padding: 0 1px; border-radius: 2px; }
+
+  /* ---------------- 모바일: 날짜 탭 + 카드 리스트 (기본은 숨김, 768px 이하에서만 표시) ---------------- */
+  .daytabs-wrap { display: none; }
+  .card-list-wrap { display: none; }
+
+  .daytabs {
+    display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    padding: 0 24px 12px; scrollbar-width: none;
+  }
+  .daytabs::-webkit-scrollbar { display: none; }
+  .daytab {
+    flex: 0 0 auto; padding: 8px 14px; border-radius: 16px; border: 1px solid #ddd;
+    background: #fff; color: #555; font-size: 13px; font-weight: 600; white-space: nowrap;
+    cursor: pointer;
+  }
+  .daytab.active { background: #333; border-color: #333; color: #fff; }
+
+  .card-list { padding: 0 24px 40px; display: flex; flex-direction: column; gap: 10px; }
+  .gb-card {
+    border: 1px solid #eee; border-radius: 14px; padding: 14px; background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .gb-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .gb-card-date { font-size: 12px; color: #888; }
+  .gb-card-product { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; }
+  .gb-card-influencer { font-size: 13px; margin-bottom: 6px; }
+  .gb-card-influencer a { color: #2a6cd8; text-decoration: none; }
+  .gb-card-benefit { font-size: 12px; color: #a67c00; margin-bottom: 10px; line-height: 1.4; }
+  .gb-card-btn {
+    display: block; text-align: center; padding: 10px; border-radius: 10px;
+    background: #333; color: #fff; font-size: 13px; font-weight: 700;
+    text-decoration: none;
+  }
+  .card-list-empty { text-align: center; color: #bbb; padding: 40px 0; font-size: 13px; }
+
+  @media (max-width: 768px) {
+    .calendar-wrap, .table-wrap { display: none !important; }
+    .section-title.desktop-only { display: none !important; }
+    .daytabs-wrap, .card-list-wrap { display: block; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>{{ title }}</h1>
+    <p>{{ range_text }} · 총 {{ rows|length }}건 · 아래 검색창 또는 Ctrl+F로 찾아보세요</p>
+  </header>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="상품명, 브랜드, 인플루언서로 검색 (예: 기저귀, 톤캬)"
+        enterkeyhint="search"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+      <button type="button" id="clearSearch" aria-label="검색어 지우기">✕</button>
+    </div>
+    <div class="count" id="resultCount"></div>
+  </div>
+
+  <!-- ===== 데스크톱: 주간 캘린더 그리드 + 상세 테이블 (모바일에서는 숨김) ===== -->
+  <div class="section-title desktop-only">📅 주간 공구 캘린더 (칩을 클릭하면 아래 목록으로 이동합니다)</div>
+  <div class="calendar-wrap" id="calendarWrap">
+    <div class="calendar-grid">
+      {% for day in calendar_days %}
+      <div class="cal-day">
+        <div class="cal-day-head">{{ day.weekday_kr }} {{ day.date_num }}일</div>
+        {% for item in day.entries %}
+        <button
+          type="button"
+          class="cal-chip"
+          style="background:{{ item.color }}"
+          data-search="{{ (item.product_name ~ ' ' ~ item.brand ~ ' ' ~ item.influencer_label ~ ' ' ~ item.category)|lower }}"
+          onclick="scrollToRow('{{ item.row_id }}')"
+        >
+          <span class="chip-product">{{ item.product_name }}</span>
+          <span class="chip-influencer">{{ item.influencer_label }}</span>
+        </button>
+        {% else %}
+        <div class="cal-empty">-</div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="section-title desktop-only">📋 전체 목록</div>
+  <div class="table-wrap">
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>날짜</th><th>카테고리</th><th>상품명</th><th>브랜드</th>
+          <th>인플루언서</th><th>혜택</th><th>구매링크</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for gb in rows %}
+        <tr id="{{ gb.row_id }}" data-search="{{ (gb.product_name ~ ' ' ~ gb.brand ~ ' ' ~ gb.influencer_label ~ ' ' ~ gb.category ~ ' ' ~ gb.key_benefit)|lower }}">
+          <td>{{ gb.date_label }}</td>
+          <td><span class="cat-badge" style="background:{{ gb.color }}">{{ gb.category }}</span></td>
+          <td class="product">{{ gb.product_name }}</td>
+          <td>{{ gb.brand }}</td>
+          <td>
+            {% if gb.influencer_profile_url %}
+            <a class="profile-link" href="{{ gb.influencer_profile_url }}" target="_blank" rel="noopener">{{ gb.influencer_label }}</a>
+            {% else %}
+            {{ gb.influencer_label }}
+            {% endif %}
+          </td>
+          <td class="benefit">{{ gb.key_benefit }}</td>
+          <td>
+            {% if gb.purchase_url %}
+            <a class="link" href="{{ gb.purchase_url }}" target="_blank" rel="noopener">{{ gb.purchase_label }}</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr class="empty-row"><td colspan="7">등록된 공구가 없습니다.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== 모바일: 가로 스크롤 날짜 탭 + 카드 리스트 (데스크톱에서는 숨김) ===== -->
+  <div class="daytabs-wrap" id="daytabsWrap">
+    <div class="daytabs">
+      <button type="button" class="daytab active" data-date="">전체</button>
+      {% for day in calendar_days %}
+      <button type="button" class="daytab" data-date="{{ day.date_iso }}">{{ day.weekday_kr }} {{ day.date_num }}</button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card-list-wrap">
+    <div class="card-list" id="cardList">
+      {% for gb in rows %}
+      <div
+        class="gb-card"
+        id="card-{{ gb.row_id }}"
+        data-date="{{ gb.start_date }}"
+        data-enddate="{{ gb.end_date or gb.start_date }}"
+        data-search="{{ (gb.product_name ~ ' ' ~ gb.brand ~ ' ' ~ gb.influencer_label ~ ' ' ~ gb.category ~ ' ' ~ gb.key_benefit)|lower }}"
+      >
+        <div class="gb-card-top">
+          <span class="cat-badge" style="background:{{ gb.color }}">{{ gb.category }}</span>
+          <span class="gb-card-date">{{ gb.date_label }}</span>
+        </div>
+        <div class="gb-card-product">{{ gb.product_name }}</div>
+        <div class="gb-card-influencer">
+          {% if gb.influencer_profile_url %}
+          <a href="{{ gb.influencer_profile_url }}" target="_blank" rel="noopener">📷 {{ gb.influencer_label }}</a>
+          {% else %}
+          {{ gb.influencer_label }}
+          {% endif %}
+        </div>
+        {% if gb.key_benefit %}<div class="gb-card-benefit">{{ gb.key_benefit }}</div>{% endif %}
+        {% if gb.purchase_url %}
+        <a class="gb-card-btn" href="{{ gb.purchase_url }}" target="_blank" rel="noopener">{{ gb.purchase_label }}</a>
+        {% endif %}
+      </div>
+      {% else %}
+      <div class="card-list-empty">등록된 공구가 없습니다.</div>
+      {% endfor %}
+    </div>
+  </div>
+
+<script>
+var searchInput = document.getElementById('searchInput');
+var clearBtn = document.getElementById('clearSearch');
+var calendarWrap = document.getElementById('calendarWrap');
+var daytabsWrap = document.getElementById('daytabsWrap');
+var activeDayFilter = ''; // '' = 전체 (날짜 탭 선택 상태, 검색 중에는 무시됨)
+
+function updateCards(q) {
+  var cards = document.querySelectorAll('.gb-card');
+  var visible = 0;
+  cards.forEach(function (card) {
+    var text = card.getAttribute('data-search') || '';
+    var searchMatch = !q || text.indexOf(q) !== -1;
+    var dateMatch = true;
+    if (!q && activeDayFilter) {
+      var start = card.getAttribute('data-date');
+      var end = card.getAttribute('data-enddate') || start;
+      dateMatch = start <= activeDayFilter && activeDayFilter <= end;
+    }
+    var match = searchMatch && dateMatch;
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+  return visible;
+}
+
+function filterRows() {
+  // 모바일에서 첫 글자 자동 대문자화/끝 공백 삽입으로 매칭이 깨지지 않도록
+  // 검색어 쪽에도 항상 trim + toLowerCase를 적용한다 (대상 텍스트는 서버에서
+  // 렌더링할 때 이미 |lower 필터로 소문자 처리되어 data-search에 들어있음).
+  var q = searchInput.value.trim().toLowerCase();
+
+  clearBtn.classList.toggle('show', q.length > 0);
+
+  // 검색 중에는 상단 캘린더 그리드/날짜 탭을 통째로 숨겨서 화면을 가리지 않고
+  // 매칭되는 결과가 검색창 바로 아래에 즉시 노출되게 한다 (모바일에서 실제로
+  // 겪은 문제: 칩 단위로만 숨기면 알록달록한 빈 그리드 틀이 그대로 남아
+  // 화면을 잡아먹어 검색이 안 되는 것처럼 보였음).
+  if (calendarWrap) calendarWrap.style.display = q ? 'none' : '';
+  if (daytabsWrap) daytabsWrap.style.display = q ? 'none' : '';
+
+  var rows = document.querySelectorAll('#dataTable tbody tr:not(.empty-row)');
+  var visible = 0;
+  rows.forEach(function (row) {
+    var text = row.getAttribute('data-search') || row.innerText.toLowerCase();
+    var match = !q || text.indexOf(q) !== -1;
+    row.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+
+  var chips = document.querySelectorAll('.cal-chip');
+  chips.forEach(function (chip) {
+    var text = chip.getAttribute('data-search') || '';
+    var match = !q || text.indexOf(q) !== -1;
+    chip.style.display = match ? '' : 'none';
+  });
+
+  updateCards(q);
+
+  document.getElementById('resultCount').textContent = q ? ('검색 결과: ' + visible + '건') : '';
+}
+
+// oninput 인라인 속성 대신 addEventListener를 명시적으로 붙인다:
+// - 'input'  : 타이핑, 붙여넣기, 한글 IME 조합/완성, 자동완성 선택 등 값이
+//              바뀌는 모든 경우를 다 잡는다 (keyup/keypress보다 훨씬 안정적).
+// - 'search' : type=search 인풋에서 모바일 키보드의 '검색' 버튼을 누르거나
+//              브라우저 기본 지우기(x) 버튼을 눌렀을 때 발생.
+searchInput.addEventListener('input', filterRows);
+searchInput.addEventListener('search', filterRows);
+
+clearBtn.addEventListener('click', function () {
+  searchInput.value = '';
+  filterRows();
+  searchInput.focus();
+});
+
+document.querySelectorAll('.daytab').forEach(function (tab) {
+  tab.addEventListener('click', function () {
+    document.querySelectorAll('.daytab').forEach(function (t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    activeDayFilter = tab.getAttribute('data-date');
+    updateCards(searchInput.value.trim().toLowerCase());
+  });
+});
+
+function scrollToRow(rowId) {
+  var row = document.getElementById(rowId);
+  if (!row) return;
+  row.style.display = '';
+  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  row.classList.remove('flash');
+  void row.offsetWidth; // 애니메이션 재시작을 위한 강제 리플로우
+  row.classList.add('flash');
+}
+</script>
+</body>
+</html>
