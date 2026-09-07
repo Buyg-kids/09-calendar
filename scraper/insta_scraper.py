@@ -104,8 +104,17 @@ def _get_bio_and_shortcodes(handle: str, limit: int) -> tuple[str, list[tuple[st
             browser.close()
 
 
-def _get_caption(shortcode: str, kind: str) -> str:
-    """로그인 불필요한 공개 임베드 페이지에서 캡션 텍스트 추출 (인증 세션 보호)."""
+def _get_caption(shortcode: str, kind: str) -> tuple[str, str]:
+    """로그인 불필요한 공개 임베드 페이지에서 캡션 텍스트 + 대표 이미지 URL 추출
+    (인증 세션 보호). 반환: (caption_text, image_url).
+
+    img.EmbeddedMediaImage 는 사진/캐러셀 게시물과 릴스(비디오 포스터 프레임)
+    양쪽 모두에서 실제 콘텐츠 이미지를 가리키는 걸 브라우저로 직접 확인한
+    셀렉터다 (프로필 아바타 100x100, 사이드바 추천 썸네일 150x150과 구분됨).
+
+    주의: 이 URL은 인스타그램 CDN의 서명된(만료 시간이 박힌) 링크라 시간이
+    지나면 깨진다 - 그래서 view.html 쪽에서 로드 실패 시 카테고리별
+    플레이스홀더로 자동 대체하는 처리가 반드시 같이 있어야 한다."""
     url = f"https://www.instagram.com/{kind}/{shortcode}/embed/captioned/"
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -116,7 +125,20 @@ def _get_caption(shortcode: str, kind: str) -> str:
                 page.wait_for_selector("[class*='Caption']", timeout=5000)
             except PWTimeoutError:
                 pass
-            return page.inner_text("body")
+            text = page.inner_text("body")
+
+            image_url = ""
+            try:
+                image_url = page.eval_on_selector("img.EmbeddedMediaImage", "el => el.src") or ""
+            except Exception:
+                pass
+            if not image_url:
+                try:
+                    image_url = page.eval_on_selector("video", "el => el.poster") or ""
+                except Exception:
+                    pass
+
+            return text, image_url
         finally:
             browser.close()
 
@@ -128,11 +150,11 @@ def scrape_insta(handle: str, max_posts: int = MAX_POSTS_PER_RUN) -> InstaResult
     for code, kind in shortcodes:
         _polite_sleep()
         try:
-            text = _get_caption(code, kind)
+            text, image_url = _get_caption(code, kind)
         except Exception as exc:  # noqa: BLE001
             logger.warning("캡션 수집 실패 %s/%s: %s", handle, code, exc)
             continue
-        result.captions.append({"shortcode": code, "type": kind, "text": text})
+        result.captions.append({"shortcode": code, "type": kind, "text": text, "image_url": image_url})
 
     return result
 

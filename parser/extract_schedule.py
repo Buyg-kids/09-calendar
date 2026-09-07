@@ -126,6 +126,7 @@ def _rule_based_extract(text: str, influencer_name: str, reference_date: str) ->
                 "category": category,
                 "product_name": product_name,
                 "brand": "",
+                "price": "",  # 룰베이스는 가격 표기를 신뢰성 있게 못 뽑아 항상 빈값 (뷰어가 '가격공개예정'으로 표시)
                 "start_date": start_date.isoformat(),
                 "end_date": end_date.isoformat() if end_date else "",
                 "purchase_link": url_m.group(0) if url_m else "",
@@ -186,6 +187,15 @@ EXTRACT_TOOL = {
                             ),
                         },
                         "brand": {"type": "string", "description": "브랜드명이 텍스트에 명시돼 있으면 기입, 불명확하면 빈 문자열"},
+                        "price": {
+                            "type": "string",
+                            "description": (
+                                "가격. 텍스트에 명시된 표기 그대로(예: '19,900원', '1+1 39,000원'). "
+                                "본문에 가격이 전혀 없으면 지어내지 말고 '가격공개예정'이라고 적어라 "
+                                "(구매 링크로 들어가야만 알 수 있는 경우가 많으므로 빈 문자열보다 이 "
+                                "표현이 사용자에게 더 명확하다)."
+                            ),
+                        },
                         "start_date": {"type": "string", "description": "공구 시작일 YYYY-MM-DD. 알 수 없으면 빈 문자열."},
                         "end_date": {"type": "string", "description": "공구 마감일 YYYY-MM-DD. 알 수 없으면 빈 문자열."},
                         "purchase_link": {"type": "string", "description": "구매/신청 링크 언급이 있으면 원문 그대로, 없으면 빈 문자열."},
@@ -265,6 +275,7 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
                         "category": category,
                         "product_name": product_name,
                         "brand": (it.get("brand") or "").strip(),
+                        "price": (it.get("price") or "").strip(),
                         "start_date": (it.get("start_date") or "").strip(),
                         "end_date": (it.get("end_date") or "").strip(),
                         "purchase_link": (it.get("purchase_link") or "").strip(),
@@ -301,23 +312,25 @@ def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) 
 # =============================================================================
 # 오케스트레이션
 # =============================================================================
-def _collect_text_blobs(entry: dict) -> list[str]:
-    """한 타겟 raw_collected 엔트리에서 파싱 대상 텍스트 조각들을 모은다."""
-    blobs: list[str] = []
+def _collect_text_blobs(entry: dict) -> list[tuple[str, str]]:
+    """한 타겟 raw_collected 엔트리에서 파싱 대상 (텍스트, 대표 이미지 URL) 조각들을
+    모은다. 이미지는 인스타 캡션 블롭에만 있고(멀티링크/bio는 항상 "") - 이 이미지를
+    그 캡션에서 나온 상품에 그대로 붙여서 gonggu.db에 저장한다."""
+    blobs: list[tuple[str, str]] = []
 
     multilink = entry.get("multilink")
     if multilink:
         if multilink.get("raw_text"):
-            blobs.append(multilink["raw_text"])
-        blobs.extend(multilink.get("link_items", []))
+            blobs.append((multilink["raw_text"], ""))
+        blobs.extend((item, "") for item in multilink.get("link_items", []))
 
     instagram = entry.get("instagram")
     if instagram:
         if instagram.get("bio_text"):
-            blobs.append(instagram["bio_text"])
+            blobs.append((instagram["bio_text"], ""))
         for cap in instagram.get("captions", []):
             if cap.get("text"):
-                blobs.append(cap["text"])
+                blobs.append((cap["text"], cap.get("image_url") or ""))
 
     return blobs
 
@@ -345,7 +358,7 @@ def run() -> dict:
         influencer_name = entry.get("influencer_name", "")
         reference_date = (entry.get("collected_at") or datetime.now(timezone.utc).isoformat())[:10]
 
-        for text in _collect_text_blobs(entry):
+        for text, image_url in _collect_text_blobs(entry):
             stats["blobs_checked"] += 1
             if not quick_prefilter(text):
                 continue
@@ -366,6 +379,7 @@ def run() -> dict:
                     continue
                 if item["end_date"] and not DATE_RE.match(item["end_date"]):
                     item["end_date"] = ""
+                item["image_url"] = image_url
                 gonggu_db.upsert_gonggu(item)
                 stats["saved"] += 1
                 stats["saved_by_claude" if method == "claude" else "saved_by_rule"] += 1

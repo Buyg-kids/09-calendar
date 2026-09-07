@@ -31,6 +31,14 @@ CREATE TABLE IF NOT EXISTS gonggu (
 CREATE INDEX IF NOT EXISTS idx_gonggu_dates ON gonggu(start_date, end_date);
 """
 
+# Buyg 리브랜딩(위시버니 스타일 UI)에서 상품 이미지/가격을 노출하기 위해 나중에
+# 추가된 컬럼들. 기존 DB 파일에는 없을 수 있으므로 init_db()에서 마이그레이션한다
+# (CREATE TABLE IF NOT EXISTS는 이미 존재하는 테이블의 컬럼을 추가해주지 않음).
+_MIGRATION_COLUMNS = {
+    "image_url": "TEXT",  # 인스타 게시물 대표 이미지 URL (없으면 프런트에서 카테고리별 플레이스홀더로 대체)
+    "price": "TEXT",      # 본문에 가격이 명시 안 된 경우가 많아 숫자가 아닌 TEXT (예: '가격공개예정', '19,900원')
+}
+
 
 @contextmanager
 def get_conn() -> Iterator[sqlite3.Connection]:
@@ -44,9 +52,17 @@ def get_conn() -> Iterator[sqlite3.Connection]:
         conn.close()
 
 
+def _migrate(conn: sqlite3.Connection) -> None:
+    existing = {row[1] for row in conn.execute("PRAGMA table_info(gonggu)").fetchall()}
+    for column, col_type in _MIGRATION_COLUMNS.items():
+        if column not in existing:
+            conn.execute(f"ALTER TABLE gonggu ADD COLUMN {column} {col_type}")
+
+
 def init_db() -> None:
     with get_conn() as conn:
         conn.executescript(SCHEMA)
+        _migrate(conn)
 
 
 def upsert_gonggu(item: dict) -> None:
@@ -56,20 +72,23 @@ def upsert_gonggu(item: dict) -> None:
             """
             INSERT INTO gonggu
                 (influencer_name, category, product_name, brand, start_date, end_date,
-                 purchase_link, key_benefit, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 purchase_link, key_benefit, image_url, price, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(influencer_name, product_name, start_date) DO UPDATE SET
                 category=excluded.category,
                 brand=excluded.brand,
                 end_date=excluded.end_date,
                 purchase_link=excluded.purchase_link,
                 key_benefit=excluded.key_benefit,
+                image_url=CASE WHEN excluded.image_url != '' THEN excluded.image_url ELSE gonggu.image_url END,
+                price=excluded.price,
                 updated_at=excluded.updated_at
             """,
             (
                 item["influencer_name"], item["category"], item["product_name"],
                 item.get("brand", ""), item["start_date"], item.get("end_date", ""),
                 item.get("purchase_link", ""), item.get("key_benefit", ""),
+                item.get("image_url", ""), item.get("price", ""),
                 datetime.now(timezone.utc).isoformat(),
             ),
         )

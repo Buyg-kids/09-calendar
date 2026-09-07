@@ -14,7 +14,12 @@ YYYYMMDD=그 주의 월요일 날짜) 에 번호순으로 저장된다:
 같은 실행에서 검색/텍스트 보조 파일 2개도 output/ 바로 아래(고정 경로,
 매번 최신 데이터로 덮어씀)에 함께 생성한다:
   output/calendar_summary.txt - 인스타 캡션으로 바로 붙여넣을 수 있는 텍스트 목록
-  output/view.html            - 검색창 + Ctrl+F 가능한 단일 HTML 표 뷰어
+  output/view.html            - 검색창 + Ctrl+F 가능한 단일 HTML 뷰어 (index.html로도 복사됨)
+
+카드뉴스(PNG 4장)는 계속 "이번 주" 기준이지만, calendar_summary.txt/view.html은
+당월 1일~말일이 기본이고 매월 15일부터는 다음 달 말일까지 노출 범위를 미리
+넓히는 롤링 방식이다(_current_display_range). 이미 마감된(끝난) 공구는 이
+두 산출물에서 자동으로 숨겨진다.
 
 실행:
     python -m generator.card_news                              # 이번 주
@@ -23,6 +28,7 @@ YYYYMMDD=그 주의 월요일 날짜) 에 번호순으로 저장된다:
 """
 from __future__ import annotations
 
+import calendar as calendar_mod
 import json
 import logging
 import re
@@ -46,6 +52,29 @@ def _current_week_range(today: date | None = None) -> tuple[date, date]:
     monday = today - timedelta(days=today.weekday())
     sunday = monday + timedelta(days=6)
     return monday, sunday
+
+
+def _current_display_range(today: date | None = None) -> tuple[date, date]:
+    """view.html/calendar_summary.txt 용 노출 기간(당월 + 익월 D-14 롤링).
+
+    기본은 이번 달 1일 ~ 말일. 다만 매월 15일부터는 다음 달 공구 예고가
+    슬슬 올라오기 시작하므로, 노출 범위를 다음 달 말일까지 미리 넓혀서
+    (예: 9/15부터는 9월 전체 + 10월 전체) 놓치는 일정이 없게 한다.
+    카드뉴스(PNG) 4장은 인스타그램 피드용으로 여전히 '이번 주' 기준을 그대로
+    쓴다 - 이 함수는 view.html/calendar_summary.txt 전용."""
+    today = today or date.today()
+    start = today.replace(day=1)
+
+    end_year, end_month = today.year, today.month
+    if today.day >= 15:
+        end_month += 1
+        if end_month > 12:
+            end_month = 1
+            end_year += 1
+
+    last_day = calendar_mod.monthrange(end_year, end_month)[1]
+    end = date(end_year, end_month, last_day)
+    return start, end
 
 
 def _parse_date(s: str | None) -> date | None:
@@ -248,6 +277,16 @@ def _merge_duplicate_group(group: list[dict]) -> dict:
         if link.startswith("http"):
             merged["purchase_link"] = link
             break
+    if not merged.get("image_url"):
+        for it in group:
+            if it.get("image_url"):
+                merged["image_url"] = it["image_url"]
+                break
+    if not merged.get("price") or merged.get("price") == "가격공개예정":
+        for it in group:
+            if it.get("price") and it["price"] != "가격공개예정":
+                merged["price"] = it["price"]
+                break
     return merged
 
 
@@ -263,11 +302,20 @@ def _deduplicate_gonggu(items: list[dict]) -> list[dict]:
     return [_merge_duplicate_group(c) if len(c) > 1 else c[0] for c in clusters]
 
 
-def _build_summary_rows(monday: date, sunday: date) -> list[dict]:
+def _build_summary_rows(start: date, end: date, hide_before: date | None = None) -> list[dict]:
     """검색/텍스트 보조 파일(calendar_summary.txt, view.html) 둘이 같이 쓰는
-    한 주 전체(카테고리 무관) 공구 목록. 중복 상품 통합 후 날짜순 정렬."""
-    raw_items = gonggu_db.list_gonggu(start_date=monday.isoformat(), end_date=sunday.isoformat())
+    [start, end] 기간 전체(카테고리 무관) 공구 목록. 중복 상품 통합 후 날짜순 정렬.
+
+    hide_before를 주면 그보다 먼저 끝난(마감된) 공구는 결과에서 제외한다 -
+    상시 최신/예정 데이터 중심 뷰를 유지하기 위함(과거에 이미 끝난 공구를
+    당월 범위라는 이유만으로 계속 보여주지 않음)."""
+    raw_items = gonggu_db.list_gonggu(start_date=start.isoformat(), end_date=end.isoformat())
     items = _deduplicate_gonggu(raw_items)
+
+    if hide_before is not None:
+        cutoff = hide_before.isoformat()
+        items = [gb for gb in items if (gb.get("end_date") or gb.get("start_date") or "") >= cutoff]
+
     items.sort(key=lambda gb: gb.get("start_date") or "9999-99-99")
 
     multilink_map = _load_multilink_map()
@@ -281,6 +329,8 @@ def _build_summary_rows(monday: date, sunday: date) -> list[dict]:
         brand = gb.get("brand") or ""
         product_name = gb.get("product_name") or ""
         brand_product = f"{brand} {product_name}".strip() if brand else product_name
+        price = gb.get("price") or "가격공개예정"
+        image_url = gb.get("image_url") or ""
 
         influencer_display, influencer_handle = _parse_influencer(gb["influencer_name"])
         # instagram_id는 gonggu.db에 별도 컬럼이 없고 influencer_name에서 파싱한
@@ -309,6 +359,8 @@ def _build_summary_rows(monday: date, sunday: date) -> list[dict]:
                 "product_name": product_name,
                 "brand": brand,
                 "brand_product": brand_product,
+                "price": price,
+                "image_url": image_url,
                 "influencer_name": gb["influencer_name"],
                 "influencer_display": influencer_display,
                 "influencer_handle": influencer_handle,
@@ -322,25 +374,28 @@ def _build_summary_rows(monday: date, sunday: date) -> list[dict]:
     return rows
 
 
-def _build_calendar_days(rows: list[dict], monday: date) -> list[dict]:
-    """검색용 HTML 뷰어 상단 주간 캘린더 그리드용 요일별 버킷 (디둡된 rows 재사용)."""
+def _build_calendar_days(rows: list[dict], start: date, end: date) -> list[dict]:
+    """검색용 HTML 뷰어 상단 캘린더 그리드/날짜 탭용 날짜별 버킷 (디둡된 rows 재사용).
+    [start, end] 기간의 모든 날짜를 돈다 - 당월+익월 롤링 범위라 7일 고정이 아니라
+    최대 두 달치(약 60일)까지 나올 수 있으며, 화면에서는 가로 스크롤로 넘겨 본다."""
     days = []
-    for i in range(7):
-        d = monday + timedelta(days=i)
+    d = start
+    while d <= end:
         d_iso = d.isoformat()
         day_rows = [r for r in rows if r["start_date"] <= d_iso <= (r["end_date"] or r["start_date"])]
-        days.append({"weekday_kr": WEEKDAY_KR[i], "date_num": d.day, "date_iso": d_iso, "entries": day_rows})
+        days.append({"weekday_kr": WEEKDAY_KR[d.weekday()], "date_num": d.day, "date_iso": d_iso, "entries": day_rows})
+        d += timedelta(days=1)
     return days
 
 
-def _write_calendar_summary_txt(rows: list[dict], monday: date, sunday: date, title: str | None) -> Path:
+def _write_calendar_summary_txt(rows: list[dict], start: date, end: date, title: str | None) -> Path:
     """인스타 캡션으로 바로 붙여넣을 수 있는 텍스트 목록.
     한 줄 형식: [날짜 | 카테고리 | 브랜드/상품명 | 인플루언서]"""
-    header_title = title or "이번주 육아/식품 공구 캘린더"
-    lines = [f"📅 {header_title} ({monday.strftime('%m.%d')} ~ {sunday.strftime('%m.%d')})", ""]
+    header_title = title or "육아/식품 공구 캘린더"
+    lines = [f"📅 {header_title} ({start.strftime('%m.%d')} ~ {end.strftime('%m.%d')})", ""]
 
     if not rows:
-        lines.append("이번 주 예정된 공구가 없습니다.")
+        lines.append("해당 기간에 예정된 공구가 없습니다.")
     else:
         for r in rows:
             lines.append(f"[{r['date_label']} | {r['category']} | {r['brand_product']} | {r['influencer_name']}]")
@@ -354,16 +409,20 @@ def _write_calendar_summary_txt(rows: list[dict], monday: date, sunday: date, ti
     return out_path
 
 
-def _write_view_html(rows: list[dict], monday: date, sunday: date, title: str | None) -> Path:
-    """검색창 + 주간 캘린더 그리드 + 상세 테이블을 함께 갖춘 단일 HTML 뷰어
-    (서버 없이 더블클릭으로 바로 열림). 검색은 캘린더 칩과 테이블 행을 동시에 필터링한다."""
-    calendar_days = _build_calendar_days(rows, monday)
+def _write_view_html(rows: list[dict], start: date, end: date, title: str | None) -> Path:
+    """'Buyg' 브랜드의 위시버니 스타일 모바일 커머스 뷰어 (서버 없이 더블클릭으로
+    바로 열림). 마감임박/이달의공구/카테고리칩/이번주/D-14진행예정 6개 섹션은
+    전부 JS가 rows_json 하나를 가지고 클라이언트에서 계산/렌더링한다 - 날짜 계산
+    (마감임박, D-day 배지, 요일 바)이 '오늘' 기준으로 계속 바뀌어야 하는데,
+    이 파일은 생성 시점에 한 번 굳는 정적 HTML이므로 JS 쪽에 today를 넘겨
+    렌더링 시점이 아니라 "보는 시점의 오늘"로 다시 계산하게 하기 위함이다."""
+    rows_json = json.dumps(rows, ensure_ascii=False).replace("</", "<\\/")
     html = render_card_html(
         {
             "title": title or "영유아 공구 캘린더",
-            "range_text": f"{monday.strftime('%Y.%m.%d')} ~ {sunday.strftime('%m.%d')}",
+            "range_text": f"{start.strftime('%Y.%m.%d')} ~ {end.strftime('%m.%d')}",
             "rows": rows,
-            "calendar_days": calendar_days,
+            "rows_json": rows_json,
         },
         "view_page.html",
     )
@@ -379,18 +438,25 @@ def _write_view_html(rows: list[dict], monday: date, sunday: date, title: str | 
 
 
 def run(today: date | None = None, week_start: date | None = None, title: str | None = None) -> list[str]:
-    """today: '이번 주' 판단 기준일 (week_start가 없을 때만 사용).
-    week_start: 명시적으로 특정 주(월요일)를 지정하고 싶을 때 사용 - 지정하면 today는 무시된다.
+    """today: '이번 주'/노출 기간 판단 기준일 (week_start가 없을 때만 사용).
+    week_start: 명시적으로 특정 주(월요일)를 지정하고 싶을 때 사용 - 지정하면 today는
+    무시되고, 카드뉴스뿐 아니라 view.html/calendar_summary.txt 범위도 그 주로 고정된다
+    (특정 과거/미래 주를 다시 뽑아보고 싶을 때 쓰는 수동 오버라이드).
     title: 표지 카드의 메인 타이틀 문구 (없으면 기본 문구 사용)."""
     gonggu_db.init_db()
+    today_date = today or date.today()
 
     if week_start is not None:
         monday = week_start
         sunday = monday + timedelta(days=6)
         folder_tag = f"week_{monday.strftime('%Y%m%d')}"
+        display_start, display_end = monday, sunday
     else:
-        monday, sunday = _current_week_range(today)
+        # 카드뉴스(인스타 피드용 PNG 4장)는 계속 '이번 주' 기준을 쓰고,
+        # view.html/calendar_summary.txt만 당월+익월 D-14 롤링 범위를 쓴다.
+        monday, sunday = _current_week_range(today_date)
         folder_tag = datetime.now().strftime("%Y%m%d")
+        display_start, display_end = _current_display_range(today_date)
 
     out_dir = OUTPUT_DIR / f"cardnews_{folder_tag}"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -411,10 +477,10 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
 
     logger.info("카드뉴스 %d장 생성 완료: %s", len(paths), out_dir)
 
-    summary_rows = _build_summary_rows(monday, sunday)
-    summary_path = _write_calendar_summary_txt(summary_rows, monday, sunday, title)
-    logger.info("텍스트 캡션 요약 생성 (%d건): %s", len(summary_rows), summary_path)
-    view_path = _write_view_html(summary_rows, monday, sunday, title)
+    summary_rows = _build_summary_rows(display_start, display_end, hide_before=today_date)
+    summary_path = _write_calendar_summary_txt(summary_rows, display_start, display_end, title)
+    logger.info("텍스트 캡션 요약 생성 (%s~%s, %d건): %s", display_start, display_end, len(summary_rows), summary_path)
+    view_path = _write_view_html(summary_rows, display_start, display_end, title)
     logger.info("검색용 HTML 뷰어 생성: %s", view_path)
 
     return paths
