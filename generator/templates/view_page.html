@@ -167,6 +167,25 @@
   .week-card-price { font-size: 12px; color: var(--brand-purple); font-weight: 800; }
   .empty-note { padding: 24px 16px; text-align: center; color: #bbb; font-size: 13px; grid-column: 1 / -1; }
 
+  /* ---- 가격 표기: 실가격은 굵은 보라 텍스트, 미표기는 CTA 뱃지로 대체 ---- */
+  .price-cta {
+    display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700;
+    color: var(--brand-purple); background: var(--accent-lavender); padding: 3px 9px; border-radius: 10px;
+  }
+  .banner-overlay .price-cta { color: #fff; background: rgba(255,255,255,0.22); }
+
+  /* ---- 이번주 그리드 더보기 ---- */
+  .week-more-btn {
+    grid-column: 1 / -1; margin: 4px 0 0; padding: 11px; border-radius: 12px;
+    border: 1.5px solid var(--brand-purple); background: #fff; color: var(--brand-purple);
+    font-size: 13px; font-weight: 700; cursor: pointer; text-align: center;
+  }
+  .week-card.reveal { animation: fadeInUp 0.35s ease both; }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   /* ---- 진행예정 D-14 ---- */
   .upcoming-card { flex: 0 0 148px; scroll-snap-align: start; }
   .upcoming-card .thumb-wrap { width: 148px; height: 148px; }
@@ -221,6 +240,11 @@
 
     <div id="homeSections">
       <section class="section">
+        <div class="section-head"><h2>🏷️ 카테고리</h2></div>
+        <div class="chip-row" id="chipRow"></div>
+      </section>
+
+      <section class="section">
         <div class="section-head"><h2>🔥 마감 임박한 공구</h2><span class="sub">서두르세요</span></div>
         <div class="hscroll-wrap">
           <button type="button" class="scroll-arrow arrow-left" data-target="closingSoonList" aria-label="이전">‹</button>
@@ -236,11 +260,6 @@
           <div class="hscroll" id="monthlyBannerList"></div>
           <button type="button" class="scroll-arrow arrow-right" data-target="monthlyBannerList" aria-label="다음">›</button>
         </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2>🏷️ 카테고리</h2></div>
-        <div class="chip-row" id="chipRow"></div>
       </section>
 
       <section class="section">
@@ -313,6 +332,28 @@ function linkFor(row) {
   return row.purchase_url || row.influencer_profile_url || '#';
 }
 
+// 가격 정보가 없을 때 '가격공개예정'을 반복 노출하는 대신, 세련된 CTA 뱃지 문구
+// 중 하나로 대체한다 (같은 상품은 항상 같은 문구가 나오도록 row_id로 고정 선택).
+const PRICE_CTA_LABELS = ['최저가 공구 ↗', '공구가 링크확인 ↗', '단독 특가 ↗'];
+function hashCode(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
+  return h;
+}
+function priceInfo(row) {
+  const raw = (row.price || '').trim();
+  if (raw && raw !== '가격공개예정') {
+    return { text: raw, cta: false };
+  }
+  const idx = Math.abs(hashCode(row.row_id || row.product_name || '')) % PRICE_CTA_LABELS.length;
+  return { text: PRICE_CTA_LABELS[idx], cta: true };
+}
+function setPriceEl(el, row) {
+  const info = priceInfo(row);
+  el.textContent = info.text;
+  el.classList.toggle('price-cta', info.cta);
+}
+
 function parseDate(s) { return s ? new Date(s + 'T00:00:00') : null; }
 function daysBetween(a, b) { return Math.round((a - b) / 86400000); }
 
@@ -355,7 +396,7 @@ function renderClosingSoon(rows) {
     thumb.appendChild(badge);
     a.appendChild(thumb);
     const name = document.createElement('div'); name.className = 'closing-name'; name.textContent = row.product_name;
-    const price = document.createElement('div'); price.className = 'closing-price'; price.textContent = row.price || '가격공개예정';
+    const price = document.createElement('div'); price.className = 'closing-price'; setPriceEl(price, row);
     a.appendChild(name); a.appendChild(price);
     el.appendChild(a);
   });
@@ -389,7 +430,7 @@ function renderMonthlyBanner(rows) {
     overlay.innerHTML = '<span class="banner-badge">' + badgeText + '</span>'
       + '<div class="banner-name"></div><div class="banner-price"></div>';
     overlay.querySelector('.banner-name').textContent = row.product_name;
-    overlay.querySelector('.banner-price').textContent = row.price || '가격공개예정';
+    setPriceEl(overlay.querySelector('.banner-price'), row);
     thumb.appendChild(overlay);
     a.appendChild(thumb);
     el.appendChild(a);
@@ -407,6 +448,7 @@ function renderChips() {
     div.innerHTML = '<div class="chip-icon">' + chip.icon + '</div><div class="chip-label">' + chip.label + '</div>';
     div.addEventListener('click', function () {
       activeChip = chip.id;
+      weekGridVisible = WEEK_GRID_PAGE_SIZE; // 카테고리를 바꾸면 다시 상위 8개만
       renderChips();
       renderHome();
     });
@@ -416,6 +458,9 @@ function renderChips() {
 
 // ---------------- 이번주 공구는? (오늘부터 롤링 요일 바 + 2열 그리드) ----------------
 let selectedDayIso = TODAY_ISO;
+const WEEK_GRID_PAGE_SIZE = 8;
+let weekGridVisible = WEEK_GRID_PAGE_SIZE; // 날짜/카테고리 바뀌면 8개로 리셋
+
 function renderDayBar() {
   const el = document.getElementById('dayBar');
   el.innerHTML = '';
@@ -427,11 +472,26 @@ function renderDayBar() {
     pill.textContent = i === 0 ? ('오늘(' + d.getDate() + ')') : (d.getDate() + '(' + WEEKDAY_KR[d.getDay()] + ')');
     pill.addEventListener('click', function () {
       selectedDayIso = iso;
+      weekGridVisible = WEEK_GRID_PAGE_SIZE; // 날짜를 바꾸면 다시 상위 8개만
       renderDayBar();
       renderWeekGrid(currentFilteredRows());
     });
     el.appendChild(pill);
   }
+}
+
+function renderWeekCard(row) {
+  const a = document.createElement('a');
+  a.className = 'week-card';
+  a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
+  a.appendChild(makeThumb(row));
+  const body = document.createElement('div'); body.className = 'week-card-body';
+  body.innerHTML = '<div class="week-card-date"></div><div class="week-card-name"></div><div class="week-card-price"></div>';
+  body.querySelector('.week-card-date').textContent = row.date_label;
+  body.querySelector('.week-card-name').textContent = row.product_name;
+  setPriceEl(body.querySelector('.week-card-price'), row);
+  a.appendChild(body);
+  return a;
 }
 
 function renderWeekGrid(rows) {
@@ -445,19 +505,26 @@ function renderWeekGrid(rows) {
     el.innerHTML = '<div class="empty-note">이 날짜엔 진행중인 공구가 없어요.</div>';
     return;
   }
-  list.forEach(function (row) {
-    const a = document.createElement('a');
-    a.className = 'week-card';
-    a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
-    a.appendChild(makeThumb(row));
-    const body = document.createElement('div'); body.className = 'week-card-body';
-    body.innerHTML = '<div class="week-card-date"></div><div class="week-card-name"></div><div class="week-card-price"></div>';
-    body.querySelector('.week-card-date').textContent = row.date_label;
-    body.querySelector('.week-card-name').textContent = row.product_name;
-    body.querySelector('.week-card-price').textContent = row.price || '가격공개예정';
-    a.appendChild(body);
-    el.appendChild(a);
-  });
+
+  const shown = Math.min(weekGridVisible, list.length);
+  list.slice(0, shown).forEach(function (row) { el.appendChild(renderWeekCard(row)); });
+
+  const remaining = list.length - shown;
+  if (remaining > 0) {
+    const moreBtn = document.createElement('button');
+    moreBtn.type = 'button';
+    moreBtn.className = 'week-more-btn';
+    moreBtn.textContent = '+ 더보기 (' + remaining + '건)';
+    moreBtn.addEventListener('click', function () {
+      const prevShown = shown;
+      weekGridVisible = list.length; // 한 번에 나머지 전부 펼침
+      renderWeekGrid(currentFilteredRows());
+      // 방금 새로 나타난 카드에만 페이드인 애니메이션을 준다.
+      const cards = document.querySelectorAll('#weekGrid .week-card');
+      for (let i = prevShown; i < cards.length; i++) { cards[i].classList.add('reveal'); }
+    });
+    el.appendChild(moreBtn);
+  }
 }
 
 // ---------------- 진행 예정 (D-14) ----------------
@@ -528,7 +595,7 @@ function renderSearchResults(q) {
     body.innerHTML = '<div class="search-card-name"></div><div class="search-card-meta"></div><div class="search-card-price"></div>';
     body.querySelector('.search-card-name').textContent = row.product_name;
     body.querySelector('.search-card-meta').textContent = row.date_label + ' · ' + row.influencer_label;
-    body.querySelector('.search-card-price').textContent = row.price || '가격공개예정';
+    setPriceEl(body.querySelector('.search-card-price'), row);
     a.appendChild(body);
     searchResultsEl.appendChild(a);
   });
