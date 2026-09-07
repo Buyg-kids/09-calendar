@@ -67,6 +67,25 @@
   }
   .hscroll::-webkit-scrollbar { display: none; }
 
+  /* ---- PC(마우스) 전용 가로 슬라이드 보조: 좌우 화살표 + 드래그 스크롤 ----
+     터치스크린은 이미 스와이프가 되므로, 실제 마우스(hover 가능 + 포인터 정밀)
+     환경에서만 화살표를 보이고 드래그 커서를 준다. */
+  .hscroll-wrap { position: relative; }
+  .scroll-arrow {
+    display: none; position: absolute; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; border-radius: 50%; border: none;
+    background: rgba(255,255,255,0.92); box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    color: var(--brand-purple); font-size: 18px; font-weight: 700; line-height: 1; cursor: pointer;
+    align-items: center; justify-content: center; z-index: 5; padding: 0;
+  }
+  .scroll-arrow.arrow-left { left: 2px; }
+  .scroll-arrow.arrow-right { right: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .scroll-arrow { display: flex; }
+    .hscroll, .day-bar { cursor: grab; }
+    .hscroll.dragging, .day-bar.dragging { cursor: grabbing; user-select: none; scroll-snap-type: none; }
+  }
+
   .thumb-wrap { position: relative; border-radius: 14px; overflow: hidden; background: var(--accent-lavender); }
   .thumb-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
@@ -203,12 +222,20 @@
     <div id="homeSections">
       <section class="section">
         <div class="section-head"><h2>🔥 마감 임박한 공구</h2><span class="sub">서두르세요</span></div>
-        <div class="hscroll" id="closingSoonList"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="closingSoonList" aria-label="이전">‹</button>
+          <div class="hscroll" id="closingSoonList"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="closingSoonList" aria-label="다음">›</button>
+        </div>
       </section>
 
       <section class="section">
         <div class="section-head"><h2>✨ 이달의 공구</h2></div>
-        <div class="hscroll" id="monthlyBannerList"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="monthlyBannerList" aria-label="이전">‹</button>
+          <div class="hscroll" id="monthlyBannerList"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="monthlyBannerList" aria-label="다음">›</button>
+        </div>
       </section>
 
       <section class="section">
@@ -218,13 +245,21 @@
 
       <section class="section">
         <div class="section-head"><h2>📅 이번주 공구는?</h2></div>
-        <div class="day-bar" id="dayBar"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="dayBar" aria-label="이전">‹</button>
+          <div class="day-bar" id="dayBar"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="dayBar" aria-label="다음">›</button>
+        </div>
         <div class="week-grid" id="weekGrid"></div>
       </section>
 
       <section class="section">
         <div class="section-head"><h2>⏰ 진행 예정 공구</h2><span class="sub">D-14 미리보기</span></div>
-        <div class="hscroll" id="upcomingList"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="upcomingList" aria-label="이전">‹</button>
+          <div class="hscroll" id="upcomingList"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="upcomingList" aria-label="다음">›</button>
+        </div>
       </section>
     </div>
   </div>
@@ -525,9 +560,67 @@ clearBtn.addEventListener('click', function () {
   searchInput.focus();
 });
 
+// ---------------- PC 마우스 전용: 화살표 클릭 스크롤 + 드래그 스크롤 ----------------
+// 터치는 이미 네이티브 스와이프가 되므로 여기서는 손대지 않는다. 컨테이너 자체는
+// 재렌더링돼도 안 바뀌므로(innerHTML만 갈아끼움) 페이지 로드 시 한 번만 걸어두면 된다.
+function enableDragScroll(el) {
+  let isDown = false, startX = 0, startScrollLeft = 0, moved = false;
+
+  el.addEventListener('mousedown', function (e) {
+    isDown = true; moved = false;
+    el.classList.add('dragging');
+    startX = e.pageX;
+    startScrollLeft = el.scrollLeft;
+  });
+
+  window.addEventListener('mouseup', function () {
+    if (!isDown) return;
+    isDown = false;
+    el.classList.remove('dragging');
+  });
+
+  el.addEventListener('mouseleave', function () {
+    if (isDown) { isDown = false; el.classList.remove('dragging'); }
+  });
+
+  el.addEventListener('mousemove', function (e) {
+    if (!isDown) return;
+    e.preventDefault();
+    const dx = e.pageX - startX;
+    if (Math.abs(dx) > 3) moved = true;
+    el.scrollLeft = startScrollLeft - dx;
+  });
+
+  // 드래그를 링크 클릭으로 오인해 엉뚱한 게시물로 이동하지 않도록, 실제로
+  // 끌었을 때만 클릭을 막는다 (제자리 클릭은 정상적으로 링크 이동).
+  el.addEventListener('click', function (e) {
+    if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+  }, true);
+}
+
+function scrollArrowClick(targetId, dir) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const amount = Math.round(el.clientWidth * 0.8) * dir;
+  el.scrollBy({ left: amount, behavior: 'smooth' });
+}
+
+function setupSliders() {
+  ['closingSoonList', 'monthlyBannerList', 'dayBar', 'upcomingList'].forEach(function (id) {
+    const el = document.getElementById(id);
+    if (el) enableDragScroll(el);
+  });
+  document.querySelectorAll('.scroll-arrow').forEach(function (btn) {
+    const targetId = btn.getAttribute('data-target');
+    const dir = btn.classList.contains('arrow-left') ? -1 : 1;
+    btn.addEventListener('click', function () { scrollArrowClick(targetId, dir); });
+  });
+}
+
 renderChips();
 renderDayBar();
 renderHome();
+setupSliders();
 </script>
 </body>
 </html>
