@@ -15,9 +15,17 @@
 #
 # PowerShell 5.1이 네이티브 프로세스의 stderr를 직접 리다이렉트하면 로그가
 # NativeCommandError로 깨지는 문제(run_tonight.ps1에서 실제로 겪음)를 피하기 위해
-# cmd.exe 리다이렉션을 쓰고, PYTHONIOENCODING으로 UTF-8을 강제한다. 이 파일 자체도
-# 경로에 한글이 섞여 있어 UTF-8 BOM으로 저장해야 한다(BOM 없으면 PowerShell 5.1이
-# 시스템 코드페이지로 잘못 읽어 스크립트가 파싱 단계에서 깨지는 사고를 겪었음).
+# PYTHONIOENCODING으로 UTF-8을 강제한다. 이 파일 자체도 경로에 한글이 섞여 있어
+# UTF-8 BOM으로 저장해야 한다(BOM 없으면 PowerShell 5.1이 시스템 코드페이지로
+# 잘못 읽어 스크립트가 파싱 단계에서 깨지는 사고를 겪었음).
+#
+# 2026-09-07, 09-08 이틀 연속 Step 3(수집)가 몇 시간 진행되다가 아무 에러 로그도
+# 없이 STATUS_CONTROL_C_EXIT(0xC000013A)로 조용히 죽는 사고가 있었다. 원래는
+# `cmd /c "... >> log 2>&1"` 로 자식 프로세스를 띄웠는데, 이 방식은 자식이 부모
+# PowerShell과 콘솔/신호 그룹을 공유한다 - 같은 로그온 세션 안에서 다른 콘솔
+# 작업에 전달된 Ctrl+C성 신호가 이 콘솔 그룹 전체를 끊어버릴 수 있는 구조적
+# 취약점이다. Start-Process(리다이렉션 지정 시 자체 콘솔로 분리됨)로 바꿔서
+# 신호 그룹을 완전히 분리한다.
 
 $ProjectDir = "C:\Users\user1\Desktop\클로드\인스타공구캘린더"
 $Python = "C:\Users\user1\Desktop\클로드\.venv\Scripts\python.exe"
@@ -41,12 +49,26 @@ function Write-Summary {
     Add-Content -Path $SummaryLog -Value $line -Encoding utf8
 }
 
+function Invoke-Isolated {
+    # Start-Process로 자식 프로세스를 별도 콘솔/신호 그룹에서 띄운다 - 부모(이 스크립트)나
+    # 같은 로그온 세션의 다른 콘솔이 받는 Ctrl+C성 신호로부터 격리하기 위함.
+    # stdout/stderr를 각각 다른 파일로만 리다이렉트할 수 있어 따로 받은 뒤 하나로 합친다.
+    param([string]$Exe, [string[]]$ArgList, [string]$OutLog)
+    $errLog = "$OutLog.err.tmp"
+    $proc = Start-Process -FilePath $Exe -ArgumentList $ArgList `
+        -RedirectStandardOutput $OutLog -RedirectStandardError $errLog -PassThru -Wait
+    if (Test-Path $errLog) {
+        Get-Content $errLog -Encoding utf8 | Add-Content -Path $OutLog -Encoding utf8
+        Remove-Item $errLog -Force
+    }
+    return $proc.ExitCode
+}
+
 Write-Summary "=== 야간 파이프라인 시작 ==="
 
 # --- Step 1: 해시태그/큐레이션 계정 자동 탐색 (00:00~10:00, 자체적으로 시간을 지켜 종료) ---
 Write-Summary "Step 1 시작: auto_discover_scheduler --tonight"
-cmd /c "`"$Python`" -m scraper.auto_discover_scheduler --tonight >> `"$DiscoverLog`" 2>&1"
-$discoverExit = $LASTEXITCODE
+$discoverExit = Invoke-Isolated -Exe $Python -ArgList @("-m", "scraper.auto_discover_scheduler", "--tonight") -OutLog $DiscoverLog
 Write-Summary ("Step 1 종료 (exit={0})" -f $discoverExit)
 
 # --- Step 2: 15분 쿨다운 ---
@@ -56,8 +78,7 @@ Write-Summary "Step 2 종료: 쿨다운 완료"
 
 # --- Step 3: 전체 파이프라인 (수집 -> 파싱 -> DB -> 카드뉴스 -> view.html) ---
 Write-Summary "Step 3 시작: run_manual.py"
-cmd /c "`"$Python`" run_manual.py >> `"$PipelineLog`" 2>&1"
-$pipelineExit = $LASTEXITCODE
+$pipelineExit = Invoke-Isolated -Exe $Python -ArgList @("run_manual.py") -OutLog $PipelineLog
 Write-Summary ("Step 3 종료 (exit={0})" -f $pipelineExit)
 
 # --- 성공/실패 판정 ---
