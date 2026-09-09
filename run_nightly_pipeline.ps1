@@ -19,13 +19,21 @@
 # UTF-8 BOM으로 저장해야 한다(BOM 없으면 PowerShell 5.1이 시스템 코드페이지로
 # 잘못 읽어 스크립트가 파싱 단계에서 깨지는 사고를 겪었음).
 #
-# 2026-09-07, 09-08 이틀 연속 Step 3(수집)가 몇 시간 진행되다가 아무 에러 로그도
-# 없이 STATUS_CONTROL_C_EXIT(0xC000013A)로 조용히 죽는 사고가 있었다. 원래는
-# `cmd /c "... >> log 2>&1"` 로 자식 프로세스를 띄웠는데, 이 방식은 자식이 부모
-# PowerShell과 콘솔/신호 그룹을 공유한다 - 같은 로그온 세션 안에서 다른 콘솔
-# 작업에 전달된 Ctrl+C성 신호가 이 콘솔 그룹 전체를 끊어버릴 수 있는 구조적
-# 취약점이다. Start-Process(리다이렉션 지정 시 자체 콘솔로 분리됨)로 바꿔서
-# 신호 그룹을 완전히 분리한다.
+# 2026-09-07, 09-08, 09-09 세 번 연속 Step 3(수집)가 몇 시간 진행되다가 아무
+# 에러 로그도 없이 STATUS_CONTROL_C_EXIT(0xC000013A)로 조용히 죽는 사고가 있었다.
+# cmd /c 자식 프로세스 격리(09-08 적용)로도 못 잡았다 - 09-09~09-10 밤에는
+# Start-Sleep(자식 프로세스 자체가 없는 순수 대기)마저 죽어서, 원인이 "자식 프로세스가
+# 부모 콘솔을 공유하는 문제"가 아니라 이 로그온 세션(콘솔) 전체를 겨냥한 외부
+# 신호/이벤트라는 게 명확해졌다. Application/System/Defender/세션 이벤트 로그를
+# 전부 훑어봤지만 결정적 증거(재부팅/전원/크래시/보안위협/RDP 세션전환)는 없었다 -
+# 정확한 발생원은 끝내 특정하지 못했다.
+#
+# 그래서 두 겹으로 방어한다: (1) 작업 자체를 SYSTEM 계정으로 돌려서 대화형
+# 로그온 세션(콘솔)에서 완전히 분리한다(이 파이프라인은 저장된 쿠키로 항상
+# headless 브라우저만 쓰므로 대화형 세션이 원래 필요 없다). (2) 그래도 혹시
+# 모를 외부 종료에 대비해, 각 단계가 0이 아닌 exit로 끝나면 스크립트 자체가
+# 한 번 더 재시도한다(Invoke-WithRetry) - Task Scheduler의 RestartCount 설정에만
+# 맡기지 않고 스크립트 레벨에서 직접 보장한다.
 
 $ProjectDir = "C:\Users\user1\Desktop\클로드\인스타공구캘린더"
 $Python = "C:\Users\user1\Desktop\클로드\.venv\Scripts\python.exe"
@@ -64,11 +72,30 @@ function Invoke-Isolated {
     return $proc.ExitCode
 }
 
+function Invoke-WithRetry {
+    # 외부 신호로 죽는 사고에 대한 스크립트 레벨 방어망. 0이 아닌 exit로 끝나면
+    # 60초 쉬고 한 번 더 시도한다. 이전 시도 로그는 지우지 않고 .attemptN 으로
+    # 남겨서(디버깅용) 최종 로그($OutLog)는 항상 마지막 시도 내용만 담는다.
+    param([string]$Exe, [string[]]$ArgList, [string]$OutLog, [string]$StepName, [int]$MaxAttempts = 2)
+    $exitCode = 1
+    for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+        if ($attempt -gt 1) {
+            Write-Summary ("{0}: {1}번째 시도가 exit={2}로 비정상 종료 - 60초 후 재시도" -f $StepName, ($attempt - 1), $exitCode)
+            if (Test-Path $OutLog) { Move-Item -Path $OutLog -Destination ("{0}.attempt{1}" -f $OutLog, ($attempt - 1)) -Force }
+            Start-Sleep -Seconds 60
+        }
+        $exitCode = Invoke-Isolated -Exe $Exe -ArgList $ArgList -OutLog $OutLog
+        if ($exitCode -eq 0) { return $exitCode }
+    }
+    Write-Summary ("{0}: 최대 재시도({1}회) 후에도 실패 (마지막 exit={2})" -f $StepName, $MaxAttempts, $exitCode)
+    return $exitCode
+}
+
 Write-Summary "=== 야간 파이프라인 시작 ==="
 
 # --- Step 1: 해시태그/큐레이션 계정 자동 탐색 (00:00~10:00, 자체적으로 시간을 지켜 종료) ---
 Write-Summary "Step 1 시작: auto_discover_scheduler --tonight"
-$discoverExit = Invoke-Isolated -Exe $Python -ArgList @("-m", "scraper.auto_discover_scheduler", "--tonight") -OutLog $DiscoverLog
+$discoverExit = Invoke-WithRetry -Exe $Python -ArgList @("-m", "scraper.auto_discover_scheduler", "--tonight") -OutLog $DiscoverLog -StepName "Step 1"
 Write-Summary ("Step 1 종료 (exit={0})" -f $discoverExit)
 
 # --- Step 2: 15분 쿨다운 ---
@@ -78,7 +105,7 @@ Write-Summary "Step 2 종료: 쿨다운 완료"
 
 # --- Step 3: 전체 파이프라인 (수집 -> 파싱 -> DB -> 카드뉴스 -> view.html) ---
 Write-Summary "Step 3 시작: run_manual.py"
-$pipelineExit = Invoke-Isolated -Exe $Python -ArgList @("run_manual.py") -OutLog $PipelineLog
+$pipelineExit = Invoke-WithRetry -Exe $Python -ArgList @("run_manual.py") -OutLog $PipelineLog -StepName "Step 3"
 Write-Summary ("Step 3 종료 (exit={0})" -f $pipelineExit)
 
 # --- 성공/실패 판정 ---
