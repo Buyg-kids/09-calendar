@@ -34,6 +34,14 @@
 # 모를 외부 종료에 대비해, 각 단계가 0이 아닌 exit로 끝나면 스크립트 자체가
 # 한 번 더 재시도한다(Invoke-WithRetry) - Task Scheduler의 RestartCount 설정에만
 # 맡기지 않고 스크립트 레벨에서 직접 보장한다.
+#
+# 2026-09-11: SYSTEM 계정 전환 첫 실행에서 STATUS_CONTROL_C_EXIT는 재발하지
+# 않았다 (원인 해결로 보인다). 대신 새 문제가 드러났다 - Playwright 브라우저가
+# 인터랙티브 사용자 프로필(C:\Users\user1\AppData\Local\ms-playwright)에 설치돼
+# 있어서, SYSTEM 프로필에서는 그 경로에 브라우저가 없어 전부 실패했다.
+# PLAYWRIGHT_BROWSERS_PATH를 프로젝트 폴더 하위로 고정해 계정에 상관없이
+# 항상 같은 위치를 보도록 고쳤다(이 폴더는 SYSTEM에게 이미 전체 제어 권한이
+# 상속돼 있음을 icacls로 확인함).
 
 $ProjectDir = "C:\Users\user1\Desktop\클로드\인스타공구캘린더"
 $Python = "C:\Users\user1\Desktop\클로드\.venv\Scripts\python.exe"
@@ -50,6 +58,9 @@ $SummaryLog  = Join-Path $LogDir ("nightly_summary_{0}.log" -f $DateTag)
 
 $env:PYTHONIOENCODING = "utf-8"
 $env:PYTHONUTF8 = "1"
+# SYSTEM 계정에는 별도 사용자 프로필이 있어 Playwright 브라우저를 찾지 못한다 -
+# 프로젝트 폴더 하위 고정 경로로 지정해 어떤 계정으로 실행되든 동일한 설치를 쓰게 한다.
+$env:PLAYWRIGHT_BROWSERS_PATH = Join-Path $ProjectDir ".playwright-browsers"
 
 function Write-Summary {
     param([string]$Message)
