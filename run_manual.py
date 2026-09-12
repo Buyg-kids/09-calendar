@@ -49,7 +49,7 @@ def main() -> None:
           f"날짜 불명 스킵 {stats.get('skipped_no_date', 0)}건")
     if image_stats.get("checked", 0) > 0 or image_stats.get("filled", 0) > 0:
         print(f"  4) 이미지 폴백 : 누락 {image_stats.get('checked', 0)}건 중 "
-              f"네이버 쇼핑으로 {image_stats.get('filled', 0)}건 채움 "
+              f"네이버 이미지 검색으로 {image_stats.get('filled', 0)}건 채움 "
               f"(실패 {image_stats.get('failed', 0)}건)")
     else:
         print("  4) 이미지 폴백 : 스킵 (누락 없음 또는 NAVER_CLIENT_ID/SECRET 미설정)")

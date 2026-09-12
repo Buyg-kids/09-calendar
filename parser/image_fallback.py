@@ -1,5 +1,5 @@
 """[Agent 2.5: 이미지 폴백] 인스타그램에서 대표 이미지를 못 가져온 공구에 대해
-네이버 쇼핑 검색 API로 대표 상품 썸네일을 채워 넣는다.
+네이버 이미지 검색 API로 대표 썸네일을 채워 넣는다.
 
 .env에 NAVER_CLIENT_ID / NAVER_CLIENT_SECRET 이 없으면 조용히 스킵한다 - 이미지가
 없는 카드는 프런트(view_page.html)에서 카테고리별 플레이스홀더로 대체되므로 이
@@ -7,8 +7,11 @@
 
 네이버 오픈API 발급 방법:
   1. https://developers.naver.com/apps/#/register 에서 애플리케이션 등록
-  2. "사용 API"에서 검색 > 쇼핑 체크 (서비스 URL은 배포된 GitHub Pages 주소로 입력)
+  2. "사용 API"에서 검색 > 이미지 체크 (서비스 URL은 배포된 GitHub Pages 주소로 입력)
   3. 발급된 Client ID / Secret을 .env에 NAVER_CLIENT_ID=, NAVER_CLIENT_SECRET= 로 저장
+
+(쇼핑 검색 API가 아니라 이미지 검색 API 기준 - 응답에 가격/쇼핑몰 정보는 없고
+썸네일 URL만 있음. 상품 링크 대신 텍스트 검색 결과 중 대표 이미지 1장만 가져온다.)
 
 실행:
     python -m parser.image_fallback
@@ -26,7 +29,7 @@ from config import NAVER_CLIENT_ID, NAVER_CLIENT_SECRET
 
 logger = logging.getLogger(__name__)
 
-NAVER_SHOP_API_URL = "https://openapi.naver.com/v1/search/shop.json"
+NAVER_IMAGE_API_URL = "https://openapi.naver.com/v1/search/image"
 _TAG_RE = re.compile(r"</?b>")  # 네이버 검색 결과의 강조 태그
 _PAREN_RE = re.compile(r"\(.*?\)")
 _REQUEST_INTERVAL_SEC = 0.2  # 네이버 API 호출 속도 여유
@@ -51,11 +54,17 @@ def _search_thumbnail(query: str) -> str:
         "X-Naver-Client-Id": NAVER_CLIENT_ID,
         "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
     }
-    params = {"query": query, "display": 1, "sort": "sim"}
-    resp = requests.get(NAVER_SHOP_API_URL, headers=headers, params=params, timeout=10)
+    # 이미지 검색 API는 쇼핑 검색과 응답 스키마가 달라 "image" 필드가 없다.
+    # thumbnail(네이버가 직접 서빙하는 축소판, 안정적으로 임베드 가능)을 우선
+    # 쓰고, 없으면 link(원본 출처 이미지 URL)로 폴백한다.
+    params = {"query": query, "display": 1, "sort": "sim", "filter": "all"}
+    resp = requests.get(NAVER_IMAGE_API_URL, headers=headers, params=params, timeout=10)
     resp.raise_for_status()
     items = resp.json().get("items", [])
-    return _TAG_RE.sub("", items[0]["image"]) if items else ""
+    if not items:
+        return ""
+    image_url = items[0].get("thumbnail") or items[0].get("link") or ""
+    return _TAG_RE.sub("", image_url)
 
 
 def run() -> dict:
@@ -71,7 +80,7 @@ def run() -> dict:
         logger.info("이미지 누락 행 없음 - 이미지 폴백 스킵")
         return stats
 
-    logger.info("이미지 누락 %d건에 대해 네이버 쇼핑 폴백 시도", len(rows))
+    logger.info("이미지 누락 %d건에 대해 네이버 이미지 검색 폴백 시도", len(rows))
 
     for row in rows:
         query = _build_query(row)
@@ -80,7 +89,7 @@ def run() -> dict:
         try:
             image_url = _search_thumbnail(query)
         except Exception:
-            logger.exception("[id=%s] 네이버 쇼핑 검색 실패: %s", row["id"], query)
+            logger.exception("[id=%s] 네이버 이미지 검색 실패: %s", row["id"], query)
             stats["failed"] += 1
             time.sleep(_REQUEST_INTERVAL_SEC)
             continue

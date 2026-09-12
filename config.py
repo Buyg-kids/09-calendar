@@ -12,7 +12,7 @@ load_dotenv(BASE_DIR / ".env")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-5")
 
-# 네이버 쇼핑 검색 API (parser/image_fallback.py에서 인스타 이미지 누락 시 대체
+# 네이버 이미지 검색 API (parser/image_fallback.py에서 인스타 이미지 누락 시 대체
 # 썸네일을 찾는 데 사용). 둘 중 하나라도 없으면 이미지 폴백 단계는 조용히 스킵된다.
 NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID", "")
 NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET", "")
