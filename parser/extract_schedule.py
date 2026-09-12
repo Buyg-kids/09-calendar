@@ -205,7 +205,11 @@ EXTRACT_TOOL = {
                                 "'정가 5만원→2만원대', '체험 특가', '반값 할인'. 이런 힌트가 텍스트에 "
                                 "정말 하나도 없을 때만(가격/혜택 관련 언급 자체가 전무) "
                                 "'가격공개예정'이라고 적어라 (구매 링크로 들어가야만 알 수 있는 "
-                                "경우가 많으므로 빈 문자열보다 이 표현이 사용자에게 더 명확하다)."
+                                "경우가 많으므로 빈 문자열보다 이 표현이 사용자에게 더 명확하다). "
+                                "'모음전'처럼 세부 품목이 여러 개고 품목마다 가격이 각각 달려 있으면 "
+                                "'금전출납기 46,000원 / 캐시캣 19,800원 / ...'처럼 전부 나열하지 "
+                                "말고, 그중 가장 낮은 가격 하나만 골라 '최저 11,000원 (외 4종)' "
+                                "형태로 요약하라 (4는 나열된 품목 수에서 1을 뺀 값)."
                             ),
                         },
                         "start_date": {"type": "string", "description": "공구 시작일 YYYY-MM-DD. 알 수 없으면 빈 문자열."},
@@ -258,6 +262,13 @@ product_name은 반드시 "브랜드명 대표품목명 (세부모델1, 세부�
 별도 대표품목명 없이 "브랜드명 (세부품목1, 세부품목2, ...)"로 충분하다). 예:
 "이몽 (기저귀바구니, 기저귀패드, 거즈햇&블루머)". "OO 모음전"처럼 대표품목명도
 세부 품목도 없이 뭉개어 요약하지 마라 (품목을 정말 특정할 수 없을 때만 예외).
+
+[가격 표기 규칙]
+'모음전'처럼 세부 품목이 여러 개고 품목마다 가격이 따로 있으면, 개별 가격을
+"금전출납기 46,000원 / 캐시캣 19,800원 / 시간학습 16,500원 / ..." 처럼 전부
+나열하지 마라 (카드에 다 안 들어가고 지저분해진다). 그중 가장 낮은 가격 하나만
+골라 "최저 11,000원 (외 4종)" 형태로 요약하라. 품목이 1개뿐이면 그냥 그 가격을
+그대로 적는다.
 
 [날짜 해석 기준]
 이 텍스트가 수집된 기준일은 {reference_date} 이다. "내일", "이번주 금요일", "9/5" 같은
@@ -335,25 +346,31 @@ def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) 
 # =============================================================================
 # 오케스트레이션
 # =============================================================================
-def _collect_text_blobs(entry: dict) -> list[tuple[str, str]]:
-    """한 타겟 raw_collected 엔트리에서 파싱 대상 (텍스트, 대표 이미지 URL) 조각들을
-    모은다. 이미지는 인스타 캡션 블롭에만 있고(멀티링크/bio는 항상 "") - 이 이미지를
-    그 캡션에서 나온 상품에 그대로 붙여서 gonggu.db에 저장한다."""
-    blobs: list[tuple[str, str]] = []
+def _collect_text_blobs(entry: dict) -> list[tuple[str, str, str]]:
+    """한 타겟 raw_collected 엔트리에서 파싱 대상 (텍스트, 대표 이미지 URL, 원본
+    게시물 URL) 조각들을 모은다. 이미지/게시물 URL은 인스타 캡션 블롭에만 있고
+    (멀티링크/bio는 항상 "") - 그 캡션에서 나온 상품에 그대로 붙여서 gonggu.db에
+    저장한다. post_url은 구매 링크가 아예 없는 "댓글 달면 자동DM" 유형의 공구를
+    빈 링크로 방치하지 않고 사용자를 원본 게시물로 보내 댓글을 달 수 있게 하는
+    최후의 폴백으로 쓰인다(generator/card_news.py 참고)."""
+    blobs: list[tuple[str, str, str]] = []
 
     multilink = entry.get("multilink")
     if multilink:
         if multilink.get("raw_text"):
-            blobs.append((multilink["raw_text"], ""))
-        blobs.extend((item, "") for item in multilink.get("link_items", []))
+            blobs.append((multilink["raw_text"], "", ""))
+        blobs.extend((item, "", "") for item in multilink.get("link_items", []))
 
     instagram = entry.get("instagram")
     if instagram:
         if instagram.get("bio_text"):
-            blobs.append((instagram["bio_text"], ""))
+            blobs.append((instagram["bio_text"], "", ""))
         for cap in instagram.get("captions", []):
             if cap.get("text"):
-                blobs.append((cap["text"], cap.get("image_url") or ""))
+                shortcode = cap.get("shortcode") or ""
+                kind = cap.get("type") or "p"
+                post_url = f"https://www.instagram.com/{kind}/{shortcode}/" if shortcode else ""
+                blobs.append((cap["text"], cap.get("image_url") or "", post_url))
 
     return blobs
 
@@ -381,7 +398,7 @@ def run() -> dict:
         influencer_name = entry.get("influencer_name", "")
         reference_date = (entry.get("collected_at") or datetime.now(timezone.utc).isoformat())[:10]
 
-        for text, image_url in _collect_text_blobs(entry):
+        for text, image_url, post_url in _collect_text_blobs(entry):
             stats["blobs_checked"] += 1
             if not quick_prefilter(text):
                 continue
@@ -403,6 +420,7 @@ def run() -> dict:
                 if item["end_date"] and not DATE_RE.match(item["end_date"]):
                     item["end_date"] = ""
                 item["image_url"] = image_url
+                item["post_url"] = post_url
                 gonggu_db.upsert_gonggu(item)
                 stats["saved"] += 1
                 stats["saved_by_claude" if method == "claude" else "saved_by_rule"] += 1

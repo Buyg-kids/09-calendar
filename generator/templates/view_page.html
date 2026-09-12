@@ -87,7 +87,12 @@
   }
 
   .thumb-wrap { position: relative; border-radius: 14px; overflow: hidden; background: var(--accent-lavender); }
-  .thumb-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* object-fit: cover였을 때 인스타 피드 안에 박혀 있는 문구(마감일/할인율 등)가
+     이미지 잘림으로 함께 잘려나가는 문제가 있었다. contain으로 바꿔 이미지 전체를
+     항상 보존하고, 원본 비율이 컨테이너와 달라 남는 여백은 배경색(라벤더)이
+     자연스럽게 채운다 - 정사각 원본은 기존과 동일하게 꽉 차 보이고, 세로가 긴
+     원본만 위아래 여백이 생긴다. */
+  .thumb-wrap img { display: block; width: 100%; height: 100%; object-fit: contain; }
 
   /* ---- 마감임박 ---- */
   .closing-card { flex: 0 0 128px; scroll-snap-align: start; }
@@ -156,7 +161,7 @@
     display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px;
   }
   .week-card { border-radius: 14px; overflow: hidden; background: #fff; border: 1px solid #f0f0f0; }
-  .week-card .thumb-wrap { width: 100%; height: 130px; border-radius: 0; }
+  .week-card .thumb-wrap { width: 100%; aspect-ratio: 1 / 1; border-radius: 0; }
   .week-card-body { padding: 8px 9px 10px; }
   .week-card-date { font-size: 10px; color: var(--text-sub); }
   .week-card-name {
@@ -340,8 +345,35 @@ function hashCode(s) {
   for (let i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
   return h;
 }
+// '모음전'처럼 세부 품목별 가격이 "금전출납기 46,000원 / 캐시캣 19,800원 / ..."
+// 식으로 슬래시 나열된 채 이미 DB에 저장돼 있는 경우(파서 프롬프트 개선 전 데이터
+// 포함), 카드 한 줄에 다 안 들어가 지저분해 보이는 문제를 화면 표시 시점에
+// 정리한다. "A원→B원" 할인 표기는 최종가 B만 남기고, 남은 모든 "N원" 값 중
+// 최저가 하나만 "최저 N원 (외 M종)" 형태로 보여준다. 가격 신호가 하나뿐이거나
+// 아예 없으면 원문 그대로 둔다(과도한 가공 방지).
+function simplifyPrice(raw) {
+  if (raw.indexOf('/') === -1) return raw;
+  // '/'로 나뉜 세그먼트 = 실제 품목 경계이므로 세그먼트별로 "마지막에 언급된
+  // 금액"만 그 품목의 최종가로 본다 (할인 표기 "1만원→7천원"의 최종가 7천원,
+  // "26,900원+배송비3,000원=29,900원" 같은 합산식의 합계 29,900원이 항상
+  // 마지막에 오므로 이 규칙 하나로 둘 다 맞는 값을 고른다 - 전체 문자열에서
+  // 금액을 통으로 뽑으면 배송비 같은 부분 금액이 최저가로 잘못 뽑히는 문제가 있었음).
+  const amounts = raw.split('/').map(function (seg) {
+    // "정가 84,900원→7만원대"처럼 화살표 뒤가 '만원대' 등 비정확 표기라 숫자를 못
+    // 뽑는 경우, 화살표 앞(할인 전 정가)을 최종가로 잘못 집으면 안 되므로 화살표
+    // 뒤 텍스트만 본다 - 뒤에서 숫자를 못 찾으면 그 세그먼트는 통째로 버린다.
+    const arrowIdx = seg.lastIndexOf('→');
+    const relevant = arrowIdx !== -1 ? seg.slice(arrowIdx + 1) : seg;
+    const matches = relevant.match(/[\d,]+(?=\s*원)/g);
+    return matches ? parseInt(matches[matches.length - 1].replace(/,/g, ''), 10) : NaN;
+  }).filter(function (n) { return !isNaN(n); });
+  if (amounts.length < 2) return raw;
+  const min = Math.min.apply(null, amounts);
+  return '최저 ' + min.toLocaleString('ko-KR') + '원 (외 ' + (amounts.length - 1) + '종)';
+}
+
 function priceInfo(row) {
-  const raw = (row.price || '').trim();
+  const raw = simplifyPrice((row.price || '').trim());
   if (raw && raw !== '가격공개예정') {
     return { text: raw, cta: false };
   }

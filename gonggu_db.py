@@ -37,6 +37,8 @@ CREATE INDEX IF NOT EXISTS idx_gonggu_dates ON gonggu(start_date, end_date);
 _MIGRATION_COLUMNS = {
     "image_url": "TEXT",  # 인스타 게시물 대표 이미지 URL (없으면 프런트에서 카테고리별 플레이스홀더로 대체)
     "price": "TEXT",      # 본문에 가격이 명시 안 된 경우가 많아 숫자가 아닌 TEXT (예: '가격공개예정', '19,900원')
+    "post_url": "TEXT",   # 이 공구 정보를 뽑아낸 인스타그램 게시물/릴스 원본 URL. purchase_link가
+                           # 없을 때(예: "댓글 달면 자동DM" 공구) 사용자를 이 게시물로 보내 댓글을 달 수 있게 함
 }
 
 
@@ -72,8 +74,8 @@ def upsert_gonggu(item: dict) -> None:
             """
             INSERT INTO gonggu
                 (influencer_name, category, product_name, brand, start_date, end_date,
-                 purchase_link, key_benefit, image_url, price, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 purchase_link, key_benefit, image_url, price, post_url, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(influencer_name, product_name, start_date) DO UPDATE SET
                 category=excluded.category,
                 brand=excluded.brand,
@@ -82,13 +84,14 @@ def upsert_gonggu(item: dict) -> None:
                 key_benefit=excluded.key_benefit,
                 image_url=CASE WHEN excluded.image_url != '' THEN excluded.image_url ELSE gonggu.image_url END,
                 price=excluded.price,
+                post_url=CASE WHEN excluded.post_url != '' THEN excluded.post_url ELSE gonggu.post_url END,
                 updated_at=excluded.updated_at
             """,
             (
                 item["influencer_name"], item["category"], item["product_name"],
                 item.get("brand", ""), item["start_date"], item.get("end_date", ""),
                 item.get("purchase_link", ""), item.get("key_benefit", ""),
-                item.get("image_url", ""), item.get("price", ""),
+                item.get("image_url", ""), item.get("price", ""), item.get("post_url", ""),
                 datetime.now(timezone.utc).isoformat(),
             ),
         )

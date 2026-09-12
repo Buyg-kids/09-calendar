@@ -282,6 +282,11 @@ def _merge_duplicate_group(group: list[dict]) -> dict:
             if it.get("image_url"):
                 merged["image_url"] = it["image_url"]
                 break
+    if not merged.get("post_url"):
+        for it in group:
+            if it.get("post_url"):
+                merged["post_url"] = it["post_url"]
+                break
     if not merged.get("price") or merged.get("price") == "가격공개예정":
         for it in group:
             if it.get("price") and it["price"] != "가격공개예정":
@@ -338,11 +343,18 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
         profile_url = f"https://www.instagram.com/{influencer_handle}/" if influencer_handle else ""
         influencer_label = _influencer_label(influencer_display, influencer_handle)
 
+        post_url = gb.get("post_url") or ""
+
         raw_link = gb.get("purchase_link") or ""
         if raw_link.startswith("http"):
             purchase_url, purchase_label = raw_link, "구매하기 →"
         elif influencer_handle and multilink_map.get(influencer_handle, "").startswith("http"):
             purchase_url, purchase_label = multilink_map[influencer_handle], "멀티링크 확인 →"
+        elif post_url:
+            # 링크 없이 "댓글 달면 자동DM으로 발송" 하는 공구 - 빈 링크로 방치하지
+            # 말고 원본 게시물로 보내 직접 댓글을 달 수 있게 한다 (프로필 홈보다
+            # 구체적이므로 profile_url보다 먼저 시도).
+            purchase_url, purchase_label = post_url, "게시물 확인·댓글 DM →"
         elif profile_url:
             purchase_url, purchase_label = profile_url, "프로필 방문 →"
         else:
@@ -367,6 +379,7 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
                 "influencer_label": influencer_label,
                 "influencer_profile_url": profile_url,
                 "key_benefit": gb.get("key_benefit") or "",
+                "post_url": post_url,
                 "purchase_url": purchase_url,
                 "purchase_label": purchase_label,
             }
