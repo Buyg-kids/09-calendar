@@ -5,13 +5,15 @@
 없는 카드는 프런트(view_page.html)에서 카테고리별 플레이스홀더로 대체되므로 이
 단계가 없어도 파이프라인은 끝까지 동작한다.
 
-네이버 오픈API 발급 방법:
-  1. https://developers.naver.com/apps/#/register 에서 애플리케이션 등록
-  2. "사용 API"에서 검색 > 이미지 체크 (서비스 URL은 배포된 GitHub Pages 주소로 입력)
-  3. 발급된 Client ID / Secret을 .env에 NAVER_CLIENT_ID=, NAVER_CLIENT_SECRET= 로 저장
+네이버 클라우드 플랫폼(NCP) NAVER API HUB 발급 방법:
+  1. https://www.ncloud.com 콘솔 > All Services > Application Services > NAVER API HUB
+     에서 애플리케이션 등록 후 "이미지" 검색 API 사용 설정
+  2. 발급된 Client ID / Secret을 .env에 NAVER_CLIENT_ID=, NAVER_CLIENT_SECRET= 로 저장
 
-(쇼핑 검색 API가 아니라 이미지 검색 API 기준 - 응답에 가격/쇼핑몰 정보는 없고
-썸네일 URL만 있음. 상품 링크 대신 텍스트 검색 결과 중 대표 이미지 1장만 가져온다.)
+일반 개발자센터(openapi.naver.com)의 레거시 검색 API가 아니라 NCP API HUB
+기준이라 인증 헤더가 다르다 (X-NCP-APIGW-API-KEY-ID / X-NCP-APIGW-API-KEY,
+엔드포인트도 naverapihub.apigw.ntruss.com). 응답에 가격/쇼핑몰 정보는 없고
+검색 결과 중 대표 이미지 1장의 썸네일 URL만 가져온다.
 
 실행:
     python -m parser.image_fallback
@@ -29,7 +31,7 @@ from config import NAVER_CLIENT_ID, NAVER_CLIENT_SECRET
 
 logger = logging.getLogger(__name__)
 
-NAVER_IMAGE_API_URL = "https://openapi.naver.com/v1/search/image"
+NAVER_IMAGE_API_URL = "https://naverapihub.apigw.ntruss.com/search/v1/image"
 _TAG_RE = re.compile(r"</?b>")  # 네이버 검색 결과의 강조 태그
 _PAREN_RE = re.compile(r"\(.*?\)")
 _REQUEST_INTERVAL_SEC = 0.2  # 네이버 API 호출 속도 여유
@@ -50,9 +52,10 @@ def _build_query(row: dict) -> str:
 
 
 def _search_thumbnail(query: str) -> str:
+    # NCP API HUB 인증 헤더 (레거시 개발자센터의 X-Naver-Client-Id와는 다름).
     headers = {
-        "X-Naver-Client-Id": NAVER_CLIENT_ID,
-        "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
+        "X-NCP-APIGW-API-KEY-ID": NAVER_CLIENT_ID,
+        "X-NCP-APIGW-API-KEY": NAVER_CLIENT_SECRET,
     }
     # 이미지 검색 API는 쇼핑 검색과 응답 스키마가 달라 "image" 필드가 없다.
     # thumbnail(네이버가 직접 서빙하는 축소판, 안정적으로 임베드 가능)을 우선
