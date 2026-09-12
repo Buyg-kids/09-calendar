@@ -94,6 +94,20 @@ def upsert_gonggu(item: dict) -> None:
         )
 
 
+def list_missing_images() -> list[dict[str, Any]]:
+    """image_url이 비어 있는 행 조회 (parser/image_fallback.py가 사용)."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT id, product_name, brand, category FROM gonggu WHERE image_url IS NULL OR image_url = ''"
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+
+def update_image_url(row_id: int, image_url: str) -> None:
+    with get_conn() as conn:
+        conn.execute("UPDATE gonggu SET image_url = ? WHERE id = ?", (image_url, row_id))
+
+
 def list_gonggu(
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,

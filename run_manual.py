@@ -34,6 +34,7 @@ def main() -> None:
     elapsed = time.time() - started
 
     stats = result.get("parse_stats") or {}
+    image_stats = result.get("image_fallback_stats") or {}
     cards = result.get("card_paths") or []
 
     print("\n" + "=" * 60)
@@ -46,12 +47,18 @@ def main() -> None:
           f"gonggu.db 저장 {stats.get('saved', 0)}건 "
           f"(룰베이스 {stats.get('saved_by_rule', 0)} + Claude {stats.get('saved_by_claude', 0)}) / "
           f"날짜 불명 스킵 {stats.get('skipped_no_date', 0)}건")
+    if image_stats.get("checked", 0) > 0 or image_stats.get("filled", 0) > 0:
+        print(f"  4) 이미지 폴백 : 누락 {image_stats.get('checked', 0)}건 중 "
+              f"네이버 쇼핑으로 {image_stats.get('filled', 0)}건 채움 "
+              f"(실패 {image_stats.get('failed', 0)}건)")
+    else:
+        print("  4) 이미지 폴백 : 스킵 (누락 없음 또는 NAVER_CLIENT_ID/SECRET 미설정)")
     if cards:
-        print(f"  4) 카드뉴스 : {len(cards)}장 생성")
+        print(f"  5) 카드뉴스 : {len(cards)}장 생성")
         for p in cards:
             print(f"       - {p}")
     else:
-        print("  4) 카드뉴스 : 생성된 이미지 없음 (이번 주 저장된 공구 데이터가 없는지 확인)")
+        print("  5) 카드뉴스 : 생성된 이미지 없음 (이번 주 저장된 공구 데이터가 없는지 확인)")
     print("=" * 60)
 
 

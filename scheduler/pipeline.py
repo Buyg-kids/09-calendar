@@ -14,12 +14,13 @@ def run_pipeline_once() -> dict:
     from scraper.discover import discover
     from scraper.collector import run as run_scrape
     from parser.extract_schedule import run as run_parse
+    from parser.image_fallback import run as run_image_fallback
     from generator.card_news import run as run_generate
 
     result: dict = {
         "discover_targets": 0,
         "scrape_targets": 0, "scrape_ok": False,
-        "parse_stats": None, "card_paths": [],
+        "parse_stats": None, "image_fallback_stats": None, "card_paths": [],
     }
 
     logger.info("=== 파이프라인 시작 ===")
@@ -41,6 +42,11 @@ def run_pipeline_once() -> dict:
         result["parse_stats"] = run_parse()
     except Exception:
         logger.exception("파싱 단계 실패")
+
+    try:
+        result["image_fallback_stats"] = run_image_fallback()
+    except Exception:
+        logger.exception("이미지 폴백 단계 실패")
 
     try:
         result["card_paths"] = run_generate()

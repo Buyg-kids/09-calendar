@@ -293,7 +293,7 @@ const WEEKDAY_KR = ['일','월','화','수','목','금','토'];
 
 const CHIPS = [
   { id: 'all', label: '전체', icon: '🛍️', keywords: null },
-  { id: 'feeding', label: '수유/이유', icon: '🍼', keywords: ['수유','이유식','젖병','유축기','분유','퓨레','아기간식','카시트'] },
+  { id: 'feeding', label: '수유/이유', icon: '🍼', keywords: ['수유','이유식','젖병','유축기','분유','퓨레','아기간식'] },
   { id: 'tableware', label: '유아식기', icon: '🍽️', keywords: ['식기','수저','포크','컵','빨대컵','도시락','식판','턱받이'] },
   { id: 'clothes', label: '아기옷', icon: '👕', keywords: ['옷','내복','바디수트','블루머','한복','실내복','양말','신발','우주복'] },
   { id: 'toys', label: '교구/완구', icon: '🧸', keywords: ['교구','장난감','완구','블록','그림책','사운드북','놀이매트','보드북','팝업북'] },
@@ -578,12 +578,28 @@ const searchResultsEl = document.getElementById('searchResults');
 const noResultsEl = document.getElementById('noResults');
 
 function searchText(row) {
+  // 제목/브랜드/카테고리뿐 아니라, 이 공구가 매칭되는 카테고리칩의 "라벨"도 검색
+  // 대상에 포함시켜 "교구/완구"처럼 넓은 분류명으로도 찾을 수 있게 한다. 칩의
+  // 키워드 전체를 넣지 않는 이유: 칩은 여러 키워드 중 하나만 맞아도 매칭되는
+  // 느슨한 묶음이라(예: '이유식'으로 매칭된 행에 같은 칩의 다른 키워드를 전부
+  // 붙이면 무관한 검색어에도 걸리는 오탐이 생긴다), 라벨 하나만 더하는 것이 안전하다.
+  const chipTerms = CHIPS.reduce(function (acc, chip) {
+    if (chip.keywords && matchesChip(row, chip)) acc.push(chip.label);
+    return acc;
+  }, []);
   return [row.product_name, row.brand, row.influencer_label, row.category, row.key_benefit]
+    .concat(chipTerms)
     .join(' ').toLowerCase();
 }
 
+function rowMatchesQuery(row, tokens) {
+  const hay = searchText(row);
+  return tokens.every(function (t) { return hay.indexOf(t) !== -1; });
+}
+
 function renderSearchResults(q) {
-  const matches = ROWS.filter(function (r) { return searchText(r).indexOf(q) !== -1; });
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const matches = ROWS.filter(function (r) { return rowMatchesQuery(r, tokens); });
   searchResultsEl.innerHTML = '';
   noResultsEl.style.display = matches.length ? 'none' : 'block';
   matches.forEach(function (row) {
