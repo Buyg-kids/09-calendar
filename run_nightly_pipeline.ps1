@@ -131,12 +131,18 @@ $allOk = ($discoverExit -eq 0) -and ($pipelineExit -eq 0) -and (-not $discoverHa
 
 if ($allOk) {
     Write-Summary "Step 4 시작: GitHub Pages 배포 (git add/commit/push)"
+    # SYSTEM 계정으로 전환한 뒤(09-10) 저장소 소유자(대화형 사용자 계정)와 실행
+    # 계정(SYSTEM)이 달라 git이 "dubious ownership"으로 전부 거부하는 사고가
+    # 있었다(09-13 밤 - Step1~3는 정상 완주했는데 Step4만 조용히 실패해 배포가
+    # 안 됨). 매번 -c safe.directory로 이 저장소만 한시적으로 신뢰하도록 지정해
+    # 전역 git 설정을 건드리지 않고도 안전하게 우회한다.
+    $gitSafe = @("-c", "safe.directory=$ProjectDir")
     # .gitignore가 .env/data//logs//output/ 등을 이미 제외하므로 add -A 로 안전하게 전부 스테이징한다.
-    git add -A 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
+    git @gitSafe add -A 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
     $commitMsg = "Auto update 캘린더 ({0})" -f (Get-Date -Format "yyyy-MM-dd HH:mm")
-    git commit -m $commitMsg 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
+    git @gitSafe commit -m $commitMsg 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
     if ($LASTEXITCODE -eq 0) {
-        git push origin main 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
+        git @gitSafe push origin main 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
         if ($LASTEXITCODE -eq 0) {
             Write-Summary "Step 4 완료: GitHub Pages 배포 성공"
         } else {
