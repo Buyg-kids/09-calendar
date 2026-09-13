@@ -93,12 +93,21 @@
      자연스럽게 채운다 - 정사각 원본은 기존과 동일하게 꽉 차 보이고, 세로가 긴
      원본만 위아래 여백이 생긴다. */
   .thumb-wrap img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .influencer-badge {
+    position: absolute; top: 6px; left: 6px; max-width: calc(100% - 12px); z-index: 2;
+    display: inline-flex; align-items: center; font-size: 10px; font-weight: 700;
+    color: #fff; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25);
+    padding: 3px 8px; border-radius: 999px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; cursor: pointer;
+  }
+  .search-card .influencer-badge { font-size: 9px; padding: 2px 6px; }
 
   /* ---- 마감임박 ---- */
   .closing-card { flex: 0 0 128px; scroll-snap-align: start; }
   .closing-card .thumb-wrap { width: 128px; height: 128px; }
   .closing-badge {
-    position: absolute; top: 6px; left: 6px; background: linear-gradient(135deg,#ff4757,#ff6b81);
+    position: absolute; top: 6px; right: 6px; background: linear-gradient(135deg,#ff4757,#ff6b81);
     color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px;
   }
   .closing-name {
@@ -195,7 +204,7 @@
   .upcoming-card { flex: 0 0 148px; scroll-snap-align: start; }
   .upcoming-card .thumb-wrap { width: 148px; height: 148px; }
   .upcoming-badge {
-    position: absolute; top: 6px; left: 6px; background: var(--accent-violet);
+    position: absolute; top: 6px; right: 6px; background: var(--accent-violet);
     color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px;
   }
   .upcoming-name {
@@ -330,6 +339,21 @@ function makeThumb(row, className) {
   img.src = row.image_url || placeholderDataUri(row.category);
   img.onerror = function () { this.onerror = null; this.src = placeholderDataUri(row.category); };
   wrap.appendChild(img);
+  // 카드 전체가 이미 구매링크로 가는 <a>라 그 안에 또 <a>를 중첩할 수 없다
+  // (중첩 앵커는 무효한 HTML - 클릭 동작이 브라우저마다 달라짐). 대신 <span>에
+  // 클릭 핸들러를 달아 이벤트 버블링만 막고 새 탭으로 직접 연다.
+  if (row.influencer_handle && row.influencer_profile_url) {
+    const badge = document.createElement('span');
+    badge.className = 'influencer-badge';
+    badge.textContent = '@' + row.influencer_handle;
+    badge.title = '@' + row.influencer_handle + ' 인스타그램 프로필';
+    badge.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(row.influencer_profile_url, '_blank', 'noopener');
+    });
+    wrap.appendChild(badge);
+  }
   return wrap;
 }
 
