@@ -10,7 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-5")
+# 파싱은 정해진 스키마로 강제 추출하는 단순 작업이라 Sonnet 5($2/$10 per 1M)까지는
+# 필요 없다고 판단해 Haiku 4.5($1/$5 per 1M, 절반 가격)로 낮췄다 - 타겟 계정이
+# 340개까지 늘면서 밤마다 크레딧이 바닥나는 문제(9/11, 9/12, 9/14 세 번 발생)의
+# 가장 큰 지렛대. 필요시 .env의 CLAUDE_MODEL로 언제든 되돌릴 수 있다.
+CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-haiku-4-5")
 
 # 네이버 이미지 검색 API (parser/image_fallback.py에서 인스타 이미지 누락 시 대체
 # 썸네일을 찾는 데 사용). 둘 중 하나라도 없으면 이미지 폴백 단계는 조용히 스킵된다.

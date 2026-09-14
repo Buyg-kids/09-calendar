@@ -29,6 +29,15 @@ CREATE TABLE IF NOT EXISTS gonggu (
 );
 
 CREATE INDEX IF NOT EXISTS idx_gonggu_dates ON gonggu(start_date, end_date);
+
+-- 같은 게시물이 "최신 5개"에 며칠씩 계속 걸려있는 경우가 많아, 매일 밤 이미 한 번
+-- 검사한(성공/무결과 모두 포함) 캡션/멀티링크 텍스트를 그대로 다시 Claude에 보내던
+-- 중복 호출을 막기 위한 캐시. key는 원문 텍스트의 해시 - 텍스트가 실제로 바뀌면
+-- (예: 캡션 수정) 다른 해시가 되어 자연스럽게 다시 검사된다.
+CREATE TABLE IF NOT EXISTS processed_blobs (
+    text_hash TEXT PRIMARY KEY,
+    checked_at TEXT NOT NULL
+);
 """
 
 # Buyg 리브랜딩(위시버니 스타일 UI)에서 상품 이미지/가격을 노출하기 위해 나중에
@@ -94,6 +103,23 @@ def upsert_gonggu(item: dict) -> None:
                 item.get("image_url", ""), item.get("price", ""), item.get("post_url", ""),
                 datetime.now(timezone.utc).isoformat(),
             ),
+        )
+
+
+def is_blob_processed(text_hash: str) -> bool:
+    """이 텍스트(해시)를 이전 실행에서 이미 확정적으로 검사했으면 True.
+    확정적 = Claude API 오류(크레딧 소진 등)로 못 본 게 아니라, 실제로 결과를
+    받은 경우만 - parser/extract_schedule.py의 run()이 그 경우에만 mark를 호출."""
+    with get_conn() as conn:
+        row = conn.execute("SELECT 1 FROM processed_blobs WHERE text_hash = ?", (text_hash,)).fetchone()
+        return row is not None
+
+
+def mark_blob_processed(text_hash: str) -> None:
+    with get_conn() as conn:
+        conn.execute(
+            "INSERT OR IGNORE INTO processed_blobs (text_hash, checked_at) VALUES (?, ?)",
+            (text_hash, datetime.now(timezone.utc).isoformat()),
         )
 
 

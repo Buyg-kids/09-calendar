@@ -7,36 +7,26 @@ Claude 호출 전에 명백히 무관한 텍스트(공구/할인/링크 등 신�
 """
 from __future__ import annotations
 
-from config import CATEGORIES
-
 GROUP_BUY_SIGNAL_WORDS = [
     "공구", "공동구매", "단독가", "특가", "할인가", "할인코드", "프로필 링크",
     "링크 클릭", "구매링크", "구매 링크", "오픈", "마감", "선착순", "품절",
-    "리오더", "재입고", "쿠폰", "이벤트가", "런칭가",
+    "리오더", "재입고", "쿠폰", "이벤트가", "런칭가", "마켓", "최저가", "링크",
 ]
 
 MIN_TEXT_LENGTH = 8
 
 
-def _all_keywords() -> list[str]:
-    kws: list[str] = []
-    for cat in CATEGORIES.values():
-        kws.extend(cat["keywords"])
-    return kws
-
-
-_ALL_KEYWORDS = _all_keywords()
-
-
 def quick_prefilter(text: str) -> bool:
-    """True 면 Claude 호출 대상, False 면 명백히 무관하므로 건너뜀."""
+    """True 면 Claude 호출 대상, False 면 명백히 무관하므로 건너뜀.
+
+    이전에는 카테고리 키워드(기저귀/장난감 등) 하나만 있어도 통과시켰는데,
+    그러면 공구가 아닌 일상 글("오늘 기저귀 샀어요 완전 좋아요")까지 전부
+    Claude로 넘어가 비용이 크게 샜다 - 타겟 계정 340개 기준 실측해보니 이
+    분기 하나가 전체 통과율의 상당 부분을 차지했다. 공구 신호어가 최소
+    하나는 있어야 통과하도록 강화 - 카테고리 키워드는 더 이상 단독 통과
+    조건이 아니다 (신호어 없이 카테고리 키워드만 있는 캡션은 공구가 아닐
+    확률이 압도적으로 높다)."""
     if not text or len(text.strip()) < MIN_TEXT_LENGTH:
         return False
     haystack = text.replace(" ", "")
-    for word in GROUP_BUY_SIGNAL_WORDS:
-        if word.replace(" ", "") in haystack:
-            return True
-    for kw in _ALL_KEYWORDS:
-        if kw.replace(" ", "") in haystack:
-            return True
-    return False
+    return any(word.replace(" ", "") in haystack for word in GROUP_BUY_SIGNAL_WORDS)

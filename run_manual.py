@@ -43,6 +43,7 @@ def main() -> None:
     print(f"  2) 수집     : {'성공' if result['scrape_ok'] else '실패 (로그 확인)'} "
           f"- 타겟 {result['scrape_targets']}명")
     print(f"  3) 파싱     : 검사 {stats.get('blobs_checked', 0)}건 / "
+          f"중복 캐시 스킵 {stats.get('skipped_cached', 0)}건 / "
           f"Claude 호출 {stats.get('blobs_sent_to_claude', 0)}건 / "
           f"gonggu.db 저장 {stats.get('saved', 0)}건 "
           f"(룰베이스 {stats.get('saved_by_rule', 0)} + Claude {stats.get('saved_by_claude', 0)}) / "

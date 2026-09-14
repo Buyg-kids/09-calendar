@@ -16,11 +16,26 @@ data/raw_collected.json (Agent 1의 출력) 을 읽어 영유아 공동구매 �
     Claude 호출이 실패하거나 빈 결과면 룰베이스 결과로 폴백한다.
   - 즉 API 키가 없어도 시스템은 절대 멈추지 않는다.
 
+비용 최적화 (타겟 계정이 340개까지 늘면서 밤마다 Anthropic 크레딧이 바닥나는
+사고가 반복돼 2026-09 추가):
+  - 모델을 Sonnet 5 -> Haiku 4.5로 낮춤(config.CLAUDE_MODEL, 토큰당 절반 가격) -
+    스키마가 고정된 추출 작업이라 Haiku로도 품질 유지 확인.
+  - 사전필터(parser/category_filter.quick_prefilter) 강화: 공구 신호어가 전혀
+    없는 캡션은 카테고리 키워드만으로 더 이상 통과시키지 않음 - "오늘 기저귀
+    샀어요" 같은 일상 글이 Claude까지 가던 걸 차단.
+  - 시스템 프롬프트(카테고리/제외/상품명/가격 규칙)를 매 호출 공통 system
+    파라미터로 분리해 prompt caching 적용 - 같은 규칙을 매번 통째로 다시
+    보내지 않고 캐시로 읽어 입력 토큰 비용을 크게 줄임.
+  - 같은 게시물이 "최신 5개" 안에 며칠씩 남아있어 매일 밤 똑같은 캡션을 다시
+    Claude에 보내는 중복 호출을 gonggu_db.processed_blobs 캐시로 스킵.
+  - 해시태그/이모지 도배(_strip_noise)를 자르고 나서 본문을 보내 토큰을 아낌.
+
 실행:
     python -m parser.extract_schedule
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
@@ -233,9 +248,12 @@ def _category_rules_text() -> str:
     )
 
 
-def _build_prompt(raw_text: str, influencer_name: str, reference_date: str) -> str:
-    return f"""다음은 육아 인플루언서 '{influencer_name}'의 게시물/캡션/멀티링크 원문이다.
-이 텍스트에서 "영유아 대상 공동구매(공구)" 일정만 엄격하게 추출하라.
+# 매 호출 공통이라 절대 안 바뀌는 규칙 텍스트는 system 파라미터로 분리해
+# cache_control로 캐싱한다 (아래 _claude_extract 참고) - 인플루언서명/기준일/
+# 원문처럼 매번 달라지는 값은 여기 넣으면 캐시가 매번 깨지므로 절대 넣지 않는다.
+_SYSTEM_PROMPT = f"""너는 육아 인플루언서의 인스타그램 게시물/캡션/멀티링크 원문에서
+"영유아 대상 공동구매(공구)" 일정만 엄격하게 추출하는 파서다. 사용자 메시지로
+인플루언서명, 기준일, 원문을 받아 extract_group_buys 도구로 결과를 반환한다.
 
 [카테고리 규칙 - 우선순위 순]
 {_category_rules_text()}
@@ -273,15 +291,39 @@ product_name은 반드시 "브랜드명 대표품목명 (세부모델1, 세부�
 그대로 적는다.
 
 [날짜 해석 기준]
-이 텍스트가 수집된 기준일은 {reference_date} 이다. "내일", "이번주 금요일", "9/5" 같은
-상대/축약 표현은 이 기준일을 기준으로 절대 날짜(YYYY-MM-DD)로 환산하라.
-연도가 없으면 기준일과 같은 연도로 간주하되, 기준일보다 과거가 되어버리면 다음 연도로 보정하라.
-날짜를 특정할 수 없으면 해당 필드를 빈 문자열로 두라. 절대 추측으로 지어내지 마라.
+사용자 메시지에 주어지는 "수집 기준일"을 기준으로, "내일", "이번주 금요일",
+"9/5" 같은 상대/축약 표현을 절대 날짜(YYYY-MM-DD)로 환산하라. 연도가 없으면
+기준일과 같은 연도로 간주하되, 기준일보다 과거가 되어버리면 다음 연도로
+보정하라. 날짜를 특정할 수 없으면 해당 필드를 빈 문자열로 두라. 절대 추측으로
+지어내지 마라."""
+
+# 해시태그 도배(#태그 #태그 #태그...)와 이모지 연속 나열은 실질 정보 없이
+# 토큰만 잡아먹어 본문에서 잘라낸다.
+_TRAILING_HASHTAGS_RE = re.compile(r"(?:#[^\s#]+\s*){3,}$")
+_EMOJI_CHAR_RE = re.compile(
+    "[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0001F1E6-\U0001F1FF\U00002190-\U000021FF\U00002B00-\U00002BFF]"
+)
+_EMOJI_RUN_RE = re.compile(f"(?:{_EMOJI_CHAR_RE.pattern}){{3,}}")
+
+
+def _strip_noise(text: str) -> str:
+    """해시태그 도배(문미에 #태그 3개 이상 연속)와 이모지 연속(3개 이상)을
+    줄여 Claude에 보내는 토큰 수를 아낀다. 본문 중간의 정상적인 문장/가격/
+    날짜 표기는 건드리지 않는다."""
+    if not text:
+        return text
+    text = _TRAILING_HASHTAGS_RE.sub("", text)
+    text = _EMOJI_RUN_RE.sub(lambda m: m.group(0)[0], text)
+    return text.strip()
+
+
+def _build_user_message(raw_text: str, influencer_name: str, reference_date: str) -> str:
+    cleaned = _strip_noise(raw_text)[:4000]
+    return f"""인플루언서: '{influencer_name}'
+수집 기준일: {reference_date}
 
 [원문]
-\"\"\"{raw_text[:4000]}\"\"\"
-
-extract_group_buys 도구를 사용해 결과를 반환하라."""
+\"\"\"{cleaned}\"\"\""""
 
 
 def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) -> list[dict]:
@@ -289,9 +331,10 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
     resp = client.messages.create(
         model=CLAUDE_MODEL,
         max_tokens=1500,
+        system=[{"type": "text", "text": _SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
         tools=[EXTRACT_TOOL],
         tool_choice={"type": "tool", "name": "extract_group_buys"},
-        messages=[{"role": "user", "content": _build_prompt(raw_text, influencer_name, reference_date)}],
+        messages=[{"role": "user", "content": _build_user_message(raw_text, influencer_name, reference_date)}],
     )
 
     for block in resp.content:
@@ -328,7 +371,13 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
 # 3) 하이브리드 디스패처
 # =============================================================================
 def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) -> tuple[list[dict], str]:
-    """returns (items, method) - method는 'rule' | 'claude' 로 통계용."""
+    """returns (items, method) - method는 'rule' | 'claude' | 'rule_fallback_error'.
+
+    'rule_fallback_error'는 Claude 호출 자체가 실패(크레딧 소진 등 API 오류)해서
+    룰베이스로 대체했다는 뜻이고, 'rule'은 Claude가 정상 응답했지만 결과가
+    없었다(=공구 아님으로 확정)는 뜻이다 - 이 둘을 구분해야 run()이 processed_blobs
+    캐시에 "확정적으로 검사 끝남"만 기록하고, API 오류로 못 본 건 다음 밤에
+    다시 시도하게 만들 수 있다."""
     rule_items = _rule_based_extract(raw_text, influencer_name, reference_date)
 
     if not ANTHROPIC_API_KEY:
@@ -338,7 +387,7 @@ def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) 
         claude_items = _claude_extract(raw_text, influencer_name, reference_date)
     except Exception:
         logger.exception("[%s] Claude 2차 정제 실패 - 룰베이스 결과로 폴백", influencer_name)
-        return rule_items, "rule"
+        return rule_items, "rule_fallback_error"
 
     if claude_items:
         return claude_items, "claude"
@@ -391,7 +440,7 @@ def run() -> dict:
     )
 
     stats = {
-        "blobs_checked": 0, "blobs_sent_to_claude": 0,
+        "blobs_checked": 0, "blobs_sent_to_claude": 0, "skipped_cached": 0,
         "saved": 0, "saved_by_rule": 0, "saved_by_claude": 0,
         "skipped_no_date": 0,
     }
@@ -405,6 +454,14 @@ def run() -> dict:
             if not quick_prefilter(text):
                 continue
 
+            # 같은 게시물이 "최신 5개" 안에 며칠씩 남아있어 캡션이 안 바뀐 채
+            # 매일 밤 다시 검사 대상이 되는 경우가 많다 - 이미 확정적으로(API
+            # 오류 아니게) 검사해본 텍스트면 Claude를 다시 부르지 않고 건너뛴다.
+            text_hash = hashlib.sha256(text.strip().encode("utf-8")).hexdigest()
+            if gonggu_db.is_blob_processed(text_hash):
+                stats["skipped_cached"] += 1
+                continue
+
             if ANTHROPIC_API_KEY:
                 stats["blobs_sent_to_claude"] += 1
 
@@ -413,6 +470,9 @@ def run() -> dict:
             except Exception:
                 logger.exception("[%s] 파싱 실패", influencer_name)
                 continue
+
+            if method != "rule_fallback_error":
+                gonggu_db.mark_blob_processed(text_hash)
 
             for item in items:
                 if not DATE_RE.match(item["start_date"]):
@@ -433,8 +493,9 @@ def run() -> dict:
                 )
 
     logger.info(
-        "파싱 완료. 검사 %d건 / Claude 호출 %d건 / 저장 %d건(룰베이스 %d, Claude %d) / 날짜불명 스킵 %d건",
-        stats["blobs_checked"], stats["blobs_sent_to_claude"], stats["saved"],
+        "파싱 완료. 검사 %d건 / 중복 캐시 스킵 %d건 / Claude 호출 %d건 / "
+        "저장 %d건(룰베이스 %d, Claude %d) / 날짜불명 스킵 %d건",
+        stats["blobs_checked"], stats["skipped_cached"], stats["blobs_sent_to_claude"], stats["saved"],
         stats["saved_by_rule"], stats["saved_by_claude"], stats["skipped_no_date"],
     )
     return stats
