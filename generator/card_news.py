@@ -248,12 +248,34 @@ def _is_same_product(a: dict, b: dict) -> bool:
     return SequenceMatcher(None, na, nb).ratio() >= 0.6
 
 
+_NAME_DEDUP_RE = re.compile(r"[\s\-_/,.·()\[\]{}]+")
+
+
+def _name_dedup_key(name: str) -> str:
+    """이름 중복 판정용 키 - 공백/구두점을 지우고 소문자로 맞춰서, 표기만 다른
+    같은 이름('카시트 발판' vs '카시트발판')을 같은 키로 만든다."""
+    return _NAME_DEDUP_RE.sub("", name).lower()
+
+
 def _combine_product_names(names: list[str]) -> str:
-    """중복 통합된 그룹의 상품명 표기. 2개면 'A / B', 3개 이상이면 'A 외 N종'."""
+    """중복 통합된 그룹의 상품명 표기. 같은 그룹으로 묶인 이름들 중에도 공백/
+    구두점 차이만 있거나(예: '베베루트 카시트 발판' vs '베베루트 카시트발판')
+    한쪽이 다른 쪽에 완전히 포함되는 경우(예: '튤립 사운드북' vs '튤립 사운드북
+    (오감놀이, 아이스크림...)')가 있어, 그런 경우는 중복으로 보고 더 구체적인
+    (긴) 이름 하나만 남긴다. 정리 후 2개면 'A / B', 3개 이상이면 'A 외 N종'."""
     uniq: list[str] = []
-    for n in names:
-        n = (n or "").strip()
-        if n and n not in uniq:
+    for raw in names:
+        n = (raw or "").strip()
+        if not n:
+            continue
+        key_n = _name_dedup_key(n)
+        for i, existing in enumerate(uniq):
+            key_e = _name_dedup_key(existing)
+            if key_n == key_e or key_n in key_e or key_e in key_n:
+                if len(n) > len(existing):
+                    uniq[i] = n
+                break
+        else:
             uniq.append(n)
     if len(uniq) <= 1:
         return uniq[0] if uniq else ""
