@@ -62,6 +62,16 @@ $env:PYTHONUTF8 = "1"
 # 프로젝트 폴더 하위 고정 경로로 지정해 어떤 계정으로 실행되든 동일한 설치를 쓰게 한다.
 $env:PLAYWRIGHT_BROWSERS_PATH = Join-Path $ProjectDir ".playwright-browsers"
 
+# 2026-09-15 밤: Step 4 git push가 SYSTEM 계정에 캐시된 인증정보가 없어
+# git-credential-manager가 대화형(브라우저/GUI) 인증창을 띄우려 시도했고,
+# SYSTEM에는 대화형 세션이 없어 응답을 못 받고 그대로 7시간+ 멈췄다(hang).
+# 그 결과 09-16 00:00 회차 자체가 "이전 인스턴스 실행 중"으로 걸려 통째로
+# 스킵됐다. GIT_TERMINAL_PROMPT=0 / GCM_INTERACTIVE=Never 로 인증정보가
+# 없을 때 조용히 멈추는 대신 즉시 실패하도록 강제한다. (근본 해결은 SYSTEM
+# 프로필에 PAT/SSH 배포키를 비대화식으로 등록하는 것 - 별도 수동 조치 필요)
+$env:GIT_TERMINAL_PROMPT = "0"
+$env:GCM_INTERACTIVE = "Never"
+
 function Write-Summary {
     param([string]$Message)
     $line = "{0} {1}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $Message
@@ -136,17 +146,32 @@ if ($allOk) {
     # 있었다(09-13 밤 - Step1~3는 정상 완주했는데 Step4만 조용히 실패해 배포가
     # 안 됨). 매번 -c safe.directory로 이 저장소만 한시적으로 신뢰하도록 지정해
     # 전역 git 설정을 건드리지 않고도 안전하게 우회한다.
-    $gitSafe = @("-c", "safe.directory=$ProjectDir")
+    # credential.interactive=false: 인증정보가 없을 때 GCM이 GUI 프롬프트를 띄우려
+    # 시도하지 않고 즉시 실패하게 한다(위 09-15 hang 사고 재발 방지, 근본 원인은
+    # SYSTEM 프로필에 PAT/SSH 배포키 등록 필요).
+    $gitSafe = @("-c", "safe.directory=$ProjectDir", "-c", "credential.interactive=false")
     # .gitignore가 .env/data//logs//output/ 등을 이미 제외하므로 add -A 로 안전하게 전부 스테이징한다.
     git @gitSafe add -A 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
     $commitMsg = "Auto update 캘린더 ({0})" -f (Get-Date -Format "yyyy-MM-dd HH:mm")
     git @gitSafe commit -m $commitMsg 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
     if ($LASTEXITCODE -eq 0) {
-        git @gitSafe push origin main 2>&1 | Add-Content -Path $SummaryLog -Encoding utf8
-        if ($LASTEXITCODE -eq 0) {
-            Write-Summary "Step 4 완료: GitHub Pages 배포 성공"
+        # 위 환경변수/옵션으로도 못 막는 외부 요인(네트워크 등)에 대비해 2중 방어로
+        # push 자체에 타임아웃을 건다 - 실패해도 다음날 밤 회차를 막지는 않도록.
+        $pushLog = Join-Path $LogDir ("git_push_{0}.log" -f $DateTag)
+        $pushProc = Start-Process -FilePath "git" -ArgumentList (@("-c", "safe.directory=$ProjectDir", "-c", "credential.interactive=false", "push", "origin", "main")) `
+            -RedirectStandardOutput $pushLog -RedirectStandardError "$pushLog.err" -PassThru -WorkingDirectory $ProjectDir
+        $finished = $pushProc.WaitForExit(120000)
+        if (-not $finished) {
+            Stop-Process -Id $pushProc.Id -Force -ErrorAction SilentlyContinue
+            Write-Summary "Step 4 실패: git push 120초 타임아웃으로 강제 종료 (SYSTEM 인증정보 미설정 추정 - 수동 조치 필요)"
         } else {
-            Write-Summary "Step 4 실패: git push 오류 (네트워크/인증 문제일 수 있음 - 위 로그 확인)"
+            Get-Content $pushLog -Encoding utf8 -ErrorAction SilentlyContinue | Add-Content -Path $SummaryLog -Encoding utf8
+            if (Test-Path "$pushLog.err") { Get-Content "$pushLog.err" -Encoding utf8 | Add-Content -Path $SummaryLog -Encoding utf8; Remove-Item "$pushLog.err" -Force }
+            if ($pushProc.ExitCode -eq 0) {
+                Write-Summary "Step 4 완료: GitHub Pages 배포 성공"
+            } else {
+                Write-Summary "Step 4 실패: git push 오류 (네트워크/인증 문제일 수 있음 - 위 로그 확인)"
+            }
         }
     } else {
         Write-Summary "Step 4: 어제와 변경 사항 없음 - 커밋/배포 생략"
