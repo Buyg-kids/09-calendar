@@ -157,8 +157,21 @@ if ($allOk) {
     if ($LASTEXITCODE -eq 0) {
         # 위 환경변수/옵션으로도 못 막는 외부 요인(네트워크 등)에 대비해 2중 방어로
         # push 자체에 타임아웃을 건다 - 실패해도 다음날 밤 회차를 막지는 않도록.
+        $pushArgs = @("-c", "safe.directory=$ProjectDir", "-c", "credential.interactive=false")
+        # SYSTEM 프로필에 SSH 배포키가 등록돼 있으면(수동 1회 설정) origin을 이
+        # push 호출에서만 SSH로 바꿔치기해서 애초에 GCM/HTTPS 인증을 타지 않게
+        # 한다 - remote.origin.url 자체(대화형 계정도 같이 쓰는 공유 설정)는
+        # 건드리지 않는다. 키가 아직 없으면 기존 HTTPS 경로 그대로 동작.
+        $sysSshKey = "C:\Windows\System32\config\systemprofile\.ssh\id_ed25519"
+        $sysSshKnownHosts = "C:\Windows\System32\config\systemprofile\.ssh\known_hosts"
+        if (Test-Path $sysSshKey) {
+            $pushArgs += @("-c", "url.git@github.com:Buyg-kids/09-calendar.git.insteadOf=https://github.com/Buyg-kids/09-calendar.git")
+            $env:GIT_SSH_COMMAND = "ssh -i `"$sysSshKey`" -o UserKnownHostsFile=`"$sysSshKnownHosts`" -o IdentitiesOnly=yes -o BatchMode=yes"
+        } else {
+            Remove-Item Env:\GIT_SSH_COMMAND -ErrorAction SilentlyContinue
+        }
         $pushLog = Join-Path $LogDir ("git_push_{0}.log" -f $DateTag)
-        $pushProc = Start-Process -FilePath "git" -ArgumentList (@("-c", "safe.directory=$ProjectDir", "-c", "credential.interactive=false", "push", "origin", "main")) `
+        $pushProc = Start-Process -FilePath "git" -ArgumentList ($pushArgs + @("push", "origin", "main")) `
             -RedirectStandardOutput $pushLog -RedirectStandardError "$pushLog.err" -PassThru -WorkingDirectory $ProjectDir
         $finished = $pushProc.WaitForExit(120000)
         if (-not $finished) {
