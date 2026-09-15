@@ -230,18 +230,30 @@ def _is_same_product(a: dict, b: dict) -> bool:
     if brand_a and brand_a == brand_b:
         return True
 
-    # 브랜드가 비어있는 경우(파서가 브랜드를 못 뽑은 경우가 흔함)에도, 같은 피드
-    # 글 하나에서 옵션 여러 개가 쪼개져 나오면 보통 안내 문구(혜택)가 토씨 하나
-    # 안 틀리고 그대로 반복된다 - 실제로 '무무칩'/'무무솔솔'(suksuk_mom_) 케이스가
-    # 이렇게 동일 혜택 문구를 공유해서 발견됨.
+    # 2026-09-16 사고: bebe_loah의 '밤비노루크'(브랜드 밤비노루크)와 '다원
+    # 몬테소리' 상품이 똑같은 정형 문구("구매완료 댓글 남기면 5분께 5천원
+    # 페이백")를 공유한다는 이유만으로 같은 상품으로 묶여, 결국 완전히 다른
+    # '가베 맥타일즈'까지 한 카드로 통합되며 상품명/가격이 뒤섞이는 사고로
+    # 이어졌다. 브랜드가 서로 다르게 확인된 상태(둘 다 값이 있고 다름)라면,
+    # 혜택 문구가 같아도 신뢰하지 않는다 - 이 규칙은 원래 브랜드를 못 뽑은
+    # 경우('무무칩'/'무무솔솔')를 잡기 위한 것이었지 브랜드가 이미 다르다고
+    # 확인된 경우까지 덮어쓰려던 게 아니었다.
     benefit_a = (a.get("key_benefit") or "").strip()
     benefit_b = (b.get("key_benefit") or "").strip()
-    if benefit_a and benefit_a == benefit_b:
+    brand_conflict = bool(brand_a) and bool(brand_b) and brand_a != brand_b
+    if benefit_a and benefit_a == benefit_b and not brand_conflict:
         return True
 
     na = _normalize_product_name(a["product_name"], brand_a)
     nb = _normalize_product_name(b["product_name"], brand_b)
     if not na or not nb:
+        return False
+    # 같은 사고에서, 브랜드명을 떼어내고 나니 '가베 교구 (맥타일즈...)'와
+    # '다원 몬테소리 수교구 (...)'가 각각 "교구"/"수교구"만 남아 포함관계로
+    # 오판된 사례가 있었다(둘 다 그냥 '교구'라는 범용 단어일 뿐, 같은 상품이란
+    # 근거가 아님). 정규화 후 너무 짧은 잔여 문자열은 애초에 비교 대상으로
+    # 삼지 않는다.
+    if len(na) < 4 or len(nb) < 4:
         return False
     if na in nb or nb in na:
         return True
@@ -281,7 +293,11 @@ def _combine_product_names(names: list[str]) -> str:
         return uniq[0] if uniq else ""
     if len(uniq) == 2:
         return f"{uniq[0]} / {uniq[1]}"
-    return f"{uniq[0]} 외 {len(uniq) - 1}종"
+    # 대표로 내세우는 이름은 그룹에 먼저 들어온 순서가 아니라 가장 구체적인
+    # (긴) 이름으로 고른다 - 순서에만 기대면 오래되고 짧은 이름이 어쩌다
+    # 먼저 들어왔다는 이유만으로 카드 타이틀을 차지하는 문제가 있었다.
+    headline = max(uniq, key=len)
+    return f"{headline} 외 {len(uniq) - 1}종"
 
 
 def _merge_duplicate_group(group: list[dict]) -> dict:

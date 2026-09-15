@@ -410,16 +410,21 @@ const PRICE_UNKNOWN_TEXT = '가격은 링크에서 확인하세요';
 // 조건 설명이 섞인 것으로 본다. simplifyPrice()가 이미 만든 "최저 N원 (외
 // M종)" 요약문은 "원"이 1번뿐이라 여기 걸리지 않는다.
 function isDescriptivePriceText(text) {
-  const amountCount = (text.match(/[\d,]+\s*원/g) || []).length;
+  const amountCount = (text.match(/[\d,]+\s*(?:만|천)?\s*원/g) || []).length;
   return amountCount >= 2 || text.length > 20;
 }
 function firstAmount(text) {
-  const m = text.match(/[\d,]+(?=\s*원)/);
-  return m ? m[0] + '원' : null;
+  // "7만원", "5천원"처럼 만/천 단위가 숫자와 원 사이에 끼는 한국어 표기도
+  // 대표값으로 뽑는다 (숫자 바로 뒤에 원이 오는 경우만 잡던 이전 정규식은
+  // 이런 표기를 놓쳐서 문장 전체가 그대로 노출됐었다).
+  const m = text.match(/[\d,]+\s*(?:만|천)?\s*원/);
+  return m ? m[0].replace(/\s+/g, '') : null;
 }
 function priceInfo(row) {
   const raw = simplifyPrice((row.price || '').trim());
-  if (!raw || raw === '가격공개예정') {
+  // "최저가"처럼 숫자 없이 단어 하나만 파싱된 경우도 실제 가격이 아니므로
+  // 가격 미표기와 동일하게 다룬다(2026-09-16, bebe_loah '가베 맥타일즈' 사고).
+  if (!raw || raw === '가격공개예정' || !/\d/.test(raw)) {
     return { text: PRICE_UNKNOWN_TEXT, cta: true, muted: false };
   }
   // 화살표(정가→공구가) 표기는 금액이 2번 나와도 깔끔한 형식이라 그대로 둔다
