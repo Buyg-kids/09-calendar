@@ -133,9 +133,18 @@
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     margin-top: 7px;
   }
-  .price-row { margin-top: 3px; display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; }
+  /* min-height: 가격 텍스트 길이가 카드마다 달라도(정가 유무, 대표가 추출 등)
+     같은 가로 스크롤 줄 안에서 카드 높이가 들쭉날쭉해지지 않도록 한 줄 높이를
+     최소로 고정한다. */
+  .price-row { margin-top: 3px; display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; min-height: 19px; }
   .price-original { font-size: 11px; color: var(--price-original); text-decoration: line-through; font-weight: 500; }
-  .price-final { font-size: 15px; font-weight: 700; color: var(--price-accent); }
+  .price-final {
+    font-size: 15px; font-weight: 700; color: var(--price-accent);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all;
+  }
+  /* "10봉 구매시 6,990원(40g), 5봉 36,900원..." 같은 조건부 설명 문장은 순수
+     가격이 아니라서 강조 빨간색 대신 차분한 톤으로, 대표가만 뽑아 짧게 보여준다. */
+  .price-final.price-muted { font-size: 12px; font-weight: 600; color: var(--text-main); }
   /* 가격 정보가 없을 때: 더 이상 보라색 '단독특가' 류 뱃지로 강조하지 않고,
      차분한 안내 문구 한 줄로 자연스럽게 흡수한다 (시각 피로도 완화). */
   .price-plain { font-size: 11px; color: var(--text-sub); font-weight: 600; }
@@ -394,12 +403,32 @@ function simplifyPrice(raw) {
 // 가격 정보가 없을 때는 더 이상 마케팅 문구 뱃지로 꾸미지 않고, 차분한 안내
 // 문구 한 줄로만 흡수한다 (카드마다 반복되던 보라색 '단독특가' 류 뱃지 제거).
 const PRICE_UNKNOWN_TEXT = '가격은 링크에서 확인하세요';
+// "10봉 구매 시 6,990원(40g), 5봉 36,900원, 10봉 69,900원" 처럼 구매조건이
+// 섞인 문장은 순수 가격 표기가 아니다 - 카드에 그대로 넣으면 3~4줄로 넘쳐
+// 레이아웃이 깨진다(2026-09-16 '목초우 소고기칩' 사고). 이런 문장인지 판별한다.
+// 금액("원")이 2번 이상 나오거나, 짧은 가격 표기 치고 지나치게 길면(20자 초과)
+// 조건 설명이 섞인 것으로 본다. simplifyPrice()가 이미 만든 "최저 N원 (외
+// M종)" 요약문은 "원"이 1번뿐이라 여기 걸리지 않는다.
+function isDescriptivePriceText(text) {
+  const amountCount = (text.match(/[\d,]+\s*원/g) || []).length;
+  return amountCount >= 2 || text.length > 20;
+}
+function firstAmount(text) {
+  const m = text.match(/[\d,]+(?=\s*원)/);
+  return m ? m[0] + '원' : null;
+}
 function priceInfo(row) {
   const raw = simplifyPrice((row.price || '').trim());
-  if (raw && raw !== '가격공개예정') {
-    return { text: raw, cta: false };
+  if (!raw || raw === '가격공개예정') {
+    return { text: PRICE_UNKNOWN_TEXT, cta: true, muted: false };
   }
-  return { text: PRICE_UNKNOWN_TEXT, cta: true };
+  // 화살표(정가→공구가) 표기는 금액이 2번 나와도 깔끔한 형식이라 그대로 둔다
+  // (아래 parsePriceParts가 정가/공구가 두 줄로 분리해서 보여준다).
+  if (raw.indexOf('→') === -1 && isDescriptivePriceText(raw)) {
+    const amt = firstAmount(raw);
+    return { text: amt ? (amt + '~') : raw, cta: false, muted: true };
+  }
+  return { text: raw, cta: false, muted: false };
 }
 // "84,900원→7만원대"식 정가→공구가 표기만 정가(취소선)/공구가(강조) 두 줄로
 // 분리한다. 화살표 뒤가 "7만원대" 같은 비정확 표기라 숫자를 못 뽑으면(정가와
@@ -431,7 +460,7 @@ function renderPriceRow(row) {
     el.appendChild(original);
   }
   const final = document.createElement('span');
-  final.className = 'price-final';
+  final.className = 'price-final' + (info.muted ? ' price-muted' : '');
   final.textContent = parts.final;
   el.appendChild(final);
   return el;
