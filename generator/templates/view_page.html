@@ -11,15 +11,18 @@
     --accent-lavender: #ede5f3;
     --accent-violet: #7b1fa2;
     --bg-light: #f8f9fa;
-    --text-main: #222;
-    --text-sub: #888;
+    --text-main: #1e293b;
+    --text-sub: #94a3b8;
+    --price-original: #adb5bd;
+    --price-accent: #ff4b4b;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
     margin: 0; background: var(--bg-light); color: var(--text-main);
     font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   }
-  a { color: inherit; }
+  /* 카드 안 상품명/가격 <a>가 기본 파란 하이퍼링크 색상+밑줄로 보이던 문제 제거 */
+  a { color: inherit; text-decoration: none; }
   .app {
     max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh;
     box-shadow: 0 0 24px rgba(0,0,0,0.06);
@@ -104,35 +107,33 @@
   }
   .search-card .influencer-badge { font-size: 9px; padding: 2px 6px; }
 
-  /* ---- 마감임박 ---- */
-  .closing-card { flex: 0 0 128px; scroll-snap-align: start; }
-  .closing-card .thumb-wrap { width: 128px; height: 128px; }
-  .closing-badge {
-    position: absolute; top: 6px; right: 6px; background: linear-gradient(135deg,#ff4757,#ff6b81);
+  /* ---- 상품명/가격 공통 타이포 (마감임박/이달의공구/이번주/검색 카드 공통 규격) ----
+     29CM/올리브영류 커머스 앱 기준: 상품명 13~14px 2줄 말줄임, 정가는 취소선 보조
+     정보로 작게, 공구가(최종가)만 굵고 크게 포인트 컬러로 강조한다. */
+  .product-name {
+    font-size: 13px; font-weight: 700; color: var(--text-main); line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    margin-top: 7px;
+  }
+  .price-row { margin-top: 3px; display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; }
+  .price-original { font-size: 11px; color: var(--price-original); text-decoration: line-through; font-weight: 500; }
+  .price-final { font-size: 15px; font-weight: 700; color: var(--price-accent); }
+  /* 가격 정보가 없을 때: 더 이상 보라색 '단독특가' 류 뱃지로 강조하지 않고,
+     차분한 안내 문구 한 줄로 자연스럽게 흡수한다 (시각 피로도 완화). */
+  .price-plain { font-size: 11px; color: var(--text-sub); font-weight: 600; }
+
+  /* ---- 마감임박 / 이달의 공구: 썸네일 비율·라운드·패딩 규격 통일 ----
+     두 섹션 모두 정사각 썸네일 + 우상단 배지 1개 + 썸네일 아래 텍스트 블록의
+     동일한 카드 골격을 쓴다(이전엔 이달의공구만 와이드 배너+이미지 위 흰 글자
+     오버레이 형태라 마감임박과 규격이 달랐다). */
+  .closing-card, .banner-card { flex: 0 0 132px; scroll-snap-align: start; }
+  .closing-card .thumb-wrap, .banner-card .thumb-wrap { width: 132px; height: 132px; border-radius: 14px; }
+  .closing-badge, .banner-badge {
+    position: absolute; top: 6px; right: 6px;
     color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px;
   }
-  .closing-name {
-    font-size: 12px; font-weight: 700; margin-top: 6px; line-height: 1.3;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .closing-price { font-size: 12px; color: var(--brand-purple); font-weight: 800; margin-top: 2px; }
-
-  /* ---- 이달의 공구 배너 ---- */
-  .banner-card {
-    flex: 0 0 84%; scroll-snap-align: center; position: relative; border-radius: 18px; overflow: hidden;
-  }
-  .banner-card .thumb-wrap { width: 100%; height: 180px; }
-  .banner-overlay {
-    position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 14px;
-    background: linear-gradient(0deg, rgba(0,0,0,0.72), rgba(0,0,0,0));
-    color: #fff;
-  }
-  .banner-badge {
-    display: inline-block; background: var(--brand-purple); font-size: 11px; font-weight: 800;
-    padding: 3px 9px; border-radius: 8px; margin-bottom: 6px;
-  }
-  .banner-name { font-size: 14px; font-weight: 800; line-height: 1.3; }
-  .banner-price { font-size: 12px; opacity: 0.9; margin-top: 2px; }
+  .closing-badge { background: linear-gradient(135deg,#ff4757,#ff6b81); }
+  .banner-badge { background: var(--brand-purple); }
 
   /* ---- 카테고리 칩 ---- */
   .chip-row {
@@ -174,20 +175,8 @@
   .week-card .thumb-wrap { width: 100%; aspect-ratio: 1 / 1; border-radius: 0; }
   .week-card-body { padding: 8px 9px 10px; }
   .week-card-date { font-size: 10px; color: var(--text-sub); }
-  .week-card-name {
-    font-size: 12px; font-weight: 700; margin: 3px 0; line-height: 1.3;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    min-height: 31px;
-  }
-  .week-card-price { font-size: 12px; color: var(--brand-purple); font-weight: 800; }
+  .week-card-body .product-name { margin-top: 3px; min-height: 35px; }
   .empty-note { padding: 24px 16px; text-align: center; color: #bbb; font-size: 13px; grid-column: 1 / -1; }
-
-  /* ---- 가격 표기: 실가격은 굵은 보라 텍스트, 미표기는 CTA 뱃지로 대체 ---- */
-  .price-cta {
-    display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700;
-    color: var(--brand-purple); background: var(--accent-lavender); padding: 3px 9px; border-radius: 10px;
-  }
-  .banner-overlay .price-cta { color: #fff; background: rgba(255,255,255,0.22); }
 
   /* ---- 이번주 그리드 더보기 ---- */
   .week-more-btn {
@@ -208,10 +197,6 @@
     position: absolute; top: 6px; right: 6px; background: var(--accent-violet);
     color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px;
   }
-  .upcoming-name {
-    font-size: 12px; font-weight: 700; margin-top: 6px; line-height: 1.3;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
 
   .cat-dot {
     display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px;
@@ -224,9 +209,8 @@
   }
   .search-card .thumb-wrap { width: 68px; height: 68px; flex: 0 0 68px; }
   .search-card-body { flex: 1; min-width: 0; }
-  .search-card-name { font-size: 13px; font-weight: 700; line-height: 1.3; }
+  .search-card-body .product-name { margin-top: 0; }
   .search-card-meta { font-size: 11px; color: var(--text-sub); margin-top: 3px; }
-  .search-card-price { font-size: 12px; color: var(--brand-purple); font-weight: 800; margin-top: 3px; }
   #noResults { display: none; text-align: center; color: #bbb; padding: 40px 0; font-size: 13px; }
 </style>
 </head>
@@ -362,14 +346,6 @@ function linkFor(row) {
   return row.purchase_url || row.influencer_profile_url || '#';
 }
 
-// 가격 정보가 없을 때 '가격공개예정'을 반복 노출하는 대신, 세련된 CTA 뱃지 문구
-// 중 하나로 대체한다 (같은 상품은 항상 같은 문구가 나오도록 row_id로 고정 선택).
-const PRICE_CTA_LABELS = ['최저가 공구 ↗', '공구가 링크확인 ↗', '단독 특가 ↗'];
-function hashCode(s) {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
-  return h;
-}
 // '모음전'처럼 세부 품목별 가격이 "금전출납기 46,000원 / 캐시캣 19,800원 / ..."
 // 식으로 슬래시 나열된 채 이미 DB에 저장돼 있는 경우(파서 프롬프트 개선 전 데이터
 // 포함), 카드 한 줄에 다 안 들어가 지저분해 보이는 문제를 화면 표시 시점에
@@ -397,18 +373,56 @@ function simplifyPrice(raw) {
   return '최저 ' + min.toLocaleString('ko-KR') + '원 (외 ' + (amounts.length - 1) + '종)';
 }
 
+// 가격 정보가 없을 때는 더 이상 마케팅 문구 뱃지로 꾸미지 않고, 차분한 안내
+// 문구 한 줄로만 흡수한다 (카드마다 반복되던 보라색 '단독특가' 류 뱃지 제거).
+const PRICE_UNKNOWN_TEXT = '가격은 링크에서 확인하세요';
 function priceInfo(row) {
   const raw = simplifyPrice((row.price || '').trim());
   if (raw && raw !== '가격공개예정') {
     return { text: raw, cta: false };
   }
-  const idx = Math.abs(hashCode(row.row_id || row.product_name || '')) % PRICE_CTA_LABELS.length;
-  return { text: PRICE_CTA_LABELS[idx], cta: true };
+  return { text: PRICE_UNKNOWN_TEXT, cta: true };
 }
-function setPriceEl(el, row) {
+// "84,900원→7만원대"식 정가→공구가 표기만 정가(취소선)/공구가(강조) 두 줄로
+// 분리한다. 화살표 뒤가 "7만원대" 같은 비정확 표기라 숫자를 못 뽑으면(정가와
+// 나란히 비교할 신뢰도가 없으므로) 분리하지 않고 원문 그대로 한 줄만 보여준다.
+function parsePriceParts(text) {
+  const arrowIdx = text.lastIndexOf('→');
+  if (arrowIdx === -1) return { original: null, final: text };
+  const original = text.slice(0, arrowIdx).trim();
+  const final = text.slice(arrowIdx + 1).trim();
+  if (!/\d/.test(final)) return { original: null, final: text };
+  return { original: original, final: final };
+}
+function renderPriceRow(row) {
   const info = priceInfo(row);
-  el.textContent = info.text;
-  el.classList.toggle('price-cta', info.cta);
+  const el = document.createElement('div');
+  el.className = 'price-row';
+  if (info.cta) {
+    const plain = document.createElement('span');
+    plain.className = 'price-plain';
+    plain.textContent = info.text;
+    el.appendChild(plain);
+    return el;
+  }
+  const parts = parsePriceParts(info.text);
+  if (parts.original) {
+    const original = document.createElement('span');
+    original.className = 'price-original';
+    original.textContent = parts.original;
+    el.appendChild(original);
+  }
+  const final = document.createElement('span');
+  final.className = 'price-final';
+  final.textContent = parts.final;
+  el.appendChild(final);
+  return el;
+}
+function makeNameEl(row) {
+  const name = document.createElement('div');
+  name.className = 'product-name';
+  name.textContent = row.product_name;
+  return name;
 }
 
 function parseDate(s) { return s ? new Date(s + 'T00:00:00') : null; }
@@ -452,14 +466,16 @@ function renderClosingSoon(rows) {
     badge.textContent = dleft === 0 ? '오늘마감' : ('D-' + dleft);
     thumb.appendChild(badge);
     a.appendChild(thumb);
-    const name = document.createElement('div'); name.className = 'closing-name'; name.textContent = row.product_name;
-    const price = document.createElement('div'); price.className = 'closing-price'; setPriceEl(price, row);
-    a.appendChild(name); a.appendChild(price);
+    a.appendChild(makeNameEl(row));
+    a.appendChild(renderPriceRow(row));
     el.appendChild(a);
   });
 }
 
 // ---------------- 이달의 공구 (배너) ----------------
+// 마감임박 카드와 동일한 골격(정사각 썸네일 + 우상단 배지 1개 + 썸네일 아래
+// 상품명/가격)을 쓴다. 이전엔 와이드 이미지 위에 흰 글자를 얹은 배너 형태라
+// 마감임박 카드와 썸네일 비율·라운드·내부 여백이 서로 달랐다.
 function renderMonthlyBanner(rows) {
   const list = rows.filter(isActive)
     .sort(function (a, b) { return !!b.image_url - !!a.image_url; })
@@ -483,13 +499,13 @@ function renderMonthlyBanner(rows) {
     a.className = 'banner-card';
     a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
     const thumb = makeThumb(row);
-    const overlay = document.createElement('div'); overlay.className = 'banner-overlay';
-    overlay.innerHTML = '<span class="banner-badge">' + badgeText + '</span>'
-      + '<div class="banner-name"></div><div class="banner-price"></div>';
-    overlay.querySelector('.banner-name').textContent = row.product_name;
-    setPriceEl(overlay.querySelector('.banner-price'), row);
-    thumb.appendChild(overlay);
+    const badge = document.createElement('span');
+    badge.className = 'banner-badge';
+    badge.textContent = badgeText;
+    thumb.appendChild(badge);
     a.appendChild(thumb);
+    a.appendChild(makeNameEl(row));
+    a.appendChild(renderPriceRow(row));
     el.appendChild(a);
   });
 }
@@ -543,10 +559,10 @@ function renderWeekCard(row) {
   a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
   a.appendChild(makeThumb(row));
   const body = document.createElement('div'); body.className = 'week-card-body';
-  body.innerHTML = '<div class="week-card-date"></div><div class="week-card-name"></div><div class="week-card-price"></div>';
-  body.querySelector('.week-card-date').textContent = row.date_label;
-  body.querySelector('.week-card-name').textContent = row.product_name;
-  setPriceEl(body.querySelector('.week-card-price'), row);
+  const date = document.createElement('div'); date.className = 'week-card-date'; date.textContent = row.date_label;
+  body.appendChild(date);
+  body.appendChild(makeNameEl(row));
+  body.appendChild(renderPriceRow(row));
   a.appendChild(body);
   return a;
 }
@@ -608,8 +624,7 @@ function renderUpcoming(rows) {
     badge.textContent = 'D-' + d + ' ' + mmdd + ' 오픈';
     thumb.appendChild(badge);
     a.appendChild(thumb);
-    const name = document.createElement('div'); name.className = 'upcoming-name'; name.textContent = row.product_name;
-    a.appendChild(name);
+    a.appendChild(makeNameEl(row));
     el.appendChild(a);
   });
 }
@@ -665,10 +680,11 @@ function renderSearchResults(q) {
     a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
     a.appendChild(makeThumb(row));
     const body = document.createElement('div'); body.className = 'search-card-body';
-    body.innerHTML = '<div class="search-card-name"></div><div class="search-card-meta"></div><div class="search-card-price"></div>';
-    body.querySelector('.search-card-name').textContent = row.product_name;
-    body.querySelector('.search-card-meta').textContent = row.date_label + ' · ' + row.influencer_label;
-    setPriceEl(body.querySelector('.search-card-price'), row);
+    body.appendChild(makeNameEl(row));
+    const meta = document.createElement('div'); meta.className = 'search-card-meta';
+    meta.textContent = row.date_label + ' · ' + row.influencer_label;
+    body.appendChild(meta);
+    body.appendChild(renderPriceRow(row));
     a.appendChild(body);
     searchResultsEl.appendChild(a);
   });
