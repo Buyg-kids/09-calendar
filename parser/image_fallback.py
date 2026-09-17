@@ -70,6 +70,78 @@ def _search_thumbnail(query: str) -> str:
     return _TAG_RE.sub("", image_url)
 
 
+_IMAGE_CHECK_TIMEOUT_SEC = 6
+_CHECK_HEADERS = {"User-Agent": "Mozilla/5.0"}
+
+
+def _is_image_alive(url: str) -> bool:
+    """이미지 URL이 실제로 아직 열리는지 가볍게 확인한다. 인스타그램 CDN URL은
+    서명 토큰이 며칠 뒤 만료돼 403/404로 죽는데, image_url 필드 자체는 계속
+    비어있지 않은 채로 남아있어 list_missing_images()로는 못 잡는다 - HEAD
+    요청으로 브라우저가 겪을 실패를 미리 확인한다."""
+    try:
+        resp = requests.head(url, timeout=_IMAGE_CHECK_TIMEOUT_SEC, allow_redirects=True, headers=_CHECK_HEADERS)
+        if resp.status_code == 405:  # 일부 서버는 HEAD를 막아둬서 GET으로 재시도
+            resp = requests.get(url, timeout=_IMAGE_CHECK_TIMEOUT_SEC, stream=True, headers=_CHECK_HEADERS)
+        return resp.status_code < 400
+    except requests.RequestException:
+        return False
+
+
+def revalidate_rows(rows: list[dict]) -> dict:
+    """view.html/index.html에 실제로 노출될 (병합 후) 행 목록을 받아, image_url이
+    있어도 죽어있으면(만료된 인스타 CDN 서명 토큰 등) 네이버 이미지 검색으로
+    교체한다. 2026-09-18 실사고: ariseoan '베베루트/니가드키즈4' 카드가 며칠 전
+    캡처된 죽은 URL을 그대로 써서 브라우저에 기본 SVG 아이콘만 떴었다 - 가장
+    최근 재수집분을 우선하도록 고쳤지만(card_news._merge_duplicate_group), 그
+    최신 캡처본마저 마감일이 먼 상품은 결국 만료될 수 있어 노출 직전에 실제로
+    살아있는지 한 번 더 확인하는 마지막 방어선이다. DB 전체가 아니라 실제로
+    화면에 나갈 병합 후 행(수백 건)에 대해서만 돌아 검사량을 최소화한다."""
+    stats = {"checked": 0, "dead": 0, "replaced": 0, "still_broken": 0}
+    if not NAVER_CLIENT_ID or not NAVER_CLIENT_SECRET:
+        logger.info("NAVER_CLIENT_ID/NAVER_CLIENT_SECRET 미설정 - 이미지 재검증 스킵")
+        return stats
+
+    for row in rows:
+        url = row.get("image_url") or ""
+        if not url:
+            continue
+        stats["checked"] += 1
+        if _is_image_alive(url):
+            time.sleep(_REQUEST_INTERVAL_SEC)
+            continue
+
+        stats["dead"] += 1
+        query = _build_query(row)
+        if not query:
+            time.sleep(_REQUEST_INTERVAL_SEC)
+            continue
+        try:
+            replacement = _search_thumbnail(query)
+        except Exception:
+            logger.exception("[%s] 만료 이미지 재검색 실패: %s", row.get("row_id") or row.get("product_name"), query)
+            stats["still_broken"] += 1
+            time.sleep(_REQUEST_INTERVAL_SEC)
+            continue
+
+        if replacement:
+            row["image_url"] = replacement
+            stats["replaced"] += 1
+            logger.info(
+                "[%s] 만료된 이미지 교체: '%s' -> %s",
+                row.get("row_id") or row.get("product_name"), query, replacement[:80],
+            )
+        else:
+            stats["still_broken"] += 1
+        time.sleep(_REQUEST_INTERVAL_SEC)
+
+    logger.info(
+        "이미지 재검증 완료. 검사 %d건 / 만료 발견 %d건 / 교체 %d건 / 교체 실패 %d건",
+        stats["checked"], stats["dead"], stats["replaced"], stats["still_broken"],
+    )
+    return stats
+
+
 def run() -> dict:
     stats = {"checked": 0, "filled": 0, "failed": 0}
 
