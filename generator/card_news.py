@@ -315,11 +315,17 @@ def _merge_duplicate_group(group: list[dict]) -> dict:
         if link.startswith("http"):
             merged["purchase_link"] = link
             break
-    if not merged.get("image_url"):
-        for it in group:
-            if it.get("image_url"):
-                merged["image_url"] = it["image_url"]
-                break
+    # 인스타그램 CDN 이미지 URL은 서명된 토큰이 며칠 후 만료돼 403으로 죽는다
+    # (2026-09-18 실사고: ariseoan '베베루트/니가드키즈4' 카드가 09-13에 캡처된
+    # 죽은 URL을 그대로 써서 브라우저에 기본 SVG 아이콘만 떴다). 이 파이프라인은
+    # 아직 진행중인 공구를 매일 밤 다시 스캔하면서 같은 게시물의 URL을 새 토큰으로
+    # 재캡처하는데, 기존 코드는 base(이름/혜택이 가장 긴 항목)의 image_url을
+    # 그대로 쓰고 정말 비어있을 때만 그룹의 다른 값으로 대체했다. 그 대신
+    # 그룹 안에서 가장 최근에 재수집된(updated_at 최신) 이미지를 항상 우선해
+    # 만료 가능성을 최소화한다.
+    image_candidates = [it for it in group if it.get("image_url")]
+    if image_candidates:
+        merged["image_url"] = max(image_candidates, key=lambda it: it.get("updated_at") or "")["image_url"]
     if not merged.get("post_url"):
         for it in group:
             if it.get("post_url"):
