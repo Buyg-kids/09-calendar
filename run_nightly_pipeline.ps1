@@ -170,20 +170,36 @@ if ($allOk) {
         } else {
             Remove-Item Env:\GIT_SSH_COMMAND -ErrorAction SilentlyContinue
         }
-        $pushLog = Join-Path $LogDir ("git_push_{0}.log" -f $DateTag)
-        $pushProc = Start-Process -FilePath "git" -ArgumentList ($pushArgs + @("push", "origin", "main")) `
-            -RedirectStandardOutput $pushLog -RedirectStandardError "$pushLog.err" -PassThru -WorkingDirectory $ProjectDir
+        # 2026-09-17 밤: push가 실제로는 성공했는데도(원격에 커밋이 정확히
+        # 반영됨) 로그엔 "Step 4 실패"로 찍히는 오판정이 있었다. 원인은
+        # Start-Process -PassThru를 -RedirectStandardOutput/-RedirectStandardError와
+        # 같이 쓰면 WaitForExit() 이후에도 .ExitCode가 항상 비어있는(=$null)
+        # PowerShell 5.1의 알려진 결함 - `$null -eq 0`은 항상 $false라서 성공한
+        # push도 매번 실패로 판정됐다. Start-Process cmdlet 대신 .NET
+        # System.Diagnostics.Process를 직접 써서 ExitCode를 신뢰성 있게 읽는다.
+        $pushArgStr = (($pushArgs + @("push", "origin", "main")) | ForEach-Object { '"' + $_ + '"' }) -join ' '
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = "git"
+        $psi.Arguments = $pushArgStr
+        $psi.WorkingDirectory = $ProjectDir
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.UseShellExecute = $false
+        $pushProc = [System.Diagnostics.Process]::Start($psi)
+        $pushStdoutTask = $pushProc.StandardOutput.ReadToEndAsync()
+        $pushStderrTask = $pushProc.StandardError.ReadToEndAsync()
         $finished = $pushProc.WaitForExit(120000)
         if (-not $finished) {
             Stop-Process -Id $pushProc.Id -Force -ErrorAction SilentlyContinue
             Write-Summary "Step 4 실패: git push 120초 타임아웃으로 강제 종료 (SYSTEM 인증정보 미설정 추정 - 수동 조치 필요)"
         } else {
-            Get-Content $pushLog -Encoding utf8 -ErrorAction SilentlyContinue | Add-Content -Path $SummaryLog -Encoding utf8
-            if (Test-Path "$pushLog.err") { Get-Content "$pushLog.err" -Encoding utf8 | Add-Content -Path $SummaryLog -Encoding utf8; Remove-Item "$pushLog.err" -Force }
+            $pushProc.WaitForExit()  # 스트림이 완전히 flush되도록 인자 없는 버전도 한 번 더 호출
+            if ($pushStdoutTask.Result) { Add-Content -Path $SummaryLog -Value $pushStdoutTask.Result -Encoding utf8 }
+            if ($pushStderrTask.Result) { Add-Content -Path $SummaryLog -Value $pushStderrTask.Result -Encoding utf8 }
             if ($pushProc.ExitCode -eq 0) {
                 Write-Summary "Step 4 완료: GitHub Pages 배포 성공"
             } else {
-                Write-Summary "Step 4 실패: git push 오류 (네트워크/인증 문제일 수 있음 - 위 로그 확인)"
+                Write-Summary ("Step 4 실패: git push 오류 (exit={0}, 네트워크/인증 문제일 수 있음 - 위 로그 확인)" -f $pushProc.ExitCode)
             }
         }
     } else {
