@@ -52,10 +52,25 @@
     position: sticky; top: 0; z-index: 20; background: #fff;
     padding: 14px 16px 12px; border-bottom: 1px solid #f0f0f0;
   }
+  [hidden] { display: none !important; }
+  /* 브랜드 소개 영역: 스크롤하면 위로 사라지고 검색창 헤더만 상단에 고정된다
+     (카피가 늘어난 만큼 sticky 영역까지 커지면 모바일 화면을 너무 잡아먹음). */
+  .brand-hero { padding: 18px 16px 4px; text-align: center; }
   .logo {
-    text-align: center; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;
-    color: var(--brand-purple); margin-bottom: 10px;
+    font-size: 24px; font-weight: 800; letter-spacing: 0.5px;
+    color: var(--brand-purple); margin-bottom: 6px;
   }
+  .brand-main {
+    font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--text-main);
+    text-wrap: balance; word-break: keep-all;
+  }
+  .brand-sub { font-size: 12px; color: var(--text-sub); margin-top: 3px; word-break: keep-all; }
+  .today-badge {
+    display: inline-block; margin-top: 10px;
+    padding: 5px 12px; border-radius: 999px; background: var(--accent-lavender);
+    color: var(--brand-purple); font-size: 12px; font-weight: 700;
+  }
+  .today-badge b { font-size: 13px; font-weight: 800; }
   .search-box { position: relative; }
   #searchInput {
     width: 100%; padding: 11px 38px 11px 16px; font-size: 16px;
@@ -155,10 +170,34 @@
      오버레이 형태라 마감임박과 규격이 달랐다). */
   .closing-card, .banner-card { flex: 0 0 132px; scroll-snap-align: start; }
   .closing-card .thumb-wrap, .banner-card .thumb-wrap { width: 132px; height: 132px; border-radius: 14px; }
+  /* 우상단은 찜(하트) 버튼 자리라 D-day/마감 배지는 좌상단으로 옮겼다. */
   .closing-badge, .banner-badge {
-    position: absolute; top: 6px; right: 6px;
+    position: absolute; top: 6px; left: 6px;
     color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px;
   }
+
+  /* ---- 찜하기(하트) 버튼: 썸네일 우상단 ---- */
+  .fav-btn {
+    position: absolute; top: 6px; right: 6px; z-index: 3;
+    width: 30px; height: 30px; padding: 0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.92); box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+    color: #94a3b8; cursor: pointer; -webkit-user-select: none; user-select: none;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+  .fav-btn svg { width: 17px; height: 17px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+  .fav-btn.on { color: var(--price-accent); }
+  .fav-btn.on svg { fill: currentColor; }
+  .fav-btn.pop { animation: favPop 0.32s ease; }
+  @keyframes favPop {
+    0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); }
+  }
+  .search-card .fav-btn { width: 24px; height: 24px; top: 4px; right: 4px; }
+  .search-card .fav-btn svg { width: 14px; height: 14px; }
+  .fav-empty { grid-column: 1 / -1; padding: 44px 16px; text-align: center; color: var(--text-sub); }
+  .fav-empty b { display: block; font-size: 15px; color: var(--text-main); margin-bottom: 6px; }
+  .fav-empty span { font-size: 12px; }
+  .chip-count { color: var(--price-accent); font-weight: 800; }
   .closing-badge { background: linear-gradient(135deg,#ff4757,#ff6b81); }
   .banner-badge { background: var(--brand-purple); }
 
@@ -221,7 +260,7 @@
   .upcoming-card { flex: 0 0 148px; scroll-snap-align: start; }
   .upcoming-card .thumb-wrap { width: 148px; height: 148px; }
   .upcoming-badge {
-    position: absolute; top: 6px; right: 6px; background: var(--accent-violet);
+    position: absolute; top: 6px; left: 6px; background: var(--accent-violet);
     color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px;
   }
 
@@ -243,8 +282,13 @@
 </head>
 <body>
   <div class="app">
-    <header class="app-header">
+    <div class="brand-hero">
       <div class="logo">Buyg</div>
+      <div class="brand-main">아이 성장에 맞춰 똑똑하게, Buyg 육아 공구 달력</div>
+      <div class="brand-sub">매일 자정 업데이트되는 인스타 최저가 모아보기</div>
+      <div class="today-badge" id="todayBadge" hidden></div>
+    </div>
+    <header class="app-header">
       <div class="search-box">
         <input
           type="search"
@@ -270,6 +314,12 @@
         <div class="chip-row" id="chipRow"></div>
       </section>
 
+      <section class="section" id="favSection" hidden>
+        <div class="section-head"><h2>❤️ 찜한 공구</h2><span class="sub" id="favSub"></span></div>
+        <div class="week-grid" id="favGrid"></div>
+      </section>
+
+      <div id="regularSections">
       <section class="section">
         <div class="section-head"><h2>🔥 마감 임박한 공구</h2><span class="sub">서두르세요</span></div>
         <div class="hscroll-wrap">
@@ -306,19 +356,26 @@
           <button type="button" class="scroll-arrow arrow-right" data-target="upcomingList" aria-label="다음">›</button>
         </div>
       </section>
+      </div>
     </div>
   </div>
 
 <script>
 const ROWS = {{ rows_json }};
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
-const TODAY_ISO = TODAY.toISOString().slice(0,10);
+// toISOString()은 UTC 기준이라 한국(UTC+9)에서는 로컬 자정이 전날 15:00Z가 되어
+// "오늘"이 하루 전 날짜로 계산되는 문제가 있었다 - 로컬 날짜 그대로 포맷한다.
+function toLocalIso(d) {
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+const TODAY_ISO = toLocalIso(TODAY);
 
 const CATEGORY_EMOJI = { '육아용품': '🍼', '영유아식품': '🥣', '키즈가구': '🪑' };
 const WEEKDAY_KR = ['일','월','화','수','목','금','토'];
 
 const CHIPS = [
   { id: 'all', label: '전체', icon: '🛍️', keywords: null },
+  { id: 'fav', label: '찜한 공구', icon: '❤️', keywords: null, fav: true },
   { id: 'feeding', label: '수유/이유', icon: '🍼', keywords: ['수유','이유식','젖병','유축기','분유','퓨레','아기간식'] },
   { id: 'tableware', label: '유아식기', icon: '🍽️', keywords: ['식기','수저','포크','컵','빨대컵','도시락','식판','턱받이'] },
   { id: 'clothes', label: '아기옷', icon: '👕', keywords: ['옷','내복','바디수트','블루머','한복','실내복','양말','신발','우주복'] },
@@ -327,7 +384,80 @@ const CHIPS = [
   { id: 'health', label: '건강/영양제', icon: '💊', keywords: ['영양제','유산균','비타민','철분','오메가','홍삼','콜라겐','면역'] },
 ];
 
+// ---------------- 찜하기 (로그인 없이 브라우저 localStorage에 저장) ----------------
+const FAV_STORAGE_KEY = 'buyg_favs_v1';
+const HEART_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+
+let favSet = new Set();
+try {
+  const saved = JSON.parse(localStorage.getItem(FAV_STORAGE_KEY) || '[]');
+  if (Array.isArray(saved)) favSet = new Set(saved);
+} catch (e) { /* 저장소 차단(시크릿 모드 등)이면 이번 방문 동안만 메모리에 유지 */ }
+function saveFavs() {
+  try { localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(Array.from(favSet))); } catch (e) {}
+}
+// row_id("row-N")는 매일 밤 재생성/날짜순 정렬되며 번호가 바뀌므로 식별자로 못
+// 쓴다. 인플루언서 + (브랜드 || 상품명)으로 만들어 재빌드 후에도 같은 공구가
+// 같은 키를 갖게 한다("외 N종" 접미사와 공백은 병합 상태에 따라 달라져 제거).
+function favKey(row) {
+  const name = (row.product_name || '').replace(/\s*외\s*\d+종$/, '').replace(/\s+/g, '');
+  return (row.influencer_handle || row.influencer_name || '') + '|' + (row.brand || name);
+}
+function isFav(row) { return favSet.has(favKey(row)); }
+function favCount() { return ROWS.filter(isFav).length; }
+
+function syncFavBtn(btn) {
+  const on = favSet.has(btn.dataset.favKey);
+  btn.classList.toggle('on', on);
+  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  btn.setAttribute('aria-label', on ? '찜 해제' : '찜하기');
+}
+function toggleFav(row, btn) {
+  const key = favKey(row);
+  const nowOn = !favSet.has(key);
+  if (nowOn) favSet.add(key); else favSet.delete(key);
+  saveFavs();
+  // 같은 공구가 마감임박/이번주 등 여러 섹션에 동시에 떠 있을 수 있어 하트를 모두 동기화
+  document.querySelectorAll('.fav-btn').forEach(function (b) {
+    if (b.dataset.favKey === key) syncFavBtn(b);
+  });
+  btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
+  updateFavChipCount();
+  if (activeChip === 'fav' && !nowOn) renderFavSection();
+}
+// 칩 줄 전체를 다시 그리면 가로 스크롤 위치가 초기화되므로 찜 탭의 개수만 갱신한다.
+function updateFavChipCount() {
+  const label = document.querySelector('.chip[data-chip-id="fav"] .chip-label');
+  if (!label) return;
+  const n = favCount();
+  label.innerHTML = '찜한 공구' + (n ? ' <span class="chip-count">' + n + '</span>' : '');
+}
+// 카드 전체가 구매링크 <a>라 버튼을 중첩할 수 없어 influencer 배지와 같은 방식(<span>)을 쓴다.
+function makeFavBtn(row) {
+  const btn = document.createElement('span');
+  btn.className = 'fav-btn';
+  btn.setAttribute('role', 'button');
+  btn.tabIndex = 0;
+  btn.dataset.favKey = favKey(row);
+  btn.innerHTML = HEART_SVG;
+  syncFavBtn(btn);
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFav(row, btn);
+  });
+  btn.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFav(row, btn);
+    }
+  });
+  return btn;
+}
+
 function matchesChip(row, chip) {
+  if (chip.fav) return isFav(row);
   if (!chip.keywords) return true;
   const hay = ((row.product_name || '') + ' ' + (row.brand || '') + ' ' + (row.key_benefit || '')).toLowerCase();
   return chip.keywords.some(function (kw) { return hay.indexOf(kw.toLowerCase()) !== -1; });
@@ -366,6 +496,7 @@ function makeThumb(row, className) {
     });
     wrap.appendChild(badge);
   }
+  wrap.appendChild(makeFavBtn(row));
   return wrap;
 }
 
@@ -570,7 +701,10 @@ function renderChips() {
   CHIPS.forEach(function (chip) {
     const div = document.createElement('div');
     div.className = 'chip' + (chip.id === activeChip ? ' active' : '');
-    div.innerHTML = '<div class="chip-icon">' + chip.icon + '</div><div class="chip-label">' + chip.label + '</div>';
+    div.dataset.chipId = chip.id;
+    const count = chip.fav ? favCount() : 0;
+    div.innerHTML = '<div class="chip-icon">' + chip.icon + '</div><div class="chip-label">' + chip.label
+      + (count ? ' <span class="chip-count">' + count + '</span>' : '') + '</div>';
     div.addEventListener('click', function () {
       activeChip = chip.id;
       weekGridVisible = WEEK_GRID_PAGE_SIZE; // 카테고리를 바꾸면 다시 상위 8개만
@@ -591,7 +725,7 @@ function renderDayBar() {
   el.innerHTML = '';
   for (let i = 0; i < 14; i++) {
     const d = new Date(TODAY.getTime() + i * 86400000);
-    const iso = d.toISOString().slice(0, 10);
+    const iso = toLocalIso(d);
     const pill = document.createElement('div');
     pill.className = 'day-pill' + (i === 0 ? ' today' : '') + (iso === selectedDayIso ? ' active' : '');
     pill.textContent = i === 0 ? ('오늘(' + d.getDate() + ')') : (d.getDate() + '(' + WEEKDAY_KR[d.getDay()] + ')');
@@ -686,7 +820,35 @@ function currentFilteredRows() {
   return ROWS.filter(function (r) { return matchesChip(r, chip); });
 }
 
+// ---------------- 찜한 공구 탭: 홈 섹션 대신 찜한 카드만 2열 그리드로 ----------------
+function renderFavSection() {
+  const grid = document.getElementById('favGrid');
+  const sub = document.getElementById('favSub');
+  grid.innerHTML = '';
+  const list = ROWS.filter(isFav).sort(function (a, b) {
+    return (a.end_date || a.start_date || '').localeCompare(b.end_date || b.start_date || '');
+  });
+  sub.textContent = list.length ? (list.length + '개 · 마감 빠른 순') : '';
+  if (!list.length) {
+    grid.innerHTML = '<div class="fav-empty"><b>아직 찜한 공구가 없어요</b><span>마음에 드는 카드 우측 상단의 ♡를 눌러 담아보세요.</span></div>';
+    return;
+  }
+  list.forEach(function (row) { grid.appendChild(renderWeekCard(row)); });
+}
+
+function renderTodayBadge() {
+  const n = ROWS.filter(isActive).length;
+  const el = document.getElementById('todayBadge');
+  if (!n) { el.hidden = true; return; }
+  el.innerHTML = '🔥 오늘 진행 중인 공구 <b>' + n + '</b>개';
+  el.hidden = false;
+}
+
 function renderHome() {
+  const isFavTab = activeChip === 'fav';
+  document.getElementById('favSection').hidden = !isFavTab;
+  document.getElementById('regularSections').hidden = isFavTab;
+  if (isFavTab) { renderFavSection(); return; }
   const filtered = currentFilteredRows();
   renderClosingSoon(filtered);
   renderMonthlyBanner(filtered);
@@ -825,6 +987,7 @@ function setupSliders() {
   });
 }
 
+renderTodayBadge();
 renderChips();
 renderDayBar();
 renderHome();
