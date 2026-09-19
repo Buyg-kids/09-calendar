@@ -22,6 +22,9 @@
     python -m generator.send_to_me --auth-url         # 최초 1회: 동의 화면 주소 만들기
     python -m generator.send_to_me --exchange <code>  # 최초 1회: 인가 코드 -> 토큰 발급
 토큰 값은 절대 로그에 출력하지 않는다(--exchange 로 발급받은 본인 터미널 화면 제외).
+
+종료 코드: 0 = 정상(공지 파일이 없거나 비어 있는 날도 0 - 경고 로그 + 내 카톡 알림만),
+           1 = 토큰 갱신/전송 실패 등 진짜 오류, 2 = 환경변수·인자 설정 오류.
 """
 from __future__ import annotations
 
@@ -233,30 +236,43 @@ def main(argv: list[str] | None = None) -> int:
     if args.exchange:
         return cmd_exchange(args.exchange)
 
-    d = date.fromisoformat(args.date) if args.date else kst_today()
+    try:
+        d = date.fromisoformat(args.date) if args.date else kst_today()
+    except ValueError:
+        print(f"[오류] --date 는 YYYY-MM-DD 형식이어야 합니다: {args.date!r}", file=sys.stderr)
+        return 2
     path = notice_path(d)
-    if path.exists():
-        messages = parse_notice(path.read_text(encoding="utf-8"))
-        missing_notice = False
+
+    # "오늘 공지가 없다/못 읽는다"는 정상적으로 있을 수 있는 날이라 워크플로를 실패시키지 않는다
+    # (종료 코드 0). 대신 GitHub Actions 요약에 경고로 남기고, 그 사실을 내 카톡으로도 알린다.
+    # 토큰 만료·API 오류 같은 진짜 실패만 아래에서 종료 코드 1로 끝낸다.
+    notice_problem = None
+    messages: list[dict] = []
+    if not path.exists():
+        notice_problem = "공지 파일이 없어요"
     else:
-        # 공지 파일이 없으면 조용히 넘어가지 않고 그 사실을 내 카톡으로 알린다.
+        try:
+            messages = parse_notice(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError) as e:
+            notice_problem = f"공지 파일을 읽지 못했어요({type(e).__name__})"
+        else:
+            if not messages:
+                notice_problem = "공지 파일이 비어 있어요"
+
+    if notice_problem:
+        print(f"::warning::{d.isoformat()} 카카오 공지 발송 건너뜀 - {notice_problem} ({path.name})")
+        print(f"[경고] {notice_problem}: {path}", file=sys.stderr)
         messages = [{
-            "text": _fit(f"⚠️ [Buyg] {d.isoformat()} 카카오 공지 파일이 없어요.\n어제 야간 파이프라인/배포가 정상이었는지 확인해 주세요."),
+            "text": _fit(f"⚠️ [Buyg] {d.isoformat()} 카카오 공지: {notice_problem}.\n어제 야간 파이프라인/배포가 정상이었는지 확인해 주세요."),
             "url": SITE_URL, "button": SITE_BUTTON,
         }]
-        missing_notice = True
-        print(f"[경고] {path} 없음", file=sys.stderr)
-
-    if not messages:
-        print(f"[경고] {path} 에서 보낼 내용을 찾지 못했습니다", file=sys.stderr)
-        return 1
 
     if args.dry_run:
         for i, m in enumerate(messages, 1):
             print(f"--- 메시지 {i}/{len(messages)} (본문 {len(m['text'])}자, 버튼 '{m['button']}') ---")
             print(m["text"])
             print(f"[버튼 링크] {m['url']}\n")
-        return 1 if missing_notice else 0
+        return 0
 
     rest_key = os.environ.get("KAKAO_REST_API_KEY", "").strip()
     refresh_token = os.environ.get("KAKAO_REFRESH_TOKEN", "").strip()
@@ -276,7 +292,7 @@ def main(argv: list[str] | None = None) -> int:
     except (KakaoError, requests.RequestException) as e:
         print(f"[오류] {type(e).__name__}: {e}", file=sys.stderr)
         return 1
-    return 1 if missing_notice else 0
+    return 0
 
 
 if __name__ == "__main__":
