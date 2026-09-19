@@ -568,7 +568,8 @@ const SHARE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6
 // 공유 링크는 #deal=<찜 키> 형태의 해시. 열면 initSharedDeal()이 그 공구 카드를 페이지
 // 맨 위 "공유받은 공구"에 띄우고 강조해서, 필터/날짜/더보기 상태와 무관하게 항상 보인다.
 function shareUrlFor(row) {
-  return location.href.split('#')[0] + '#deal=' + encodeURIComponent(favKey(row));
+  // 쿼리(?utm_…, ?fbclid=… 등 유입 파라미터)는 떼고 "사이트 주소#deal=키"만 공유 링크로 쓴다.
+  return location.href.split('#')[0].split('?')[0] + '#deal=' + encodeURIComponent(favKey(row));
 }
 function shareDescription(row) {
   const info = priceInfo(row);
@@ -593,11 +594,16 @@ function shareRow(row) {
   try {
     if (!Kakao.isInitialized()) Kakao.init(KAKAO_JAVASCRIPT_KEY);
     const url = shareUrlFor(row);
-    const link = { mobileWebUrl: url, webUrl: url };
+    // PC 카카오톡은 webUrl이 없으면 "모바일에서 확인해 주세요"로 링크를 비활성화한다. 본문 영역과
+    // 버튼 양쪽 모두 webUrl + mobileWebUrl을 같은 타깃 URL로 빠짐없이 지정한다(객체는 각각 새로
+    // 만들어 SDK가 내부에서 하나를 변형해도 다른 쪽에 영향이 없게 한다). 그래도 PC에서 막히면
+    // 코드가 아니라 카카오 개발자 콘솔의 [제품 링크 관리]에 사이트 도메인이 등록됐는지 확인할 것.
+    const contentLink = { webUrl: url, mobileWebUrl: url };
+    const buttonLink = { webUrl: url, mobileWebUrl: url };
     Kakao.Share.sendDefault({
       objectType: 'feed',
-      content: { title: row.product_name, description: shareDescription(row), imageUrl: row.image_url || '', link: link },
-      buttons: [{ title: '공구 보러가기', link: link }],
+      content: { title: row.product_name, description: shareDescription(row), imageUrl: row.image_url || '', link: contentLink },
+      buttons: [{ title: '공구 보러가기', link: buttonLink }],
     });
   } catch (err) {
     console.log('[Buyg] 카카오톡 공유 실패', err);

@@ -1,0 +1,70 @@
+name: Send Kakao notice to me
+
+# 매일 KST 08:30 = UTC 23:30 (전날). 09:00에 오픈채팅방으로 전달하기 편하도록 나와의 채팅으로 발송.
+# 주의: GitHub 스케줄은 정각에 정확히 도는 게 아니라 부하에 따라 보통 수 분~수십 분 늦게 시작한다.
+on:
+  schedule:
+    - cron: "30 23 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "공지 날짜 YYYY-MM-DD (비우면 오늘 KST)"
+        required: false
+        default: ""
+      dry_run:
+        description: "전송하지 않고 메시지만 로그에 출력"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kakao-notice
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send today's notice to Kakao (me)
+        env:
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+          KAKAO_NEW_REFRESH_TOKEN_FILE: ${{ runner.temp }}/new_refresh_token
+          INPUT_DATE: ${{ inputs.date }}
+          INPUT_DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args=()
+          if [ -n "$INPUT_DATE" ]; then args+=(--date "$INPUT_DATE"); fi
+          if [ "$INPUT_DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          python -m generator.send_to_me "${args[@]}"
+
+      # 리프레시 토큰은 유효기간 60일이고, 만료 1개월 미만일 때 갱신 과정에서 새 토큰이 발급된다.
+      # 발급되면 시크릿을 자동으로 교체한다 (GITHUB_TOKEN은 시크릿을 못 쓰므로 별도 PAT 필요).
+      # GH_PAT_FOR_SECRETS가 없으면 경고만 남기고, 그 경우 ~2개월마다 수동 재발급이 필요하다.
+      - name: Rotate refresh token secret (only if a new one was issued)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT_FOR_SECRETS }}
+          NEW_TOKEN_FILE: ${{ runner.temp }}/new_refresh_token
+        run: |
+          if [ -s "$NEW_TOKEN_FILE" ]; then
+            if [ -n "$GH_TOKEN" ]; then
+              gh secret set KAKAO_REFRESH_TOKEN --repo "$GITHUB_REPOSITORY" < "$NEW_TOKEN_FILE"
+              echo "KAKAO_REFRESH_TOKEN secret updated"
+            else
+              echo "::warning::새 리프레시 토큰이 발급됐지만 GH_PAT_FOR_SECRETS 시크릿이 없어 저장하지 못했습니다. 기존 토큰 만료 전에 수동으로 재발급하세요."
+            fi
+          fi
