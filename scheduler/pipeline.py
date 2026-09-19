@@ -21,6 +21,7 @@ def run_pipeline_once() -> dict:
         "discover_targets": 0,
         "scrape_targets": 0, "scrape_ok": False,
         "parse_stats": None, "image_fallback_stats": None, "card_paths": [],
+        "kakao_notice_path": None,
     }
 
     logger.info("=== 파이프라인 시작 ===")
@@ -52,6 +53,15 @@ def run_pipeline_once() -> dict:
         result["card_paths"] = run_generate()
     except Exception:
         logger.exception("카드뉴스 생성 단계 실패")
+
+    # 방금 빌드된 index.html 기준 카카오 오픈채팅방 공지 텍스트 (notices/kakao/). run()은
+    # 내부에서 예외를 삼키지만, import 실패까지 파이프라인을 막지 않도록 한 번 더 감싼다.
+    # logger.exception 금지: 로그의 "Traceback"을 야간 스크립트가 실패로 판정해 배포를 건너뛴다.
+    try:
+        from generator.kakao_notifier import run as run_kakao_notice
+        result["kakao_notice_path"] = run_kakao_notice()
+    except Exception as e:
+        logger.error("카카오 공지 텍스트 생성 단계 오류 - 무시하고 계속 진행 (%s: %s)", type(e).__name__, str(e)[:200])
 
     logger.info("=== 파이프라인 종료 ===")
     return result
