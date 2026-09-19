@@ -42,7 +42,9 @@ MAX_BENEFIT_LEN = 34
 _ROWS_RE = re.compile(r"const ROWS = (\[.*?\]);\s*\n")
 _AMOUNT_RE = re.compile(r"[\d,]+\s*(?:만|천)?\s*원")
 _NAME_SUFFIX_RE = re.compile(r"\s*외\s*\d+종$")
-_KEYCAPS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
+# 번호는 원문자(①②③)를 쓴다. 키캡 이모지(1️⃣ = '1' + U+FE0F + U+20E3 조합)는 카카오 메시지/
+# 템플릿 전송 과정에서 조합이 풀려 "2[]"처럼 깨졌다. 원문자는 한글 폰트 표준 문자라 항상 한 글자로 나온다.
+_NUMBER_MARKS = ["①", "②", "③", "④", "⑤"]
 
 
 def default_target_date(now: datetime | None = None) -> date:
@@ -202,7 +204,7 @@ def _build_text(picks: list[tuple[dict, int]], target: date) -> str:
     head = "오늘 밤 마감되는" if all_tonight else "곧 마감되는"
     lines = [f"🔔 [Buyg] {head} 육아 공구 BEST {len(picks)}", ""]
     for i, (row, days_left) in enumerate(picks):
-        lines.append(f"{_KEYCAPS[i]} {_short_name(row.get('product_name') or '')}{_deadline_tag(days_left, row, target)}")
+        lines.append(f"{_NUMBER_MARKS[i]} {_short_name(row.get('product_name') or '')}{_deadline_tag(days_left, row, target)}")
         lines.append(_price_line(row))
         lines.append(f"- 링크: {_deal_url(row)}")
         lines.append("")

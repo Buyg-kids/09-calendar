@@ -87,7 +87,7 @@ def _fit(text: str) -> str:
 
 def parse_notice(raw: str) -> list[dict]:
     """공지 텍스트를 전송 단위로 나눈다: [{"text", "url", "button"}].
-    kakao_notifier가 만든 형식(제목 / 1️⃣~3️⃣ 항목 / 👉 푸터)을 기준으로 하되, 직접 손본
+    kakao_notifier가 만든 형식(제목 / ①~③ 항목 / 👉 푸터)을 기준으로 하되, 직접 손본
     파일도 견디도록 블록(빈 줄 단위)별로 분류한다."""
     blocks = [b.strip() for b in re.split(r"\n\s*\n", raw.replace("\r\n", "\n").strip()) if b.strip()]
     header: list[str] = []
