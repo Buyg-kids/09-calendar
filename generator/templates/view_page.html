@@ -22,6 +22,10 @@
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
   })(window, document, "clarity", "script", "yirvgzyuuv");
 </script>
+<!-- Kakao JavaScript SDK (카카오톡 공유). 키(KAKAO_JAVASCRIPT_KEY)는 아래 스크립트 상단
+     상수에 넣고, 공유 링크가 열릴 사이트 도메인을 카카오 개발자 콘솔 > 플랫폼 > Web에
+     등록해야 실제 공유가 동작한다. 키가 비어 있으면 공유 버튼은 "준비 중" 안내만 띄운다. -->
+<script async src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
 <style>
   :root {
     --brand-purple: #5f0080;
@@ -53,6 +57,60 @@
     padding: 14px 16px 12px; border-bottom: 1px solid #f0f0f0;
   }
   [hidden] { display: none !important; }
+  /* ---------------- 최상단 카카오톡 알림 유입 띠배너 ----------------
+     375px에서 한 줄에 다 안 들어가는 문구라, 지저분하게 꺾이지 않도록 "안내 문구"와
+     "입장 링크"를 각각 줄바꿈 불가(nowrap) 덩어리로 두고 좁으면 링크가 통째로 다음 줄로
+     내려가게 했다(넓으면 한 줄). 우측 닫기 버튼 자리는 padding으로 확보. */
+  .notice-bar {
+    position: relative; background: #fee500; color: #3c1e1e;
+    padding: 9px 40px 9px 14px; text-align: center; line-height: 1.45;
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 8px;
+  }
+  .notice-msg { font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+  .notice-cta {
+    font-size: 12.5px; font-weight: 800; white-space: nowrap; color: #3c1e1e;
+    text-decoration: underline; text-underline-offset: 2px; cursor: pointer;
+  }
+  .notice-close {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border: none; background: transparent; color: #3c1e1e;
+    font-size: 15px; line-height: 1; cursor: pointer; border-radius: 50%; padding: 0;
+  }
+  .notice-close:hover { background: rgba(0,0,0,0.08); }
+
+  /* ---------------- 토스트 / 공유 버튼 / 공유받은 공구 ---------------- */
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 12px);
+    max-width: calc(100vw - 32px); padding: 10px 16px; border-radius: 999px;
+    background: rgba(30,41,59,0.94); color: #fff; font-size: 13px; font-weight: 600;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  /* 카드 높이는 가격 문구 길이에 따라 제각각이라, 같은 줄의 카드끼리 공유 버튼 높이가
+     들쭉날쭉하지 않도록 카드를 세로 flex로 만들고 액션 행을 맨 아래로 밀어 정렬한다
+     (가로 스크롤 줄/그리드 줄의 카드는 이미 같은 높이로 늘어나 있다). */
+  .closing-card, .banner-card, .upcoming-card, .week-card { display: flex; flex-direction: column; }
+  .week-card-body { flex: 1; display: flex; flex-direction: column; }
+  .card-actions { display: flex; justify-content: flex-end; margin-top: auto; padding-top: 4px; }
+  .share-btn {
+    width: 26px; height: 26px; border-radius: 50%; background: #fee500; color: #3c1e1e;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    -webkit-user-select: none; user-select: none; box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    transition: transform 0.12s ease;
+  }
+  .share-btn:active { transform: scale(0.92); }
+  .share-btn svg { width: 15px; height: 15px; display: block; fill: currentColor; }
+  .search-card .card-actions { margin-top: 2px; }
+  #sharedSection { scroll-margin-top: 76px; } /* 상단 고정 검색창에 가려지지 않게 */
+  #sharedSection .week-grid { grid-template-columns: 1fr; padding: 0 16px; }
+  #sharedSection .week-card { max-width: 220px; }
+  .shared-highlight { animation: sharedPulse 1.6s ease 2; }
+  @keyframes sharedPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(254,229,0,0); }
+    50% { box-shadow: 0 0 0 4px rgba(254,229,0,0.9); }
+  }
+  .shared-close { border: none; background: none; color: var(--text-sub); font-size: 12px; cursor: pointer; padding: 0; }
+
   /* 브랜드 소개 영역: 스크롤하면 위로 사라지고 검색창 헤더만 상단에 고정된다
      (카피가 늘어난 만큼 sticky 영역까지 커지면 모바일 화면을 너무 잡아먹음). */
   .brand-hero { padding: 18px 16px 4px; text-align: center; }
@@ -282,6 +340,11 @@
 </head>
 <body>
   <div class="app">
+    <div class="notice-bar" id="noticeBar" hidden>
+      <span class="notice-msg">🔔 내일 열리는 육아 공구, 놓치지 마세요!</span>
+      <a class="notice-cta" id="noticeLink" href="#" target="_blank" rel="noopener">👉 오픈채팅/알림방 입장</a>
+      <button type="button" class="notice-close" id="noticeClose" aria-label="알림 배너 닫기">✕</button>
+    </div>
     <div class="brand-hero">
       <div class="logo">Buyg</div>
       <div class="brand-main">아이 성장에 맞춰 똑똑하게, Buyg 육아 공구 달력</div>
@@ -309,6 +372,11 @@
     <div id="noResults">검색 결과가 없습니다.</div>
 
     <div id="homeSections">
+      <section class="section" id="sharedSection" hidden>
+        <div class="section-head"><h2>🎁 공유받은 공구</h2><button type="button" class="shared-close" id="sharedClose">닫기 ✕</button></div>
+        <div class="week-grid" id="sharedGrid"></div>
+      </section>
+
       <section class="section">
         <div class="section-head"><h2>🏷️ 카테고리</h2></div>
         <div class="chip-row" id="chipRow"></div>
@@ -360,7 +428,15 @@
     </div>
   </div>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
+// ---- 외부 연동 설정 (나중에 실제 값으로 교체) ----
+// 알림방/오픈채팅 입장 링크. '#'이면 배너 링크는 "준비 중" 토스트만 띄운다.
+const KAKAO_NOTICE_URL = '#';
+// 카카오 개발자 콘솔의 JavaScript 키. 비어 있으면 공유 버튼은 에러 없이 "준비 중" 안내만 한다.
+const KAKAO_JAVASCRIPT_KEY = '';
+
 const ROWS = {{ rows_json }};
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 // toISOString()은 UTC 기준이라 한국(UTC+9)에서는 로컬 자정이 전날 15:00Z가 되어
@@ -454,6 +530,126 @@ function makeFavBtn(row) {
     }
   });
   return btn;
+}
+
+// ---------------- 토스트 ----------------
+let toastTimer = null;
+function showToast(msg, ms) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { el.classList.remove('show'); }, ms || 2200);
+}
+
+// ---------------- 최상단 카카오톡 알림 띠배너 (닫으면 그날 하루 숨김) ----------------
+const NOTICE_CLOSED_KEY = 'buyg_notice_closed_on';
+function initNoticeBar() {
+  const bar = document.getElementById('noticeBar');
+  let closedOn = '';
+  try { closedOn = localStorage.getItem(NOTICE_CLOSED_KEY) || ''; } catch (e) {}
+  if (closedOn === TODAY_ISO) return;
+  const link = document.getElementById('noticeLink');
+  if (KAKAO_NOTICE_URL && KAKAO_NOTICE_URL !== '#') {
+    link.href = KAKAO_NOTICE_URL;
+  } else {
+    link.addEventListener('click', function (e) { e.preventDefault(); showToast('알림방 링크 준비 중이에요'); });
+  }
+  document.getElementById('noticeClose').addEventListener('click', function () {
+    bar.hidden = true;
+    try { localStorage.setItem(NOTICE_CLOSED_KEY, TODAY_ISO); } catch (e) {}
+  });
+  bar.hidden = false;
+}
+
+// ---------------- 카카오톡 공유 ----------------
+const SHARE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.8 1.86 5.27 4.66 6.7l-.95 3.46a.4.4 0 0 0 .62.43L11.2 18.9c.27.02.53.03.8.03 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>';
+
+// 공유 링크는 #deal=<찜 키> 형태의 해시. 열면 initSharedDeal()이 그 공구 카드를 페이지
+// 맨 위 "공유받은 공구"에 띄우고 강조해서, 필터/날짜/더보기 상태와 무관하게 항상 보인다.
+function shareUrlFor(row) {
+  return location.href.split('#')[0] + '#deal=' + encodeURIComponent(favKey(row));
+}
+function shareDescription(row) {
+  const info = priceInfo(row);
+  // 금액이 있고 이미 "공구가/정가/최저..."로 시작하지 않을 때만 "공구가 "를 붙인다
+  // (그대로 붙이면 "공구가 공구가 58,000원", "공구가 최대 21% 할인"처럼 어색해짐).
+  const needsPrefix = /원/.test(info.text) && info.text.indexOf('→') === -1 && !/^(공구가|정가|정상가|최저)/.test(info.text);
+  const first = info.cta
+    ? (row.key_benefit || '가격은 링크에서 확인하세요')
+    : (needsPrefix ? '공구가 ' + info.text : info.text);
+  return (first + '\n' + row.date_label + ' 진행' + (row.influencer_label ? ' · ' + row.influencer_label : '')).slice(0, 200);
+}
+function shareRow(row) {
+  if (!KAKAO_JAVASCRIPT_KEY) {
+    console.log('[Buyg] KAKAO_JAVASCRIPT_KEY가 비어 있어 카카오톡 공유는 준비 중입니다.');
+    showToast('카카오톡 공유 기능 준비 중이에요 🛠️');
+    return;
+  }
+  if (!window.Kakao) {
+    showToast('카카오 SDK를 불러오지 못했어요. 잠시 후 다시 시도해 주세요');
+    return;
+  }
+  try {
+    if (!Kakao.isInitialized()) Kakao.init(KAKAO_JAVASCRIPT_KEY);
+    const url = shareUrlFor(row);
+    const link = { mobileWebUrl: url, webUrl: url };
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: { title: row.product_name, description: shareDescription(row), imageUrl: row.image_url || '', link: link },
+      buttons: [{ title: '공구 보러가기', link: link }],
+    });
+  } catch (err) {
+    console.log('[Buyg] 카카오톡 공유 실패', err);
+    showToast('공유에 실패했어요. 잠시 후 다시 시도해 주세요');
+  }
+}
+// 카드 전체가 링크 <a>라 버튼을 중첩할 수 없어 하트와 같은 방식(<span>)을 쓴다.
+function makeActionRow(row) {
+  const wrap = document.createElement('div');
+  wrap.className = 'card-actions';
+  const btn = document.createElement('span');
+  btn.className = 'share-btn';
+  btn.setAttribute('role', 'button');
+  btn.setAttribute('aria-label', '카카오톡으로 공유');
+  btn.title = '카카오톡으로 공유';
+  btn.tabIndex = 0;
+  btn.innerHTML = SHARE_ICON;
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    shareRow(row);
+  });
+  btn.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      shareRow(row);
+    }
+  });
+  wrap.appendChild(btn);
+  return wrap;
+}
+function initSharedDeal() {
+  const m = location.hash.match(/^#deal=(.+)$/);
+  if (!m) return;
+  let key;
+  try { key = decodeURIComponent(m[1]); } catch (e) { return; }
+  const row = ROWS.find(function (r) { return favKey(r) === key; });
+  if (!row) { showToast('공유받은 공구가 종료됐거나 찾을 수 없어요'); return; }
+  const section = document.getElementById('sharedSection');
+  const grid = document.getElementById('sharedGrid');
+  grid.innerHTML = '';
+  const card = renderWeekCard(row);
+  card.classList.add('shared-highlight');
+  grid.appendChild(card);
+  section.hidden = false;
+  // 페이지 로드 직후에는 브라우저의 해시 처리/스크롤 복원이 위치를 다시 덮어쓸 수 있어,
+  // 즉시 + load 이후 + 짧은 지연 뒤에 한 번씩 더 맞춰준다.
+  const go = function () { section.scrollIntoView({ block: 'start' }); };
+  go();
+  if (document.readyState !== 'complete') window.addEventListener('load', go, { once: true });
+  setTimeout(go, 300);
 }
 
 function matchesChip(row, chip) {
@@ -651,6 +847,7 @@ function renderClosingSoon(rows) {
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
     a.appendChild(renderPriceRow(row));
+    a.appendChild(makeActionRow(row));
     el.appendChild(a);
   });
 }
@@ -689,6 +886,7 @@ function renderMonthlyBanner(rows) {
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
     a.appendChild(renderPriceRow(row));
+    a.appendChild(makeActionRow(row));
     el.appendChild(a);
   });
 }
@@ -749,6 +947,7 @@ function renderWeekCard(row) {
   body.appendChild(date);
   body.appendChild(makeNameEl(row));
   body.appendChild(renderPriceRow(row));
+  body.appendChild(makeActionRow(row));
   a.appendChild(body);
   return a;
 }
@@ -811,6 +1010,7 @@ function renderUpcoming(rows) {
     thumb.appendChild(badge);
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
+    a.appendChild(makeActionRow(row));
     el.appendChild(a);
   });
 }
@@ -899,6 +1099,7 @@ function renderSearchResults(q) {
     meta.textContent = row.date_label + ' · ' + row.influencer_label;
     body.appendChild(meta);
     body.appendChild(renderPriceRow(row));
+    body.appendChild(makeActionRow(row));
     a.appendChild(body);
     searchResultsEl.appendChild(a);
   });
@@ -992,6 +1193,12 @@ renderChips();
 renderDayBar();
 renderHome();
 setupSliders();
+initNoticeBar();
+document.getElementById('sharedClose').addEventListener('click', function () {
+  document.getElementById('sharedSection').hidden = true;
+});
+initSharedDeal();
+window.addEventListener('hashchange', initSharedDeal);
 </script>
 </body>
 </html>
