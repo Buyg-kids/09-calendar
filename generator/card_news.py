@@ -546,6 +546,16 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
     view_path = _write_view_html(summary_rows, display_start, display_end, title)
     logger.info("검색용 HTML 뷰어 생성: %s", view_path)
 
+    # 릴스 대본/캡션 생성은 부가 산출물 - 실패해도 카드뉴스/배포에 영향 없도록 격리한다
+    # (reels_generator.run 자체도 예외를 삼키지만, import 오류까지 이중으로 방어).
+    try:
+        from generator import reels_generator
+
+        reels_generator.run(summary_rows, today=today_date)
+    except Exception as e:
+        # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+        logger.error("릴스 생성 단계 오류 - 무시하고 계속 진행 (%s: %s)", type(e).__name__, str(e)[:200])
+
     return paths
 
 

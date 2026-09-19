@@ -19,3 +19,6 @@ gonggu.db
 # SYSTEM 계정 전환 후 Playwright 브라우저 바이너리를 프로젝트 폴더 안에 설치
 # (SYSTEM 프로필에는 브라우저가 없어 매번 재설치해야 하는 문제 회피, 용량이 커서 커밋 제외)
 .playwright-browsers/
+
+# 릴스 대본/캡션 초안 (내부용, 공개 저장소에 올리지 않음)
+reels/
