@@ -548,6 +548,14 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
 
     # 릴스 대본/캡션 생성은 부가 산출물 - 실패해도 카드뉴스/배포에 영향 없도록 격리한다
     # (reels_generator.run 자체도 예외를 삼키지만, import 오류까지 이중으로 방어).
+    # 바이럴 쇼츠 레퍼런스 수집 (YOUTUBE_API_KEY 없음/쿼터 초과면 조용히 스킵) -> 릴스 프롬프트에 주입
+    try:
+        from collector import youtube_shorts_collector
+
+        youtube_shorts_collector.run()
+    except Exception as e:
+        logger.error("쇼츠 레퍼런스 수집 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
+
     try:
         from generator import reels_generator
 

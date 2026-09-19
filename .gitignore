@@ -22,3 +22,6 @@ gonggu.db
 
 # 릴스 대본/캡션 초안 (내부용, 공개 저장소에 올리지 않음)
 reels/
+
+# Buyg 브랜드 에셋 (로컬 전용)
+Buyg_Assets/

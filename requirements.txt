@@ -8,3 +8,4 @@ apscheduler
 jinja2
 python-dotenv
 pydantic
+youtube-transcript-api
