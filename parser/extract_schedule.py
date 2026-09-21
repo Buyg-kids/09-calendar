@@ -370,6 +370,29 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
 # =============================================================================
 # 3) 하이브리드 디스패처
 # =============================================================================
+_credit_alert_sent = False
+
+
+def _alert_if_credit_low(exc: Exception) -> None:
+    """Anthropic 크레딧 소진(400 'credit balance is too low')이면 카톡 '나에게 보내기'로 충전 경고를
+    프로세스당 1회만 보낸다. 알림 실패는 파이프라인에 영향을 주지 않으며, Traceback도 남기지 않는다."""
+    global _credit_alert_sent
+    if _credit_alert_sent or "credit balance" not in str(exc).lower():
+        return
+    _credit_alert_sent = True  # 실패해도 재시도하지 않음 (호출이 수백 건이라 반복 방지)
+    try:
+        from generator.send_to_me import send_alert
+
+        send_alert(
+            "⚠️ [Buyg] Anthropic 크레딧이 소진됐어요.\n"
+            "console.anthropic.com > Plans & Billing 에서 충전하세요.\n"
+            "충전 전까지 오늘 밤 파싱/배포가 중단될 수 있어요."
+        )
+        logger.warning("크레딧 소진 감지 - 카카오 경고 알림을 발송했습니다")
+    except Exception as alert_exc:  # noqa: BLE001
+        logger.warning("크레딧 소진 감지 - 카카오 경고 알림 발송 실패: %s", alert_exc)
+
+
 def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) -> tuple[list[dict], str]:
     """returns (items, method) - method는 'rule' | 'claude' | 'rule_fallback_error'.
 
@@ -385,8 +408,10 @@ def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) 
 
     try:
         claude_items = _claude_extract(raw_text, influencer_name, reference_date)
-    except Exception:
+    except Exception as exc:
+        # 의도적으로 logger.exception 유지: 크레딧 소진 등 API 오류는 Traceback으로 배포를 멈춰 이상을 드러낸다.
         logger.exception("[%s] Claude 2차 정제 실패 - 룰베이스 결과로 폴백", influencer_name)
+        _alert_if_credit_low(exc)
         return rule_items, "rule_fallback_error"
 
     if claude_items:

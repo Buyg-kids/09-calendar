@@ -138,6 +138,17 @@ def _err(r: requests.Response) -> str:
     return f"HTTP {r.status_code} " + " / ".join(parts)
 
 
+def send_alert(text: str) -> None:
+    """파이프라인 등에서 쓰는 단발 경고 발송 (나에게 보내기). 실패 시 KakaoError/요청 예외를 던진다.
+    리프레시 토큰이 새로 발급돼도 저장하지 않는다 (기존 토큰이 만료 전까지 유효하며 시크릿 회전은 Actions 담당)."""
+    rest_key = os.environ.get("KAKAO_REST_API_KEY", "").strip()
+    refresh_token = os.environ.get("KAKAO_REFRESH_TOKEN", "").strip()
+    if not rest_key or not refresh_token:
+        raise KakaoError("KAKAO_REST_API_KEY / KAKAO_REFRESH_TOKEN 미설정")
+    access, _ = refresh_access_token(rest_key, refresh_token)
+    send_memo(access, _fit(text), SITE_URL, SITE_BUTTON)
+
+
 def _client_params(rest_key: str) -> dict:
     p = {"client_id": rest_key}
     secret = os.environ.get("KAKAO_CLIENT_SECRET", "").strip()
