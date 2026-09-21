@@ -35,6 +35,7 @@ data/raw_collected.json (Agent 1의 출력) 을 읽어 영유아 공동구매 �
 """
 from __future__ import annotations
 
+import calendar
 import hashlib
 import json
 import logging
@@ -55,10 +56,10 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 # 1) 룰베이스 파서 (API 키 없이도 항상 동작)
 # =============================================================================
 DATE_RANGE_RE = re.compile(r"(\d{1,2})\s*[./]\s*(\d{1,2})\s*(?:일)?\s*[~\-–]\s*(\d{1,2})\s*[./]\s*(\d{1,2})\s*(?:일)?")
-DATE_SINGLE_RE = re.compile(r"(\d{1,2})\s*[./]\s*(\d{1,2})\s*(?:일)?")
+DATE_SINGLE_RE = re.compile(r"(\d{1,2})\s*(?:[./]|월\s*)\s*(\d{1,2})\s*(?:일)?")
 BENEFIT_RE = re.compile(r"(\d{1,3}\s*%|1\+1|2\+1|무료배송|사은품\s*증정?|선착순\s*\d*명?)")
 URL_RE = re.compile(r"https?://\S+")
-DEADLINE_WORDS = ["마감", "까지"]
+DEADLINE_WORDS = ["마감", "까지", "종료", "연장"]
 START_WORDS = ["오픈", "시작", "부터"]
 
 
@@ -119,7 +120,10 @@ def _rule_based_extract(text: str, influencer_name: str, reference_date: str) ->
             m, d = single_m.groups()
             dt = _resolve_month_day(m, d, ref)
             if dt:
-                if any(w in line for w in DEADLINE_WORDS):
+                tilde_before = re.search(r"[~～]\s*$", line[: single_m.start()]) is not None
+                if tilde_before or any(w in line for w in DEADLINE_WORDS):
+                    if dt > ref + timedelta(days=200):
+                        continue  # 이미 지난 날짜를 내년으로 넘긴 것이거나 먼 미래 표기 - 마감일로 신뢰하지 않음
                     start_date, end_date = ref, dt
                 elif any(w in line for w in START_WORDS):
                     start_date = dt
@@ -150,6 +154,88 @@ def _rule_based_extract(text: str, influencer_name: str, reference_date: str) ->
         )
 
     return items
+
+
+# =============================================================================
+# 1-b) 날짜 보정: '월 전체(1일~말일)' 임의 지정 방지
+# =============================================================================
+# 마감일만 적힌 게시물("~9.20", "9/20 마감")에서 LLM이 시작/종료일을 못 잡고
+# 해당 월 1일~말일로 뭉뚱그리는 경우가 있어, 이런 결과는 원문 근거가 있을 때만 인정한다.
+# 근거가 없으면 '수집일 기준 +FALLBACK_DAYS일'로 줄여 혼란을 막는다.
+FALLBACK_DAYS = 4
+_MD = r"(\d{1,2})\s*(?:[./]|월\s*)\s*(\d{1,2})\s*일?"
+_WEEKDAY = r"(?:\s*[/(]\s*[월화수목금토일]\s*\)?)?"
+_DEADLINE_PATTERNS = [
+    re.compile(r"[~～]\s*" + _MD),
+    re.compile(_MD + _WEEKDAY + r"\s*(?:까지|마감|종료)"),
+    re.compile(_MD + _WEEKDAY + r"\s*[~\-–]\s*" + _MD),  # 범위: 마지막 날짜가 종료일
+]
+_MONTH_LONG_RE = re.compile(r"한\s*달|상시|이번\s*달|이달|월\s*내내|월말|월\s*한정|1\s*개월")
+
+
+def _is_full_month(s: date, e: date) -> bool:
+    last = calendar.monthrange(s.year, s.month)[1]
+    return s.day == 1 and e == date(s.year, s.month, last)
+
+
+def _deadline_candidates(text: str, ref: date) -> list[tuple[int, date]]:
+    """원문에서 '마감일로 읽히는' 날짜와 그 등장 줄 번호를 모은다."""
+    out: list[tuple[int, date]] = []
+    for ln_no, line in enumerate(re.split(r"[\n\r]+", text)):
+        for pat in _DEADLINE_PATTERNS:
+            for m in pat.finditer(line):
+                mm, dd = m.groups()[-2:]
+                d = _resolve_month_day(mm, dd, ref)
+                if d and d <= ref + timedelta(days=180):
+                    out.append((ln_no, d))
+    return out
+
+
+def sanitize_month_span(item: dict, text: str, ref: date) -> dict:
+    """LLM/룰이 낸 항목의 날짜를 검증한다.
+    - 시작일이 없고 종료일만 있으면 시작일=수집 기준일.
+    - 1일~말일(월 전체)로 잡혔는데 원문에 월 단위 근거(범위 표기/'한 달' 등)가 없으면:
+        · 상품명 근처(±2줄) 마감일 단서가 있으면 그 날짜를 종료일로,
+        · 그것도 없으면 수집일 기준 +FALLBACK_DAYS일 추정.
+    상품별 일정이 섞인 캡션에서 엉뚱한 날짜를 끌어오지 않도록 월 전체 케이스에만 손댄다."""
+    try:
+        s = date.fromisoformat(item.get("start_date") or "")
+    except ValueError:
+        s = None
+    try:
+        e = date.fromisoformat(item.get("end_date") or "")
+    except ValueError:
+        e = None
+
+    if s is None and e is not None and e >= ref - timedelta(days=3):
+        item["start_date"] = ref.isoformat()
+        return item
+    if s is None or e is None or not _is_full_month(s, e):
+        return item
+
+    # 원문에 월 단위 근거가 명시돼 있으면 그대로 인정
+    range_evidence = any(
+        d == e for _, d in _deadline_candidates(text, ref)
+    ) and re.search(_MD + r"\s*[~\-–]\s*" + _MD, text)
+    if _MONTH_LONG_RE.search(text) or range_evidence:
+        return item
+
+    # 상품명 근처 줄에서 마감 단서 찾기
+    lines = re.split(r"[\n\r]+", text)
+    name_tokens = [t for t in re.split(r"[\s()/,·]+", item.get("product_name") or "") if len(t) >= 2][:3]
+    near_lines = {i for i, ln in enumerate(lines) if any(t in ln for t in name_tokens)}
+    near = [
+        d for ln_no, d in _deadline_candidates(text, ref)
+        if any(abs(ln_no - i) <= 2 for i in near_lines) and s <= d <= e
+    ]
+    if near:
+        item["end_date"] = max(near).isoformat()
+        item["start_date"] = max(s, ref).isoformat() if max(s, ref) <= max(near) else s.isoformat()
+    else:
+        item["start_date"] = ref.isoformat()
+        item["end_date"] = (ref + timedelta(days=FALLBACK_DAYS)).isoformat()
+    logger.info("[날짜보정] 월 전체 → %s~%s: %s", item["start_date"], item["end_date"], item.get("product_name", "")[:30])
+    return item
 
 
 # =============================================================================
@@ -295,7 +381,16 @@ product_name은 반드시 "브랜드명 대표품목명 (세부모델1, 세부�
 "9/5" 같은 상대/축약 표현을 절대 날짜(YYYY-MM-DD)로 환산하라. 연도가 없으면
 기준일과 같은 연도로 간주하되, 기준일보다 과거가 되어버리면 다음 연도로
 보정하라. 날짜를 특정할 수 없으면 해당 필드를 빈 문자열로 두라. 절대 추측으로
-지어내지 마라."""
+지어내지 마라.
+
+[마감일/기간 규칙 - 중요]
+- "~9.20", "9/20 마감", "9월 20일(일)까지", "~9.20 연장"처럼 마감일만 적혀 있으면
+  start_date는 수집 기준일, end_date는 그 마감일로 한다. "연장"이 붙으면 연장된
+  날짜가 end_date다.
+- "9.14 - 9.30"처럼 범위가 적혀 있으면 그대로 start/end로 쓴다.
+- 원문에 "이번 달 내내/한 달/상시" 같은 명시적 표현이 없는 한, 시작일=해당 월 1일,
+  종료일=해당 월 말일로 채우지 마라(월 전체 임의 지정 금지). 마감일을 알 수 없으면
+  end_date는 빈 문자열로 둔다."""
 
 # 해시태그 도배(#태그 #태그 #태그...)와 이모지 연속 나열은 실질 정보 없이
 # 토큰만 잡아먹어 본문에서 잘라낸다.
@@ -415,7 +510,11 @@ def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) 
         return rule_items, "rule_fallback_error"
 
     if claude_items:
-        return claude_items, "claude"
+        try:
+            ref = datetime.strptime(reference_date, "%Y-%m-%d").date()
+        except ValueError:
+            ref = date.today()
+        return [sanitize_month_span(it, raw_text, ref) for it in claude_items], "claude"
     return rule_items, "rule"
 
 
