@@ -96,7 +96,8 @@ def collect_target(target: dict) -> dict:
                 influencer_name, multilink_type, len(result.raw_text), len(result.link_items),
             )
         except Exception as exc:  # noqa: BLE001
-            logger.exception("[%s] 멀티링크 수집 실패", influencer_name)
+            # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+            logger.error("[%s] 멀티링크 수집 실패: %s", influencer_name, exc)
             entry["errors"].append(f"multilink: {exc}")
 
     if handle:
@@ -108,7 +109,8 @@ def collect_target(target: dict) -> dict:
             logger.warning("[%s] 인스타그램 수집 건너뜀: %s", influencer_name, exc)
             entry["errors"].append(f"instagram: {exc}")
         except Exception as exc:  # noqa: BLE001
-            logger.exception("[%s] 인스타그램 수집 실패", influencer_name)
+            # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+            logger.error("[%s] 인스타그램 수집 실패: %s", influencer_name, exc)
             entry["errors"].append(f"instagram: {exc}")
 
     return entry

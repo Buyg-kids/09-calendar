@@ -134,8 +134,9 @@ def run_curator_scan() -> list[dict]:
     for i, h in enumerate(handles):
         try:
             results.append(scan_curator(h))
-        except Exception:
-            logger.exception("[curator] @%s 스캔 실패", h)
+        except Exception as exc:
+            # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+            logger.error("[curator] @%s 스캔 실패: %s", h, exc)
         if i < len(handles) - 1:
             time.sleep(random.uniform(BETWEEN_CURATORS_MIN_SEC, BETWEEN_CURATORS_MAX_SEC))
     return results
