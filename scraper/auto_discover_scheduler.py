@@ -382,8 +382,9 @@ def run_one_cycle(browser, seen_handles: set[str], hashtag_idx: list[int]) -> bo
 
     try:
         shortcodes = _get_hashtag_post_shortcodes(browser, hashtag, HASHTAG_POSTS_PER_SCAN)
-    except Exception:
-        logger.exception("해시태그 스캔 실패: #%s", hashtag)
+    except Exception as exc:
+        # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+        logger.error("해시태그 스캔 실패: #%s: %s", hashtag, exc)
         return False
 
     logger.info("#%s 스캔 -> 후보 게시물 %d개", hashtag, len(shortcodes))
@@ -398,8 +399,9 @@ def run_one_cycle(browser, seen_handles: set[str], hashtag_idx: list[int]) -> bo
         logger.info("프로필 검증 중: @%s", handle)
         try:
             entry = _check_profile(browser, handle)
-        except Exception:
-            logger.exception("프로필 검증 실패: @%s", handle)
+        except Exception as exc:
+            # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+            logger.error("프로필 검증 실패: @%s: %s", handle, exc)
             return True  # 시도는 했으니 rate-limit 대기는 적용
 
         if entry:
@@ -466,8 +468,9 @@ def _run_active_session(end_date: date, seen_handles: set[str], hashtag_idx: lis
             total_added = sum(r["added"] for r in curator_results)
             logger.info("[curator] 오늘 밤 큐레이션 스캔 완료 - 계정 %d개, 신규 타겟 %d명 등록",
                         len(curator_results), total_added)
-    except Exception:
-        logger.exception("[curator] 큐레이션 스캔 실패 - 해시태그 탐색은 정상 진행")
+    except Exception as exc:
+        # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+        logger.error("[curator] 큐레이션 스캔 실패 - 해시태그 탐색은 정상 진행: %s", exc)
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -475,8 +478,9 @@ def _run_active_session(end_date: date, seen_handles: set[str], hashtag_idx: lis
             while _in_active_window(datetime.now(), end_date):
                 try:
                     processed = run_one_cycle(browser, seen_handles, hashtag_idx)
-                except Exception:
-                    logger.exception("탐색 사이클 중 오류 - 다음 사이클로 계속 진행")
+                except Exception as exc:
+                    # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+                    logger.error("탐색 사이클 중 오류 - 다음 사이클로 계속 진행: %s", exc)
                     processed = True  # 오류 시에도 과도한 재시도를 막기 위해 대기는 적용
 
                 if processed:
@@ -526,8 +530,9 @@ def _run_for_duration(deadline: float, seen_handles: set[str], hashtag_idx: list
             while time.monotonic() < deadline:
                 try:
                     processed = run_one_cycle(browser, seen_handles, hashtag_idx)
-                except Exception:
-                    logger.exception("탐색 사이클 중 오류 - 다음 사이클로 계속 진행")
+                except Exception as exc:
+                    # logger.exception 금지: 야간 스크립트가 로그의 "Traceback"을 실패로 판정해 배포를 건너뜀
+                    logger.error("탐색 사이클 중 오류 - 다음 사이클로 계속 진행: %s", exc)
                     processed = True  # 오류 시에도 과도한 재시도를 막기 위해 대기는 적용
 
                 remaining = deadline - time.monotonic()
