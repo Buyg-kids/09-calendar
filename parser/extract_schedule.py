@@ -36,6 +36,7 @@ data/raw_collected.json (Agent 1의 출력) 을 읽어 영유아 공동구매 �
 from __future__ import annotations
 
 import calendar
+import csv
 import hashlib
 import json
 import logging
@@ -43,7 +44,16 @@ import re
 from datetime import date, datetime, timedelta, timezone
 
 import gonggu_db
-from config import ANTHROPIC_API_KEY, CATEGORIES, CATEGORY_NAMES, CLAUDE_MODEL, EXCLUDE_HINT, RAW_COLLECTED_PATH
+from config import (
+    ANTHROPIC_API_KEY,
+    CATEGORIES,
+    CATEGORY_NAMES,
+    CLAUDE_MODEL,
+    CLAUDE_PRICE_PER_MTOK_USD,
+    EXCLUDE_HINT,
+    RAW_COLLECTED_PATH,
+    USAGE_LOG_PATH,
+)
 from parser.category_filter import GROUP_BUY_SIGNAL_WORDS, quick_prefilter
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -253,6 +263,58 @@ def _get_client():
     return _client
 
 
+# =============================================================================
+# 1-c) Usage/비용 추적
+# =============================================================================
+# run() 시작 시 reset_usage_totals()로 초기화하고, 호출마다 _record_usage()가 누적한다.
+# "input"은 캐시에 안 걸린 순수 입력 토큰만 - 캐시 생성/읽기 토큰은 따로 집계해야
+# Haiku 4.5 요율(캐시 읽기가 입력가의 1/10)로 정확한 비용을 추정할 수 있다.
+_usage_totals = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "cache_creation_tokens": 0, "cache_read_tokens": 0}
+
+
+def reset_usage_totals() -> None:
+    for k in _usage_totals:
+        _usage_totals[k] = 0
+
+
+def _record_usage(usage) -> None:
+    if usage is None:
+        return
+    _usage_totals["calls"] += 1
+    _usage_totals["input_tokens"] += getattr(usage, "input_tokens", 0) or 0
+    _usage_totals["output_tokens"] += getattr(usage, "output_tokens", 0) or 0
+    _usage_totals["cache_creation_tokens"] += getattr(usage, "cache_creation_input_tokens", 0) or 0
+    _usage_totals["cache_read_tokens"] += getattr(usage, "cache_read_input_tokens", 0) or 0
+
+
+def estimate_cost_usd(totals: dict) -> float:
+    p = CLAUDE_PRICE_PER_MTOK_USD
+    mtok = 1_000_000
+    return (
+        totals["input_tokens"] / mtok * p["input"]
+        + totals["output_tokens"] / mtok * p["output"]
+        + totals["cache_creation_tokens"] / mtok * p["cache_write"]
+        + totals["cache_read_tokens"] / mtok * p["cache_read"]
+    )
+
+
+def _append_usage_log(totals: dict, cost_usd: float) -> None:
+    """회차별 사용량을 logs/usage_log.csv에 한 줄 추가한다 (누적 월별 비용 확인용)."""
+    try:
+        USAGE_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+        is_new = not USAGE_LOG_PATH.exists()
+        with USAGE_LOG_PATH.open("a", encoding="utf-8", newline="") as f:
+            w = csv.writer(f)
+            if is_new:
+                w.writerow(["date", "calls", "input_tokens", "output_tokens", "cache_creation_tokens", "cache_read_tokens", "cost_usd"])
+            w.writerow([
+                datetime.now().strftime("%Y-%m-%d"), totals["calls"], totals["input_tokens"], totals["output_tokens"],
+                totals["cache_creation_tokens"], totals["cache_read_tokens"], f"{cost_usd:.4f}",
+            ])
+    except OSError as exc:  # noqa: BLE001
+        logger.warning("usage_log.csv 기록 실패 (파이프라인엔 영향 없음): %s", exc)
+
+
 EXTRACT_TOOL = {
     "name": "extract_group_buys",
     "description": "텍스트에서 영유아 관련 공동구매(공구) 일정을 엄격하게 추출한다.",
@@ -431,6 +493,7 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
         tool_choice={"type": "tool", "name": "extract_group_buys"},
         messages=[{"role": "user", "content": _build_user_message(raw_text, influencer_name, reference_date)}],
     )
+    _record_usage(getattr(resp, "usage", None))
 
     for block in resp.content:
         if block.type == "tool_use" and block.name == "extract_group_buys":
@@ -557,6 +620,7 @@ def run() -> dict:
         )
 
     gonggu_db.init_db()
+    reset_usage_totals()
     entries = json.loads(RAW_COLLECTED_PATH.read_text(encoding="utf-8"))
     logger.info(
         "타겟 %d명의 원본 데이터 파싱 시작 (모드: %s)",
@@ -565,7 +629,7 @@ def run() -> dict:
 
     stats = {
         "blobs_checked": 0, "blobs_sent_to_claude": 0, "skipped_cached": 0,
-        "saved": 0, "saved_by_rule": 0, "saved_by_claude": 0,
+        "skipped_prefilter": 0, "saved": 0, "saved_by_rule": 0, "saved_by_claude": 0,
         "skipped_no_date": 0,
     }
 
@@ -576,6 +640,9 @@ def run() -> dict:
         for text, image_url, post_url in _collect_text_blobs(entry):
             stats["blobs_checked"] += 1
             if not quick_prefilter(text):
+                # Step 1.5: 공구 신호어가 전혀 없는 일상 피드는 Claude 호출 자체를 건너뛴다
+                # (parser/category_filter.GROUP_BUY_SIGNAL_WORDS 참고) - 비용 절감의 1차 방어선.
+                stats["skipped_prefilter"] += 1
                 continue
 
             # 같은 게시물이 "최신 5개" 안에 며칠씩 남아있어 캡션이 안 바뀐 채
@@ -607,6 +674,7 @@ def run() -> dict:
                     item["end_date"] = ""
                 item["image_url"] = image_url
                 item["post_url"] = post_url
+                item["caption_text"] = text
                 gonggu_db.upsert_gonggu(item)
                 stats["saved"] += 1
                 stats["saved_by_claude" if method == "claude" else "saved_by_rule"] += 1
@@ -617,11 +685,23 @@ def run() -> dict:
                 )
 
     logger.info(
-        "파싱 완료. 검사 %d건 / 중복 캐시 스킵 %d건 / Claude 호출 %d건 / "
+        "파싱 완료. 검사 %d건 / [사전필터] 스킵 %d건 / 중복 캐시 스킵 %d건 / Claude 호출 %d건 / "
         "저장 %d건(룰베이스 %d, Claude %d) / 날짜불명 스킵 %d건",
-        stats["blobs_checked"], stats["skipped_cached"], stats["blobs_sent_to_claude"], stats["saved"],
-        stats["saved_by_rule"], stats["saved_by_claude"], stats["skipped_no_date"],
+        stats["blobs_checked"], stats["skipped_prefilter"], stats["skipped_cached"], stats["blobs_sent_to_claude"],
+        stats["saved"], stats["saved_by_rule"], stats["saved_by_claude"], stats["skipped_no_date"],
     )
+
+    cost_usd = estimate_cost_usd(_usage_totals)
+    logger.info(
+        "Usage/비용: 호출 %d건 / 입력 %d토큰 / 출력 %d토큰 / 캐시생성 %d토큰 / 캐시읽기 %d토큰 / "
+        "추정비용 $%.4f (%s 기준, %s)",
+        _usage_totals["calls"], _usage_totals["input_tokens"], _usage_totals["output_tokens"],
+        _usage_totals["cache_creation_tokens"], _usage_totals["cache_read_tokens"], cost_usd,
+        CLAUDE_MODEL, USAGE_LOG_PATH,
+    )
+    _append_usage_log(_usage_totals, cost_usd)
+    stats["usage"] = dict(_usage_totals)
+    stats["cost_usd"] = cost_usd
     return stats
 
 
