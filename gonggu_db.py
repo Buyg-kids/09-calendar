@@ -48,6 +48,10 @@ _MIGRATION_COLUMNS = {
     "price": "TEXT",      # 본문에 가격이 명시 안 된 경우가 많아 숫자가 아닌 TEXT (예: '가격공개예정', '19,900원')
     "post_url": "TEXT",   # 이 공구 정보를 뽑아낸 인스타그램 게시물/릴스 원본 URL. purchase_link가
                            # 없을 때(예: "댓글 달면 자동DM" 공구) 사용자를 이 게시물로 보내 댓글을 달 수 있게 함
+    "caption_text": "TEXT",  # 2026-09-22 추가: 이 항목을 뽑아낸 원본 캡션/멀티링크 텍스트 그대로 보관.
+                              # 게시물이 "최신 5개" 수집 창에서 밀려나면 raw_collected.json에서도 사라져
+                              # 날짜/가격 파싱 오류를 원문과 대조해 검증할 방법이 없었던 문제(2026-09-21
+                              # 월 전체 날짜 오류 조사) 때문에 도입 - 트러블슈팅 전용, 프런트에 노출 안 함.
 }
 
 
@@ -83,8 +87,8 @@ def upsert_gonggu(item: dict) -> None:
             """
             INSERT INTO gonggu
                 (influencer_name, category, product_name, brand, start_date, end_date,
-                 purchase_link, key_benefit, image_url, price, post_url, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 purchase_link, key_benefit, image_url, price, post_url, caption_text, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(influencer_name, product_name, start_date) DO UPDATE SET
                 category=excluded.category,
                 brand=excluded.brand,
@@ -94,6 +98,7 @@ def upsert_gonggu(item: dict) -> None:
                 image_url=CASE WHEN excluded.image_url != '' THEN excluded.image_url ELSE gonggu.image_url END,
                 price=excluded.price,
                 post_url=CASE WHEN excluded.post_url != '' THEN excluded.post_url ELSE gonggu.post_url END,
+                caption_text=CASE WHEN excluded.caption_text != '' THEN excluded.caption_text ELSE gonggu.caption_text END,
                 updated_at=excluded.updated_at
             """,
             (
@@ -101,6 +106,7 @@ def upsert_gonggu(item: dict) -> None:
                 item.get("brand", ""), item["start_date"], item.get("end_date", ""),
                 item.get("purchase_link", ""), item.get("key_benefit", ""),
                 item.get("image_url", ""), item.get("price", ""), item.get("post_url", ""),
+                item.get("caption_text", ""),
                 datetime.now(timezone.utc).isoformat(),
             ),
         )

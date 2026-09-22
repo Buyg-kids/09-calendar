@@ -45,8 +45,9 @@ def audit(apply: bool = False) -> dict:
         if not _is_full_month(s, e):
             continue
         result["full_month"].append(r)
-        shortcode = (r.get("post_url") or "").rstrip("/").split("/")[-1]
-        text = caps.get(shortcode)
+        # 2026-09-22부터 DB에 캡션 원문을 직접 보관하므로 우선 그걸 쓰고, 그 전에
+        # 저장된 오래된 행(caption_text 빈값)만 raw_collected.json(최근 5개 수집 창)으로 대체 대조한다.
+        text = r.get("caption_text") or caps.get((r.get("post_url") or "").rstrip("/").split("/")[-1])
         if not text:
             result["unverifiable"].append(r)
             continue
