@@ -16,6 +16,15 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 # 가장 큰 지렛대. 필요시 .env의 CLAUDE_MODEL로 언제든 되돌릴 수 있다.
 CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-haiku-4-5")
 
+# Haiku 4.5 정가(2026-09 기준, Anthropic 공식 페이지). 캐시 쓰기는 기본가의 1.25배,
+# 캐시 읽기는 0.1배가 Anthropic의 표준 공식 - 실제 요율이 바뀌면 여기만 고치면 된다.
+CLAUDE_PRICE_PER_MTOK_USD = {
+    "input": 1.0,
+    "output": 5.0,
+    "cache_write": 1.25,
+    "cache_read": 0.10,
+}
+
 # 네이버 이미지 검색 API (parser/image_fallback.py에서 인스타 이미지 누락 시 대체
 # 썸네일을 찾는 데 사용). 둘 중 하나라도 없으면 이미지 폴백 단계는 조용히 스킵된다.
 NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID", "")
@@ -34,6 +43,7 @@ TARGETS_PATH = BASE_DIR / "data" / "targets.json"           # Agent 1 입력
 RAW_COLLECTED_PATH = BASE_DIR / "data" / "raw_collected.json"  # Agent 1 출력 / Agent 2 입력
 GONGGU_DB_PATH = BASE_DIR / "data" / "gonggu.db"             # Agent 2 출력 / generator·web 입력
 OUTPUT_DIR = BASE_DIR / "output"                             # Agent 4 출력 (cardnews_YYYYMMDD/), web이 미리보기로 읽음
+USAGE_LOG_PATH = BASE_DIR / "logs" / "usage_log.csv"          # 회차별 Claude 토큰/비용 누적 로그 (logs/는 gitignore, 로컬 전용)
 
 # ---------------------------------------------------------------------------
 # 카테고리 규칙 (우선순위 순서 = 표시 순서)
