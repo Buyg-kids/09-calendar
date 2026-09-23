@@ -37,7 +37,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 import gonggu_db
-from config import BASE_DIR, CATEGORIES, CATEGORY_NAMES, OUTPUT_DIR, TARGETS_PATH
+from config import BASE_DIR, CATEGORIES, CATEGORY_NAMES, OUTPUT_DIR, RAW_COLLECTED_PATH, TARGETS_PATH
 from generator.card_renderer import render_card_html, render_card_png
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -172,6 +172,65 @@ def _load_multilink_map() -> dict[str, str]:
         url = t.get("multilink_url") or ""
         if handle and url:
             result[handle] = url
+    return result
+
+
+# 2026-09-23: 인스타 프로필의 한글 닉네임(예: '하윤맘') 검색 지원. hashtag/curator로
+# 발굴된 계정(예: hayun.mom_)은 influencer_name에 핸들만 저장되어 있어 닉네임으로
+# 검색하면 0건이 나왔다 - targets.json/gonggu.db의 influencer_name은 여러 밤에 걸친
+# upsert/병합의 키라서 함부로 바꾸면(예: 'hayun.mom_' -> '하윤맘 (hayun.mom_)') 기존
+# 저장분과 이름이 어긋나 이력이 끊기므로, DB는 그대로 두고 매일 밤 새로 수집되는
+# raw_collected.json의 프로필 bio_text에서 닉네임만 뽑아 검색 전용 필드로 얹는다.
+_BIO_EMOJI_RE = re.compile(
+    "[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0001F1E6-\U0001F1FF\U00002190-\U000021FF\U00002B00-\U00002BFF‍️]"
+)
+# 계정마다 닉네임/설명 구분자가 제각각이다('|', 'ㅣ'(세로줄), '｜'(전각), '•', 공백으로
+# 감싼 'l', 또는 이모지 그 자체 - '반짝마미✨아이와 여행｜...'처럼 파이프보다 이모지가
+# 먼저 나와 닉네임 바로 뒤에 붙는 경우가 흔하다) - 이 중 무엇이든 처음 나오는 지점
+# 앞부분만 닉네임으로 본다.
+_BIO_NICKNAME_SPLIT_RE = re.compile(r"[|｜ㅣ│¦•·‧❙︱]|\s+l\s+|" + _BIO_EMOJI_RE.pattern)
+_BIO_HANGUL_RE = re.compile(r"[가-힣]")
+_BIO_NICKNAME_MAX_LEN = 14  # 구분자가 하나도 없어 줄 전체를 후보로 삼을 때, 설명 문장까지
+                            # 통째로 검색 인덱스에 섞여 오탐(예: '유아식' 검색 시 전부 매칭)을
+                            # 일으키지 않도록 짧고 확실한 경우만 채택한다.
+
+
+def _extract_bio_nickname(bio_text: str, handle: str) -> str:
+    """인스타 프로필 bio_text 2번째 줄(닉네임+설명)에서 닉네임만 뽑는다.
+    실패하거나 애매하면(구분자 없이 줄이 길면) 빈 문자열을 반환 - 없는 것으로
+    처리되며, 검색 정확도를 해치는 것보다 낫다."""
+    lines = (bio_text or "").splitlines()
+    if len(lines) < 2 or lines[0].strip().lower() != handle.lower():
+        return ""
+    line = lines[1].strip()
+    m = _BIO_NICKNAME_SPLIT_RE.search(line)
+    nickname = line[: m.start()].strip() if m else line
+    if not nickname or not _BIO_HANGUL_RE.search(nickname):
+        return ""
+    if not m and len(nickname) > _BIO_NICKNAME_MAX_LEN:
+        return ""  # 구분자를 못 찾았고 줄 전체가 길면 설명 문장일 확률이 높아 버린다
+    return nickname
+
+
+def _load_nickname_map() -> dict[str, str]:
+    """raw_collected.json(최근 수집분)의 프로필 bio_text에서 핸들 -> 한글 닉네임
+    매핑을 만든다. 그날 밤 수집 대상에 없었던 계정은 빠질 수 있다(최선 노력)."""
+    if not RAW_COLLECTED_PATH.exists():
+        return {}
+    try:
+        entries = json.loads(RAW_COLLECTED_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    result: dict[str, str] = {}
+    for e in entries:
+        ig = e.get("instagram") or {}
+        handle = (ig.get("handle") or "").strip()
+        bio = ig.get("bio_text") or ""
+        if not handle or not bio:
+            continue
+        nickname = _extract_bio_nickname(bio, handle)
+        if nickname:
+            result[handle.lower()] = nickname
     return result
 
 
@@ -416,6 +475,7 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
     items.sort(key=lambda gb: gb.get("start_date") or "9999-99-99")
 
     multilink_map = _load_multilink_map()
+    nickname_map = _load_nickname_map()
 
     rows = []
     for idx, gb in enumerate(items):
@@ -434,6 +494,9 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
         # 핸들이 유일한 단서이므로, 핸들이 있으면(=거의 항상) 무조건 프로필 링크를 건다.
         profile_url = f"https://www.instagram.com/{influencer_handle}/" if influencer_handle else ""
         influencer_label = _influencer_label(influencer_display, influencer_handle)
+        # influencer_name에 닉네임이 이미 있어도(예: '또니맘 (seohui_jeong)') 그대로
+        # 검색은 되므로 상관없고, hayun.mom_처럼 핸들만 저장된 계정에서 실제 효과가 있다.
+        influencer_nickname = nickname_map.get(influencer_handle.lower(), "") if influencer_handle else ""
 
         post_url = gb.get("post_url") or ""
 
@@ -469,6 +532,7 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
                 "influencer_display": influencer_display,
                 "influencer_handle": influencer_handle,
                 "influencer_label": influencer_label,
+                "influencer_nickname": influencer_nickname,
                 "influencer_profile_url": profile_url,
                 "key_benefit": gb.get("key_benefit") or "",
                 "post_url": post_url,
