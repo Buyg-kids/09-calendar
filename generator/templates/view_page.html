@@ -86,6 +86,39 @@
     opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 100;
   }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  /* ---- 찜하기 토스트: "찜 목록에 저장되었습니다!" + 캘린더 등록 버튼 ----
+     일반 .toast(텍스트 한 줄, 짧게 스쳐가는 안내용)와 별도 엘리먼트로 둔다 -
+     버튼이 있는 만큼 최소 노출 시간을 더 주고(자동 사라짐 3.5초) 닫기 버튼도
+     둬야 해서 마크업/타이밍이 다르다. safe-area-inset으로 하단 홈 인디케이터에
+     안 가리게 하고, z-index는 다른 플로팅 요소들보다 확실히 위에 오게 한다. */
+  .fav-toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 16px);
+    max-width: calc(100vw - 32px); width: 340px;
+    padding: 12px 14px 12px 16px; border-radius: 14px;
+    background: rgba(30,41,59,0.96); color: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    opacity: 0; pointer-events: none; transition: opacity 0.22s ease, transform 0.22s ease;
+    z-index: 200;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .fav-toast.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  .fav-toast-msg { font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .fav-toast-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .fav-toast-cal-btn {
+    display: inline-block; font-size: 12px; font-weight: 700; color: #1e1b3a;
+    background: #fff; padding: 7px 12px; border-radius: 999px; white-space: nowrap;
+    text-decoration: none; cursor: pointer; transition: transform 0.12s ease;
+  }
+  .fav-toast-cal-btn:active { transform: scale(0.96); }
+  .fav-toast-close {
+    width: 24px; height: 24px; flex: 0 0 24px; border: none; background: rgba(255,255,255,0.14);
+    color: #fff; border-radius: 50%; font-size: 12px; line-height: 1; cursor: pointer; padding: 0;
+  }
+  @media (max-width: 380px) {
+    .fav-toast { flex-direction: column; align-items: stretch; }
+    .fav-toast-actions { margin-left: 0; }
+    .fav-toast-cal-btn { flex: 1; text-align: center; }
+  }
   /* 카드 높이는 가격 문구 길이에 따라 제각각이라, 같은 줄의 카드끼리 텍스트 바닥선이
      들쭉날쭉하지 않도록 카드를 세로 flex로 만들고 마지막 텍스트 줄(가격, 없으면 상품명)을
      margin-top:auto로 맨 아래에 붙인다(가로 스크롤 줄/그리드 줄의 카드는 이미 같은
@@ -437,6 +470,13 @@
   </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="fav-toast" id="favToast" role="status" aria-live="polite">
+  <span class="fav-toast-msg">찜 목록에 저장되었습니다!</span>
+  <div class="fav-toast-actions">
+    <a class="fav-toast-cal-btn" id="favToastCalBtn" href="#" target="_blank" rel="noopener">캘린더에 마감일 등록</a>
+    <button type="button" class="fav-toast-close" id="favToastClose" aria-label="닫기">✕</button>
+  </div>
+</div>
 
 <script>
 // ---- 외부 연동 설정 (나중에 실제 값으로 교체) ----
@@ -508,6 +548,8 @@ function toggleFav(row, btn) {
   btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
   updateFavChipCount();
   if (activeChip === 'fav' && !nowOn) renderFavSection();
+  // 찜을 "해제"할 때는 안 띄운다 - "저장됐다"는 안내가 방금 뺀 행동과 안 맞다.
+  if (nowOn) showFavToast(row);
 }
 // 칩 줄 전체를 다시 그리면 가로 스크롤 위치가 초기화되므로 찜 탭의 개수만 갱신한다.
 function updateFavChipCount() {
@@ -574,6 +616,55 @@ function showToast(msg, ms) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function () { el.classList.remove('show'); }, ms || 2200);
 }
+
+// ---------------- 찜하기 토스트: 저장 안내 + 캘린더 등록 ----------------
+function addDaysIso(iso, days) {
+  const d = parseDate(iso);
+  if (!d) return iso;
+  d.setDate(d.getDate() + days);
+  return toLocalIso(d);
+}
+// 구글 캘린더 "일정 만들기" 템플릿 URL - 서버 없이 정적 사이트에서 새 탭으로 바로
+// 열 수 있는 가장 간단한 방법(로그인돼 있으면 원클릭 저장, 앱이 깔려 있으면
+// 모바일에서 앱으로 딥링크되는 경우도 많다). 하루짜리 종일 일정이라 dates는
+// YYYYMMDD/YYYYMMDD(다음날, 배타적 종료) 형식을 쓴다.
+function calendarUrlFor(row) {
+  const deadline = row.end_date || row.start_date;
+  if (!deadline) return '';
+  const startYmd = deadline.replace(/-/g, '');
+  const endYmd = addDaysIso(deadline, 1).replace(/-/g, '');
+  const title = '[Buyg 공구 마감] ' + (row.product_name || '');
+  const price = priceInfo(row).text;
+  const lines = [row.date_label + ' 진행' + (row.influencer_label ? ' · ' + row.influencer_label : '')];
+  if (price && price !== PRICE_UNKNOWN_TEXT) lines.push('가격: ' + price);
+  if (row.post_url) lines.push('게시물: ' + row.post_url);
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: title,
+    dates: startYmd + '/' + endYmd,
+    details: lines.join('\n'),
+  });
+  return 'https://calendar.google.com/calendar/render?' + params.toString();
+}
+let favToastTimer = null;
+function hideFavToast() {
+  document.getElementById('favToast').classList.remove('show');
+  clearTimeout(favToastTimer);
+}
+function showFavToast(row) {
+  const el = document.getElementById('favToast');
+  const calBtn = document.getElementById('favToastCalBtn');
+  const url = calendarUrlFor(row);
+  // 마감일을 전혀 알 수 없는 극히 드문 행(시작일도 없음)이면 등록할 날짜가
+  // 없으니 버튼을 숨긴다 - 안내 문구만 보여준다.
+  calBtn.style.display = url ? '' : 'none';
+  if (url) calBtn.href = url;
+  document.getElementById('toast').classList.remove('show'); // 겹쳐 보이지 않게 일반 토스트는 내려둔다
+  el.classList.add('show');
+  clearTimeout(favToastTimer);
+  favToastTimer = setTimeout(hideFavToast, 3500);
+}
+document.getElementById('favToastClose').addEventListener('click', hideFavToast);
 
 // ---------------- 최상단 카카오톡 알림 띠배너 (닫으면 그날 하루 숨김) ----------------
 const NOTICE_CLOSED_KEY = 'buyg_notice_closed_on';
