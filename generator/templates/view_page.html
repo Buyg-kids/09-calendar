@@ -115,8 +115,8 @@
      (카피가 늘어난 만큼 sticky 영역까지 커지면 모바일 화면을 너무 잡아먹음). */
   .brand-hero { padding: 18px 16px 4px; text-align: center; }
   .logo {
-    font-size: 24px; font-weight: 800; letter-spacing: 0.5px;
-    color: var(--brand-purple); margin-bottom: 6px;
+    display: inline-block; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;
+    color: var(--brand-purple); margin-bottom: 6px; text-decoration: none; cursor: pointer;
   }
   .brand-main {
     font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--text-main);
@@ -346,7 +346,7 @@
       <button type="button" class="notice-close" id="noticeClose" aria-label="알림 배너 닫기">✕</button>
     </div>
     <div class="brand-hero">
-      <div class="logo">Buyg</div>
+      <a class="logo" href="./" id="homeLink" aria-label="Buyg 홈으로 이동">Buyg</a>
       <div class="brand-main">아이 성장에 맞춰 똑똑하게, Buyg 육아 공구 달력</div>
       <div class="brand-sub">매일 자정 업데이트되는 인스타 최저가 모아보기</div>
       <div class="today-badge" id="todayBadge" hidden></div>
@@ -1079,12 +1079,14 @@ function searchText(row) {
   // 인플루언서 검색: influencer_label('또니맘 (seohui_jeong)' / '@suksuk_mom_')만으로도
   // 닉네임+핸들이 대부분 커버되지만, 원본 influencer_name(가공 전 표기)도 함께 넣어
   // 라벨 조합 형식이 바뀌거나 예외 케이스가 있어도 "심플리홈"/"juney.s2"/"@juney.s2"
-  // 어떤 식으로 검색해도 그 인플루언서의 공구가 전부 모여 나오게 한다.
+  // 어떤 식으로 검색해도 그 인플루언서의 공구가 전부 모여 나오게 한다. influencer_nickname은
+  // hashtag/curator로 발굴돼 influencer_name에 핸들만 있는 계정(예: hayun.mom_)의 실제
+  // 인스타 프로필 닉네임('하윤맘')을 매일 밤 bio_text에서 뽑아 채운 값 - 없으면 빈 문자열.
   const chipTerms = CHIPS.reduce(function (acc, chip) {
     if (chip.keywords && matchesChip(row, chip)) acc.push(chip.label);
     return acc;
   }, []);
-  return [row.product_name, row.brand, row.influencer_label, row.influencer_name, row.category, row.key_benefit]
+  return [row.product_name, row.brand, row.influencer_label, row.influencer_name, row.influencer_nickname, row.category, row.key_benefit]
     .concat(chipTerms)
     .join(' ').toLowerCase();
 }
@@ -1143,6 +1145,17 @@ clearBtn.addEventListener('click', function () {
   searchInput.value = '';
   filterRows();
   searchInput.focus();
+});
+
+// 'Buyg' 로고를 홈으로 가는 링크로 만든다. 실제 href="./"를 두어(같은 페이지) 우클릭
+// "새 탭에서 열기"/Ctrl+클릭이 정상 동작하게 하면서도, 평범한 좌클릭은 새로고침 없이
+// 검색어 초기화 + 맨 위로 스크롤만 해서 더 매끄럽게 "홈"으로 돌아가게 한다.
+document.getElementById('homeLink').addEventListener('click', function (e) {
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  searchInput.value = '';
+  filterRows();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 // ---------------- PC 마우스 전용: 화살표 클릭 스크롤 + 드래그 스크롤 ----------------
