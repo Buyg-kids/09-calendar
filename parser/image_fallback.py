@@ -23,6 +23,7 @@ from __future__ import annotations
 import logging
 import re
 import time
+import urllib.parse
 
 import requests
 
@@ -35,6 +36,47 @@ NAVER_IMAGE_API_URL = "https://naverapihub.apigw.ntruss.com/search/v1/image"
 _TAG_RE = re.compile(r"</?b>")  # 네이버 검색 결과의 강조 태그
 _PAREN_RE = re.compile(r"\(.*?\)")
 _REQUEST_INTERVAL_SEC = 0.2  # 네이버 API 호출 속도 여유
+
+# 2026-09-23 사고: @_borahae '슈로스 놀이매트' 카드에 완전히 무관한 로봇 애니메이션
+# 이미지가 떴다 - 원인은 네이버 이미지 검색이 "슈로스 놀이매트"라는 좁은 쿼리에
+# sort=sim으로 상위 1건만 신뢰했는데, 그 1건이 디시인사이드 갤러리 게시물의
+# 첨부 이미지였다(품목과 무관, 단순 텍스트 유사도 매칭). 커뮤니티/게시판 사이트는
+# 이미지가 게시물 본문과 무관한 경우가 매우 흔해 제품 썸네일로 신뢰할 수 없으므로,
+# 이런 출처는 후보에서 제외하고 다음 순위 결과를 본다 (전부 제외되면 빈 문자열을
+# 반환해 프런트가 카테고리 플레이스홀더를 쓰게 한다 - 무관한 사진보다 안전하다).
+_BAD_IMAGE_DOMAINS = {
+    # 커뮤니티/게시판 - 게시물 첨부 이미지가 본문 텍스트와 무관한 경우가 매우 흔함
+    "dcinside.com", "gall.dcinside.com", "ilbe.com", "todayhumor.co.kr", "humoruniv.com",
+    "fmkorea.com", "ruliweb.com", "clien.net", "ppomppu.co.kr", "dogdrip.net",
+    "mlbpark.donga.com", "instiz.net", "theqoo.net", "bobaedream.co.kr",
+    "pann.nate.com", "natepann.com", "82cook.com",
+    # 동영상 플랫폼 - 정적 상품 사진이 아니라 영상 스틸컷이라 애초에 콘텐츠 종류가
+    # 안 맞고(자세/텍스트 오버레이 등), '슈로스 놀이매트' 사고에서도 상위 결과가
+    # 전혀 무관한 애니메이션 유튜브 썸네일이었다.
+    "youtube.com", "ytimg.com", "vimeo.com", "vimeocdn.com", "tiktokcdn.com",
+}
+
+
+def _source_domain(url: str) -> str:
+    """네이버 썸네일 URL(search.pstatic.net/...?src=<원본 URL>)이든 원본 link든,
+    실제 출처 도메인을 뽑아낸다 (썸네일은 항상 pstatic.net 도메인으로 프록시되므로
+    바깥 호스트만 봐서는 출처를 알 수 없다)."""
+    try:
+        parsed = urllib.parse.urlparse(url)
+        qs = urllib.parse.parse_qs(parsed.query)
+        src = (qs.get("src") or [None])[0]
+        host = urllib.parse.urlparse(src).netloc if src else parsed.netloc
+        return host.lower().split("@")[-1]  # 혹시 모를 userinfo@host 형태 방어
+    except Exception:
+        return ""
+
+
+def _is_bad_source(*urls: str) -> bool:
+    for url in urls:
+        host = _source_domain(url or "")
+        if host and any(host == d or host.endswith("." + d) for d in _BAD_IMAGE_DOMAINS):
+            return True
+    return False
 
 
 def _build_query(row: dict) -> str:
@@ -59,15 +101,19 @@ def _search_thumbnail(query: str) -> str:
     }
     # 이미지 검색 API는 쇼핑 검색과 응답 스키마가 달라 "image" 필드가 없다.
     # thumbnail(네이버가 직접 서빙하는 축소판, 안정적으로 임베드 가능)을 우선
-    # 쓰고, 없으면 link(원본 출처 이미지 URL)로 폴백한다.
-    params = {"query": query, "display": 1, "sort": "sim", "filter": "all"}
+    # 쓰고, 없으면 link(원본 출처 이미지 URL)로 폴백한다. 상위 1건만 보면 그
+    # 1건이 커뮤니티 게시판의 무관한 이미지일 때 대체할 후보가 없으므로 5건을
+    # 받아 _BAD_IMAGE_DOMAINS에 걸리는 건은 건너뛰고 다음 순위를 본다.
+    params = {"query": query, "display": 5, "sort": "sim", "filter": "all"}
     resp = requests.get(NAVER_IMAGE_API_URL, headers=headers, params=params, timeout=10)
     resp.raise_for_status()
     items = resp.json().get("items", [])
-    if not items:
-        return ""
-    image_url = items[0].get("thumbnail") or items[0].get("link") or ""
-    return _TAG_RE.sub("", image_url)
+    for item in items:
+        image_url = item.get("thumbnail") or item.get("link") or ""
+        if not image_url or _is_bad_source(image_url, item.get("link") or ""):
+            continue
+        return _TAG_RE.sub("", image_url)
+    return ""
 
 
 _IMAGE_CHECK_TIMEOUT_SEC = 6
@@ -132,6 +178,12 @@ def revalidate_rows(rows: list[dict]) -> dict:
                 row.get("row_id") or row.get("product_name"), query, replacement[:80],
             )
         else:
+            # 대체 이미지를 못 찾았으면(전부 무관 도메인으로 걸러졌거나 검색 결과가
+            # 없음) 죽은 URL을 그대로 두지 않고 비워서 카테고리 플레이스홀더로
+            # 넘긴다. 프런트 img.onerror가 결국 같은 결과로 대체하긴 하지만,
+            # 실패할 게 뻔한 네트워크 요청을 브라우저에서 굳이 한 번 더 시도하게
+            # 두지 않고 여기서 명시적으로 정리한다.
+            row["image_url"] = ""
             stats["still_broken"] += 1
         time.sleep(_REQUEST_INTERVAL_SEC)
 
