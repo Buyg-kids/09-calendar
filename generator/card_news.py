@@ -213,6 +213,34 @@ def _dates_overlap(a_start: str, a_end: str, b_start: str, b_end: str) -> bool:
     return a_start <= (b_end or b_start) and b_start <= (a_end or a_start)
 
 
+_DETAIL_SPLIT_RE = re.compile(r"[,、/·]+")
+
+
+def _extract_detail_tokens(name: str) -> set[str]:
+    """상품명 괄호 안 세부 옵션/맛 목록만 토큰화한다(예: '(딸기, 초코, 밀크...)' ->
+    {'딸기','초코','밀크',...}). 브랜드/대표품목명(헤드라인) 쪽은 밤마다 다르게
+    뽑혀도 이 세부 목록은 원문을 거의 그대로 옮기므로, 브랜드 오추출에 흔들리지
+    않는 동일성 신호로 쓴다."""
+    m = re.search(r"\(([^)]*)\)", name or "")
+    if not m:
+        return set()
+    return {p.strip() for p in _DETAIL_SPLIT_RE.split(m.group(1)) if len(p.strip()) >= 2}
+
+
+def _tokens_overlap_ratio(a_tokens: set[str], b_tokens: set[str]) -> float:
+    """두 토큰 집합의 겹침 비율(작은 쪽 기준). 완전 일치가 아니어도 한쪽이
+    다른 쪽을 포함하면('저당고소' in '저당고소한맛') 같은 옵션으로 센다."""
+    b_remaining = list(b_tokens)
+    matched = 0
+    for ta in a_tokens:
+        for tb in b_remaining:
+            if ta == tb or ta in tb or tb in ta:
+                matched += 1
+                b_remaining.remove(tb)
+                break
+    return matched / min(len(a_tokens), len(b_tokens))
+
+
 def _is_same_product(a: dict, b: dict) -> bool:
     """[동일 인플루언서 + 날짜 겹침]을 전제로, 다음 중 하나면 같은 공구(=같은
     피드에서 나온 파생 옵션 포함)로 본다:
@@ -224,6 +252,26 @@ def _is_same_product(a: dict, b: dict) -> bool:
         return False
     if not _dates_overlap(a["start_date"], a.get("end_date") or "", b["start_date"], b.get("end_date") or ""):
         return False
+
+    # 2026-09-23 사고: juney.s2의 마이키즈 릴스 1건이 밤마다 브랜드가 '뉴케어'/
+    # '마이키즈'로 다르게 뽑히며 "뉴케어 마이키즈"/"마이키즈 영양음료" 두 카드로
+    # 쪼개져 '마감 임박' 섹션에 같은 사진이 중복 노출됐다 - 브랜드 비교도 이름
+    # 유사도 비교도(브랜드를 떼어내면 남는 토큰이 밤마다 달라서) 못 잡는 경우였다.
+    # 처음엔 "post_url 같으면 무조건 같은 공구"로 고쳤다가, we09.lab(is_curator)·
+    # gonggu_jupjup·dream_book_kids·dochi_mom0103처럼 한 게시물에 서로 무관한
+    # 브랜드 15~37개를 모아 올리는 "모음전/큐레이션" 계정 전부가 한 카드로
+    # 뭉개지는 훨씬 큰 회귀를 만들어 즉시 되돌렸다 - post_url 일치는 이런 계정엔
+    # 전혀 신뢰할 수 없는 신호였다. 대신 상품명 괄호 안 세부 옵션(맛/모델) 목록은
+    # 브랜드 추출과 무관하게 원문 그대로 유지되므로, "같은 게시물 + 세부 옵션
+    # 목록이 과반 이상 겹침"이라는 훨씬 좁은 조건으로만 병합한다 - 모음전 계정의
+    # 서로 다른 상품들은 세부 옵션에 겹치는 토큰이 실질적으로 없어 안전하다.
+    post_a = (a.get("post_url") or "").strip()
+    post_b = (b.get("post_url") or "").strip()
+    if post_a and post_a == post_b:
+        details_a = _extract_detail_tokens(a["product_name"])
+        details_b = _extract_detail_tokens(b["product_name"])
+        if len(details_a) >= 2 and len(details_b) >= 2 and _tokens_overlap_ratio(details_a, details_b) >= 0.5:
+            return True
 
     brand_a = (a.get("brand") or "").strip()
     brand_b = (b.get("brand") or "").strip()
