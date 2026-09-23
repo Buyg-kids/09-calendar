@@ -86,21 +86,15 @@
     opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 100;
   }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
-  /* 카드 높이는 가격 문구 길이에 따라 제각각이라, 같은 줄의 카드끼리 공유 버튼 높이가
-     들쭉날쭉하지 않도록 카드를 세로 flex로 만들고 액션 행을 맨 아래로 밀어 정렬한다
-     (가로 스크롤 줄/그리드 줄의 카드는 이미 같은 높이로 늘어나 있다). */
+  /* 카드 높이는 가격 문구 길이에 따라 제각각이라, 같은 줄의 카드끼리 텍스트 바닥선이
+     들쭉날쭉하지 않도록 카드를 세로 flex로 만들고 마지막 텍스트 줄(가격, 없으면 상품명)을
+     margin-top:auto로 맨 아래에 붙인다(가로 스크롤 줄/그리드 줄의 카드는 이미 같은
+     높이로 늘어나 있다). 2026-09-23: 하단 카카오 공유 버튼을 없애고 썸네일 우상단
+     찜 버튼 옆으로 옮기면서, 바닥 정렬을 그 버튼 대신 이 마지막 텍스트 줄이 맡게 됨. */
   .closing-card, .banner-card, .upcoming-card, .week-card { display: flex; flex-direction: column; }
   .week-card-body { flex: 1; display: flex; flex-direction: column; }
-  .card-actions { display: flex; justify-content: flex-end; margin-top: auto; padding-top: 4px; }
-  .share-btn {
-    width: 26px; height: 26px; border-radius: 50%; background: #fee500; color: #3c1e1e;
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    -webkit-user-select: none; user-select: none; box-shadow: 0 1px 2px rgba(0,0,0,0.12);
-    transition: transform 0.12s ease;
-  }
-  .share-btn:active { transform: scale(0.92); }
-  .share-btn svg { width: 15px; height: 15px; display: block; fill: currentColor; }
-  .search-card .card-actions { margin-top: 2px; }
+  .closing-card > :last-child, .banner-card > :last-child,
+  .upcoming-card > :last-child, .week-card-body > :last-child { margin-top: auto; }
   #sharedSection { scroll-margin-top: 76px; } /* 상단 고정 검색창에 가려지지 않게 */
   #sharedSection .week-grid { grid-template-columns: 1fr; padding: 0 16px; }
   #sharedSection .week-card { max-width: 220px; }
@@ -234,24 +228,38 @@
     color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px;
   }
 
-  /* ---- 찜하기(하트) 버튼: 썸네일 우상단 ---- */
-  .fav-btn {
+  /* ---- 찜(하트) + 공유 버튼: 썸네일 우상단에 나란히 ----
+     2026-09-23: 하단 노란 카카오 원형 버튼을 없애고 이 자리로 옮기면서, 하트와
+     같은 반투명 화이트 원형 스타일로 통일. 위치는 개별 absolute 대신 .thumb-actions
+     래퍼 하나가 담당해 두 버튼이 항상 같은 줄에 붙어 다니게 한다(왼쪽=공유, 오른쪽=찜 -
+     찜이 항상 맨 오른쪽에 있어야 손이 닿는 위치가 안 바뀐다). 크기는 기존 30px에서
+     28px로 살짝 줄여 슬림하게. */
+  .thumb-actions {
     position: absolute; top: 6px; right: 6px; z-index: 3;
-    width: 30px; height: 30px; padding: 0; border-radius: 50%;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .fav-btn, .thumb-share-btn {
+    width: 28px; height: 28px; padding: 0; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(255,255,255,0.92); box-shadow: 0 1px 4px rgba(0,0,0,0.18);
-    color: #94a3b8; cursor: pointer; -webkit-user-select: none; user-select: none;
+    background: rgba(255,255,255,0.85); box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+    cursor: pointer; -webkit-user-select: none; user-select: none;
     transition: transform 0.15s ease, color 0.15s ease;
   }
-  .fav-btn svg { width: 17px; height: 17px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+  .fav-btn { color: #94a3b8; }
+  .fav-btn svg { width: 16px; height: 16px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
   .fav-btn.on { color: var(--price-accent); }
   .fav-btn.on svg { fill: currentColor; }
   .fav-btn.pop { animation: favPop 0.32s ease; }
   @keyframes favPop {
     0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); }
   }
-  .search-card .fav-btn { width: 24px; height: 24px; top: 4px; right: 4px; }
-  .search-card .fav-btn svg { width: 14px; height: 14px; }
+  .thumb-share-btn { color: #64748b; }
+  .thumb-share-btn:active { transform: scale(0.92); }
+  .thumb-share-btn svg { width: 14px; height: 14px; display: block; fill: currentColor; }
+  .search-card .thumb-actions { top: 4px; right: 4px; gap: 4px; }
+  .search-card .fav-btn, .search-card .thumb-share-btn { width: 22px; height: 22px; }
+  .search-card .fav-btn svg { width: 13px; height: 13px; }
+  .search-card .thumb-share-btn svg { width: 11px; height: 11px; }
   .fav-empty { grid-column: 1 / -1; padding: 44px 16px; text-align: center; color: var(--text-sub); }
   .fav-empty b { display: block; font-size: 15px; color: var(--text-main); margin-bottom: 6px; }
   .fav-empty span { font-size: 12px; }
@@ -532,6 +540,31 @@ function makeFavBtn(row) {
   return btn;
 }
 
+// 카카오톡 공유 버튼. shareRow()는 이 파일 아래쪽에 정의돼 있지만 function 선언은
+// 호이스팅되므로 순서 상관없이 호출 가능하다. 하트와 동일한 <span> 패턴.
+function makeShareBtn(row) {
+  const btn = document.createElement('span');
+  btn.className = 'thumb-share-btn';
+  btn.setAttribute('role', 'button');
+  btn.setAttribute('aria-label', '카카오톡으로 공유');
+  btn.title = '카카오톡으로 공유';
+  btn.tabIndex = 0;
+  btn.innerHTML = SHARE_ICON;
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    shareRow(row);
+  });
+  btn.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      shareRow(row);
+    }
+  });
+  return btn;
+}
+
 // ---------------- 토스트 ----------------
 let toastTimer = null;
 function showToast(msg, ms) {
@@ -610,32 +643,6 @@ function shareRow(row) {
     showToast('공유에 실패했어요. 잠시 후 다시 시도해 주세요');
   }
 }
-// 카드 전체가 링크 <a>라 버튼을 중첩할 수 없어 하트와 같은 방식(<span>)을 쓴다.
-function makeActionRow(row) {
-  const wrap = document.createElement('div');
-  wrap.className = 'card-actions';
-  const btn = document.createElement('span');
-  btn.className = 'share-btn';
-  btn.setAttribute('role', 'button');
-  btn.setAttribute('aria-label', '카카오톡으로 공유');
-  btn.title = '카카오톡으로 공유';
-  btn.tabIndex = 0;
-  btn.innerHTML = SHARE_ICON;
-  btn.addEventListener('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    shareRow(row);
-  });
-  btn.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      e.stopPropagation();
-      shareRow(row);
-    }
-  });
-  wrap.appendChild(btn);
-  return wrap;
-}
 function initSharedDeal() {
   const m = location.hash.match(/^#deal=(.+)$/);
   if (!m) return;
@@ -698,7 +705,13 @@ function makeThumb(row, className) {
     });
     wrap.appendChild(badge);
   }
-  wrap.appendChild(makeFavBtn(row));
+  // 찜(하트)과 카카오톡 공유를 썸네일 우상단에 한 줄로 묶는다 - 공유가 왼쪽,
+  // 찜이 오른쪽(엄지가 닿는 위치가 항상 같도록 찜을 바깥쪽에 고정).
+  const actions = document.createElement('span');
+  actions.className = 'thumb-actions';
+  actions.appendChild(makeShareBtn(row));
+  actions.appendChild(makeFavBtn(row));
+  wrap.appendChild(actions);
   return wrap;
 }
 
@@ -853,7 +866,6 @@ function renderClosingSoon(rows) {
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
     a.appendChild(renderPriceRow(row));
-    a.appendChild(makeActionRow(row));
     el.appendChild(a);
   });
 }
@@ -892,7 +904,6 @@ function renderMonthlyBanner(rows) {
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
     a.appendChild(renderPriceRow(row));
-    a.appendChild(makeActionRow(row));
     el.appendChild(a);
   });
 }
@@ -953,7 +964,6 @@ function renderWeekCard(row) {
   body.appendChild(date);
   body.appendChild(makeNameEl(row));
   body.appendChild(renderPriceRow(row));
-  body.appendChild(makeActionRow(row));
   a.appendChild(body);
   return a;
 }
@@ -1016,7 +1026,6 @@ function renderUpcoming(rows) {
     thumb.appendChild(badge);
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
-    a.appendChild(makeActionRow(row));
     el.appendChild(a);
   });
 }
@@ -1115,7 +1124,6 @@ function renderSearchResults(q) {
     meta.textContent = row.date_label + ' · ' + row.influencer_label;
     body.appendChild(meta);
     body.appendChild(renderPriceRow(row));
-    body.appendChild(makeActionRow(row));
     a.appendChild(body);
     searchResultsEl.appendChild(a);
   });
