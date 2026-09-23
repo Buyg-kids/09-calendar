@@ -356,7 +356,7 @@
         <input
           type="search"
           id="searchInput"
-          placeholder="브랜드, 제품명으로 검색"
+          placeholder="인플루언서, 브랜드, 제품명으로 검색"
           enterkeyhint="search"
           autocomplete="off"
           autocorrect="off"
@@ -1075,11 +1075,16 @@ function searchText(row) {
   // 키워드 전체를 넣지 않는 이유: 칩은 여러 키워드 중 하나만 맞아도 매칭되는
   // 느슨한 묶음이라(예: '이유식'으로 매칭된 행에 같은 칩의 다른 키워드를 전부
   // 붙이면 무관한 검색어에도 걸리는 오탐이 생긴다), 라벨 하나만 더하는 것이 안전하다.
+  //
+  // 인플루언서 검색: influencer_label('또니맘 (seohui_jeong)' / '@suksuk_mom_')만으로도
+  // 닉네임+핸들이 대부분 커버되지만, 원본 influencer_name(가공 전 표기)도 함께 넣어
+  // 라벨 조합 형식이 바뀌거나 예외 케이스가 있어도 "심플리홈"/"juney.s2"/"@juney.s2"
+  // 어떤 식으로 검색해도 그 인플루언서의 공구가 전부 모여 나오게 한다.
   const chipTerms = CHIPS.reduce(function (acc, chip) {
     if (chip.keywords && matchesChip(row, chip)) acc.push(chip.label);
     return acc;
   }, []);
-  return [row.product_name, row.brand, row.influencer_label, row.category, row.key_benefit]
+  return [row.product_name, row.brand, row.influencer_label, row.influencer_name, row.category, row.key_benefit]
     .concat(chipTerms)
     .join(' ').toLowerCase();
 }
@@ -1090,7 +1095,10 @@ function rowMatchesQuery(row, tokens) {
 }
 
 function renderSearchResults(q) {
-  const tokens = q.split(/\s+/).filter(Boolean);
+  // 인플루언서 핸들 검색 시 "@juney.s2"처럼 @를 붙여 입력하는 경우가 흔한데,
+  // influencer_label은 닉네임이 있으면 '또니맘 (seohui_jeong)' 형식이라 '@'가
+  // 없어 매칭이 안 됐다 - 검색어 쪽 선행 '@'를 지워 있어도/없어도 같게 만든다.
+  const tokens = q.split(/\s+/).filter(Boolean).map(function (t) { return t.replace(/^@/, ''); });
   const matches = ROWS.filter(function (r) { return rowMatchesQuery(r, tokens); });
   searchResultsEl.innerHTML = '';
   noResultsEl.style.display = matches.length ? 'none' : 'block';
