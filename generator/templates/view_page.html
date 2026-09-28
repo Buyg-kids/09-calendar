@@ -569,8 +569,18 @@ const WEEKDAY_KR = ['일','월','화','수','목','금','토'];
 // 했으므로, 대신 프론트에서만 관리하는 핸들 목록으로 가중치를 준다 - 실제로 어떤
 // 계정이 "대형/핵심"인지는 운영자만 판단할 수 있는 정보라 지금은 비워둔다. 채우려면
 // influencer_handle(예: 'seohui_jeong', @ 없이)을 그대로 넣으면 된다.
+// 2026-09-28 선정: gonggu.db 누적 게시물 수 + 최근 30일 진행/예정 공구 수 양쪽 상위권인
+// 개인 육아 계정. we09.lab·gonggu_jupjup 같은 모음전 계정은 건수는 많아도 한 게시물에
+// 무관한 브랜드를 수십 개 올려 상단을 도배하므로 제외.
 const PRIORITY_INFLUENCERS = new Set([
-  // 'example_handle',
+  'mo.jji.mom',
+  'jjust_mom',
+  'heeah_family',
+  'jjoymom.9oo',
+  'subong._.life',
+  'kongal.pick',
+  'seohui_jeong',
+  'xoxo.siwoo',
 ]);
 
 function priorityWeight(row) {
