@@ -16,7 +16,9 @@
 <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
 <!-- iOS는 매니페스트의 display:standalone을 따르지 않아 이 메타태그들이 따로 필요하다. -->
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- black-translucent는 설치 앱에서 콘텐츠를 상태바 밑으로 밀어넣고 시계를 흰 글씨로 그려
+     노란 배너와 겹쳤다 - default로 두면 iOS가 상태바 영역을 따로 확보한다. -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Buyg" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 
@@ -67,8 +69,14 @@
   }
 
   /* ---------------- 헤더 ---------------- */
+  /* viewport-fit=cover 환경(아이폰 노치/다이내믹 아일랜드)에서 상태바 영역을 흰 띠로 덮어,
+     스크롤되는 카드가 시계/배터리 밑으로 비치지 않게 한다. 인셋이 0인 기기에선 높이 0. */
+  body::before {
+    content: ''; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    height: env(safe-area-inset-top, 0px); background: #fff; pointer-events: none;
+  }
   .app-header {
-    position: sticky; top: 0; z-index: 20; background: #fff;
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: #fff;
     padding: 14px 16px 12px; border-bottom: 1px solid #f0f0f0;
   }
   [hidden] { display: none !important; }
@@ -79,15 +87,19 @@
   .notice-bar {
     position: relative; background: #fee500; color: #3c1e1e;
     padding: 9px 40px 9px 14px; text-align: center; line-height: 1.45;
+    padding-top: calc(9px + env(safe-area-inset-top, 0px));
     display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 8px;
   }
+  /* 배너를 닫은 날엔 로고 영역이 맨 위가 되므로 거기에 상태바 인셋을 준다. */
+  .notice-bar[hidden] + .brand-hero { padding-top: calc(18px + env(safe-area-inset-top, 0px)); }
   .notice-msg { font-size: 12.5px; font-weight: 700; white-space: nowrap; }
   .notice-cta {
     font-size: 12.5px; font-weight: 800; white-space: nowrap; color: #3c1e1e;
     text-decoration: underline; text-underline-offset: 2px; cursor: pointer;
   }
   .notice-close {
-    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    /* 상단 인셋만큼 늘어난 padding의 절반을 더해, 배너 전체가 아닌 글자 줄 기준으로 세로 중앙 */
+    position: absolute; right: 6px; top: calc(50% + env(safe-area-inset-top, 0px) / 2); transform: translateY(-50%);
     width: 28px; height: 28px; border: none; background: transparent; color: #3c1e1e;
     font-size: 15px; line-height: 1; cursor: pointer; border-radius: 50%; padding: 0;
   }
