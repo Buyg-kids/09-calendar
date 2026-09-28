@@ -1495,6 +1495,21 @@ document.getElementById('sharedClose').addEventListener('click', function () {
 });
 initSharedDeal();
 window.addEventListener('hashchange', initSharedDeal);
+
+// ---------------- 서비스 워커 등록 (PWA 설치 가능 판정용, 오프라인 캐싱 없음) ----------------
+// 경로를 'sw.js'(상대경로)로 두는 이유는 manifest.json/icons와 동일 - GitHub Pages
+// 서브패스(https://buyg-kids.github.io/09-calendar/) 배포에서도, 로컬에서
+// python -m http.server로 루트 테스트할 때도 현재 페이지 기준으로 알아서
+// 올바른 위치를 가리킨다(하드코딩된 절대경로 '/09-calendar/sw.js'는 로컬 테스트나
+// 저장소/도메인 경로가 바뀌면 깨진다). 페이지 핵심 리소스 로딩과 경합하지 않게
+// window 'load' 이후에 등록한다.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function (err) {
+      console.log('[Buyg] 서비스 워커 등록 실패 - 설치 안내 기능 자체엔 영향 없음:', err);
+    });
+  });
+}
 </script>
 </body>
 </html>
