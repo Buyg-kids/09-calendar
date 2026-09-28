@@ -500,16 +500,7 @@
       </section>
 
       <section class="section">
-        <div class="section-head"><h2>✨ 이달의 공구</h2></div>
-        <div class="hscroll-wrap">
-          <button type="button" class="scroll-arrow arrow-left" data-target="monthlyBannerList" aria-label="이전">‹</button>
-          <div class="hscroll" id="monthlyBannerList"></div>
-          <button type="button" class="scroll-arrow arrow-right" data-target="monthlyBannerList" aria-label="다음">›</button>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2>📅 이번주 공구는?</h2></div>
+        <div class="section-head"><h2>📅 이번 주 공구</h2></div>
         <div class="hscroll-wrap">
           <button type="button" class="scroll-arrow arrow-left" data-target="dayBar" aria-label="이전">‹</button>
           <div class="day-bar" id="dayBar"></div>
@@ -519,11 +510,11 @@
       </section>
 
       <section class="section">
-        <div class="section-head"><h2>⏰ 진행 예정 공구</h2><span class="sub">D-14 미리보기</span></div>
+        <div class="section-head"><h2>✨ 곧 오픈하는 공구</h2></div>
         <div class="hscroll-wrap">
-          <button type="button" class="scroll-arrow arrow-left" data-target="upcomingList" aria-label="이전">‹</button>
-          <div class="hscroll" id="upcomingList"></div>
-          <button type="button" class="scroll-arrow arrow-right" data-target="upcomingList" aria-label="다음">›</button>
+          <button type="button" class="scroll-arrow arrow-left" data-target="soonOpeningList" aria-label="이전">‹</button>
+          <div class="hscroll" id="soonOpeningList"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="soonOpeningList" aria-label="다음">›</button>
         </div>
       </section>
       </div>
@@ -569,6 +560,58 @@ const TODAY_ISO = toLocalIso(TODAY);
 
 const CATEGORY_EMOJI = { '육아용품': '🍼', '영유아식품': '🥣', '키즈가구': '🪑' };
 const WEEKDAY_KR = ['일','월','화','수','목','금','토'];
+
+// ---------------- 홈 섹션 큐레이션: 상호배제 / 우선순위 / 도배방지 ----------------
+// 2026-09-28: gonggu.db 스키마와 파이프라인 코드를 확인했지만 follower_count 같은
+// 팔로워 수 필드는 어디에도 없다(스크래퍼가 인스타 프로필 bio_text 원문은 수집해도
+// "X followers" 문자열을 구조화된 컬럼으로 파싱/저장하지 않고, 그 bio_text 자체도
+// 이 뷰가 받는 row 데이터엔 안 실려 있음). 크롤러는 이 작업 범위에서 건드리지 않기로
+// 했으므로, 대신 프론트에서만 관리하는 핸들 목록으로 가중치를 준다 - 실제로 어떤
+// 계정이 "대형/핵심"인지는 운영자만 판단할 수 있는 정보라 지금은 비워둔다. 채우려면
+// influencer_handle(예: 'seohui_jeong', @ 없이)을 그대로 넣으면 된다.
+const PRIORITY_INFLUENCERS = new Set([
+  // 'example_handle',
+]);
+
+function priorityWeight(row) {
+  return PRIORITY_INFLUENCERS.has(row.influencer_handle) ? 1 : 0;
+}
+// 우선순위(가중치 높은 게 먼저) → 동순위 내에서는 날짜 기준(dateKeyFn, 작을수록 먼저)으로 정렬.
+function sortWithPriority(list, dateKeyFn) {
+  return list.slice().sort(function (a, b) {
+    const pw = priorityWeight(b) - priorityWeight(a);
+    if (pw !== 0) return pw;
+    return dateKeyFn(a) - dateKeyFn(b);
+  });
+}
+
+// 같은 인플루언서 또는 같은 썸네일이면 "같은 그룹"으로 본다(둘 중 하나만 겹쳐도 도배로 침).
+function sameCardGroup(a, b) {
+  if (a.influencer_handle && a.influencer_handle === b.influencer_handle) return true;
+  if (a.image_url && a.image_url === b.image_url) return true;
+  return false;
+}
+// 정렬 순서는 최대한 지키면서, 같은 그룹이 (maxRun+1)개 연속으로 이어지면 뒤쪽에서
+// 다른 그룹의 첫 항목을 찾아 그 자리로 당겨와 흐름을 끊는다(그리디 방식 - 완벽한
+// 전역 최적 분산은 아니지만 8~10개 안팎의 섹션 길이에서는 충분함).
+function capConsecutiveRuns(list, maxRun) {
+  const result = list.slice();
+  for (let i = maxRun; i < result.length; i++) {
+    let runIntact = true;
+    for (let j = i - maxRun + 1; j <= i; j++) {
+      if (!sameCardGroup(result[j - 1], result[j])) { runIntact = false; break; }
+    }
+    if (!runIntact) continue;
+    let swapIdx = -1;
+    for (let j = i + 1; j < result.length; j++) {
+      if (!sameCardGroup(result[i - 1], result[j])) { swapIdx = j; break; }
+    }
+    if (swapIdx === -1) break; // 남은 항목이 전부 같은 그룹이면 더 손쓸 수 없다
+    const item = result.splice(swapIdx, 1)[0];
+    result.splice(i, 0, item);
+  }
+  return result;
+}
 
 const CHIPS = [
   { id: 'all', label: '전체', icon: '🛍️', keywords: null },
@@ -1004,15 +1047,29 @@ function isFuture(row) {
   return start && start > TODAY;
 }
 
-// ---------------- 마감 임박 ----------------
-function renderClosingSoon(rows) {
+// ---------------- 홈 3단 구성: 마감임박 → 이번 주 → 곧 오픈 (상호배제 워터폴) ----------------
+// 위쪽 섹션에 노출된 공구는 row.row_id를 usedIds Set에 쌓아 아래쪽 섹션에서 완전히
+// 제외한다. row_id는 매일 밤 재생성되는 배열 인덱스("row-N")라 여러 날에 걸친 식별에는
+// 못 쓰지만(찜하기가 favKey를 쓰는 이유), 이번엔 "이 페이지 로드 한 번" 안에서만
+// 구분하면 되므로 오히려 더 정확하다 - favKey는 '인플루언서+브랜드' 단위라 서로 다른
+// 실제 카드가 같은 키를 가질 수 있어(무관한 카드를 잘못 제외하는 사고가 실측 중
+// 발견됨) 이 용도엔 안 맞았다. renderHome()이 세 함수를 이 순서 그대로 호출한다.
+
+// ---------------- 1단: 마감 임박 (D-Day, D-1만) ----------------
+function renderClosingSoon(rows, usedIds) {
   const list = rows.filter(function (r) {
     const end = parseDate(r.end_date) || parseDate(r.start_date);
     if (!end || end < TODAY) return false;
-    return daysBetween(end, TODAY) <= 2; // 오늘 포함 이틀 이내 마감
+    return daysBetween(end, TODAY) <= 1; // 오늘(D-Day)·내일(D-1) 마감만
   }).sort(function (a, b) {
     return (parseDate(a.end_date) || parseDate(a.start_date)) - (parseDate(b.end_date) || parseDate(b.start_date));
   }).slice(0, 6);
+
+  // 섹션 간 중복 제거는 row_id를 쓴다(favKey가 아님) - favKey는 '인플루언서+브랜드'
+  // 단위라 서로 다른 실제 카드가 같은 키를 가질 수 있어(찜하기엔 맞는 근사치지만
+  // 이번엔 틀림) 무관한 카드를 잘못 제외하는 사고가 실측 중 발견됐다. row_id는
+  // 이 페이지 로드 한 번 안에서 배열 인덱스로 배정돼 항상 고유하므로 안전하다.
+  list.forEach(function (row) { usedIds.add(row.row_id); });
 
   const el = document.getElementById('closingSoonList');
   el.innerHTML = '';
@@ -1038,28 +1095,26 @@ function renderClosingSoon(rows) {
   });
 }
 
-// ---------------- 이달의 공구 (배너) ----------------
-// 마감임박 카드와 동일한 골격(정사각 썸네일 + 우상단 배지 1개 + 썸네일 아래
-// 상품명/가격)을 쓴다. 이전엔 와이드 이미지 위에 흰 글자를 얹은 배너 형태라
-// 마감임박 카드와 썸네일 비율·라운드·내부 여백이 서로 달랐다.
-function renderMonthlyBanner(rows) {
-  const list = rows.filter(isActive)
-    .sort(function (a, b) { return !!b.image_url - !!a.image_url; })
-    .slice(0, 8);
+// ---------------- 3단: 곧 오픈하는 공구 (구 '이달의 공구' 슬롯 재사용, 역할을
+// "진행중" -> "오픈예정(D-1~D-14)"으로 변경 - 기존 별도 '진행 예정' 섹션을 흡수해
+// 없앴다) ----------------
+// 카드 골격(정사각 썸네일 + 배지 + 가격)은 그대로 두고 필터/배지 문구만 바꾼다.
+function renderSoonOpening(rows, usedIds) {
+  let list = rows.filter(function (r) { return !usedIds.has(r.row_id) && isFuture(r); });
+  list = sortWithPriority(list, function (r) { return parseDate(r.start_date); });
+  list = capConsecutiveRuns(list, 2).slice(0, 8);
+  list.forEach(function (row) { usedIds.add(row.row_id); });
 
-  const el = document.getElementById('monthlyBannerList');
+  const el = document.getElementById('soonOpeningList');
   el.innerHTML = '';
   if (!list.length) {
-    el.innerHTML = '<div class="empty-note">이달의 진행중인 공구가 아직 없어요.</div>';
+    el.innerHTML = '<div class="empty-note">곧 오픈 예정인 공구가 아직 없어요.</div>';
     return;
   }
   list.forEach(function (row) {
     const start = parseDate(row.start_date);
-    const d = daysBetween(TODAY, start);
-    let badgeText;
-    if (d === 0) badgeText = '오늘 오픈';
-    else if (d > 0) badgeText = 'D+' + d + ' 진행중';
-    else badgeText = 'D-' + (-d) + ' 오픈예정';
+    const d = daysBetween(start, TODAY);
+    const mmdd = (start.getMonth() + 1) + '/' + start.getDate();
 
     const a = document.createElement('a');
     a.className = 'banner-card';
@@ -1067,7 +1122,7 @@ function renderMonthlyBanner(rows) {
     const thumb = makeThumb(row);
     const badge = document.createElement('span');
     badge.className = 'banner-badge';
-    badge.textContent = badgeText;
+    badge.textContent = d <= 0 ? '오늘 오픈' : ('D-' + d + ' ' + mmdd + ' 오픈');
     thumb.appendChild(badge);
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
@@ -1098,10 +1153,16 @@ function renderChips() {
   });
 }
 
-// ---------------- 이번주 공구는? (오늘부터 롤링 요일 바 + 2열 그리드) ----------------
+// ---------------- 2단: 이번 주 공구 (오늘부터 롤링 요일 바 + 2열 그리드) ----------------
 let selectedDayIso = TODAY_ISO;
 const WEEK_GRID_PAGE_SIZE = 8;
 let weekGridVisible = WEEK_GRID_PAGE_SIZE; // 날짜/카테고리 바뀌면 8개로 리셋
+// renderHome()이 1단(마감임박) 렌더 직후 채워주는 excludeIds(1단 결과만 담김)를
+// day-bar 재클릭/더보기 클릭 시에도 그대로 재사용한다(1단은 날짜 이동으로 안 바뀌니
+// 재계산 불필요). weekShownIds는 '오늘' 뷰에서 2단이 실제로 보여준 전체 후보(더보기로
+// 펼쳐야 보이는 것 포함) - 3단이 이 값까지 합쳐서 제외에 쓴다.
+let homeUsedIds = new Set();
+let weekShownIds = new Set();
 
 function renderDayBar() {
   const el = document.getElementById('dayBar');
@@ -1116,7 +1177,7 @@ function renderDayBar() {
       selectedDayIso = iso;
       weekGridVisible = WEEK_GRID_PAGE_SIZE; // 날짜를 바꾸면 다시 상위 8개만
       renderDayBar();
-      renderWeekGrid(currentFilteredRows());
+      renderWeekGrid(currentFilteredRows(), homeUsedIds);
     });
     el.appendChild(pill);
   }
@@ -1136,13 +1197,25 @@ function renderWeekCard(row) {
   return a;
 }
 
-function renderWeekGrid(rows) {
+function renderWeekGrid(rows, excludeIds) {
   const el = document.getElementById('weekGrid');
   el.innerHTML = '';
-  const list = rows.filter(function (r) {
+  let list = rows.filter(function (r) {
+    if (excludeIds.has(r.row_id)) return false; // 1단(마감임박)에 이미 나온 건 제외
     const start = r.start_date, end = r.end_date || r.start_date;
     return start <= selectedDayIso && selectedDayIso <= end;
   });
+  list = sortWithPriority(list, function (r) { return parseDate(r.end_date || r.start_date); });
+  list = capConsecutiveRuns(list, 2);
+  // '오늘' 뷰(기본 화면)에서 후보가 된 전체 목록을 weekShownIds에 따로 기록해둔다
+  // (3단이 나중에 이 값까지 합쳐서 제외에 쓴다). excludeIds에 직접 더하면 안 되는
+  // 이유: excludeIds는 day-bar/더보기가 이 함수를 다시 부를 때도 그대로 재사용되는데,
+  // 방금 보여준 항목을 자기 자신의 exclude 목록에 넣어버리면 재호출 시 스스로를
+  // 걸러내 리스트가 통째로 비어버리는 자기참조 버그가 생긴다(실측 중 발견).
+  if (selectedDayIso === TODAY_ISO) {
+    weekShownIds = new Set(list.map(function (r) { return r.row_id; }));
+  }
+
   if (!list.length) {
     el.innerHTML = '<div class="empty-note">이 날짜엔 진행중인 공구가 없어요.</div>';
     return;
@@ -1160,42 +1233,13 @@ function renderWeekGrid(rows) {
     moreBtn.addEventListener('click', function () {
       const prevShown = shown;
       weekGridVisible = list.length; // 한 번에 나머지 전부 펼침
-      renderWeekGrid(currentFilteredRows());
+      renderWeekGrid(currentFilteredRows(), excludeIds);
       // 방금 새로 나타난 카드에만 페이드인 애니메이션을 준다.
       const cards = document.querySelectorAll('#weekGrid .week-card');
       for (let i = prevShown; i < cards.length; i++) { cards[i].classList.add('reveal'); }
     });
     el.appendChild(moreBtn);
   }
-}
-
-// ---------------- 진행 예정 (D-14) ----------------
-function renderUpcoming(rows) {
-  const list = rows.filter(isFuture)
-    .sort(function (a, b) { return parseDate(a.start_date) - parseDate(b.start_date); })
-    .slice(0, 10);
-
-  const el = document.getElementById('upcomingList');
-  el.innerHTML = '';
-  if (!list.length) {
-    el.innerHTML = '<div class="empty-note">아직 예고된 다음 달 공구가 없어요.</div>';
-    return;
-  }
-  list.forEach(function (row) {
-    const start = parseDate(row.start_date);
-    const d = daysBetween(start, TODAY);
-    const mmdd = (start.getMonth() + 1) + '/' + start.getDate();
-    const a = document.createElement('a');
-    a.className = 'upcoming-card';
-    a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
-    const thumb = makeThumb(row);
-    const badge = document.createElement('span'); badge.className = 'upcoming-badge';
-    badge.textContent = 'D-' + d + ' ' + mmdd + ' 오픈';
-    thumb.appendChild(badge);
-    a.appendChild(thumb);
-    a.appendChild(makeNameEl(row));
-    el.appendChild(a);
-  });
 }
 
 function currentFilteredRows() {
@@ -1233,10 +1277,16 @@ function renderHome() {
   document.getElementById('regularSections').hidden = isFavTab;
   if (isFavTab) { renderFavSection(); return; }
   const filtered = currentFilteredRows();
-  renderClosingSoon(filtered);
-  renderMonthlyBanner(filtered);
-  renderWeekGrid(filtered);
-  renderUpcoming(filtered);
+  // 1 -> 2 -> 3 순서로 상호배제(워터폴)한다. homeUsedIds는 1단 결과만 담아 2단에
+  // 넘기고(day-bar/더보기가 나중에 이 함수를 다시 불러도 자기참조가 안 생기게),
+  // 2단이 '오늘' 뷰에서 실제로 보여준 전체 후보(weekShownIds)는 3단에만 추가로 합친다.
+  homeUsedIds = new Set();
+  weekShownIds = new Set();
+  renderClosingSoon(filtered, homeUsedIds);
+  renderWeekGrid(filtered, homeUsedIds);
+  const soonExcludeIds = new Set(homeUsedIds);
+  weekShownIds.forEach(function (k) { soonExcludeIds.add(k); });
+  renderSoonOpening(filtered, soonExcludeIds);
 }
 
 // ---------------- 검색 (플랫 리스트, 홈 섹션은 통째로 숨김) ----------------
@@ -1380,7 +1430,7 @@ function scrollArrowClick(targetId, dir) {
 }
 
 function setupSliders() {
-  ['closingSoonList', 'monthlyBannerList', 'dayBar', 'upcomingList'].forEach(function (id) {
+  ['closingSoonList', 'dayBar', 'soonOpeningList'].forEach(function (id) {
     const el = document.getElementById(id);
     if (el) enableDragScroll(el);
   });
