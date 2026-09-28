@@ -5,6 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>{{ title }}</title>
 
+<!-- PWA: 홈 화면에 추가(설치)를 지원하기 위한 매니페스트/아이콘/메타태그.
+     manifest.json과 icons/는 index.html과 같은 저장소 루트에 있어야 하므로
+     상대경로(리딩 슬래시 없이)로 참조한다 - GitHub Pages 서브패스(/09-calendar/)
+     배포와도 호환됨. -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5f0080" />
+<link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+<!-- iOS는 매니페스트의 display:standalone을 따르지 않아 이 메타태그들이 따로 필요하다. -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Buyg" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
 <!-- Google tag (gtag.js) - GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6FK3NSWH2F"></script>
 <script>
@@ -293,6 +308,45 @@
   .search-card .fav-btn, .search-card .thumb-share-btn { width: 22px; height: 22px; }
   .search-card .fav-btn svg { width: 13px; height: 13px; }
   .search-card .thumb-share-btn svg { width: 11px; height: 11px; }
+
+  /* ---- PWA 홈 화면 추가 안내 바텀시트 ----
+     찜 1회 이상 또는 재방문 2회차부터, 페이지 로드당 한 번만 조건을 계산해 노출한다.
+     기본 상태를 화면 아래로 밀어둔 채(translateY(100%)) 렌더링하고 .show로 끌어올리는
+     방식(.fav-toast와 동일 패턴) - hidden 속성과 커스텀 display를 같이 쓰면 상속
+     우선순위 문제가 생겨서(.fav-toast에서 이미 겪음) 아예 안 쓴다. z-index는 찜
+     토스트(200)보다 위(300)로 두되, 찜 토스트가 뜰 때는 이 시트를 내려 서로 겹치지
+     않게 한다(showFavToast 참고). */
+  .install-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 300;
+    max-width: 480px; margin: 0 auto;
+    background: #fff; border-radius: 18px 18px 0 0;
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
+    padding: 18px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%); transition: transform 0.28s ease;
+  }
+  .install-sheet.show { transform: translateY(0); }
+  .install-sheet-close {
+    position: absolute; top: 10px; right: 12px; width: 28px; height: 28px; border: none;
+    background: var(--bg-light); color: var(--text-sub); border-radius: 50%; font-size: 13px;
+    cursor: pointer; -webkit-user-select: none; user-select: none;
+  }
+  .install-sheet-top { display: flex; align-items: center; gap: 12px; padding-right: 24px; }
+  .install-sheet-icon img { width: 48px; height: 48px; border-radius: 12px; display: block; }
+  .install-sheet-title { font-size: 15px; font-weight: 800; color: var(--text-main); }
+  .install-sheet-desc { font-size: 12.5px; color: var(--text-sub); margin-top: 2px; line-height: 1.4; }
+  .install-sheet-cta {
+    display: block; width: 100%; margin-top: 14px; padding: 12px; border: none; border-radius: 12px;
+    background: var(--brand-purple); color: #fff; font-size: 14px; font-weight: 800; cursor: pointer;
+  }
+  .install-sheet-cta:active { transform: scale(0.98); }
+  .install-sheet-steps { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .install-sheet-step { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--text-main); }
+  .install-sheet-step-num {
+    flex: 0 0 20px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-lavender);
+    color: var(--brand-purple); font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .install-sheet-step-icon { font-size: 15px; }
   .fav-empty { grid-column: 1 / -1; padding: 44px 16px; text-align: center; color: var(--text-sub); }
   .fav-empty b { display: block; font-size: 15px; color: var(--text-main); margin-bottom: 6px; }
   .fav-empty span { font-size: 12px; }
@@ -477,6 +531,18 @@
     <button type="button" class="fav-toast-close" id="favToastClose" aria-label="닫기">✕</button>
   </div>
 </div>
+<div class="install-sheet" id="installSheet" role="dialog" aria-label="홈 화면에 추가">
+  <button type="button" class="install-sheet-close" id="installSheetClose" aria-label="닫기">✕</button>
+  <div class="install-sheet-top">
+    <div class="install-sheet-icon"><img src="icons/icon-192.png" alt="" width="48" height="48" /></div>
+    <div>
+      <div class="install-sheet-title">Buyg 홈 화면에 추가</div>
+      <div class="install-sheet-desc" id="installSheetDesc"></div>
+    </div>
+  </div>
+  <button type="button" class="install-sheet-cta" id="installSheetCta" style="display:none">1초 만에 바로 추가</button>
+  <div class="install-sheet-steps" id="installSheetSteps" style="display:none"></div>
+</div>
 
 <script>
 // ---- 외부 연동 설정 (나중에 실제 값으로 교체) ----
@@ -660,6 +726,10 @@ function showFavToast(row) {
   calBtn.style.display = url ? '' : 'none';
   if (url) calBtn.href = url;
   document.getElementById('toast').classList.remove('show'); // 겹쳐 보이지 않게 일반 토스트는 내려둔다
+  // PWA 설치 바텀시트와도 동시에 뜨면 겹치므로, 찜 토스트가 우선이면 시트는 내려둔다
+  // (세션당 노출은 이미 한 번 했으니 다시 못 뜨는 것은 아니고, 다음 조건 재계산 때 다시 뜰 수 있음).
+  const sheet = document.getElementById('installSheet');
+  if (sheet) sheet.classList.remove('show');
   el.classList.add('show');
   clearTimeout(favToastTimer);
   favToastTimer = setTimeout(hideFavToast, 3500);
@@ -1314,11 +1384,111 @@ function setupSliders() {
   });
 }
 
+// ---------------- PWA 홈 화면 추가 안내 (스마트 바텀시트) ----------------
+// 노출 조건: (찜 1회 이상 했음) 또는 (이번이 2회차 이상 방문) - 첫 방문에 바로
+// 뜨면 서비스를 알기도 전에 설치를 강요하는 느낌이라 배제한다. 데스크톱에서는
+// "모바일 편의 기능"이라는 취지에 안 맞아 아예 노출하지 않는다.
+const INSTALL_VISITS_KEY = 'buyg_visit_count';
+const INSTALL_DISMISS_KEY = 'buyg_install_sheet_dismiss_until';
+const INSTALL_SNOOZE_DAYS = 14; // 닫으면 이 기간 동안 다시 안 뜸("일정 기간 노출 차단")
+
+function isStandaloneDisplay() {
+  try {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  } catch (e) { return false; }
+}
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '');
+}
+function isIOSDevice() {
+  const ua = navigator.userAgent || '';
+  // iPadOS 13+는 데스크톱 Safari로 위장(UA에 iPad가 안 남고 MacIntel로 잡힘)하므로
+  // 터치포인트로 한 번 더 구분한다.
+  return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+function bumpInstallVisitCount() {
+  let n = 0;
+  try { n = parseInt(localStorage.getItem(INSTALL_VISITS_KEY) || '0', 10) || 0; } catch (e) {}
+  n += 1;
+  try { localStorage.setItem(INSTALL_VISITS_KEY, String(n)); } catch (e) {}
+  return n;
+}
+function installSheetEligible() {
+  if (!isMobileDevice() || isStandaloneDisplay()) return false;
+  let dismissUntil = 0;
+  try { dismissUntil = parseInt(localStorage.getItem(INSTALL_DISMISS_KEY) || '0', 10) || 0; } catch (e) {}
+  if (Date.now() < dismissUntil) return false;
+  const visits = bumpInstallVisitCount(); // 조건 계산 자체가 "이번 방문 카운트"라 한 번만 호출
+  return favSet.size > 0 || visits >= 2;
+}
+function dismissInstallSheet() {
+  document.getElementById('installSheet').classList.remove('show');
+  try { localStorage.setItem(INSTALL_DISMISS_KEY, String(Date.now() + INSTALL_SNOOZE_DAYS * 86400000)); } catch (e) {}
+}
+
+let deferredInstallPrompt = null; // Android/Chrome의 beforeinstallprompt 이벤트 객체 보관
+let installSheetShown = false; // 한 페이지 로드에서 두 번 뜨지 않게(중복 트리거 방지)
+
+function renderInstallSheetContent(platform) {
+  const desc = document.getElementById('installSheetDesc');
+  const cta = document.getElementById('installSheetCta');
+  const steps = document.getElementById('installSheetSteps');
+  if (platform === 'android') {
+    desc.textContent = '앱처럼 한 번에 열어보고, 새 공구 소식도 놓치지 마세요.';
+    cta.style.display = 'block';
+    steps.style.display = 'none';
+  } else {
+    desc.textContent = '아래 단계로 홈 화면에 추가하면 앱처럼 바로 열 수 있어요.';
+    cta.style.display = 'none';
+    steps.style.display = 'flex';
+    steps.innerHTML =
+      '<div class="install-sheet-step"><span class="install-sheet-step-num">1</span>' +
+      '<span class="install-sheet-step-icon">⬆️</span><span>하단 <b>공유</b> 버튼을 탭하세요</span></div>' +
+      '<div class="install-sheet-step"><span class="install-sheet-step-num">2</span>' +
+      '<span class="install-sheet-step-icon">➕</span><span>목록에서 <b>홈 화면에 추가</b>를 선택하세요</span></div>';
+  }
+}
+
+function openInstallSheet(platform) {
+  if (installSheetShown) return;
+  installSheetShown = true;
+  renderInstallSheetContent(platform);
+  const el = document.getElementById('installSheet');
+  requestAnimationFrame(function () { el.classList.add('show'); });
+}
+
+function initInstallSheet() {
+  const eligible = installSheetEligible(); // 방문 카운트 증가를 위해 always 호출(한 번만)
+  document.getElementById('installSheetClose').addEventListener('click', dismissInstallSheet);
+  document.getElementById('installSheetCta').addEventListener('click', function () {
+    if (!deferredInstallPrompt) return;
+    const p = deferredInstallPrompt;
+    deferredInstallPrompt = null;
+    p.prompt();
+    p.userChoice.finally(dismissInstallSheet);
+  });
+  window.addEventListener('appinstalled', dismissInstallSheet);
+
+  if (!eligible) return;
+
+  // 안드로이드/크롬 계열: 브라우저가 설치 가능하다고 판단하면 이 이벤트를 준다 -
+  // 이게 와야만 "1초 만에 바로 추가" 버튼이 실제로 동작하므로, 못 받으면 아예 안 띄운다.
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (!isIOSDevice()) openInstallSheet('android');
+  });
+
+  // iOS Safari는 beforeinstallprompt 자체가 없으므로 조건 충족 시 바로 안내를 띄운다.
+  if (isIOSDevice()) openInstallSheet('ios');
+}
+
 renderTodayBadge();
 renderChips();
 renderDayBar();
 renderHome();
 setupSliders();
+initInstallSheet();
 initNoticeBar();
 document.getElementById('sharedClose').addEventListener('click', function () {
   document.getElementById('sharedSection').hidden = true;
