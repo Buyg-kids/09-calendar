@@ -198,7 +198,7 @@ def _candidate_urls(keyword: str) -> list[str]:
         conn = sqlite3.connect(f"file:{Path(GONGGU_DB_PATH).as_posix()}?mode=ro", uri=True)
         try:
             rows = conn.execute(
-                "SELECT image_url FROM gonggu WHERE (brand LIKE ? OR product_name LIKE ?) AND image_url != '' "
+                "SELECT image_url FROM gonggu WHERE (brand LIKE ? OR product_name LIKE ?) AND image_url != '' AND image_url NOT LIKE '%/icons/placeholder-%' "
                 "ORDER BY updated_at DESC LIMIT ?", (f"%{keyword}%", f"%{keyword}%", MAX_CANDIDATES)).fetchall()
         finally:
             conn.close()

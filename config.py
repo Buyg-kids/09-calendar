@@ -25,10 +25,21 @@ CLAUDE_PRICE_PER_MTOK_USD = {
     "cache_read": 0.10,
 }
 
-# 네이버 이미지 검색 API (parser/image_fallback.py에서 인스타 이미지 누락 시 대체
-# 썸네일을 찾는 데 사용). 둘 중 하나라도 없으면 이미지 폴백 단계는 조용히 스킵된다.
-NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID", "")
-NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET", "")
+# Cloudinary (parser/image_store.py) - 인스타 CDN 썸네일은 서명 토큰이 며칠 뒤 만료되므로
+# 수집 직후 Cloudinary로 옮겨 영구 URL을 쓴다. 셋 중 하나라도 없으면 업로드 단계는 스킵된다.
+# 2026-09-29: 네이버 이미지 검색 폴백은 상품명만으로 엉뚱한 쇼핑몰/성인 의류 사진을 가져오는
+# 사고가 반복돼 완전히 제거했다 - 원본 인스타 이미지가 없으면 무조건 아래 플레이스홀더를 쓴다.
+CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "")
+CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "")
+CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
+CLOUDINARY_FOLDER = "buyg/posts"
+# 종료일(없으면 시작일) 기준 이 일수가 지난 공구는 Cloudinary 이미지를 삭제하고 마감 플레이스홀더로
+# 바꾼다(공구 텍스트 정보는 시세 검색 히스토리용으로 그대로 보존).
+IMAGE_RETENTION_DAYS = 30
+
+SITE_BASE_URL = "https://buyg-kids.github.io/09-calendar"
+IMAGE_PLACEHOLDER_URL = f"{SITE_BASE_URL}/icons/placeholder-buyg.png"      # 이미지 수집 실패/누락
+IMAGE_ENDED_PLACEHOLDER_URL = f"{SITE_BASE_URL}/icons/placeholder-ended.png"  # 보관 기간 지나 이미지 삭제됨
 
 INPOCK_STORAGE_STATE_PATH = BASE_DIR / os.getenv("INPOCK_STORAGE_STATE_PATH", "data/inpock_storage_state.json")
 LITLINK_STORAGE_STATE_PATH = BASE_DIR / os.getenv("LITLINK_STORAGE_STATE_PATH", "data/litlink_storage_state.json")

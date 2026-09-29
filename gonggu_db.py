@@ -52,6 +52,8 @@ _MIGRATION_COLUMNS = {
                               # 게시물이 "최신 5개" 수집 창에서 밀려나면 raw_collected.json에서도 사라져
                               # 날짜/가격 파싱 오류를 원문과 대조해 검증할 방법이 없었던 문제(2026-09-21
                               # 월 전체 날짜 오류 조사) 때문에 도입 - 트러블슈팅 전용, 프런트에 노출 안 함.
+    "cloudinary_public_id": "TEXT",  # 2026-09-29 추가: image_url이 Cloudinary로 옮겨진 경우 그 public_id
+                                      # (보관 기간 지나 destroy할 때 필요). 비어 있으면 인스타 원본/플레이스홀더.
 }
 
 
@@ -95,7 +97,10 @@ def upsert_gonggu(item: dict) -> None:
                 end_date=excluded.end_date,
                 purchase_link=excluded.purchase_link,
                 key_benefit=excluded.key_benefit,
-                image_url=CASE WHEN excluded.image_url != '' THEN excluded.image_url ELSE gonggu.image_url END,
+                image_url=CASE
+                    WHEN COALESCE(gonggu.cloudinary_public_id, '') != '' THEN gonggu.image_url
+                    WHEN excluded.image_url != '' THEN excluded.image_url
+                    ELSE gonggu.image_url END,
                 price=excluded.price,
                 post_url=CASE WHEN excluded.post_url != '' THEN excluded.post_url ELSE gonggu.post_url END,
                 caption_text=CASE WHEN excluded.caption_text != '' THEN excluded.caption_text ELSE gonggu.caption_text END,
@@ -129,18 +134,24 @@ def mark_blob_processed(text_hash: str) -> None:
         )
 
 
-def list_missing_images() -> list[dict[str, Any]]:
-    """image_url이 비어 있는 행 조회 (parser/image_fallback.py가 사용)."""
+def list_image_rows() -> list[dict[str, Any]]:
+    """이미지 동기화/정리(parser/image_store.py)에 필요한 최소 컬럼만 전체 조회."""
     with get_conn() as conn:
         rows = conn.execute(
-            "SELECT id, product_name, brand, category FROM gonggu WHERE image_url IS NULL OR image_url = ''"
+            "SELECT id, start_date, end_date, image_url, post_url, cloudinary_public_id FROM gonggu"
         ).fetchall()
         return [dict(r) for r in rows]
 
 
-def update_image_url(row_id: int, image_url: str) -> None:
+def set_image(row_ids: list[int], image_url: str, public_id: str = "") -> None:
+    """여러 행의 image_url/cloudinary_public_id를 한 번에 갱신 (같은 게시물에서 나온 행들)."""
+    if not row_ids:
+        return
     with get_conn() as conn:
-        conn.execute("UPDATE gonggu SET image_url = ? WHERE id = ?", (image_url, row_id))
+        conn.executemany(
+            "UPDATE gonggu SET image_url = ?, cloudinary_public_id = ? WHERE id = ?",
+            [(image_url, public_id, rid) for rid in row_ids],
+        )
 
 
 def list_gonggu(

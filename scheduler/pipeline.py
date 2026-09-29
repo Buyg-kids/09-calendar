@@ -14,13 +14,13 @@ def run_pipeline_once() -> dict:
     from scraper.discover import discover
     from scraper.collector import run as run_scrape
     from parser.extract_schedule import run as run_parse
-    from parser.image_fallback import run as run_image_fallback
+    from parser.image_store import run as run_image_store
     from generator.card_news import run as run_generate
 
     result: dict = {
         "discover_targets": 0,
         "scrape_targets": 0, "scrape_ok": False,
-        "parse_stats": None, "image_fallback_stats": None, "card_paths": [],
+        "parse_stats": None, "image_store_stats": None, "card_paths": [],
         "kakao_notice_path": None,
     }
 
@@ -44,10 +44,12 @@ def run_pipeline_once() -> dict:
     except Exception:
         logger.exception("파싱 단계 실패")
 
+    # 인스타 썸네일 -> Cloudinary 영구 보관 + 보관기간 지난 이미지 정리. 부가 단계라
+    # 실패해도 배포는 계속돼야 하므로 logger.exception 금지(Traceback은 배포 스킵을 유발).
     try:
-        result["image_fallback_stats"] = run_image_fallback()
-    except Exception:
-        logger.exception("이미지 폴백 단계 실패")
+        result["image_store_stats"] = run_image_store()
+    except Exception as e:
+        logger.error("이미지 보관 단계 오류 - 무시하고 계속 진행 (%s: %s)", type(e).__name__, str(e)[:200])
 
     try:
         result["card_paths"] = run_generate()

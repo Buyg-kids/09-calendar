@@ -34,7 +34,7 @@ def main() -> None:
     elapsed = time.time() - started
 
     stats = result.get("parse_stats") or {}
-    image_stats = result.get("image_fallback_stats") or {}
+    image_stats = result.get("image_store_stats") or {}
     cards = result.get("card_paths") or []
 
     print("\n" + "=" * 60)
@@ -48,12 +48,12 @@ def main() -> None:
           f"gonggu.db 저장 {stats.get('saved', 0)}건 "
           f"(룰베이스 {stats.get('saved_by_rule', 0)} + Claude {stats.get('saved_by_claude', 0)}) / "
           f"날짜 불명 스킵 {stats.get('skipped_no_date', 0)}건")
-    if image_stats.get("checked", 0) > 0 or image_stats.get("filled", 0) > 0:
-        print(f"  4) 이미지 폴백 : 누락 {image_stats.get('checked', 0)}건 중 "
-              f"네이버 이미지 검색으로 {image_stats.get('filled', 0)}건 채움 "
-              f"(실패 {image_stats.get('failed', 0)}건)")
+    if image_stats:
+        print(f"  4) 이미지 보관 : Cloudinary 업로드 {image_stats.get('uploaded', 0)}건 / "
+              f"플레이스홀더 {image_stats.get('placeholder', 0)}행 / 업로드 실패 {image_stats.get('upload_failed', 0)}건 / "
+              f"보관기간 만료 정리 {image_stats.get('expired_rows', 0)}행")
     else:
-        print("  4) 이미지 폴백 : 스킵 (누락 없음 또는 NAVER_CLIENT_ID/SECRET 미설정)")
+        print("  4) 이미지 보관 : 스킵 (CLOUDINARY_* 미설정)")
     if cards:
         print(f"  5) 카드뉴스 : {len(cards)}장 생성")
         for p in cards:

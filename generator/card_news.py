@@ -430,7 +430,13 @@ def _merge_duplicate_group(group: list[dict]) -> dict:
     # 그대로 쓰고 정말 비어있을 때만 그룹의 다른 값으로 대체했다. 그 대신
     # 그룹 안에서 가장 최근에 재수집된(updated_at 최신) 이미지를 항상 우선해
     # 만료 가능성을 최소화한다.
-    image_candidates = [it for it in group if it.get("image_url")]
+    # 2026-09-29 Cloudinary 이전 후엔 영구 URL(cloudinary_public_id 있음)이 최우선이고,
+    # 플레이스홀더는 그룹에 진짜 이미지가 하나도 없을 때만 쓴다.
+    image_candidates = (
+        [it for it in group if it.get("cloudinary_public_id")]
+        or [it for it in group if it.get("image_url") and "/icons/placeholder-" not in it["image_url"]]
+        or [it for it in group if it.get("image_url")]
+    )
     if image_candidates:
         merged["image_url"] = max(image_candidates, key=lambda it: it.get("updated_at") or "")["image_url"]
     if not merged.get("post_url"):
@@ -647,12 +653,6 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
     logger.info("카드뉴스 %d장 생성 완료: %s", len(paths), out_dir)
 
     summary_rows = _build_summary_rows(display_start, display_end, hide_before=today_date)
-    # 병합 시 가장 최근 캡처본을 우선하도록 고쳤어도(_merge_duplicate_group),
-    # 마감일이 먼 상품은 그 최신 캡처본마저 결국 인스타 CDN 서명 토큰이 만료될
-    # 수 있다. view.html에 실제로 나갈 이 행들에 한해 마지막으로 생존 여부를
-    # 확인하고, 죽어있으면 네이버 이미지 검색으로 교체한다.
-    from parser.image_fallback import revalidate_rows
-    revalidate_rows(summary_rows)
     summary_path = _write_calendar_summary_txt(summary_rows, display_start, display_end, title)
     logger.info("텍스트 캡션 요약 생성 (%s~%s, %d건): %s", display_start, display_end, len(summary_rows), summary_path)
     view_path = _write_view_html(summary_rows, display_start, display_end, title)

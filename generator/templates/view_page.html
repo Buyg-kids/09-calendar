@@ -610,7 +610,8 @@ function sortWithPriority(list, dateKeyFn) {
 // 같은 인플루언서 또는 같은 썸네일이면 "같은 그룹"으로 본다(둘 중 하나만 겹쳐도 도배로 침).
 function sameCardGroup(a, b) {
   if (a.influencer_handle && a.influencer_handle === b.influencer_handle) return true;
-  if (a.image_url && a.image_url === b.image_url) return true;
+  // 공용 플레이스홀더(이미지 없는 공구)끼리는 같은 상품이 아니므로 썸네일 기준에서 제외
+  if (a.image_url && a.image_url === b.image_url && a.image_url.indexOf('/icons/placeholder-') < 0) return true;
   return false;
 }
 // 정렬 순서는 최대한 지키면서, 같은 그룹이 (maxRun+1)개 연속으로 이어지면 뒤쪽에서
