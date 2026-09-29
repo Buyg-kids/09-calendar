@@ -135,6 +135,12 @@
     display: inline-block; font-size: 12px; font-weight: 700; color: #1e1b3a;
     background: #fff; padding: 7px 12px; border-radius: 999px; white-space: nowrap;
     text-decoration: none; cursor: pointer; transition: transform 0.12s ease;
+    border: none; font-family: inherit; line-height: 1.3;
+  }
+  /* 안드로이드 구글 캘린더 앱은 .ics를 직접 못 열어서 보조 링크로 남겨둔다 */
+  .fav-toast-gcal {
+    font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.85); white-space: nowrap;
+    text-decoration: underline; text-underline-offset: 2px; padding: 4px 2px;
   }
   .fav-toast-cal-btn:active { transform: scale(0.96); }
   .fav-toast-close {
@@ -537,7 +543,8 @@
 <div class="fav-toast" id="favToast" role="status" aria-live="polite">
   <span class="fav-toast-msg">찜 목록에 저장되었습니다!</span>
   <div class="fav-toast-actions">
-    <a class="fav-toast-cal-btn" id="favToastCalBtn" href="#" target="_blank" rel="noopener">캘린더에 마감일 등록</a>
+    <button type="button" class="fav-toast-cal-btn" id="favToastCalBtn">📅 캘린더에 마감일 등록</button>
+    <a class="fav-toast-gcal" id="favToastGcal" href="#" target="_blank" rel="noopener">구글</a>
     <button type="button" class="fav-toast-close" id="favToastClose" aria-label="닫기">✕</button>
   </div>
 </div>
@@ -785,7 +792,100 @@ function calendarUrlFor(row) {
   });
   return 'https://calendar.google.com/calendar/render?' + params.toString();
 }
+// ---- 기기 기본 캘린더(.ics) 등록 ----
+// 마감일 23:00~23:59(KST) 일정 + 알림 2개(당일 오전 9시, 마감 약 2시간 전 22:00).
+// 서버 없이 JS에서 iCalendar 텍스트를 만들고 환경별로 여는 방식이 다르다:
+// - iOS 사파리: data:text/calendar URL로 이동하면 애플 캘린더 '이벤트 추가' 시트가 바로 뜬다.
+// - 안드로이드/PC: Blob을 .ics 파일로 내려받게 하면 삼성 캘린더/Outlook/macOS 캘린더가 연다.
+// - iOS의 크롬·카카오톡·인스타 인앱 브라우저는 data:/blob: 캘린더를 못 열어 구글 캘린더로 대체.
+const ICS_ALARMS_MIN_BEFORE_START = [14 * 60, 60]; // 23:00 시작 기준 -> 09:00, 22:00
+function icsEscape(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+}
+// RFC 5545: 한 줄 75바이트 초과 시 CRLF+공백으로 접는다(한글은 3바이트라 글자 수가 아니라 바이트로 센다).
+function icsFold(line) {
+  const enc = new TextEncoder();
+  const out = [];
+  let cur = '', bytes = 0;
+  for (const ch of line) {
+    const b = enc.encode(ch).length;
+    if (bytes + b > (out.length ? 74 : 75)) { out.push(cur); cur = ''; bytes = 0; }
+    cur += ch; bytes += b;
+  }
+  out.push(cur);
+  return out.join('\r\n ');
+}
+function icsUtc(d) {
+  return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+}
+function buildIcs(row) {
+  const deadline = row.end_date || row.start_date;
+  if (!deadline) return '';
+  // 마감일 KST 23:00~23:59 -> UTC(-9h). 시간대 정의 없이 UTC로 적어야 어느 기기에서도 같은 시각.
+  const start = new Date(deadline + 'T23:00:00+09:00');
+  const end = new Date(deadline + 'T23:59:00+09:00');
+  const link = row.purchase_url || row.post_url || shareUrlFor(row);
+  const price = priceInfo(row).text;
+  const desc = [row.date_label + ' 진행' + (row.influencer_label ? ' · ' + row.influencer_label : '')];
+  if (price && price !== PRICE_UNKNOWN_TEXT) desc.push('가격: ' + price);
+  if (row.key_benefit) desc.push('혜택: ' + row.key_benefit);
+  desc.push('공구 링크: ' + link);
+  desc.push('Buyg에서 보기: ' + shareUrlFor(row));
+  const title = '[공구 마감] ' + (row.product_name || '') + (row.influencer_label ? ' (' + row.influencer_label + ')' : '');
+  const lines = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Buyg//Gonggu Calendar//KO', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:' + encodeURIComponent(favKey(row)).slice(0, 80) + '-' + deadline + '@buyg-kids.github.io',
+    'DTSTAMP:' + icsUtc(new Date()),
+    'DTSTART:' + icsUtc(start),
+    'DTEND:' + icsUtc(end),
+    'SUMMARY:' + icsEscape(title),
+    'DESCRIPTION:' + icsEscape(desc.join('\n')),
+    'URL:' + link,
+  ];
+  ICS_ALARMS_MIN_BEFORE_START.forEach(function (min) {
+    lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + icsEscape(title), 'TRIGGER:-PT' + min + 'M', 'END:VALARM');
+  });
+  lines.push('END:VEVENT', 'END:VCALENDAR');
+  return lines.map(icsFold).join('\r\n') + '\r\n';
+}
+// iOS에서 data: 캘린더를 처리할 수 있는 건 사파리(홈 화면 앱 포함)뿐이다.
+function isIOSSafari() {
+  const ua = navigator.userAgent || '';
+  return isIOSDevice() && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|KAKAOTALK|Instagram|FBAN|FBAV|NAVER|Line\//i.test(ua)
+    || (isIOSDevice() && isStandaloneDisplay());
+}
+function isIOSInAppOrOtherBrowser() {
+  return isIOSDevice() && !isIOSSafari();
+}
+function addToDeviceCalendar(row) {
+  const ics = buildIcs(row);
+  if (!ics) return;
+  if (isIOSDevice()) {
+    if (isIOSSafari()) {
+      window.location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    } else {
+      showToast('아이폰 캘린더 등록은 사파리에서 돼요 - 구글 캘린더로 열게요', 3200);
+      window.open(calendarUrlFor(row), '_blank', 'noopener');
+    }
+    return;
+  }
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'buyg-' + (row.end_date || row.start_date) + '.ics';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+  if (/Android/i.test(navigator.userAgent || '')) {
+    showToast('다운로드된 파일을 열면 캘린더에 등록돼요', 3200);
+  }
+}
+
 let favToastTimer = null;
+let favToastRow = null;
 function hideFavToast() {
   document.getElementById('favToast').classList.remove('show');
   clearTimeout(favToastTimer);
@@ -793,11 +893,16 @@ function hideFavToast() {
 function showFavToast(row) {
   const el = document.getElementById('favToast');
   const calBtn = document.getElementById('favToastCalBtn');
+  const gcal = document.getElementById('favToastGcal');
   const url = calendarUrlFor(row);
+  favToastRow = row;
   // 마감일을 전혀 알 수 없는 극히 드문 행(시작일도 없음)이면 등록할 날짜가
   // 없으니 버튼을 숨긴다 - 안내 문구만 보여준다.
   calBtn.style.display = url ? '' : 'none';
-  if (url) calBtn.href = url;
+  // 구글 보조 링크: 안드로이드(구글 캘린더 앱 사용자)·PC에서만. iOS 사파리는 기본 캘린더로 충분하고,
+  // iOS 인앱/크롬은 메인 버튼이 이미 구글 캘린더로 대체된다.
+  gcal.style.display = url && !isIOSDevice() ? '' : 'none';
+  if (url) gcal.href = url;
   document.getElementById('toast').classList.remove('show'); // 겹쳐 보이지 않게 일반 토스트는 내려둔다
   // PWA 설치 바텀시트와도 동시에 뜨면 겹치므로, 찜 토스트가 우선이면 시트는 내려둔다
   // (세션당 노출은 이미 한 번 했으니 다시 못 뜨는 것은 아니고, 다음 조건 재계산 때 다시 뜰 수 있음).
@@ -808,6 +913,11 @@ function showFavToast(row) {
   favToastTimer = setTimeout(hideFavToast, 3500);
 }
 document.getElementById('favToastClose').addEventListener('click', hideFavToast);
+document.getElementById('favToastCalBtn').addEventListener('click', function () {
+  if (favToastRow) addToDeviceCalendar(favToastRow);
+  hideFavToast();
+});
+document.getElementById('favToastGcal').addEventListener('click', hideFavToast);
 
 // ---------------- 최상단 카카오톡 알림 띠배너 (닫으면 그날 하루 숨김) ----------------
 const NOTICE_CLOSED_KEY = 'buyg_notice_closed_on';
