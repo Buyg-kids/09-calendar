@@ -456,6 +456,162 @@
   .search-card-body .product-name { margin-top: 0; }
   .search-card-meta { font-size: 11px; color: var(--text-sub); margin-top: 3px; }
   #noResults { display: none; text-align: center; color: #bbb; padding: 40px 0; font-size: 13px; }
+  /* ================= 가로형 리스트 카드 (2026-09-30) =================
+     이번 주/찜/공유받은/검색 목록을 2열 세로 그리드에서 가로형 리스트로 바꿨다 -
+     좌측 정사각 썸네일 + 우측 4줄 정보(뱃지·제품명 / 브랜드·요약 / 특징 / 인플루언서·
+     신청방법·할인율·가격). 카드를 누르면 인스타로 바로 나가지 않고 상세 바텀시트가 열린다. */
+  .list-grid { display: flex; flex-direction: column; gap: 10px; padding: 0 16px; }
+  .list-card {
+    display: flex; gap: 12px; padding: 12px; background: #fff; border: 1px solid #f0f0f0;
+    border-radius: 14px; cursor: pointer; min-width: 0;
+  }
+  .list-card:active { background: #fafafa; }
+  .list-thumb {
+    position: relative; flex: 0 0 96px; width: 96px; height: 96px; border-radius: 12px;
+    overflow: hidden; background: var(--accent-lavender);
+  }
+  .list-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .list-thumb .fav-btn { position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; z-index: 2; }
+  .list-thumb .fav-btn svg { width: 13px; height: 13px; }
+  .reel-icon {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.32);
+    display: flex; align-items: center; justify-content: center; pointer-events: none;
+  }
+  .reel-icon svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; }
+  .list-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .list-row1 { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .dday-badge {
+    flex: 0 0 auto; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px;
+    background: #fff0eb; color: #f4511e; white-space: nowrap;
+  }
+  .dday-badge.hot { background: #ffe4e6; color: #e11d48; }
+  .dday-badge.open { background: var(--accent-lavender); color: var(--brand-purple); }
+  .dday-badge.ended { background: #f1f5f9; color: #94a3b8; }
+  .list-name {
+    font-size: 14px; font-weight: 800; color: var(--text-main); min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .list-row2 { font-size: 12px; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .list-row2 b { color: var(--text-main); font-weight: 700; }
+  .list-row3 {
+    font-size: 11.5px; color: #94a3b8; line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .list-row4 { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+  .list-meta { flex: 1 1 auto; display: flex; align-items: center; gap: 5px; min-width: 0; }
+  .list-handle { font-size: 11px; font-weight: 600; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .method-badge {
+    flex: 0 0 auto; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 5px;
+    background: #f1f5f9; color: #475569; white-space: nowrap;
+  }
+  .list-price { display: flex; align-items: baseline; justify-content: flex-end; gap: 4px; flex: 0 1 auto; min-width: 0; max-width: 55%; }
+  .list-discount { font-size: 13px; font-weight: 800; color: #f4511e; white-space: nowrap; }
+  .list-price-final {
+    font-size: 14px; font-weight: 800; color: var(--price-accent);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .list-price-final.muted { font-size: 12px; font-weight: 700; color: var(--text-main); }
+  .list-price-plain { font-size: 11px; font-weight: 600; color: var(--text-sub); white-space: nowrap; }
+  .list-card.reveal { animation: fadeInUp 0.35s ease both; }
+  #searchResults .list-card { margin-bottom: 10px; }
+
+  /* ================= 공구 상세 바텀시트 / PC 중앙 모달 ================= */
+  .deal-backdrop {
+    position: fixed; inset: 0; z-index: 400; background: rgba(15,23,42,0.45);
+    opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+  }
+  .deal-backdrop.show { opacity: 1; pointer-events: auto; }
+  .deal-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 401; margin: 0 auto;
+    width: 100%; max-width: 480px; max-height: 92vh; max-height: 92dvh;
+    display: flex; flex-direction: column; background: #fff; border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.18);
+    transform: translateY(100%); visibility: hidden;
+    transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.32s;
+  }
+  .deal-sheet.show { transform: translateY(0); visibility: visible; transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  @media (min-width: 640px) {
+    .deal-sheet {
+      top: 50%; bottom: auto; left: 50%; right: auto; width: 480px; max-height: 88vh;
+      border-radius: 20px; opacity: 0; transform: translate(-50%, -46%);
+      transition: transform 0.22s ease, opacity 0.22s ease, visibility 0s linear 0.22s;
+    }
+    .deal-sheet.show { opacity: 1; transform: translate(-50%, -50%); transition: transform 0.22s ease, opacity 0.22s ease; }
+    .deal-grabber { display: none; }
+  }
+  .deal-head { position: relative; flex: 0 0 auto; height: 44px; }
+  .deal-grabber { position: absolute; top: 8px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: #e2e8f0; }
+  .deal-close {
+    position: absolute; top: 6px; right: 10px; width: 32px; height: 32px; border: none; border-radius: 50%;
+    background: #f1f5f9; color: #334155; font-size: 15px; cursor: pointer; padding: 0;
+  }
+  .deal-scroll { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: 0 18px 18px; -webkit-overflow-scrolling: touch; }
+  .deal-media {
+    position: relative; display: block; width: 100%; aspect-ratio: 1 / 1; border-radius: 14px;
+    overflow: hidden; background: var(--accent-lavender);
+  }
+  .deal-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .deal-media-link {
+    position: absolute; right: 10px; bottom: 10px; font-size: 11px; font-weight: 700; color: #fff;
+    background: rgba(0,0,0,0.55); padding: 5px 10px; border-radius: 999px;
+  }
+  .deal-media .reel-icon { width: 52px; height: 52px; }
+  .deal-media .reel-icon svg { width: 20px; height: 20px; }
+  .deal-profile { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+  .deal-avatar {
+    flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; color: #fff; font-weight: 800;
+    font-size: 16px; display: flex; align-items: center; justify-content: center; text-transform: uppercase;
+  }
+  .deal-who { flex: 1; min-width: 0; }
+  .deal-handle { font-size: 14px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .deal-nick { font-size: 11.5px; color: var(--text-sub); }
+  .deal-actions { display: flex; gap: 8px; }
+  .deal-actions .fav-btn, .deal-actions .thumb-share-btn { width: 36px; height: 36px; box-shadow: none; background: #f1f5f9; }
+  .deal-actions .fav-btn svg { width: 18px; height: 18px; }
+  .deal-actions .thumb-share-btn svg { width: 16px; height: 16px; }
+  .deal-title-row { margin-top: 14px; }
+  .deal-title-row .dday-badge { font-size: 11px; }
+  .deal-title { margin: 6px 0 0; font-size: 18px; font-weight: 800; line-height: 1.35; color: var(--text-main); word-break: keep-all; }
+  .deal-brand { margin-top: 3px; font-size: 12.5px; color: #64748b; }
+  .deal-info { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .deal-info-item { background: var(--bg-light); border-radius: 12px; padding: 10px 12px; min-width: 0; }
+  .deal-info-label { font-size: 11px; color: var(--text-sub); font-weight: 600; }
+  .deal-info-value { margin-top: 3px; font-size: 13.5px; font-weight: 800; color: var(--text-main); word-break: keep-all; }
+  .deal-info-value.price { color: var(--price-accent); }
+  .deal-info-value .muted { color: var(--text-main); font-size: 12.5px; }
+  .deal-info-value .disc { color: #f4511e; margin-right: 4px; }
+  .deal-section { margin-top: 20px; }
+  .deal-section h3 { margin: 0 0 8px; font-size: 14.5px; font-weight: 800; color: var(--text-main); }
+  .deal-benefits { margin: 0; padding: 0; list-style: none; }
+  .deal-benefits li { position: relative; padding: 5px 0 5px 14px; font-size: 13px; line-height: 1.5; color: #334155; }
+  .deal-benefits li::before { content: ''; position: absolute; left: 2px; top: 13px; width: 5px; height: 5px; border-radius: 50%; background: var(--brand-purple); }
+  .deal-related { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .deal-related::-webkit-scrollbar { display: none; }
+  .rel-card { flex: 0 0 112px; cursor: pointer; }
+  .rel-card .list-thumb { width: 112px; height: 112px; flex-basis: auto; }
+  .rel-name { margin-top: 6px; font-size: 12px; font-weight: 700; line-height: 1.35; color: var(--text-main);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .rel-sub { margin-top: 2px; font-size: 11px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .deal-cta {
+    flex: 0 0 auto; border-top: 1px solid #f1f5f9; background: #fff;
+    padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    display: flex; flex-direction: column; gap: 8px; border-radius: 0 0 20px 20px;
+  }
+  .deal-cal-row { display: flex; gap: 8px; align-items: center; }
+  .deal-cal-btn {
+    flex: 1; padding: 11px; border-radius: 12px; border: 1.5px solid var(--brand-purple); background: #fff;
+    color: var(--brand-purple); font-size: 13.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+  }
+  .deal-gcal { font-size: 12px; font-weight: 700; color: #64748b; text-decoration: underline; text-underline-offset: 2px; padding: 4px; white-space: nowrap; }
+  .deal-apply-btn {
+    display: block; text-align: center; padding: 14px; border-radius: 12px; background: var(--brand-purple);
+    color: #fff; font-size: 15px; font-weight: 800;
+  }
+  .deal-apply-btn:active { background: var(--brand-purple-dark); }
+  body.deal-open { overflow: hidden; }
+  body.deal-open .fav-toast { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
+  .toast, .fav-toast { z-index: 450; }
 </style>
 </head>
 <body>
@@ -494,7 +650,7 @@
     <div id="homeSections">
       <section class="section" id="sharedSection" hidden>
         <div class="section-head"><h2>🎁 공유받은 공구</h2><button type="button" class="shared-close" id="sharedClose">닫기 ✕</button></div>
-        <div class="week-grid" id="sharedGrid"></div>
+        <div class="list-grid" id="sharedGrid"></div>
       </section>
 
       <section class="section">
@@ -504,7 +660,7 @@
 
       <section class="section" id="favSection" hidden>
         <div class="section-head"><h2>❤️ 찜한 공구</h2><span class="sub" id="favSub"></span></div>
-        <div class="week-grid" id="favGrid"></div>
+        <div class="list-grid" id="favGrid"></div>
       </section>
 
       <div id="regularSections">
@@ -524,7 +680,7 @@
           <div class="day-bar" id="dayBar"></div>
           <button type="button" class="scroll-arrow arrow-right" data-target="dayBar" aria-label="다음">›</button>
         </div>
-        <div class="week-grid" id="weekGrid"></div>
+        <div class="list-grid" id="weekGrid"></div>
       </section>
 
       <section class="section">
@@ -539,6 +695,15 @@
     </div>
   </div>
 
+<div class="deal-backdrop" id="dealBackdrop"></div>
+<div class="deal-sheet" id="dealSheet" role="dialog" aria-modal="true" aria-labelledby="dealTitle">
+  <div class="deal-head">
+    <div class="deal-grabber"></div>
+    <button type="button" class="deal-close" id="dealClose" aria-label="닫기">✕</button>
+  </div>
+  <div class="deal-scroll" id="dealScroll"></div>
+  <div class="deal-cta" id="dealCta"></div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="fav-toast" id="favToast" role="status" aria-live="polite">
   <span class="fav-toast-msg">찜 목록에 저장되었습니다!</span>
@@ -997,10 +1162,11 @@ function initSharedDeal() {
   const section = document.getElementById('sharedSection');
   const grid = document.getElementById('sharedGrid');
   grid.innerHTML = '';
-  const card = renderWeekCard(row);
+  const card = renderListCard(row);
   card.classList.add('shared-highlight');
   grid.appendChild(card);
   section.hidden = false;
+  openDealModal(row, { initial: true });
   // 페이지 로드 직후에는 브라우저의 해시 처리/스크롤 복원이 위치를 다시 덮어쓸 수 있어,
   // 즉시 + load 이후 + 짧은 지연 뒤에 한 번씩 더 맞춰준다.
   const go = function () { section.scrollIntoView({ block: 'start' }); };
@@ -1215,7 +1381,7 @@ function renderClosingSoon(rows, usedIds) {
     const dleft = Math.max(0, daysBetween(end, TODAY));
     const a = document.createElement('a');
     a.className = 'closing-card';
-    a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
+    bindDealOpen(a, row);
     const thumb = makeThumb(row);
     const badge = document.createElement('span');
     badge.className = 'closing-badge';
@@ -1251,7 +1417,7 @@ function renderSoonOpening(rows, usedIds) {
 
     const a = document.createElement('a');
     a.className = 'banner-card';
-    a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
+    bindDealOpen(a, row);
     const thumb = makeThumb(row);
     const badge = document.createElement('span');
     badge.className = 'banner-badge';
@@ -1263,6 +1429,334 @@ function renderSoonOpening(rows, usedIds) {
     el.appendChild(a);
   });
 }
+
+
+// ================= 가로형 리스트 카드 + 공구 상세 바텀시트 (2026-09-30) =================
+const PLAY_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+function isReelRow(row) { return /instagram\.com\/reel\//.test(row.post_url || ''); }
+// 마감/오픈 뱃지: 시작 전이면 오픈 D-n, 진행 중이면 마감 D-n(당일은 '오늘마감').
+function ddayInfo(row) {
+  const start = parseDate(row.start_date);
+  const end = parseDate(row.end_date) || start;
+  if (start && start > TODAY) {
+    const d = daysBetween(start, TODAY);
+    return { label: d === 1 ? '내일 오픈' : ('D-' + d + ' 오픈'), cls: 'open' };
+  }
+  if (!end) return { label: '', cls: '' };
+  const left = daysBetween(end, TODAY);
+  if (left < 0) return { label: '마감', cls: 'ended' };
+  if (left === 0) return { label: '오늘마감!', cls: 'hot' };
+  return { label: 'D-' + left, cls: left <= 2 ? 'hot' : '' };
+}
+// 신청 방법은 빌드 단계의 purchase_label(구매 링크 종류)에서 짧게 뽑는다.
+function applyMethod(row) {
+  const l = row.purchase_label || '';
+  if (l.indexOf('댓글') !== -1) return '댓글·DM';
+  if (l.indexOf('멀티링크') !== -1 || l.indexOf('구매하기') !== -1) return '링크';
+  if (l.indexOf('프로필') !== -1) return '프로필';
+  return '';
+}
+// 할인율: 가격 문구의 %는 그대로, 혜택 문구의 %는 '할인'이 붙은 경우만(적립/포인트 % 오인 방지).
+function discountOf(row) {
+  const p = (row.price || '').match(/(\d{1,2})\s*%/);
+  if (p) return p[1] + '%';
+  const b = (row.key_benefit || '').match(/(\d{1,2})\s*%\s*(?:할인|OFF|off)/);
+  return b ? b[1] + '%' : '';
+}
+function shortDate(iso) {
+  const d = parseDate(iso);
+  return d ? (d.getMonth() + 1) + '/' + d.getDate() + '(' + WEEKDAY_KR[d.getDay()] + ')' : '';
+}
+function periodLabel(row) {
+  const s = shortDate(row.start_date), e = shortDate(row.end_date);
+  return e && row.end_date !== row.start_date ? s + ' ~ ' + e : s;
+}
+function handleOf(row) { return row.influencer_handle ? '@' + row.influencer_handle : (row.influencer_label || ''); }
+function makeImg(row) {
+  const img = document.createElement('img');
+  img.loading = 'lazy';
+  img.alt = row.product_name || '';
+  img.src = row.image_url || placeholderDataUri(row.category);
+  img.onerror = function () { this.onerror = null; this.src = placeholderDataUri(row.category); };
+  return img;
+}
+function makeListThumb(row, withFav) {
+  const wrap = document.createElement('div');
+  wrap.className = 'list-thumb';
+  wrap.appendChild(makeImg(row));
+  if (isReelRow(row)) {
+    const play = document.createElement('span');
+    play.className = 'reel-icon';
+    play.innerHTML = PLAY_SVG;
+    wrap.appendChild(play);
+  }
+  if (withFav) wrap.appendChild(makeFavBtn(row));
+  return wrap;
+}
+function makePriceBlock(row) {
+  const el = document.createElement('div');
+  el.className = 'list-price';
+  const info = priceInfo(row);
+  const disc = discountOf(row);
+  if (info.cta) {
+    el.innerHTML = '<span class="list-price-plain">' + (disc ? '' : '가격은 게시물 확인') + '</span>';
+    if (disc) el.innerHTML = '<span class="list-discount">' + disc + '</span><span class="list-price-plain">할인</span>';
+    return el;
+  }
+  const finalText = parsePriceParts(info.text).final;
+  if (disc && finalText.indexOf(disc) === -1) {
+    const d = document.createElement('span'); d.className = 'list-discount'; d.textContent = disc; el.appendChild(d);
+  }
+  const f = document.createElement('span');
+  f.className = 'list-price-final' + (info.muted ? ' muted' : '');
+  f.textContent = finalText;
+  el.appendChild(f);
+  return el;
+}
+// 카드는 공유 링크(#deal=키)를 href로 가진 <a> - 일반 클릭은 상세 시트를 열고,
+// Ctrl/Cmd/휠 클릭은 브라우저 기본 동작(새 탭에서 같은 공구 열기)을 그대로 둔다.
+function bindDealOpen(a, row) {
+  a.href = shareUrlFor(row);
+  a.addEventListener('click', function (e) {
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+    e.preventDefault();
+    openDealModal(row);
+  });
+}
+function renderListCard(row) {
+  const a = document.createElement('a');
+  a.className = 'list-card';
+  bindDealOpen(a, row);
+  a.appendChild(makeListThumb(row, true));
+
+  const body = document.createElement('div'); body.className = 'list-body';
+  const r1 = document.createElement('div'); r1.className = 'list-row1';
+  const dd = ddayInfo(row);
+  if (dd.label) {
+    const b = document.createElement('span'); b.className = 'dday-badge ' + dd.cls; b.textContent = dd.label; r1.appendChild(b);
+  }
+  const name = document.createElement('span'); name.className = 'list-name'; name.textContent = row.product_name; r1.appendChild(name);
+  body.appendChild(r1);
+
+  const r2 = document.createElement('div'); r2.className = 'list-row2';
+  const brand = row.brand ? '<b></b>' : '';
+  r2.innerHTML = brand;
+  if (row.brand) r2.querySelector('b').textContent = row.brand;
+  r2.appendChild(document.createTextNode((row.brand ? ' · ' : '') + periodLabel(row) + ' 진행'));
+  body.appendChild(r2);
+
+  if (row.key_benefit) {
+    const r3 = document.createElement('div'); r3.className = 'list-row3'; r3.textContent = row.key_benefit; body.appendChild(r3);
+  }
+
+  const r4 = document.createElement('div'); r4.className = 'list-row4';
+  const meta = document.createElement('div'); meta.className = 'list-meta';
+  const h = document.createElement('span'); h.className = 'list-handle'; h.textContent = handleOf(row); meta.appendChild(h);
+  const method = applyMethod(row);
+  if (method) {
+    const m = document.createElement('span'); m.className = 'method-badge'; m.textContent = method; meta.appendChild(m);
+  }
+  r4.appendChild(meta);
+  r4.appendChild(makePriceBlock(row));
+  body.appendChild(r4);
+  a.appendChild(body);
+  return a;
+}
+
+// ---- 상세 시트 ----
+const dealSheet = document.getElementById('dealSheet');
+const dealBackdrop = document.getElementById('dealBackdrop');
+let dealOpenRow = null;
+let dealPushedHistory = false;
+function avatarColor(seed) {
+  const colors = ['#7b1fa2', '#e11d48', '#0891b2', '#ea580c', '#4f46e5', '#059669', '#db2777'];
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+  return colors[h % colors.length];
+}
+function benefitItems(row) {
+  const raw = (row.key_benefit || '').trim();
+  if (!raw) return [];
+  // 괄호 안의 쉼표("(1개 20%, 2개 이상 25%)")에서는 끊지 않는다.
+  const out = [];
+  let cur = '', depth = 0;
+  for (const ch of raw) {
+    if (ch === '(' || ch === '[') depth++;
+    if ((ch === ')' || ch === ']') && depth > 0) depth--;
+    if (depth === 0 && /[,·\n\/;]/.test(ch)) { out.push(cur); cur = ''; continue; }
+    cur += ch;
+  }
+  out.push(cur);
+  return out.map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 8);
+}
+function relatedRows(row) {
+  const key = favKey(row);
+  const seen = new Set([row.row_id]);
+  const out = [];
+  function push(list) {
+    list.forEach(function (r) {
+      if (out.length >= 10 || seen.has(r.row_id) || favKey(r) === key) return;
+      seen.add(r.row_id); out.push(r);
+    });
+  }
+  const live = function (r) { return isActive(r) || isFuture(r); };
+  if (row.brand) push(ROWS.filter(function (r) { return r.brand === row.brand && live(r); }));
+  push(ROWS.filter(function (r) { return r.category === row.category && live(r); })
+    .sort(function (a, b) { return (a.end_date || a.start_date || '').localeCompare(b.end_date || b.start_date || ''); }));
+  return out;
+}
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+function infoItem(label, value, extraCls) {
+  const box = el('div', 'deal-info-item');
+  box.appendChild(el('div', 'deal-info-label', label));
+  const v = el('div', 'deal-info-value' + (extraCls ? ' ' + extraCls : ''));
+  if (typeof value === 'string') v.textContent = value; else v.appendChild(value);
+  box.appendChild(v);
+  return box;
+}
+function fillDealSheet(row) {
+  const scroll = document.getElementById('dealScroll');
+  scroll.innerHTML = '';
+  scroll.scrollTop = 0;
+
+  // (2) 대표 이미지 - 누르면 인스타 게시물
+  const media = el(row.post_url ? 'a' : 'div', 'deal-media');
+  if (row.post_url) { media.href = row.post_url; media.target = '_blank'; media.rel = 'noopener'; }
+  media.appendChild(makeImg(row));
+  if (isReelRow(row)) { const p = el('span', 'reel-icon'); p.innerHTML = PLAY_SVG; media.appendChild(p); }
+  if (row.post_url) media.appendChild(el('span', 'deal-media-link', (isReelRow(row) ? '릴스' : '게시물') + ' 보기 ↗'));
+  scroll.appendChild(media);
+
+  // (3) 인플루언서 + 찜/공유
+  const prof = el('div', 'deal-profile');
+  const handle = row.influencer_handle || row.influencer_display || '?';
+  const av = el(row.influencer_profile_url ? 'a' : 'div', 'deal-avatar', handle.replace(/[^0-9a-zA-Z가-힣]/g, '').charAt(0) || 'B');
+  av.style.background = avatarColor(handle);
+  const who = el(row.influencer_profile_url ? 'a' : 'div', 'deal-who');
+  if (row.influencer_profile_url) {
+    [av, who].forEach(function (x) { x.href = row.influencer_profile_url; x.target = '_blank'; x.rel = 'noopener'; });
+  }
+  who.appendChild(el('span', 'deal-handle', handleOf(row)));
+  const nick = row.influencer_nickname || (row.influencer_display && row.influencer_display !== row.influencer_handle ? row.influencer_display : '');
+  who.appendChild(el('span', 'deal-nick', nick ? nick + ' · 인스타그램 프로필' : '인스타그램 프로필'));
+  const actions = el('div', 'deal-actions');
+  actions.appendChild(makeShareBtn(row));
+  actions.appendChild(makeFavBtn(row));
+  prof.appendChild(av); prof.appendChild(who); prof.appendChild(actions);
+  scroll.appendChild(prof);
+
+  // (4) 제품명 + 뱃지 + 기본 정보 박스
+  const titleRow = el('div', 'deal-title-row');
+  const dd = ddayInfo(row);
+  if (dd.label) titleRow.appendChild(el('span', 'dday-badge ' + dd.cls, dd.label));
+  const title = el('h2', 'deal-title', row.product_name); title.id = 'dealTitle';
+  titleRow.appendChild(title);
+  if (row.brand) titleRow.appendChild(el('div', 'deal-brand', row.brand + ' · ' + row.category));
+  scroll.appendChild(titleRow);
+
+  const info = el('div', 'deal-info');
+  info.appendChild(infoItem('공구 기간', periodLabel(row)));
+  const deadline = row.end_date || row.start_date;
+  info.appendChild(infoItem('신청 마감', deadline ? shortDate(deadline) + (dd.cls !== 'open' && dd.label ? ' · ' + dd.label.replace('!', '') : '') : '게시물 확인'));
+  const METHOD_DESC = { '댓글·DM': '게시물 댓글 → DM 링크', '링크': '구매 링크에서 신청', '프로필': '인스타 프로필에서 확인' };
+  info.appendChild(infoItem('신청 방법', METHOD_DESC[applyMethod(row)] || '게시물 확인'));
+  const pi = priceInfo(row);
+  const disc = discountOf(row);
+  const priceEl = el('span');
+  const finalPrice = pi.cta ? '게시물에서 확인' : parsePriceParts(pi.text).final;
+  if (disc && finalPrice.indexOf(disc) === -1) priceEl.appendChild(el('span', 'disc', disc));
+  priceEl.appendChild(el('span', pi.cta || pi.muted ? 'muted' : '', finalPrice));
+  info.appendChild(infoItem('공구 가격', priceEl, 'price'));
+  scroll.appendChild(info);
+
+  // (5) 상세 혜택
+  const items = benefitItems(row);
+  const sec = el('div', 'deal-section');
+  sec.appendChild(el('h3', '', '공구 상세 정보'));
+  const ul = el('ul', 'deal-benefits');
+  (items.length ? items : ['자세한 구성·혜택은 인스타 게시물에서 확인해 주세요']).forEach(function (t) { ul.appendChild(el('li', '', t)); });
+  if (pi.text && !pi.cta && pi.text !== parsePriceParts(pi.text).final) ul.appendChild(el('li', '', '가격: ' + pi.text));
+  sec.appendChild(ul);
+  scroll.appendChild(sec);
+
+  // (6) 연관 공구
+  const rel = relatedRows(row);
+  if (rel.length) {
+    const rs = el('div', 'deal-section');
+    rs.appendChild(el('h3', '', row.brand && rel[0].brand === row.brand ? row.brand + ' 다른 공구 · 비슷한 공구' : '비슷한 진행 중 공구'));
+    const strip = el('div', 'deal-related');
+    rel.forEach(function (r) {
+      const c = el('div', 'rel-card');
+      c.appendChild(makeListThumb(r, false));
+      c.appendChild(el('div', 'rel-name', r.product_name));
+      const d2 = ddayInfo(r);
+      c.appendChild(el('div', 'rel-sub', (d2.label ? d2.label + ' · ' : '') + handleOf(r)));
+      c.addEventListener('click', function () { openDealModal(r); });
+      strip.appendChild(c);
+    });
+    rs.appendChild(strip);
+    scroll.appendChild(rs);
+  }
+
+  // (7) 하단 고정 CTA
+  const cta = document.getElementById('dealCta');
+  cta.innerHTML = '';
+  if (deadline && dd.cls !== 'ended') {
+    const calRow = el('div', 'deal-cal-row');
+    const cal = el('button', 'deal-cal-btn', '📅 캘린더에 마감일 등록');
+    cal.type = 'button';
+    cal.addEventListener('click', function () { addToDeviceCalendar(row); });
+    calRow.appendChild(cal);
+    if (!isIOSDevice()) {
+      const g = el('a', 'deal-gcal', '구글');
+      g.href = calendarUrlFor(row); g.target = '_blank'; g.rel = 'noopener';
+      calRow.appendChild(g);
+    }
+    cta.appendChild(calRow);
+  }
+  const link = linkFor(row);
+  const apply = el('a', 'deal-apply-btn', /instagram\.com/.test(link) ? 'Instagram에서 신청하기 ↗' : '공구 신청 페이지로 이동 ↗');
+  apply.href = link; apply.target = '_blank'; apply.rel = 'noopener';
+  cta.appendChild(apply);
+}
+function openDealModal(row, opts) {
+  opts = opts || {};
+  const wasOpen = !!dealOpenRow;
+  dealOpenRow = row;
+  fillDealSheet(row);
+  const hash = '#deal=' + encodeURIComponent(favKey(row));
+  // 모바일 뒤로가기로 닫히도록 열 때 히스토리를 한 칸 쌓는다(이미 열려 있으면 교체만).
+  // 공유 링크로 처음 들어온 경우(initial)는 이미 주소에 #deal이 있으니 쌓지 않는다.
+  try {
+    if (opts.initial) { /* 그대로 */ }
+    else if (wasOpen) history.replaceState({ buygDeal: 1 }, '', hash);
+    else { history.pushState({ buygDeal: 1 }, '', hash); dealPushedHistory = true; }
+  } catch (e) {}
+  document.body.classList.add('deal-open');
+  dealBackdrop.classList.add('show');
+  dealSheet.classList.add('show');
+  if (!wasOpen) setTimeout(function () { document.getElementById('dealClose').focus({ preventScroll: true }); }, 50);
+}
+function closeDealModal(fromPopstate) {
+  if (!dealOpenRow) return;
+  dealOpenRow = null;
+  dealSheet.classList.remove('show');
+  dealBackdrop.classList.remove('show');
+  document.body.classList.remove('deal-open');
+  if (fromPopstate) { dealPushedHistory = false; return; }
+  if (dealPushedHistory) { dealPushedHistory = false; history.back(); return; }
+  // 공유 링크로 들어와 바로 연 경우: 뒤로 갈 곳이 없으니 주소의 #deal만 지운다.
+  try { history.replaceState(null, '', location.href.split('#')[0]); } catch (e) {}
+}
+document.getElementById('dealClose').addEventListener('click', function () { closeDealModal(false); });
+dealBackdrop.addEventListener('click', function () { closeDealModal(false); });
+window.addEventListener('popstate', function () { if (dealOpenRow) closeDealModal(true); });
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && dealOpenRow) closeDealModal(false); });
 
 // ---------------- 카테고리 칩 ----------------
 let activeChip = 'all';
@@ -1355,7 +1849,7 @@ function renderWeekGrid(rows, excludeIds) {
   }
 
   const shown = Math.min(weekGridVisible, list.length);
-  list.slice(0, shown).forEach(function (row) { el.appendChild(renderWeekCard(row)); });
+  list.slice(0, shown).forEach(function (row) { el.appendChild(renderListCard(row)); });
 
   const remaining = list.length - shown;
   if (remaining > 0) {
@@ -1368,7 +1862,7 @@ function renderWeekGrid(rows, excludeIds) {
       weekGridVisible = list.length; // 한 번에 나머지 전부 펼침
       renderWeekGrid(currentFilteredRows(), excludeIds);
       // 방금 새로 나타난 카드에만 페이드인 애니메이션을 준다.
-      const cards = document.querySelectorAll('#weekGrid .week-card');
+      const cards = document.querySelectorAll('#weekGrid .list-card');
       for (let i = prevShown; i < cards.length; i++) { cards[i].classList.add('reveal'); }
     });
     el.appendChild(moreBtn);
@@ -1393,7 +1887,7 @@ function renderFavSection() {
     grid.innerHTML = '<div class="fav-empty"><b>아직 찜한 공구가 없어요</b><span>마음에 드는 카드 우측 상단의 ♡를 눌러 담아보세요.</span></div>';
     return;
   }
-  list.forEach(function (row) { grid.appendChild(renderWeekCard(row)); });
+  list.forEach(function (row) { grid.appendChild(renderListCard(row)); });
 }
 
 function renderTodayBadge() {
@@ -1464,20 +1958,7 @@ function renderSearchResults(q) {
   const matches = ROWS.filter(function (r) { return rowMatchesQuery(r, tokens); });
   searchResultsEl.innerHTML = '';
   noResultsEl.style.display = matches.length ? 'none' : 'block';
-  matches.forEach(function (row) {
-    const a = document.createElement('a');
-    a.className = 'search-card';
-    a.href = linkFor(row); a.target = '_blank'; a.rel = 'noopener';
-    a.appendChild(makeThumb(row));
-    const body = document.createElement('div'); body.className = 'search-card-body';
-    body.appendChild(makeNameEl(row));
-    const meta = document.createElement('div'); meta.className = 'search-card-meta';
-    meta.textContent = row.date_label + ' · ' + row.influencer_label;
-    body.appendChild(meta);
-    body.appendChild(renderPriceRow(row));
-    a.appendChild(body);
-    searchResultsEl.appendChild(a);
-  });
+  matches.forEach(function (row) { searchResultsEl.appendChild(renderListCard(row)); });
   document.getElementById('resultCount').textContent = '검색 결과: ' + matches.length + '건';
   return matches.length;
 }
