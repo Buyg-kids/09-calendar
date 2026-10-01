@@ -29,6 +29,8 @@ data/raw_collected.json (Agent 1의 출력) 을 읽어 영유아 공동구매 �
   - 같은 게시물이 "최신 5개" 안에 며칠씩 남아있어 매일 밤 똑같은 캡션을 다시
     Claude에 보내는 중복 호출을 gonggu_db.processed_blobs 캐시로 스킵.
   - 해시태그/이모지 도배(_strip_noise)를 자르고 나서 본문을 보내 토큰을 아낌.
+  - 임베드 UI 문구와 매일 바뀌는 좋아요/팔로워 수 줄을 걷어낸 순수 본문
+    (clean_blob_text)으로 중복 해시를 계산하고 Claude에 보냄 (2026-10-01).
 
 실행:
     python -m parser.extract_schedule
@@ -474,6 +476,48 @@ def _strip_noise(text: str) -> str:
     return text.strip()
 
 
+# 2026-10-01: 캡션은 인스타 공개 임베드 페이지의 body 텍스트를 통째로 가져온 것이라
+# 본문 앞뒤에 UI 문구가 붙어 있다 - 앞: "핸들 / N followers / View profile / N posts ·
+# N followers / View more on Instagram / (릴스면 재생·Watch on Instagram·Original audio) /
+# Like / 댓글 / 공유하기 / 저장 / N likes / 핸들", 뒤: "View all N comments / Add a
+# comment... / Instagram". 프로필 bio에도 "N posts / N followers / N following /
+# Followed by ..." 줄이 있다. 이 숫자들이 매일 바뀌어 같은 게시물·bio가 매일 다른
+# 해시가 됐고, processed_blobs 캐시를 피해 Claude에 다시 보내졌다(실측: 하루 1,228개
+# 캡션 중 최소 351건이 이미 파싱한 게시물, bio 236건은 매일 재전송). 뒤쪽 UI 문구 때문에
+# _strip_noise의 "문미 해시태그" 규칙도 한 번도 안 걸렸다(절감률 0.1%).
+_EMBED_ACTION_LINES = ("Like", "댓글", "공유하기", "저장")
+_EMBED_FOOTER_RE = re.compile(r"^(?:View all(?: [\d,]+)? comments|Add a comment\.*|Instagram)$")
+_VOLATILE_LINE_RE = re.compile(
+    r"^(?:[\d,.]+[KkM]?\s*(?:posts?|followers?|following|likes?)"
+    r"|[\d,.]+[KkM]? posts? · [\d,.]+[KkM]? followers?"
+    r"|Followed by .+|Follow|Following|Message|View profile|View more on Instagram)$"
+)
+
+
+def clean_blob_text(text: str) -> str:
+    """임베드 UI 문구와 매일 바뀌는 카운터 줄을 걷어낸 '순수 본문'.
+    중복 판단 해시와 Claude 입력 모두 이 결과를 쓴다(원문은 caption_text로 따로 보관)."""
+    if not text:
+        return text
+    lines = text.split("\n")
+    # 캡션 헤더: 앞쪽 20줄 안에서 Like/댓글/공유하기/저장 연속 블록을 찾아 그 뒤부터 본문.
+    # 블록 뒤의 "N likes"와 작성자 핸들 한 줄까지 헤더로 본다.
+    head = [ln.strip() for ln in lines[:20]]
+    for i in range(len(head) - 3):
+        if tuple(head[i:i + 4]) == _EMBED_ACTION_LINES:
+            j = i + 4
+            if j < len(lines) and re.match(r"^[\d,.]+[KkM]? likes?$", lines[j].strip()):
+                j += 1
+            if j < len(lines) and re.match(r"^[A-Za-z0-9._]{1,30}$", lines[j].strip()):
+                j += 1
+            lines = lines[j:]
+            break
+    while lines and (not lines[-1].strip() or _EMBED_FOOTER_RE.match(lines[-1].strip())):
+        lines.pop()
+    lines = [ln for ln in lines if not _VOLATILE_LINE_RE.match(ln.strip())]
+    return _strip_noise("\n".join(lines))
+
+
 def _build_user_message(raw_text: str, influencer_name: str, reference_date: str) -> str:
     cleaned = _strip_noise(raw_text)[:4000]
     return f"""인플루언서: '{influencer_name}'
@@ -648,7 +692,13 @@ def run() -> dict:
             # 같은 게시물이 "최신 5개" 안에 며칠씩 남아있어 캡션이 안 바뀐 채
             # 매일 밤 다시 검사 대상이 되는 경우가 많다 - 이미 확정적으로(API
             # 오류 아니게) 검사해본 텍스트면 Claude를 다시 부르지 않고 건너뛴다.
-            text_hash = hashlib.sha256(text.strip().encode("utf-8")).hexdigest()
+            # 해시는 UI 문구/카운터를 걷어낸 순수 본문 기준 - 좋아요·팔로워 수만 바뀐
+            # 같은 게시물을 새 글로 오인하지 않게 한다(clean_blob_text 참고).
+            clean_text = clean_blob_text(text)
+            if not clean_text:
+                stats["skipped_prefilter"] += 1
+                continue
+            text_hash = hashlib.sha256(clean_text.encode("utf-8")).hexdigest()
             if gonggu_db.is_blob_processed(text_hash):
                 stats["skipped_cached"] += 1
                 continue
@@ -657,7 +707,7 @@ def run() -> dict:
                 stats["blobs_sent_to_claude"] += 1
 
             try:
-                items, method = extract_from_text(text, influencer_name, reference_date)
+                items, method = extract_from_text(clean_text, influencer_name, reference_date)
             except Exception:
                 logger.exception("[%s] 파싱 실패", influencer_name)
                 continue
