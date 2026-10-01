@@ -67,6 +67,8 @@ ACTIVE_START_HOUR = 0
 ACTIVE_END_HOUR = 10
 
 HASHTAGS = ["육아공구", "유아식공구", "아기간식공구", "아기식판공구", "키즈가구공구", "유아교구공구"]
+# 2026-10-01 모수 확장: 기존 9개 태그에서 나오는 계정이 거의 포화(하루 신규 3~5명)돼 추가.
+HASHTAGS += ["이유식공구", "유아식기공구", "교구공구", "몬테소리공구", "유아전집공구", "공구오픈", "공구진행중", "돌준맘공구"]
 
 # [VIP 소스 전략 3] @we09.lab처럼 여러 인플루언서 공구를 매일 정리해 올리는
 # '큐레이션/아카이브' 계정을 찾기 위한 전용 해시태그. 일반 해시태그와 같은
@@ -205,7 +207,9 @@ def _get_hashtag_post_shortcodes(browser, hashtag: str, limit: int) -> list[str]
         for href in hrefs:
             if not href:
                 continue
-            m = re.search(r"/p/([A-Za-z0-9_\-]+)/?", href)
+            # 릴스(/reel/)로만 공구를 올리는 계정도 많아 함께 후보로 잡는다 (2026-10-01).
+            # 작성자 확인용 임베드 URL은 /p/<shortcode>/embed 로 릴스도 똑같이 열린다.
+            m = re.search(r"/(?:p|reel)/([A-Za-z0-9_\-]+)/?", href)
             if not m:
                 continue
             code = m.group(1)
