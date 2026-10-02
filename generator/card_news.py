@@ -212,6 +212,42 @@ def _extract_bio_nickname(bio_text: str, handle: str) -> str:
     return nickname
 
 
+_BIO_FOLLOWERS_RE = re.compile(r"^([\d,.]+)\s*([KkMm만천]?)\s*(?:followers?|팔로워)$")
+_FOLLOWER_UNITS = {"k": 1_000, "m": 1_000_000, "만": 10_000, "천": 1_000}
+
+
+def _extract_bio_followers(bio_text: str) -> int:
+    """bio_text의 "45.2K followers" 같은 줄에서 팔로워 수를 정수로 뽑는다(없으면 0).
+    '이번 주 인기 공구' 랭킹의 인플루언서 가중치에만 쓰는 근사값이다."""
+    for line in (bio_text or "").splitlines():
+        m = _BIO_FOLLOWERS_RE.match(line.strip())
+        if m:
+            try:
+                n = float(m.group(1).replace(",", ""))
+            except ValueError:
+                return 0
+            return int(n * _FOLLOWER_UNITS.get(m.group(2).lower(), 1))
+    return 0
+
+
+def _load_follower_map() -> dict[str, int]:
+    """raw_collected.json(최근 수집분) 프로필 bio에서 핸들 -> 팔로워 수 (최선 노력)."""
+    if not RAW_COLLECTED_PATH.exists():
+        return {}
+    try:
+        entries = json.loads(RAW_COLLECTED_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    result: dict[str, int] = {}
+    for e in entries:
+        ig = e.get("instagram") or {}
+        handle = (ig.get("handle") or "").strip()
+        n = _extract_bio_followers(ig.get("bio_text") or "")
+        if handle and n:
+            result[handle.lower()] = n
+    return result
+
+
 def _load_nickname_map() -> dict[str, str]:
     """raw_collected.json(최근 수집분)의 프로필 bio_text에서 핸들 -> 한글 닉네임
     매핑을 만든다. 그날 밤 수집 대상에 없었던 계정은 빠질 수 있다(최선 노력)."""
@@ -482,6 +518,7 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
 
     multilink_map = _load_multilink_map()
     nickname_map = _load_nickname_map()
+    follower_map = _load_follower_map()
 
     rows = []
     for idx, gb in enumerate(items):
@@ -539,6 +576,7 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
                 "influencer_handle": influencer_handle,
                 "influencer_label": influencer_label,
                 "influencer_nickname": influencer_nickname,
+                "follower_count": follower_map.get(influencer_handle.lower(), 0) if influencer_handle else 0,
                 "influencer_profile_url": profile_url,
                 "key_benefit": gb.get("key_benefit") or "",
                 "post_url": post_url,
