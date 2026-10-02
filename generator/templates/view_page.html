@@ -616,20 +616,50 @@
   body.deal-open .fav-toast { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
   .toast, .fav-toast { z-index: 450; }
   /* ================= 🏆 이번 주 인기 공구 (2026-10-02) ================= */
-  .rank-list { list-style: none; margin: 0; padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
-  .rank-item {
-    display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px;
-    background: #fff; border: 1px solid #f0f0f0; cursor: pointer;
+  /* 2026-10-02 저녁: 카드 5개 -> 위젯 박스 하나 안의 컴팩트 행(48px 썸네일, 구분선)으로 슬림화 */
+  .rank-list {
+    list-style: none; margin: 0 16px; padding: 2px 0; border: 1px solid #f0f0f0; border-radius: 16px; background: #fff;
   }
+  .rank-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; cursor: pointer; }
+  .rank-item + .rank-item { border-top: 1px solid #f4f4f5; }
   .rank-item:active { background: #fafafa; }
-  .rank-no { flex: 0 0 22px; text-align: center; font-size: 17px; font-weight: 900; color: #cbd5e1; font-style: italic; }
+  .rank-no { flex: 0 0 16px; text-align: center; font-size: 15px; font-weight: 900; color: #cbd5e1; font-style: italic; }
   .rank-item.top .rank-no { color: var(--brand-purple); }
-  .rank-item .list-thumb { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 10px; }
-  .rank-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-  .rank-name { font-size: 13.5px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .rank-handle { font-size: 11.5px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .rank-tags { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+  .rank-item .list-thumb { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 9px; }
+  .rank-item .reel-icon { width: 20px; height: 20px; }
+  .rank-item .reel-icon svg { width: 8px; height: 8px; margin-left: 1px; }
+  .rank-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rank-name { font-size: 13px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rank-handle { font-size: 11px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rank-side { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
   .rank-tag { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 5px; background: #f1f5f9; color: #475569; white-space: nowrap; }
+
+  /* 2026-10-02 저녁: 이번 주 공구 - 세로 리스트 -> 가로 스냅 캐러셀(세로형 피드 카드) */
+  .week-carousel { scroll-snap-type: x mandatory; scroll-padding-left: 16px; padding-bottom: 8px; }
+  .week-carousel .empty-note { flex: 1; }
+  .feed-card {
+    flex: 0 0 148px; scroll-snap-align: start; display: flex; flex-direction: column;
+    background: #fff; border: 1px solid #f0f0f0; border-radius: 14px; overflow: hidden; cursor: pointer;
+  }
+  /* aspect-ratio만 주면 세로로 긴 원본이 박스를 늘려 카드가 378px까지 커졌다 - 높이를 고정한다 */
+  .feed-card .feed-thumb { position: relative; width: 100%; height: 146px; overflow: hidden; background: var(--accent-lavender); }
+  .feed-card .feed-thumb img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .feed-card .feed-thumb .fav-btn { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; z-index: 2; }
+  .feed-card .feed-thumb .fav-btn svg { width: 14px; height: 14px; }
+  .feed-body { padding: 8px 9px 10px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+  .feed-body .dday-badge { align-self: flex-start; }
+  .feed-name {
+    font-size: 12.5px; font-weight: 800; line-height: 1.35; color: var(--text-main); min-height: 34px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .feed-brand { font-size: 11px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .feed-body .price-row { margin-top: auto; padding-top: 2px; }
+  .feed-more {
+    flex: 0 0 96px; scroll-snap-align: start; border: 1.5px dashed #d8c7e3; border-radius: 14px; background: #fff;
+    color: var(--brand-purple); font-size: 12.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  }
+  .feed-more span { font-size: 11px; font-weight: 600; color: #94a3b8; }
 
   /* 마감임박/곧오픈 카드 가격 줄: 가격 미표기는 한 줄 칩, 할인율·1+1은 우측 정렬 뱃지 */
   .price-row { justify-content: flex-start; flex-wrap: nowrap; align-items: center; min-width: 0; }
@@ -715,7 +745,11 @@
           <div class="day-bar" id="dayBar"></div>
           <button type="button" class="scroll-arrow arrow-right" data-target="dayBar" aria-label="다음">›</button>
         </div>
-        <div class="list-grid" id="weekGrid"></div>
+        <div class="hscroll-wrap week-carousel-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="weekGrid" aria-label="이전">‹</button>
+          <div class="hscroll week-carousel" id="weekGrid"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="weekGrid" aria-label="다음">›</button>
+        </div>
       </section>
 
       <section class="section">
@@ -1873,15 +1907,13 @@ function renderPopular(rows) {
     li.appendChild(makeListThumb(row, false));
     const body = el2('div', 'rank-body');
     body.appendChild(el2('div', 'rank-name', row.product_name));
-    body.appendChild(el2('div', 'rank-handle', handleOf(row) + (row.follower_count ? ' · 팔로워 ' + formatFollowers(row.follower_count) : '')));
-    const tags = el2('div', 'rank-tags');
-    const dd = ddayInfo(row);
-    if (dd.label) tags.appendChild(el2('span', 'dday-badge ' + dd.cls, dd.label));
-    if (item.together > 0) tags.appendChild(el2('span', 'rank-tag', '🔁 ' + (item.together + 1) + '명 동시 진행'));
-    const promo = promoOf(row);
-    if (promo) tags.appendChild(el2('span', 'promo-badge', promo));
-    body.appendChild(tags);
+    body.appendChild(el2('div', 'rank-handle', handleOf(row) + (row.follower_count ? ' · ' + formatFollowers(row.follower_count) : '')));
     li.appendChild(body);
+    const side = el2('div', 'rank-side');
+    const dd = ddayInfo(row);
+    if (dd.label) side.appendChild(el2('span', 'dday-badge ' + dd.cls, dd.label));
+    if (item.together > 0) side.appendChild(el2('span', 'rank-tag', '🔁 ' + (item.together + 1) + '명 동시'));
+    li.appendChild(side);
     el.appendChild(li);
   });
 }
@@ -1934,7 +1966,6 @@ function renderChips() {
       + (count ? ' <span class="chip-count">' + count + '</span>' : '') + '</div>';
     div.addEventListener('click', function () {
       activeChip = chip.id;
-      weekGridVisible = WEEK_GRID_PAGE_SIZE; // 카테고리를 바꾸면 다시 상위 8개만
       renderChips();
       renderHome();
     });
@@ -1944,8 +1975,7 @@ function renderChips() {
 
 // ---------------- 2단: 이번 주 공구 (오늘부터 롤링 요일 바 + 2열 그리드) ----------------
 let selectedDayIso = TODAY_ISO;
-const WEEK_GRID_PAGE_SIZE = 8;
-let weekGridVisible = WEEK_GRID_PAGE_SIZE; // 날짜/카테고리 바뀌면 8개로 리셋
+const WEEK_CAROUSEL_PAGE = 20;
 // renderHome()이 1단(마감임박) 렌더 직후 채워주는 excludeIds(1단 결과만 담김)를
 // day-bar 재클릭/더보기 클릭 시에도 그대로 재사용한다(1단은 날짜 이동으로 안 바뀌니
 // 재계산 불필요). weekShownIds는 '오늘' 뷰에서 2단이 실제로 보여준 전체 후보(더보기로
@@ -1964,7 +1994,6 @@ function renderDayBar() {
     pill.textContent = i === 0 ? ('오늘(' + d.getDate() + ')') : (d.getDate() + '(' + WEEKDAY_KR[d.getDay()] + ')');
     pill.addEventListener('click', function () {
       selectedDayIso = iso;
-      weekGridVisible = WEEK_GRID_PAGE_SIZE; // 날짜를 바꾸면 다시 상위 8개만
       renderDayBar();
       renderWeekGrid(currentFilteredRows(), homeUsedIds);
     });
@@ -1981,6 +2010,26 @@ function renderWeekCard(row) {
   const date = document.createElement('div'); date.className = 'week-card-date'; date.textContent = row.date_label;
   body.appendChild(date);
   body.appendChild(makeNameEl(row));
+  body.appendChild(renderPriceRow(row));
+  a.appendChild(body);
+  return a;
+}
+
+// 이번 주 가로 캐러셀용 세로형 피드 카드: 정사각 썸네일 + [뱃지 / 상품명 / 브랜드 / 가격]
+function renderFeedCard(row) {
+  const a = document.createElement('a');
+  a.className = 'feed-card';
+  bindDealOpen(a, row);
+  const thumb = el2('div', 'feed-thumb');
+  thumb.appendChild(makeImg(row));
+  if (isReelRow(row)) { const p = el2('span', 'reel-icon'); p.innerHTML = PLAY_SVG; thumb.appendChild(p); }
+  thumb.appendChild(makeFavBtn(row));
+  a.appendChild(thumb);
+  const body = el2('div', 'feed-body');
+  const dd = ddayInfo(row);
+  if (dd.label) body.appendChild(el2('span', 'dday-badge ' + dd.cls, dd.label));
+  body.appendChild(el2('div', 'feed-name', row.product_name));
+  body.appendChild(el2('div', 'feed-brand', (row.brand ? row.brand + ' · ' : '') + handleOf(row)));
   body.appendChild(renderPriceRow(row));
   a.appendChild(body);
   return a;
@@ -2010,25 +2059,23 @@ function renderWeekGrid(rows, excludeIds) {
     return;
   }
 
-  const shown = Math.min(weekGridVisible, list.length);
-  list.slice(0, shown).forEach(function (row) { el.appendChild(renderListCard(row)); });
-
-  const remaining = list.length - shown;
-  if (remaining > 0) {
-    const moreBtn = document.createElement('button');
-    moreBtn.type = 'button';
-    moreBtn.className = 'week-more-btn';
-    moreBtn.textContent = '+ 더보기 (' + remaining + '건)';
-    moreBtn.addEventListener('click', function () {
-      const prevShown = shown;
-      weekGridVisible = list.length; // 한 번에 나머지 전부 펼침
-      renderWeekGrid(currentFilteredRows(), excludeIds);
-      // 방금 새로 나타난 카드에만 페이드인 애니메이션을 준다.
-      const cards = document.querySelectorAll('#weekGrid .list-card');
-      for (let i = prevShown; i < cards.length; i++) { cards[i].classList.add('reveal'); }
-    });
-    el.appendChild(moreBtn);
+  // 하루 수백 건이 될 수 있어 20장씩 넣고, 끝의 '더보기' 타일로 다음 20장을 이어 붙인다.
+  el.scrollLeft = 0; // 날짜를 바꾸면 처음부터
+  let shown = 0;
+  function appendPage() {
+    const more = el.querySelector('.feed-more');
+    if (more) more.remove();
+    list.slice(shown, shown + WEEK_CAROUSEL_PAGE).forEach(function (row) { el.appendChild(renderFeedCard(row)); });
+    shown = Math.min(shown + WEEK_CAROUSEL_PAGE, list.length);
+    if (shown < list.length) {
+      const btn = el2('button', 'feed-more', '+ 더보기');
+      btn.type = 'button';
+      btn.appendChild(el2('span', '', (list.length - shown) + '건 더'));
+      btn.addEventListener('click', appendPage);
+      el.appendChild(btn);
+    }
   }
+  appendPage();
 }
 
 function currentFilteredRows() {
@@ -2207,7 +2254,7 @@ function scrollArrowClick(targetId, dir) {
 }
 
 function setupSliders() {
-  ['closingSoonList', 'dayBar', 'soonOpeningList'].forEach(function (id) {
+  ['closingSoonList', 'dayBar', 'weekGrid', 'soonOpeningList'].forEach(function (id) {
     const el = document.getElementById(id);
     if (el) enableDragScroll(el);
   });
