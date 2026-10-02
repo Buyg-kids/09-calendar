@@ -577,6 +577,10 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
                 "influencer_label": influencer_label,
                 "influencer_nickname": influencer_nickname,
                 "follower_count": follower_map.get(influencer_handle.lower(), 0) if influencer_handle else 0,
+                "item_type": gb.get("item_type") or "product",
+                "sub_category": gb.get("sub_category"),
+                "region": gb.get("region"),
+                "place_name": gb.get("place_name"),
                 "influencer_profile_url": profile_url,
                 "key_benefit": gb.get("key_benefit") or "",
                 "post_url": post_url,
@@ -620,6 +624,23 @@ def _write_calendar_summary_txt(rows: list[dict], start: date, end: date, title:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     out_path.write_text("\n".join(lines), encoding="utf-8")
     return out_path
+
+
+EXPERIENCE_JSON_PATH = BASE_DIR / "experience_deals.json"
+_EXPERIENCE_FIELDS = (
+    "row_id", "product_name", "brand", "category", "sub_category", "region", "place_name",
+    "start_date", "end_date", "date_label", "price", "key_benefit", "image_url",
+    "influencer_handle", "influencer_label", "post_url", "purchase_url",
+)
+
+
+def _write_experience_json(rows: list[dict]) -> Path:
+    """지도 탭(예정)이 index.html 전체를 받지 않고 가볍게 읽을 수 있도록 지역/체험 공구만
+    사이트 루트의 experience_deals.json으로 분리한다. 캘린더용 행에도 같은 메타가 들어 있다."""
+    deals = [{k: r.get(k) for k in _EXPERIENCE_FIELDS} for r in rows if r.get("item_type") == "experience"]
+    payload = {"generated_at": datetime.now().isoformat(timespec="seconds"), "count": len(deals), "deals": deals}
+    EXPERIENCE_JSON_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    return EXPERIENCE_JSON_PATH
 
 
 def _write_view_html(rows: list[dict], start: date, end: date, title: str | None) -> Path:
@@ -695,6 +716,8 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
     logger.info("텍스트 캡션 요약 생성 (%s~%s, %d건): %s", display_start, display_end, len(summary_rows), summary_path)
     view_path = _write_view_html(summary_rows, display_start, display_end, title)
     logger.info("검색용 HTML 뷰어 생성: %s", view_path)
+    exp_path = _write_experience_json(summary_rows)
+    logger.info("지역/체험 공구 JSON 생성 (%d건): %s", sum(1 for r in summary_rows if r.get("item_type") == "experience"), exp_path)
 
     # 릴스 대본/캡션 생성은 부가 산출물 - 실패해도 카드뉴스/배포에 영향 없도록 격리한다
     # (reels_generator.run 자체도 예외를 삼키지만, import 오류까지 이중으로 방어).

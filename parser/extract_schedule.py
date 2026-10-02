@@ -54,9 +54,10 @@ from config import (
     CLAUDE_PRICE_PER_MTOK_USD,
     EXCLUDE_HINT,
     RAW_COLLECTED_PATH,
+    REGIONS,
     USAGE_LOG_PATH,
 )
-from parser.category_filter import GROUP_BUY_SIGNAL_WORDS, quick_prefilter
+from parser.category_filter import GROUP_BUY_SIGNAL_WORDS, is_experience_candidate, quick_prefilter
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -87,6 +88,68 @@ def _resolve_month_day(month: str, day: str, ref: date) -> date | None:
         except ValueError:
             return None
     return d
+
+
+# 체험 공구 지역 검증용: 원문에 자주 나오는 시·군·관광지명 -> 광역 지역.
+# 2026-10-02 첫 실데이터에서 Claude가 '가평 켄싱턴'을 강원, '델피노(울산바위뷰)'를 울산으로
+# 추측했다 - 지역은 원문 근거(광역명 또는 아래 지명)가 있을 때만 인정하고, 지명이 보이면 이 표가 우선한다.
+_PLACE_REGION = {
+    "서울": ["국립중앙박물관", "잠실", "코엑스", "어린이대공원", "용산", "강남", "성수", "여의도", "마포", "송파"],
+    "부산": ["해운대", "기장", "광안리", "서면", "송도해수욕장"],
+    "인천": ["송도", "영종", "강화", "월미도"],
+    "경기": ["가평", "양평", "포천", "파주", "용인", "수원", "광교", "고양", "일산", "성남", "판교", "화성",
+             "평택", "김포", "남양주", "의정부", "안산", "시흥", "이천", "여주", "안성", "하남", "광명",
+             "부천", "안양", "군포", "의왕", "오산", "구리", "동두천", "연천", "과천", "에버랜드"],
+    "강원": ["춘천", "원주", "강릉", "속초", "양양", "평창", "홍천", "횡성", "정선", "삼척", "동해",
+             "태백", "영월", "인제", "철원", "화천", "양구", "설악", "델피노", "알펜시아", "비발디파크"],
+    "충북": ["청주", "충주", "제천", "단양", "보은", "옥천", "영동", "진천", "괴산", "음성", "증평"],
+    "충남": ["천안", "아산", "공주", "보령", "서산", "논산", "당진", "태안", "홍성", "예산", "부여", "서천", "금산"],
+    "전북": ["전주", "군산", "익산", "정읍", "남원", "김제", "완주", "무주", "부안", "고창"],
+    "전남": ["여수", "순천", "목포", "광양", "나주", "담양", "보성", "해남", "완도", "구례", "곡성"],
+    "경북": ["포항", "경주", "안동", "구미", "영주", "김천", "상주", "문경", "울진", "영덕", "청도"],
+    "경남": ["창원", "김해", "진주", "통영", "거제", "양산", "사천", "밀양", "남해", "하동", "거창"],
+    "제주": ["서귀포", "애월", "성산", "중문"],
+}
+_PLACE_LOOKUP = sorted(((n, r) for r, names in _PLACE_REGION.items() for n in names), key=lambda x: -len(x[0]))
+_FALSE_REGION_HITS = ("울산바위",)  # 지역명이 들어갔지만 다른 곳의 지명
+
+
+def _verify_region(region: str | None, evidence: list[str]) -> str | None:
+    """evidence는 우선순위 순(장소명 -> 상품명 -> 원문). 지명이 먼저 잡히는 쪽을 따른다
+    (원문 아래쪽에 다른 지역 이야기가 섞여 있어도 장소명이 우선)."""
+    texts = []
+    for t in evidence:
+        t = t or ""
+        for false_hit in _FALSE_REGION_HITS:
+            t = t.replace(false_hit, "")
+        texts.append(t)
+    if region == "전국" and any("전국" in t or "전 지점" in t for t in texts):
+        return "전국"  # 여러 지점 공용 이용권 - 지점 지명(일산·여수 등)이 나열돼도 전국이 맞다
+    for t in texts:
+        for name, mapped in _PLACE_LOOKUP:
+            if name in t:
+                return mapped
+    if region in REGIONS and region != "전국" and any(region in t for t in texts):
+        return region
+    return None
+
+
+def _experience_meta(it: dict, category: str, source_text: str = "") -> dict:
+    """item_type/sub_category/region/place_name을 정규화한다. 키즈체험 카테고리와
+    item_type=experience를 항상 일치시키고, 허용값 밖이면 None으로 비운다.
+    지역은 장소명·원문에 근거가 있을 때만 남긴다(_verify_region)."""
+    is_exp = category == "키즈체험" or it.get("item_type") == "experience"
+    if not is_exp:
+        return {"item_type": "product", "sub_category": None, "region": None, "place_name": None}
+    sub = it.get("sub_category")
+    place = (it.get("place_name") or "").strip()
+    evidence = [place, it.get("product_name") or "", source_text]
+    return {
+        "item_type": "experience",
+        "sub_category": sub if sub in ("stay", "play") else None,
+        "region": _verify_region(it.get("region"), evidence),
+        "place_name": place or None,
+    }
 
 
 def _line_category(line: str) -> str | None:
@@ -162,6 +225,7 @@ def _rule_based_extract(text: str, influencer_name: str, reference_date: str) ->
                 "end_date": end_date.isoformat() if end_date else "",
                 "purchase_link": url_m.group(0) if url_m else "",
                 "key_benefit": benefit_m.group(0) if benefit_m else "",
+                **_experience_meta({}, category, line),
             }
         )
 
@@ -325,7 +389,7 @@ EXTRACT_TOOL = {
         "properties": {
             "is_group_buy": {
                 "type": "boolean",
-                "description": "육아용품/영유아식품/키즈가구 카테고리에 해당하는 공동구매 정보가 하나라도 있으면 true. 조금이라도 애매하면 false.",
+                "description": "육아용품/영유아식품/키즈가구/키즈체험 카테고리에 해당하는 공동구매 정보가 하나라도 있으면 true. 조금이라도 애매하면 false.",
             },
             "items": {
                 "type": "array",
@@ -336,7 +400,7 @@ EXTRACT_TOOL = {
                         "category": {
                             "type": "string",
                             "enum": CATEGORY_NAMES,
-                            "description": "육아용품 / 영유아식품 / 키즈가구 중 하나",
+                            "description": "육아용품 / 영유아식품 / 키즈가구 / 키즈체험 중 하나",
                         },
                         "product_name": {
                             "type": "string",
@@ -382,6 +446,25 @@ EXTRACT_TOOL = {
                         "end_date": {"type": "string", "description": "공구 마감일 YYYY-MM-DD. 알 수 없으면 빈 문자열."},
                         "purchase_link": {"type": "string", "description": "구매/신청 링크 언급이 있으면 원문 그대로, 없으면 빈 문자열."},
                         "key_benefit": {"type": "string", "description": "할인율 또는 사은품 등 혜택을 1줄로 요약. 없으면 빈 문자열."},
+                        "item_type": {
+                            "type": "string",
+                            "enum": ["product", "experience"],
+                            "description": "product=배송받는 육아 물품, experience=입장권·이용권·체험·여행·숙박처럼 장소에 가서 쓰는 공구 (category가 키즈체험이면 반드시 experience)",
+                        },
+                        "sub_category": {
+                            "type": ["string", "null"],
+                            "enum": ["stay", "play", None],
+                            "description": "experience일 때만: stay=여행·숙소(펜션·풀빌라·호텔·리조트 숙박), play=키즈카페·테마파크·아쿠아리움·체험 입장/이용권. product면 null",
+                        },
+                        "region": {
+                            "type": ["string", "null"],
+                            "enum": REGIONS + [None],
+                            "description": "experience일 때 이용 장소의 광역 지역. 여러 지점/전 지점 이용권이면 '전국'. product(배송)이거나 지역을 알 수 없으면 null",
+                        },
+                        "place_name": {
+                            "type": ["string", "null"],
+                            "description": "experience일 때 방문 장소명(예: '가평 고고다이노 키즈 호텔', '에버랜드'). 없거나 product면 null",
+                        },
                     },
                     "required": ["category", "product_name"],
                 },
@@ -410,7 +493,7 @@ _SYSTEM_PROMPT = f"""너는 육아 인플루언서의 인스타그램 게시물/
 
 [제외 규칙]
 {EXCLUDE_HINT}
-공동구매 자체가 아니거나 위 3개 카테고리에 명확히 속하지 않으면 is_group_buy=false, items=[] 로 응답하라.
+공동구매 자체가 아니거나 위 카테고리에 명확히 속하지 않으면 is_group_buy=false, items=[] 로 응답하라.
 애매하면 포함시키지 말고 제외하라 (엄격 기준).
 
 [상품명 표기 규칙 - 필수, 예외 없음]
@@ -432,6 +515,21 @@ product_name은 반드시 "브랜드명 대표품목명 (세부모델1, 세부�
 별도 대표품목명 없이 "브랜드명 (세부품목1, 세부품목2, ...)"로 충분하다). 예:
 "이몽 (기저귀바구니, 기저귀패드, 거즈햇&블루머)". "OO 모음전"처럼 대표품목명도
 세부 품목도 없이 뭉개어 요약하지 마라 (품목을 정말 특정할 수 없을 때만 예외).
+
+[키즈체험(지역/체험 공구) 규칙]
+- 아이와 함께 이용하는 키즈카페·테마파크·놀이동산·아쿠아리움·동물원·워터파크·체험학습의
+  입장권/이용권, 키즈펜션·키즈풀빌라·키즈호텔·가족 리조트 숙박권을 할인/특가로 판매하는
+  공동구매는 category=키즈체험, item_type=experience 로 추출한다.
+- sub_category: 숙박이면 stay, 입장·이용·체험이면 play.
+- region: 이용 장소가 속한 광역 지역 하나(서울/경기/인천/강원/충북/충남/대전/세종/전북/
+  전남/광주/경북/경남/대구/울산/부산/제주). 여러 지역 지점 공용 이용권이면 '전국'.
+  장소의 지역을 원문으로 알 수 없으면 null (추측 금지).
+- place_name: 방문 장소명 그대로(예: '가평 고고다이노 키즈 호텔', '에버랜드'). 모르면 null.
+- product_name은 "장소명 상품종류 (옵션)" 형식. 예: "에버랜드 자유이용권 (종일권, 오후권)",
+  "고고다이노 키즈호텔 숙박권 (주중, 주말)".
+- 그 밖의 일반 육아 물품은 item_type=product, sub_category/region/place_name은 null.
+- 제품 체험단·서포터즈 모집, 무료 체험 이벤트, 단순 나들이 후기(판매 링크·할인 없음)는
+  공동구매가 아니므로 제외한다.
 
 [가격 표기 규칙]
 '모음전'처럼 세부 품목이 여러 개고 품목마다 가격이 따로 있으면, 개별 가격을
@@ -520,8 +618,12 @@ def clean_blob_text(text: str) -> str:
 
 def _build_user_message(raw_text: str, influencer_name: str, reference_date: str) -> str:
     cleaned = _strip_noise(raw_text)[:4000]
+    # 체험/여행/숙소 단어가 보이는 글에만 짧은 힌트를 붙인다(시스템 프롬프트 캐시는 그대로 유지).
+    hint = ("\n[참고] 체험/여행/숙소 관련 단어가 있는 글이다. 키즈체험 공구면 item_type/sub_category/"
+            "region/place_name을 채우고, 체험단 모집·후기글이면 제외하라.\n"
+            if is_experience_candidate(cleaned) else "")
     return f"""인플루언서: '{influencer_name}'
-수집 기준일: {reference_date}
+수집 기준일: {reference_date}{hint}
 
 [원문]
 \"\"\"{cleaned}\"\"\""""
@@ -547,6 +649,8 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
             items = []
             for it in data.get("items", []):
                 category = it.get("category", "")
+                if it.get("item_type") == "experience":
+                    category = "키즈체험"  # 체험/숙박은 카테고리도 항상 키즈체험으로 맞춘다
                 product_name = (it.get("product_name") or "").strip()
                 if category not in CATEGORIES or not product_name:
                     continue
@@ -561,6 +665,7 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
                         "end_date": (it.get("end_date") or "").strip(),
                         "purchase_link": (it.get("purchase_link") or "").strip(),
                         "key_benefit": (it.get("key_benefit") or "").strip(),
+                        **_experience_meta(it, category, raw_text),
                     }
                 )
             return items

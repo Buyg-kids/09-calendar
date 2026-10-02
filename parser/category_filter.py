@@ -17,6 +17,14 @@ GROUP_BUY_SIGNAL_WORDS = [
 MIN_TEXT_LENGTH = 8
 
 
+def is_experience_candidate(text: str) -> bool:
+    """체험/여행/숙소 키워드가 있으면 True - quick_prefilter를 통과한 글에 한해
+    Claude에 '체험 후보' 힌트를 붙이는 용도(통과 여부에는 영향 없음)."""
+    from config import EXPERIENCE_HINT_KEYWORDS
+    haystack = (text or "").replace(" ", "")
+    return any(kw in haystack for kw in EXPERIENCE_HINT_KEYWORDS)
+
+
 def quick_prefilter(text: str) -> bool:
     """True 면 Claude 호출 대상, False 면 명백히 무관하므로 건너뜀.
 

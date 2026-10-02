@@ -54,6 +54,11 @@ _MIGRATION_COLUMNS = {
                               # 월 전체 날짜 오류 조사) 때문에 도입 - 트러블슈팅 전용, 프런트에 노출 안 함.
     "cloudinary_public_id": "TEXT",  # 2026-09-29 추가: image_url이 Cloudinary로 옮겨진 경우 그 public_id
                                       # (보관 기간 지나 destroy할 때 필요). 비어 있으면 인스타 원본/플레이스홀더.
+    # 2026-10-02 지역/체험 공구(지도 탭 준비): product | experience, stay | play, 광역 지역, 방문 장소명
+    "item_type": "TEXT",
+    "sub_category": "TEXT",
+    "region": "TEXT",
+    "place_name": "TEXT",
 }
 
 
@@ -89,8 +94,9 @@ def upsert_gonggu(item: dict) -> None:
             """
             INSERT INTO gonggu
                 (influencer_name, category, product_name, brand, start_date, end_date,
-                 purchase_link, key_benefit, image_url, price, post_url, caption_text, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 purchase_link, key_benefit, image_url, price, post_url, caption_text, updated_at,
+                 item_type, sub_category, region, place_name)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(influencer_name, product_name, start_date) DO UPDATE SET
                 category=excluded.category,
                 brand=excluded.brand,
@@ -104,7 +110,11 @@ def upsert_gonggu(item: dict) -> None:
                 price=excluded.price,
                 post_url=CASE WHEN excluded.post_url != '' THEN excluded.post_url ELSE gonggu.post_url END,
                 caption_text=CASE WHEN excluded.caption_text != '' THEN excluded.caption_text ELSE gonggu.caption_text END,
-                updated_at=excluded.updated_at
+                updated_at=excluded.updated_at,
+                item_type=excluded.item_type,
+                sub_category=excluded.sub_category,
+                region=excluded.region,
+                place_name=excluded.place_name
             """,
             (
                 item["influencer_name"], item["category"], item["product_name"],
@@ -113,6 +123,8 @@ def upsert_gonggu(item: dict) -> None:
                 item.get("image_url", ""), item.get("price", ""), item.get("post_url", ""),
                 item.get("caption_text", ""),
                 datetime.now(timezone.utc).isoformat(),
+                item.get("item_type") or "product", item.get("sub_category"),
+                item.get("region"), item.get("place_name"),
             ),
         )
 

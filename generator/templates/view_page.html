@@ -814,7 +814,7 @@ function toLocalIso(d) {
 }
 const TODAY_ISO = toLocalIso(TODAY);
 
-const CATEGORY_EMOJI = { '육아용품': '🍼', '영유아식품': '🥣', '키즈가구': '🪑' };
+const CATEGORY_EMOJI = { '육아용품': '🍼', '영유아식품': '🥣', '키즈가구': '🪑', '키즈체험': '🎡' };
 const WEEKDAY_KR = ['일','월','화','수','목','금','토'];
 
 // ---------------- 홈 섹션 큐레이션: 상호배제 / 우선순위 / 도배방지 ----------------
@@ -889,6 +889,8 @@ const CHIPS = [
   { id: 'toys', label: '교구/완구', icon: '🧸', keywords: ['교구','장난감','완구','블록','그림책','사운드북','놀이매트','보드북','팝업북'] },
   { id: 'hygiene', label: '위생/기저귀', icon: '🧴', keywords: ['기저귀','물티슈','목욕','욕조','세면대','손소독','칫솔','치발기','로션'] },
   { id: 'health', label: '건강/영양제', icon: '💊', keywords: ['영양제','유산균','비타민','철분','오메가','홍삼','콜라겐','면역'] },
+  // 2026-10-02 지역/체험 공구(키즈카페·테마파크 입장권, 키즈펜션 숙박 등) - 파서가 붙인 item_type으로 고른다
+  { id: 'experience', label: '체험/여행', icon: '🎡', keywords: null, experience: true },
 ];
 
 // ---------------- 찜하기 (로그인 없이 브라우저 localStorage에 저장) ----------------
@@ -1249,6 +1251,7 @@ function initSharedDeal() {
 
 function matchesChip(row, chip) {
   if (chip.fav) return isFav(row);
+  if (chip.experience) return row.item_type === 'experience';
   if (!chip.keywords) return true;
   const hay = ((row.product_name || '') + ' ' + (row.brand || '') + ' ' + (row.key_benefit || '')).toLowerCase();
   return chip.keywords.some(function (kw) { return hay.indexOf(kw.toLowerCase()) !== -1; });
@@ -1790,7 +1793,10 @@ function fillDealSheet(row) {
   if (dd.label) titleRow.appendChild(el('span', 'dday-badge ' + dd.cls, dd.label));
   const title = el('h2', 'deal-title', row.product_name); title.id = 'dealTitle';
   titleRow.appendChild(title);
-  if (row.brand) titleRow.appendChild(el('div', 'deal-brand', row.brand + ' · ' + row.category));
+  if (row.item_type === 'experience') {
+    const where = [row.region, row.place_name].filter(Boolean).join(' · ');
+    titleRow.appendChild(el('div', 'deal-brand', '📍 ' + (where || '장소는 게시물 확인') + ' · ' + (row.sub_category === 'stay' ? '숙박' : '체험/입장')));
+  } else if (row.brand) titleRow.appendChild(el('div', 'deal-brand', row.brand + ' · ' + row.category));
   scroll.appendChild(titleRow);
 
   const info = el('div', 'deal-info');
