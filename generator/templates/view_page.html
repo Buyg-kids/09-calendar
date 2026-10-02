@@ -376,8 +376,11 @@
   .fav-empty b { display: block; font-size: 15px; color: var(--text-main); margin-bottom: 6px; }
   .fav-empty span { font-size: 12px; }
   .chip-count { color: var(--price-accent); font-weight: 800; }
-  .closing-badge { background: linear-gradient(135deg,#ff4757,#ff6b81); }
-  .banner-badge { background: var(--brand-purple); }
+  /* 2026-10-02: 진한 단색 뱃지 -> 리스트 카드 '오늘마감!'과 같은 연한 라운드 직사각형 톤.
+     사진 위에 얹히므로 아주 옅은 그림자로만 경계를 준다. */
+  .closing-badge, .banner-badge { border-radius: 6px; font-size: 10.5px; padding: 2px 7px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+  .closing-badge { background: #ffe4e6; color: #e11d48; }
+  .banner-badge { background: var(--accent-lavender); color: var(--brand-purple); }
 
   /* ---- 카테고리 칩 ---- */
   .chip-row {
@@ -612,6 +615,33 @@
   body.deal-open { overflow: hidden; }
   body.deal-open .fav-toast { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
   .toast, .fav-toast { z-index: 450; }
+  /* ================= 🏆 이번 주 인기 공구 (2026-10-02) ================= */
+  .rank-list { list-style: none; margin: 0; padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
+  .rank-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px;
+    background: #fff; border: 1px solid #f0f0f0; cursor: pointer;
+  }
+  .rank-item:active { background: #fafafa; }
+  .rank-no { flex: 0 0 22px; text-align: center; font-size: 17px; font-weight: 900; color: #cbd5e1; font-style: italic; }
+  .rank-item.top .rank-no { color: var(--brand-purple); }
+  .rank-item .list-thumb { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 10px; }
+  .rank-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .rank-name { font-size: 13.5px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rank-handle { font-size: 11.5px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rank-tags { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+  .rank-tag { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 5px; background: #f1f5f9; color: #475569; white-space: nowrap; }
+
+  /* 마감임박/곧오픈 카드 가격 줄: 가격 미표기는 한 줄 칩, 할인율·1+1은 우측 정렬 뱃지 */
+  .price-row { justify-content: flex-start; flex-wrap: nowrap; align-items: center; min-width: 0; }
+  .price-row .price-final { min-width: 0; -webkit-line-clamp: 1; }
+  .price-chip {
+    font-size: 10.5px; font-weight: 700; color: #64748b; background: #f1f5f9;
+    padding: 2px 7px; border-radius: 6px; white-space: nowrap;
+  }
+  .promo-badge {
+    margin-left: auto; flex: 0 0 auto; font-size: 10.5px; font-weight: 800; color: #f4511e;
+    background: #fff0eb; padding: 2px 6px; border-radius: 6px; white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -664,6 +694,11 @@
       </section>
 
       <div id="regularSections">
+      <section class="section" id="popularSection">
+        <div class="section-head"><h2>🏆 이번 주 인기 공구</h2><span class="sub">팔로워 · 동시진행 · 마감 기준</span></div>
+        <ol class="rank-list" id="popularList"></ol>
+      </section>
+
       <section class="section">
         <div class="section-head"><h2>🔥 마감 임박한 공구</h2><span class="sub">서두르세요</span></div>
         <div class="hscroll-wrap">
@@ -1211,7 +1246,7 @@ function makeThumb(row, className) {
     badge.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      window.open(row.influencer_profile_url, '_blank', 'noopener');
+      openInstagram(row.influencer_profile_url);
     });
     wrap.appendChild(badge);
   }
@@ -1302,15 +1337,25 @@ function parsePriceParts(text) {
   if (!/\d/.test(final)) return { original: null, final: text };
   return { original: original, final: final };
 }
+// 카드 우측에 붙일 프로모 표기: 할인율(%) 또는 N+M. 가격 문구에 이미 보이면 생략.
+function promoOf(row) {
+  const src = (row.price || '') + ' ' + (row.key_benefit || '');
+  const plus = src.match(/(\d)\s*\+\s*(\d)(?!\d)/);
+  if (plus) return plus[1] + '+' + plus[2];
+  return discountOf(row);
+}
 function renderPriceRow(row) {
   const info = priceInfo(row);
   const el = document.createElement('div');
   el.className = 'price-row';
+  const promo = promoOf(row);
   if (info.cta) {
-    const plain = document.createElement('span');
-    plain.className = 'price-plain';
-    plain.textContent = info.text;
-    el.appendChild(plain);
+    // "가격은 링크에서 확인하세요"가 132px 카드에서 두 줄로 꺾이던 문제 - 짧은 칩 한 줄로.
+    const chip = document.createElement('span');
+    chip.className = 'price-chip';
+    chip.textContent = '공구가 링크 확인';
+    el.appendChild(chip);
+    if (promo) { const b = document.createElement('span'); b.className = 'promo-badge'; b.textContent = promo; el.appendChild(b); }
     return el;
   }
   const parts = parsePriceParts(info.text);
@@ -1324,6 +1369,9 @@ function renderPriceRow(row) {
   final.className = 'price-final' + (info.muted ? ' price-muted' : '');
   final.textContent = parts.final;
   el.appendChild(final);
+  if (promo && parts.final.indexOf(promo) === -1 && !parts.original) {
+    const b = document.createElement('span'); b.className = 'promo-badge'; b.textContent = promo; el.appendChild(b);
+  }
   return el;
 }
 function makeNameEl(row) {
@@ -1385,7 +1433,7 @@ function renderClosingSoon(rows, usedIds) {
     const thumb = makeThumb(row);
     const badge = document.createElement('span');
     badge.className = 'closing-badge';
-    badge.textContent = dleft === 0 ? '오늘마감' : ('D-' + dleft);
+    badge.textContent = dleft === 0 ? '오늘마감!' : ('D-' + dleft);
     thumb.appendChild(badge);
     a.appendChild(thumb);
     a.appendChild(makeNameEl(row));
@@ -1499,7 +1547,7 @@ function makePriceBlock(row) {
   const info = priceInfo(row);
   const disc = discountOf(row);
   if (info.cta) {
-    el.innerHTML = '<span class="list-price-plain">' + (disc ? '' : '가격은 게시물 확인') + '</span>';
+    el.innerHTML = '<span class="price-chip">' + (disc ? '' : '공구가 링크 확인') + '</span>';
     if (disc) el.innerHTML = '<span class="list-discount">' + disc + '</span><span class="list-price-plain">할인</span>';
     return el;
   }
@@ -1758,6 +1806,120 @@ dealBackdrop.addEventListener('click', function () { closeDealModal(false); });
 window.addEventListener('popstate', function () { if (dealOpenRow) closeDealModal(true); });
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && dealOpenRow) closeDealModal(false); });
 
+
+// ================= 🏆 이번 주 인기 공구 랭킹 (2026-10-02) =================
+// 점수 = 팔로워 가중치(10만↑ +30 / 5만↑ +20 / 1만↑ +10)
+//      + 동일 상품 동시 진행(이번 주에 같은 브랜드를 진행하는 다른 인플루언서 1명당 +10)
+//      + 긴박도(D-DAY +15 / D-1 +10 / D-2 +5)
+// 동점: 최신 시작순 → 팔로워 많은 순. 같은 상품(브랜드)은 최고점 1건만 노출해
+// 한 브랜드가 1~5위를 독차지하지 않게 한다. 다른 섹션과의 중복 제외(워터폴)에는 참여하지 않는다.
+const POPULAR_SIZE = 5;
+function followerPoints(n) { return n >= 100000 ? 30 : n >= 50000 ? 20 : n >= 10000 ? 10 : 0; }
+function urgencyPoints(row) {
+  const end = parseDate(row.end_date) || parseDate(row.start_date);
+  if (!end) return 0;
+  const left = daysBetween(end, TODAY);
+  return left === 0 ? 15 : left === 1 ? 10 : left === 2 ? 5 : 0;
+}
+function productKey(row) {
+  const base = (row.brand || (row.product_name || '').split(/[\s(]/)[0] || '').toLowerCase().replace(/\s+/g, '');
+  return base || row.row_id;
+}
+function formatFollowers(n) {
+  if (!n) return '';
+  return n >= 10000 ? (Math.round(n / 1000) / 10) + '만' : n.toLocaleString('ko-KR');
+}
+function computePopular(rows) {
+  const weekEnd = toLocalIso(new Date(TODAY.getTime() + 6 * 86400000));
+  const week = rows.filter(function (r) {
+    const end = r.end_date || r.start_date;
+    return r.start_date && r.start_date <= weekEnd && end >= TODAY_ISO;
+  });
+  const influencersByKey = {};
+  week.forEach(function (r) {
+    const k = productKey(r);
+    (influencersByKey[k] = influencersByKey[k] || new Set()).add(r.influencer_handle || r.influencer_name);
+  });
+  const scored = week.map(function (r) {
+    const together = influencersByKey[productKey(r)].size - 1;
+    return { row: r, together: together,
+      score: followerPoints(r.follower_count || 0) + together * 10 + urgencyPoints(r) };
+  }).sort(function (a, b) {
+    return b.score - a.score
+      || (b.row.start_date || '').localeCompare(a.row.start_date || '')
+      || (b.row.follower_count || 0) - (a.row.follower_count || 0);
+  });
+  const seen = new Set();
+  const out = [];
+  for (let i = 0; i < scored.length && out.length < POPULAR_SIZE; i++) {
+    const k = productKey(scored[i].row);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(scored[i]);
+  }
+  return out;
+}
+function renderPopular(rows) {
+  const el = document.getElementById('popularList');
+  el.innerHTML = '';
+  const list = computePopular(rows);
+  document.getElementById('popularSection').hidden = !list.length;
+  list.forEach(function (item, i) {
+    const row = item.row;
+    const li = document.createElement('li');
+    li.className = 'rank-item' + (i < 3 ? ' top' : '');
+    li.addEventListener('click', function () { openDealModal(row); });
+    li.appendChild(el2('span', 'rank-no', String(i + 1)));
+    li.appendChild(makeListThumb(row, false));
+    const body = el2('div', 'rank-body');
+    body.appendChild(el2('div', 'rank-name', row.product_name));
+    body.appendChild(el2('div', 'rank-handle', handleOf(row) + (row.follower_count ? ' · 팔로워 ' + formatFollowers(row.follower_count) : '')));
+    const tags = el2('div', 'rank-tags');
+    const dd = ddayInfo(row);
+    if (dd.label) tags.appendChild(el2('span', 'dday-badge ' + dd.cls, dd.label));
+    if (item.together > 0) tags.appendChild(el2('span', 'rank-tag', '🔁 ' + (item.together + 1) + '명 동시 진행'));
+    const promo = promoOf(row);
+    if (promo) tags.appendChild(el2('span', 'promo-badge', promo));
+    body.appendChild(tags);
+    li.appendChild(body);
+    el.appendChild(li);
+  });
+}
+function el2(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+// ================= 인스타그램 앱 딥링크 (2026-10-02) =================
+// 모바일에서 instagram.com 링크를 누르면 웹 대신 인스타 앱이 열리게 한다.
+// - Android: intent:// + package (앱 없으면 browser_fallback_url로 웹)
+// - iOS: 같은 탭에서 https 링크를 직접 따라가야 유니버설 링크가 앱을 연다
+//   (새 탭/window.open이나 커스텀 스킴 instagram://은 앱 미설치 시 오류 팝업이라 쓰지 않음)
+// - PC: 기존처럼 새 탭
+function isInstagramUrl(u) { return /^https?:\/\/(www\.)?instagram\.com\//i.test(u || ''); }
+function openInstagram(url) {
+  if (!url) return;
+  const ua = navigator.userAgent || '';
+  if (/Android/i.test(ua)) {
+    location.href = 'intent://' + url.replace(/^https?:\/\//i, '') +
+      '#Intent;package=com.instagram.android;scheme=https;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+  } else if (isIOSDevice()) {
+    location.href = url;
+  } else {
+    window.open(url, '_blank', 'noopener');
+  }
+}
+document.addEventListener('click', function (e) {
+  if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  const a = e.target.closest ? e.target.closest('a[href]') : null;
+  if (!a || !isInstagramUrl(a.href) || !isMobileDevice()) return;
+  if (isIOSDevice()) { a.target = '_self'; return; } // 기본 동작(같은 탭 이동)으로 유니버설 링크 발동
+  e.preventDefault();
+  openInstagram(a.href);
+});
+
 // ---------------- 카테고리 칩 ----------------
 let activeChip = 'all';
 function renderChips() {
@@ -1909,6 +2071,7 @@ function renderHome() {
   // 2단이 '오늘' 뷰에서 실제로 보여준 전체 후보(weekShownIds)는 3단에만 추가로 합친다.
   homeUsedIds = new Set();
   weekShownIds = new Set();
+  renderPopular(filtered);
   renderClosingSoon(filtered, homeUsedIds);
   renderWeekGrid(filtered, homeUsedIds);
   const soonExcludeIds = new Set(homeUsedIds);
