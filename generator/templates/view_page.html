@@ -1280,6 +1280,7 @@ function makeThumb(row, className) {
     badge.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
+      trackOutbound(row, row.influencer_profile_url, 'influencer_badge');
       openInstagram(row.influencer_profile_url);
     });
     wrap.appendChild(badge);
@@ -1597,11 +1598,34 @@ function makePriceBlock(row) {
 }
 // 카드는 공유 링크(#deal=키)를 href로 가진 <a> - 일반 클릭은 상세 시트를 열고,
 // Ctrl/Cmd/휠 클릭은 브라우저 기본 동작(새 탭에서 같은 공구 열기)을 그대로 둔다.
+// ---- GA4 아웃링크 추적 (2026-10-02) ----
+// 실제로 사이트 밖(인스타/구매 링크)으로 나가는 클릭만 outbound_click으로 보낸다. 카드 탭은
+// 이제 사이트 안의 상세 시트를 여는 동작이라 deal_open으로 따로 집계한다(아웃링크 수치 부풀림 방지).
+// gtag가 없거나 광고차단으로 막힌 환경에서도 조용히 넘어가도록 typeof로 확인한다.
+function sendGaEvent(name, params) {
+  if (typeof window.gtag !== 'function') return;
+  try { window.gtag('event', name, params); } catch (e) { /* 추적 실패가 화면 동작을 막지 않게 */ }
+}
+function gaDealParams(row) {
+  // GA4 이벤트 파라미터 값은 100자 제한 - 모음전 상품명이 넘는 경우가 있어 미리 자른다.
+  return { influencer: (row.influencer_handle || row.influencer_name || '').slice(0, 100), product_title: (row.product_name || '').slice(0, 100) };
+}
+function trackOutbound(row, url, source) {
+  const p = gaDealParams(row);
+  p.link_target = isInstagramUrl(url) ? 'instagram' : 'external';
+  p.link_source = source;
+  sendGaEvent('outbound_click', p);
+}
+function bindOutbound(a, row, source) {
+  a.addEventListener('click', function () { trackOutbound(row, a.href, source); });
+}
+
 function bindDealOpen(a, row) {
   a.href = shareUrlFor(row);
   a.addEventListener('click', function (e) {
     if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
     e.preventDefault();
+    sendGaEvent('deal_open', gaDealParams(row));
     openDealModal(row);
   });
 }
@@ -1708,7 +1732,7 @@ function fillDealSheet(row) {
 
   // (2) 대표 이미지 - 누르면 인스타 게시물
   const media = el(row.post_url ? 'a' : 'div', 'deal-media');
-  if (row.post_url) { media.href = row.post_url; media.target = '_blank'; media.rel = 'noopener'; }
+  if (row.post_url) { media.href = row.post_url; media.target = '_blank'; media.rel = 'noopener'; bindOutbound(media, row, 'detail_media'); }
   media.appendChild(makeImg(row));
   if (isReelRow(row)) { const p = el('span', 'reel-icon'); p.innerHTML = PLAY_SVG; media.appendChild(p); }
   if (row.post_url) media.appendChild(el('span', 'deal-media-link', (isReelRow(row) ? '릴스' : '게시물') + ' 보기 ↗'));
@@ -1721,7 +1745,7 @@ function fillDealSheet(row) {
   av.style.background = avatarColor(handle);
   const who = el(row.influencer_profile_url ? 'a' : 'div', 'deal-who');
   if (row.influencer_profile_url) {
-    [av, who].forEach(function (x) { x.href = row.influencer_profile_url; x.target = '_blank'; x.rel = 'noopener'; });
+    [av, who].forEach(function (x) { x.href = row.influencer_profile_url; x.target = '_blank'; x.rel = 'noopener'; bindOutbound(x, row, 'detail_profile'); });
   }
   who.appendChild(el('span', 'deal-handle', handleOf(row)));
   const nick = row.influencer_nickname || (row.influencer_display && row.influencer_display !== row.influencer_handle ? row.influencer_display : '');
@@ -1804,6 +1828,7 @@ function fillDealSheet(row) {
   const link = linkFor(row);
   const apply = el('a', 'deal-apply-btn', /instagram\.com/.test(link) ? 'Instagram에서 신청하기 ↗' : '공구 신청 페이지로 이동 ↗');
   apply.href = link; apply.target = '_blank'; apply.rel = 'noopener';
+  bindOutbound(apply, row, 'apply_button');
   cta.appendChild(apply);
 }
 function openDealModal(row, opts) {
