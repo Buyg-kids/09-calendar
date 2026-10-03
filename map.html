@@ -48,7 +48,7 @@
   }
   .pill.muted { background: #f1f5f9; color: #64748b; }
 
-  .map-wrap { padding: 4px 12px 0; }
+  .map-wrap { padding: 4px 12px 0; position: relative; }
   svg { width: 100%; height: auto; display: block; touch-action: manipulation; }
   .region path, .region ellipse, .region rect {
     fill: #f3eef7; stroke: #fff; stroke-width: 2.5; transition: fill .15s ease; cursor: pointer;
@@ -145,9 +145,15 @@
   .demo-caption { margin: 14px 16px 6px; font-size: 10.5px; font-weight: 700; color: #b0b8c4; letter-spacing: .2px; }
   /* ---- 📍 내 주변 버튼 / 토스트 ---- */
   .locate-btn {
-    font-size: 12px; font-weight: 800; padding: 6px 11px; border-radius: 999px; cursor: pointer; font-family: inherit;
-    background: #fff; color: var(--brand-purple); border: 1.5px solid var(--brand-purple);
+    position: absolute; top: 12px; right: 20px; z-index: 5;
+    font-size: 12.5px; font-weight: 800; padding: 8px 13px; border-radius: 999px; cursor: pointer; font-family: inherit;
+    background: #fff; color: var(--brand-purple); border: 0; box-shadow: 0 2px 8px rgba(0,0,0,.18);
   }
+  .locate-btn:active { transform: scale(.96); }
+  .spot-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .sb { font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: #f1f5f9; color: #475569; white-space: nowrap; }
+  .sb.park { background: #eaf2ff; color: #2563eb; }
+  .sb.baby { background: #fff0f3; color: #e0476b; }
   .locate-btn[disabled] { opacity: .55; cursor: default; }
   .map-toast {
     position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 60;
@@ -194,9 +200,10 @@
     <button class="tab active" data-sub="stay" role="tab" aria-selected="true">🧳 여행·숙소<span class="n" id="nStay"></span></button>
     <button class="tab" data-sub="play" role="tab" aria-selected="false">🎠 키카·체험<span class="n" id="nPlay"></span></button>
   </div>
-  <div class="extra"><button class="locate-btn" id="locateBtn" type="button">📍 내 주변</button><span id="extra" style="display:contents"></span></div>
+  <div class="extra"><span id="extra" style="display:contents"></span></div>
 
   <div class="map-wrap">
+    <button class="locate-btn" id="locateBtn" type="button">📍 내 주변</button>
     <svg viewBox="0 0 300 440" id="map" aria-label="대한민국 지역 지도">
       <g class="region" data-region="경기"><path d="M52 52 L92 34 L150 36 L162 66 L158 112 L124 124 L84 120 L58 100 Z"/><text class="name" x="132" y="104">경기</text></g>
       <g class="region" data-region="강원"><path d="M152 34 L196 12 L242 18 L272 108 L244 132 L186 128 L160 114 L164 66 Z"/><text class="name" x="214" y="74">강원</text></g>
@@ -517,6 +524,15 @@ function renderSpots(spots, box) {
     a.querySelector('.spot-icon').textContent = spotIcon(sp.category);
     a.querySelector('.spot-title').textContent = sp.title;
     a.querySelector('.spot-addr').textContent = sp.category + ' · ' + sp.address;
+    const bd = [];
+    if (sp.space_type) bd.push(['', sp.space_type === '실내' ? '🏛️ 실내' : sp.space_type === '야외' ? '🌳 야외' : '🏛️🌳 복합']);
+    if (sp.parking) bd.push(['park', sp.parking === '무료주차' ? '🚗 무료주차' : /^주차가능/.test(sp.parking) ? '🅿️ 주차가능' : '🚌 대중교통']);
+    if (sp.baby_care) bd.push(['baby', '🍼 수유실']);
+    if (bd.length) {
+      const w = document.createElement('span'); w.className = 'spot-badges';
+      bd.forEach(([c, t]) => { const e = document.createElement('span'); e.className = 'sb ' + c; e.textContent = t; w.appendChild(e); });
+      a.querySelector('.spot-body').appendChild(w);
+    }
     const tag = a.querySelector('.spot-tag');
     tag.textContent = sp.tag;
     if (!/^무료/.test(sp.tag)) tag.classList.add('warn');
