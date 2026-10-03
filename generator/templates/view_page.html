@@ -675,6 +675,21 @@
   .promo-badge { margin-left: auto; font-weight: 800; }
   .price-row > .promo-badge:first-child { margin-left: 0; }
   .price-note { font-size: 11px; color: #777; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* ================= 주말 나들이 지도 배너 (2026-10-03) ================= */
+  .trip-banner {
+    display: flex; align-items: center; gap: 12px; margin: 14px 16px 2px; padding: 14px 14px 14px 12px;
+    border-radius: 18px; text-decoration: none; color: var(--text-main);
+    background: linear-gradient(135deg, #f4ecfa 0%, #fdf1f1 100%); border: 1px solid #efe3f6;
+  }
+  .trip-banner:active { transform: scale(0.99); }
+  .trip-banner-icon {
+    flex: 0 0 46px; width: 46px; height: 46px; border-radius: 14px; background: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 2px 8px rgba(95,0,128,.08);
+  }
+  .trip-banner-text { flex: 1; min-width: 0; }
+  .trip-banner-title { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -0.2px; word-break: keep-all; }
+  .trip-banner-sub { display: block; margin-top: 3px; font-size: 12px; font-weight: 700; color: var(--point-coral); }
+  .trip-banner-arrow { flex: 0 0 auto; font-size: 20px; color: #b49ac7; }
 </style>
 </head>
 <body>
@@ -711,6 +726,15 @@
     <div id="noResults">검색 결과가 없습니다.</div>
 
     <div id="homeSections">
+      <!-- 2026-10-03 주말 나들이 지도 바로가기 (지역/체험 공구 + 무료 나들이 지도) -->
+      <a class="trip-banner" href="./map.html" id="tripBanner">
+        <span class="trip-banner-icon">🗺️</span>
+        <span class="trip-banner-text">
+          <span class="trip-banner-title">이번 주말 아이랑 어디 갈까?</span>
+          <span class="trip-banner-sub">👉 전국 나들이·공구 지도 열기</span>
+        </span>
+        <span class="trip-banner-arrow">›</span>
+      </a>
       <section class="section" id="sharedSection" hidden>
         <div class="section-head"><h2>🎁 공유받은 공구</h2><button type="button" class="shared-close" id="sharedClose">닫기 ✕</button></div>
         <div class="list-grid" id="sharedGrid"></div>
@@ -883,14 +907,14 @@ function capConsecutiveRuns(list, maxRun) {
 const CHIPS = [
   { id: 'all', label: '전체', icon: '🛍️', keywords: null },
   { id: 'fav', label: '찜한 공구', icon: '❤️', keywords: null, fav: true },
+  // 지역/체험 공구(키즈카페·테마파크 입장권, 키즈펜션 숙박 등) - 첫 화면에서 보이도록 3번째 (2026-10-03)
+  { id: 'experience', label: '체험/여행', icon: '🏰', keywords: null, experience: true },
   { id: 'feeding', label: '수유/이유', icon: '🍼', keywords: ['수유','이유식','젖병','유축기','분유','퓨레','아기간식'] },
   { id: 'tableware', label: '유아식기', icon: '🍽️', keywords: ['식기','수저','포크','컵','빨대컵','도시락','식판','턱받이'] },
   { id: 'clothes', label: '아기옷', icon: '👕', keywords: ['옷','내복','바디수트','블루머','한복','실내복','양말','신발','우주복'] },
   { id: 'toys', label: '교구/완구', icon: '🧸', keywords: ['교구','장난감','완구','블록','그림책','사운드북','놀이매트','보드북','팝업북'] },
   { id: 'hygiene', label: '위생/기저귀', icon: '🧴', keywords: ['기저귀','물티슈','목욕','욕조','세면대','손소독','칫솔','치발기','로션'] },
   { id: 'health', label: '건강/영양제', icon: '💊', keywords: ['영양제','유산균','비타민','철분','오메가','홍삼','콜라겐','면역'] },
-  // 2026-10-02 지역/체험 공구(키즈카페·테마파크 입장권, 키즈펜션 숙박 등) - 파서가 붙인 item_type으로 고른다
-  { id: 'experience', label: '체험/여행', icon: '🎡', keywords: null, experience: true },
 ];
 
 // ---------------- 찜하기 (로그인 없이 브라우저 localStorage에 저장) ----------------
@@ -1152,6 +1176,7 @@ function showFavToast(row) {
   favToastTimer = setTimeout(hideFavToast, 3500);
 }
 document.getElementById('favToastClose').addEventListener('click', hideFavToast);
+document.getElementById('tripBanner').addEventListener('click', function () { sendGaEvent('trip_banner_click', { banner: 'home_weekend_map' }); });
 document.getElementById('favToastCalBtn').addEventListener('click', function () {
   if (favToastRow) addToDeviceCalendar(favToastRow);
   hideFavToast();
@@ -2094,6 +2119,35 @@ function renderFeedCard(row) {
   return a;
 }
 
+// 날짜 탭마다 첫 화면이 달라 보이도록 정렬한다 (2026-10-03).
+// 예전엔 우선노출(PRIORITY_INFLUENCERS) 가중치를 마감일보다 먼저 적용해, 우선 계정의 장기 공구가
+// 3일·4일·5일 탭 모두 맨 앞에 왔다(실측: 수유/이유 칩 '마이키즈 아기간식' 3일 연속 1위).
+// 1) 그 날짜에 마감(D-Day)  2) 그 날짜에 오픈  3) 나머지 진행 중은 날짜를 시드로 섞는다.
+// 3번은 결정론적 셔플이라 같은 날짜 탭은 몇 번을 다시 눌러도 순서가 같다.
+function seedHash(str) {
+  let h = 2166136261; // FNV-1a 32bit
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function sortForDay(list, dayIso) {
+  const endsToday = [], opensToday = [], ongoing = [];
+  list.forEach(function (r) {
+    const end = r.end_date || r.start_date;
+    if (end === dayIso) endsToday.push(r);
+    else if (r.start_date === dayIso) opensToday.push(r);
+    else ongoing.push(r);
+  });
+  const byPriorityThenEnd = function (a, b) {
+    return priorityWeight(b) - priorityWeight(a) || (a.end_date || '').localeCompare(b.end_date || '');
+  };
+  endsToday.sort(byPriorityThenEnd);
+  opensToday.sort(byPriorityThenEnd);
+  // favKey(인플루언서+브랜드)는 밤마다 바뀌지 않아 같은 날짜의 순서가 하루 안에서 안정적이다
+  const key = function (r) { return seedHash(dayIso + '|' + favKey(r) + '|' + (r.product_name || '')); };
+  ongoing.sort(function (a, b) { return key(a) - key(b); });
+  return endsToday.concat(opensToday, ongoing);
+}
+
 function renderWeekGrid(rows, excludeIds) {
   const el = document.getElementById('weekGrid');
   el.innerHTML = '';
@@ -2102,7 +2156,7 @@ function renderWeekGrid(rows, excludeIds) {
     const start = r.start_date, end = r.end_date || r.start_date;
     return start <= selectedDayIso && selectedDayIso <= end;
   });
-  list = sortWithPriority(list, function (r) { return parseDate(r.end_date || r.start_date); });
+  list = sortForDay(list, selectedDayIso);
   list = capConsecutiveRuns(list, 2);
   // '오늘' 뷰(기본 화면)에서 후보가 된 전체 목록을 weekShownIds에 따로 기록해둔다
   // (3단이 나중에 이 값까지 합쳐서 제외에 쓴다). excludeIds에 직접 더하면 안 되는

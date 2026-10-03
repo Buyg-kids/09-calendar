@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Buyg 나들이 지도</title>
+<!--
+  지역/체험 공구 지도 탭 프로토타입 (2026-10-03, 독립 파일 - 서비스 index.html과 무관).
+  데이터: 같은 폴더의 experience_deals.json -> 없으면 배포된 사이트의 최신 파일.
+  ?demo=1 을 붙이면 빈 지역 확인용 [샘플] 데이터를 섞어 보여준다.
+  지도는 실제 경계 대신 배치만 따른 단순화 벡터다 - 서울·인천·대전처럼 작은 지역도
+  모바일에서 손가락으로 누를 수 있게 면적을 키웠다.
+-->
+<style>
+  :root {
+    --brand-purple: #5f0080;
+    --accent-lavender: #ede5f3;
+    --point-coral: #E03E3E;
+    --point-coral-bg: rgba(224, 62, 62, 0.08);
+    --text-main: #222;
+    --text-sub: #94a3b8;
+    --line: #f0f0f0;
+    --bg: #f8f9fa;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--text-main);
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+  .app { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #fff; padding-bottom: 24px; }
+  header { padding: calc(18px + env(safe-area-inset-top, 0px)) 20px 6px; }
+  .logo { font-size: 18px; font-weight: 800; color: var(--brand-purple); }
+  /* 360px 폭에서도 한 줄에 들어가는 크기, 한국어는 어절 단위로만 줄바꿈 */
+  .title { margin: 12px 0 0; font-size: clamp(21px, 6vw, 24px); line-height: 1.3; font-weight: 800; letter-spacing: -0.3px; word-break: keep-all; }
+  .sub { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: #7a8394; word-break: keep-all; }
+
+  .tabs { display: flex; gap: 8px; padding: 16px 16px 4px; }
+  .tab {
+    flex: 1; padding: 11px 8px; border-radius: 14px; border: 1.5px solid #eee; background: #fff;
+    font-size: 14px; font-weight: 800; color: #64748b; cursor: pointer; font-family: inherit;
+  }
+  .tab .n { margin-left: 4px; font-size: 12px; font-weight: 700; color: var(--text-sub); }
+  .tab.active { border-color: var(--brand-purple); background: var(--brand-purple); color: #fff; }
+  .tab.active .n { color: #e9d5f5; }
+
+  .extra { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 16px 0; }
+  .pill {
+    font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 999px; cursor: pointer;
+    background: var(--point-coral-bg); color: var(--point-coral); border: none; font-family: inherit;
+  }
+  .pill.muted { background: #f1f5f9; color: #64748b; }
+
+  .map-wrap { padding: 4px 12px 0; }
+  svg { width: 100%; height: auto; display: block; touch-action: manipulation; }
+  .region path, .region ellipse, .region rect {
+    fill: #f3eef7; stroke: #fff; stroke-width: 2.5; transition: fill .15s ease; cursor: pointer;
+  }
+  .region.has path, .region.has ellipse, .region.has rect { fill: #e4d3ef; }
+  .region.hot path, .region.hot ellipse, .region.hot rect { fill: #d2b6e6; }
+  .region.selected path, .region.selected ellipse, .region.selected rect { fill: var(--brand-purple); }
+  .region:active path, .region:active ellipse, .region:active rect { fill: #c39ddc; }
+  .region text.name { font-size: 10.5px; font-weight: 700; fill: #6b5a78; pointer-events: none; text-anchor: middle; }
+  .region.selected text.name { fill: #fff; }
+  .badge circle { fill: var(--point-coral); stroke: #fff; stroke-width: 2; }
+  .badge text { font-size: 10px; font-weight: 800; fill: #fff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .badge { pointer-events: none; }
+  .legend { padding: 4px 16px 0; font-size: 11px; color: var(--text-sub); }
+  .empty-msg { padding: 10px 16px; font-size: 12.5px; color: #777; }
+
+  /* ---- 바텀 시트 ---- */
+  .backdrop { position: fixed; inset: 0; height: 100vh; height: 100dvh; background: rgba(15,23,42,.45); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40; }
+  .backdrop.show { opacity: 1; pointer-events: auto; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; margin: 0 auto; width: 100%; max-width: 480px; z-index: 41;
+    /* 모바일 주소창·하단 툴바가 보였다 사라져도 시트가 툴바 뒤로 숨지 않게 동적 뷰포트(dvh) 기준, 미지원 브라우저는 vh */
+    max-height: calc(100vh - 72px); max-height: calc(100dvh - 72px); display: flex; flex-direction: column; background: #fff;
+    border-radius: 20px 20px 0 0; box-shadow: 0 -8px 30px rgba(0,0,0,.18);
+    transform: translateY(100%); visibility: hidden;
+    transition: transform .32s cubic-bezier(.2,.8,.2,1), visibility 0s linear .32s;
+  }
+  .sheet.show { transform: translateY(0); visibility: visible; transition: transform .32s cubic-bezier(.2,.8,.2,1); }
+  .sheet-head { position: relative; padding: 14px 16px 10px; border-bottom: 1px solid #f4f4f5; }
+  .grabber { position: absolute; top: 6px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: #e2e8f0; }
+  .sheet-title { font-size: 16px; font-weight: 800; margin-top: 4px; }
+  .sheet-sub { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+  .close { position: absolute; top: 10px; right: 12px; width: 32px; height: 32px; border: none; border-radius: 50%; background: #f1f5f9; font-size: 15px; cursor: pointer; }
+  .sheet-list { overflow-y: auto; overscroll-behavior: contain; padding: 10px 16px calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; }
+  .card { display: flex; gap: 12px; padding: 10px; border: 1px solid var(--line); border-radius: 14px; text-decoration: none; color: inherit; }
+  .card:active { background: #fafafa; }
+  .thumb { flex: 0 0 80px; width: 80px; height: 80px; border-radius: 12px; overflow: hidden; background: var(--accent-lavender); }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .row1 { display: flex; gap: 6px; align-items: center; min-width: 0; }
+  .dday { flex: 0 0 auto; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; }
+  .dday.hot { background: var(--point-coral-bg); color: var(--point-coral); }
+  .name { font-size: 13.5px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .place { font-size: 12px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .meta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+  .handle { font-size: 11px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .price { font-size: 13px; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%; }
+  .chip { font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: var(--point-coral-bg); color: var(--point-coral); white-space: nowrap; }
+  .sample { flex: 0 0 auto; white-space: nowrap; font-size: 10px; font-weight: 700; color: #fff; background: #94a3b8; padding: 1px 5px; border-radius: 4px; }
+  .empty-card { margin: 8px 0 4px; padding: 26px 18px 22px; border-radius: 16px; background: var(--bg); text-align: center; }
+  .empty-icon { font-size: 34px; line-height: 1; }
+  .empty-title { margin-top: 12px; font-size: 15px; font-weight: 800; line-height: 1.45; word-break: keep-all; }
+  .empty-sub { margin-top: 6px; font-size: 12.5px; color: #7a8394; line-height: 1.5; word-break: keep-all; }
+  .empty-cta {
+    margin-top: 16px; padding: 11px 16px; border: none; border-radius: 12px; cursor: pointer; font-family: inherit;
+    background: var(--point-coral-bg); color: var(--point-coral); font-size: 13.5px; font-weight: 800;
+  }
+  /* ---- 무료 나들이 섹션 (공구와 함께 보여주는 하이브리드) ---- */
+  .free-head { margin: 16px 0 2px; }
+  .free-head h3 { margin: 0; font-size: 14.5px; font-weight: 800; }
+  .free-head span { display: block; margin-top: 2px; font-size: 11px; color: var(--text-sub); }
+  .no-deal-note {
+    padding: 12px 14px; border-radius: 14px; background: #f3faf6; color: #2f6b49;
+    font-size: 13px; font-weight: 700; line-height: 1.5; word-break: keep-all;
+  }
+  .no-deal-note .empty-cta { display: block; margin: 10px 0 0; width: 100%; }
+  .spot { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; text-decoration: none; color: inherit; }
+  .spot:active { background: #fafafa; }
+  .spot-icon { flex: 0 0 44px; width: 44px; height: 44px; border-radius: 12px; background: #eef7f1; display: flex; align-items: center; justify-content: center; font-size: 21px; }
+  .spot-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .spot-title { font-size: 13.5px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .spot-meta { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .spot-addr { min-width: 0; font-size: 11.5px; color: #7a8394; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .spot-tag { flex: 0 0 auto; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: #e8f5ee; color: #2f7d4f; white-space: nowrap; }
+  .spot-tag.warn { background: #f1f5f9; color: #64748b; }
+
+  /* ==== [메인 홈 이식용] 주말 나들이 지도 바로가기 배너 ====
+     index.html 최상단(공지 띠배너 아래, 로고 위)에 그대로 붙이는 컴포넌트.
+     마크업은 아래 데모 영역의 <a class="trip-banner"> 그대로, href만 지도 페이지 경로로 바꾼다. */
+  .trip-banner {
+    display: flex; align-items: center; gap: 12px; margin: 0 16px; padding: 14px 14px 14px 12px;
+    border-radius: 18px; text-decoration: none; color: var(--text-main);
+    background: linear-gradient(135deg, #f4ecfa 0%, #fdf1f1 100%); border: 1px solid #efe3f6;
+  }
+  .trip-banner:active { transform: scale(0.99); }
+  .trip-banner-icon {
+    flex: 0 0 46px; width: 46px; height: 46px; border-radius: 14px; background: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 2px 8px rgba(95,0,128,.08);
+  }
+  .trip-banner-text { flex: 1; min-width: 0; }
+  .trip-banner-title { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -0.2px; word-break: keep-all; }
+  .trip-banner-sub { display: block; margin-top: 3px; font-size: 12px; font-weight: 700; color: var(--point-coral); }
+  .trip-banner-arrow { flex: 0 0 auto; font-size: 20px; color: #b49ac7; }
+  .demo-caption { margin: 14px 16px 6px; font-size: 10.5px; font-weight: 700; color: #b0b8c4; letter-spacing: .2px; }
+  body.sheet-open { overflow: hidden; } /* 시트 스크롤 중 뒤 지도 페이지가 같이 밀리지 않게 */
+  .status { padding: 8px 16px 0; font-size: 11px; color: var(--text-sub); }
+</style>
+<!-- Google tag (gtag.js) - GA4 (메인 사이트와 같은 속성) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6FK3NSWH2F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6FK3NSWH2F');
+</script>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+</head>
+<body>
+<div class="app">
+  <header id="map">
+    <a class="logo" href="./" style="text-decoration:none">‹ Buyg</a>
+    <h1 class="title">아이와 함께 떠나볼까요?</h1>
+    <p class="sub">지도를 눌러 지역별 나들이·숙소 특가를 찾아보세요</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-sub="stay" role="tab" aria-selected="true">🧳 여행·숙소<span class="n" id="nStay"></span></button>
+    <button class="tab" data-sub="play" role="tab" aria-selected="false">🎠 키카·체험<span class="n" id="nPlay"></span></button>
+  </div>
+  <div class="extra" id="extra"></div>
+
+  <div class="map-wrap">
+    <svg viewBox="0 0 300 440" id="map" aria-label="대한민국 지역 지도">
+      <g class="region" data-region="경기"><path d="M52 52 L92 34 L150 36 L162 66 L158 112 L124 124 L84 120 L58 100 Z"/><text class="name" x="132" y="104">경기</text></g>
+      <g class="region" data-region="강원"><path d="M152 34 L196 12 L242 18 L272 108 L244 132 L186 128 L160 114 L164 66 Z"/><text class="name" x="214" y="74">강원</text></g>
+      <g class="region" data-region="인천"><path d="M22 60 L50 54 L58 98 L38 106 L18 88 Z"/><text class="name" x="38" y="84">인천</text></g>
+      <g class="region" data-region="서울"><rect x="78" y="58" width="48" height="34" rx="12"/><text class="name" x="102" y="79">서울</text></g>
+      <g class="region" data-region="충남"><path d="M34 124 L84 122 L126 126 L138 152 L128 190 L94 206 L58 196 L30 164 Z"/><text class="name" x="74" y="166">충남</text></g>
+      <g class="region" data-region="충북"><path d="M128 124 L160 116 L186 130 L216 136 L206 176 L176 200 L150 188 L142 152 Z"/><text class="name" x="184" y="160">충북</text></g>
+      <g class="region" data-region="대전/세종"><ellipse cx="132" cy="178" rx="20" ry="15"/><text class="name" x="132" y="182">대전·세종</text></g>
+      <g class="region" data-region="경북/대구"><path d="M216 136 L246 132 L278 122 L288 200 L272 262 L226 266 L196 242 L176 202 L206 178 Z"/><text class="name" x="244" y="200">경북·대구</text></g>
+      <g class="region" data-region="전북"><path d="M58 198 L94 208 L130 192 L150 190 L174 204 L160 250 L110 256 L60 250 L44 224 Z"/><text class="name" x="100" y="232">전북</text></g>
+      <g class="region" data-region="경남/부산/울산"><path d="M176 204 L196 244 L226 268 L272 264 L262 302 L216 322 L170 316 L150 286 L160 252 Z"/><text class="name" x="214" y="292">경남·부산·울산</text></g>
+      <g class="region" data-region="전남/광주"><path d="M44 252 L110 258 L160 252 L150 286 L168 316 L140 332 L90 342 L46 322 L30 286 Z"/><text class="name" x="96" y="298">전남·광주</text></g>
+      <g class="region" data-region="제주"><ellipse cx="96" cy="402" rx="44" ry="17"/><text class="name" x="96" y="406">제주</text></g>
+      <g id="badges"></g>
+    </svg>
+  </div>
+  <div class="legend">진한 색일수록 공구가 많은 지역 · 숫자는 진행 중 공구 수</div>
+  <div class="empty-msg" id="emptyMsg" hidden></div>
+  <div class="status" id="status" hidden></div>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-head">
+    <div class="grabber"></div>
+    <div class="sheet-title" id="sheetTitle"></div>
+    <div class="sheet-sub" id="sheetSub"></div>
+    <button class="close" id="close" aria-label="닫기">✕</button>
+  </div>
+  <div class="sheet-list" id="sheetList"></div>
+</div>
+
+<script>
+// ---- GA4 (본 사이트 view_page.html의 sendGaEvent/trackOutbound와 같은 이름·파라미터 규격) ----
+// gtag가 없거나(로컬, 광고차단) 실패해도 화면 동작은 그대로 진행한다.
+function sendGaEvent(name, params) {
+  if (typeof window.gtag !== 'function') return;
+  try { window.gtag('event', name, params); } catch (e) { /* 추적 실패 무시 */ }
+}
+function gaDealParams(d) {
+  return { influencer: (d.influencer_handle || '').slice(0, 100), product_title: (d.product_name || '').slice(0, 100) };
+}
+function trackOutbound(d, url, source) {
+  const p = gaDealParams(d);
+  p.link_target = /^https?:\/\/(www\.)?instagram\.com\//i.test(url || '') ? 'instagram' : 'external';
+  p.link_source = source;
+  sendGaEvent('outbound_click', p);
+}
+
+const SPOTS_URL = './free_spots_seed.json';
+const SPOT_ICON = { '박물관': '🏛️', '미술관': '🎨', '과학관': '🔭', '공원': '🌳', '수목원': '🌿', '숲길': '🌲', '생태': '🦋', '전시': '🖼️', '역사': '🏯' };
+function spotIcon(cat) { const k = Object.keys(SPOT_ICON).find(k => (cat || '').startsWith(k)); return k ? SPOT_ICON[k] : '📍'; }
+
+const DATA_URLS = ['./experience_deals.json', 'https://buyg-kids.github.io/09-calendar/experience_deals.json'];
+// 데이터의 광역 지역(17개) -> 지도 영역(12개)
+const REGION_GROUP = {
+  '서울': '서울', '경기': '경기', '인천': '인천', '강원': '강원', '충북': '충북', '충남': '충남',
+  '대전': '대전/세종', '세종': '대전/세종', '전북': '전북', '전남': '전남/광주', '광주': '전남/광주',
+  '경북': '경북/대구', '대구': '경북/대구', '경남': '경남/부산/울산', '부산': '경남/부산/울산', '울산': '경남/부산/울산',
+  '제주': '제주',
+};
+const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+let deals = [];
+let freeSpots = [];
+let activeSub = 'stay';
+let selected = null;
+
+// toISOString()은 UTC라 한국 시간 자정 기준 날짜가 하루 밀린다 - 로컬 날짜로 만든다
+function localIso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function parseDate(s) { return s ? new Date(s + 'T00:00:00') : null; }
+function isLive(d) { const end = parseDate(d.end_date) || parseDate(d.start_date); return !end || end >= TODAY; }
+function subOf(d) { return d.sub_category === 'stay' ? 'stay' : 'play'; } // 미분류는 체험 쪽으로
+function ddayLabel(d) {
+  const start = parseDate(d.start_date), end = parseDate(d.end_date);
+  if (start && start > TODAY) return { t: 'D-' + Math.round((start - TODAY) / 864e5) + ' 오픈', hot: false };
+  if (!end) return { t: '진행중', hot: false };
+  const left = Math.round((end - TODAY) / 864e5);
+  return left === 0 ? { t: '오늘마감!', hot: true } : { t: 'D-' + left, hot: left <= 2 };
+}
+function priceText(d) {
+  const p = (d.price || '').trim();
+  return /[\d,]+\s*(만|천)?\s*원/.test(p) ? p : '';
+}
+
+function demoDeals() {
+  const make = (region, sub, place, name, price, days) => ({
+    row_id: 'demo-' + place, product_name: name, place_name: place, region, sub_category: sub,
+    start_date: '2026-10-01', end_date: localIso(new Date(TODAY.getTime() + days * 864e5)),
+    price, image_url: '', influencer_handle: 'sample_mom', post_url: '', purchase_url: '', _demo: true,
+  });
+  return [
+    make('서울', 'play', '코엑스 아쿠아리움', '코엑스 아쿠아리움 입장권 (대인, 소인)', '24,900원', 3),
+    make('서울', 'play', '잠실 키즈카페 플레이숲', '플레이숲 키즈카페 2시간권', '9,900원', 0),
+    make('경기', 'play', '광교 플레이랜드', '플레이랜드 키즈카페 이용권 (2시간권)', '11,900원', 5),
+    make('인천', 'stay', '영종 키즈풀빌라', '영종 키즈풀빌라 숙박권 (주중)', '189,000원', 6),
+    make('강원', 'stay', '홍천 비발디파크', '비발디파크 패밀리 숙박 + 오션월드', '159,000원', 2),
+    make('충남', 'play', '아산 스파비스', '스파비스 워터파크 입장권', '19,900원', 9),
+    make('대전', 'play', '대전 오월드', '오월드 자유이용권', '15,000원', 4),
+    make('전북', 'stay', '전주 한옥 키즈스테이', '전주 한옥 키즈스테이 1박', '129,000원', 7),
+    make('전남', 'stay', '여수 키즈호텔', '여수 오션뷰 키즈호텔 숙박권', '149,000원', 1),
+    make('경북', 'play', '경주 루지월드', '경주 루지 + 키즈존 패키지', '29,000원', 8),
+    make('부산', 'play', '부산 아쿠아리움', '씨라이프 부산아쿠아리움 입장권', '21,900원', 3),
+    make('제주', 'stay', '제주 키즈 리조트', '제주 키즈 리조트 2박 패키지', '359,000원', 10),
+    make('전국', 'play', '아쿠아플라넷', '아쿠아플라넷 전국 공통 입장권', '22,900원', 6),
+  ];
+}
+
+async function loadDeals() {
+  for (const url of DATA_URLS) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) continue;
+      const json = await res.json();
+      document.getElementById('status').textContent =
+        '데이터: ' + (url.startsWith('http') ? '배포 사이트' : '로컬 파일') + ' · 생성 ' + (json.generated_at || '-');
+      return (json.deals || []);
+    } catch (e) { /* 다음 경로 시도 (file:// 로 열면 로컬 fetch가 막힘) */ }
+  }
+  document.getElementById('status').textContent = '데이터를 불러오지 못했어요 (로컬 서버로 열어 주세요)';
+  return [];
+}
+
+function countsFor(sub) {
+  const counts = {};
+  deals.filter(d => subOf(d) === sub && REGION_GROUP[d.region]).forEach(d => {
+    const g = REGION_GROUP[d.region]; counts[g] = (counts[g] || 0) + 1;
+  });
+  return counts;
+}
+
+function render() {
+  const counts = countsFor(activeSub);
+  const max = Math.max(1, ...Object.values(counts));
+  document.querySelectorAll('.region').forEach(g => {
+    const n = counts[g.dataset.region] || 0;
+    g.classList.toggle('has', n > 0);
+    g.classList.toggle('hot', n > 0 && n >= Math.max(2, max * 0.6));
+    g.classList.toggle('selected', g.dataset.region === selected);
+  });
+  // 건수 뱃지: 각 영역의 이름 라벨 오른쪽 위
+  const badges = document.getElementById('badges');
+  badges.innerHTML = '';
+  document.querySelectorAll('.region').forEach(g => {
+    const n = counts[g.dataset.region];
+    if (!n) return;
+    const label = g.querySelector('text.name');
+    const x = +label.getAttribute("x") + label.getComputedTextLength() / 2 + 11;
+    const y = +label.getAttribute("y") - 11;
+    badges.insertAdjacentHTML('beforeend',
+      `<g class="badge"><circle cx="${x}" cy="${y}" r="9"/><text x="${x}" y="${y}">${n}</text></g>`);
+  });
+  const stay = deals.filter(d => subOf(d) === 'stay').length, play = deals.filter(d => subOf(d) === 'play').length;
+  document.getElementById('nStay').textContent = stay; document.getElementById('nPlay').textContent = play;
+
+  // 지도에 못 올리는 공구: 전국 이용권 / 지역 미상
+  const extra = document.getElementById('extra');
+  extra.innerHTML = '';
+  const nation = deals.filter(d => subOf(d) === activeSub && d.region === '전국');
+  const unknown = deals.filter(d => subOf(d) === activeSub && !REGION_GROUP[d.region] && d.region !== '전국');
+  if (nation.length) extra.insertAdjacentHTML('beforeend', `<button class="pill" data-extra="전국">🗺️ 전국 이용권 ${nation.length}</button>`);
+  if (unknown.length) extra.insertAdjacentHTML('beforeend', `<button class="pill muted" data-extra="미상">📍 지역 미상 ${unknown.length}</button>`);
+  extra.querySelectorAll('.pill').forEach(b => b.addEventListener('click', () => {
+    sendGaEvent('map_region_click', { map_region: b.dataset.extra, deal_count: listFor(b.dataset.extra).length });
+    openSheet(b.dataset.extra);
+  }));
+
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) + nation.length + unknown.length;
+  const msg = document.getElementById('emptyMsg');
+  msg.hidden = total > 0;
+  msg.textContent = activeSub === 'stay' ? '지금 진행 중인 여행·숙소 공구가 없어요.' : '지금 진행 중인 키카·체험 공구가 없어요.';
+}
+
+function listFor(key) {
+  return deals.filter(d => subOf(d) === activeSub && (
+    key === '전국' ? d.region === '전국'
+      : key === '미상' ? (!REGION_GROUP[d.region] && d.region !== '전국')
+        : REGION_GROUP[d.region] === key))
+    .sort((a, b) => (a.end_date || '9999').localeCompare(b.end_date || '9999'));
+}
+
+function openSheet(key) {
+  const list = listFor(key);
+  selected = (key === '전국' || key === '미상') ? null : key;
+  render();
+  const label = key === '전국' ? '전국 이용권' : key === '미상' ? '지역 미상' : key.replace(/\//g, '·');
+  const hasSpots = freeSpots.some(sp => sp.region === key);
+  document.getElementById('sheetTitle').textContent = (!list.length && hasSpots)
+    ? label + ' 나들이 추천'
+    : label + ' ' + (activeSub === 'stay' ? '여행·숙소' : '키카·체험') + ' 공구';
+  document.getElementById('sheetSub').textContent = list.length ? list.length + '건 · 마감 빠른 순' : '';
+  const box = document.getElementById('sheetList');
+  box.innerHTML = '';
+  const spotCount = freeSpots.filter(sp => sp.region === key).length;
+  if (!list.length) box.appendChild(spotCount ? noDealNote(key) : emptyState(key, label));
+  list.forEach(d => {
+    const a = document.createElement('a');
+    a.className = 'card';
+    const link = d.purchase_url || d.post_url;
+    if (link) {
+      a.href = link; a.target = '_blank'; a.rel = 'noopener';
+      a.addEventListener('click', () => trackOutbound(d, link, 'map_sheet'));
+    } else {
+      // 링크가 없는 카드: 본 사이트 통합 시 상세 시트(openDealModal)로 연결될 자리
+      a.addEventListener('click', () => sendGaEvent('deal_open', gaDealParams(d)));
+    }
+    const dd = ddayLabel(d);
+    const price = priceText(d);
+    a.innerHTML = `
+      <div class="thumb">${d.image_url ? `<img loading="lazy" alt="">` : ''}</div>
+      <div class="body">
+        <div class="row1"><span class="dday ${dd.hot ? 'hot' : ''}"></span><span class="name"></span></div>
+        <div class="place"></div>
+        <div class="meta"><span class="handle"></span>${price ? '<span class="price"></span>' : '<span class="chip">공구가 링크 확인</span>'}</div>
+      </div>`;
+    if (d.image_url) a.querySelector('img').src = d.image_url;
+    a.querySelector('.dday').textContent = dd.t;
+    a.querySelector('.name').textContent = d.product_name;
+    a.querySelector('.place').textContent = '📍 ' + [d.region, d.place_name].filter(Boolean).join(' · ');
+    a.querySelector('.handle').textContent = d.influencer_handle ? '@' + d.influencer_handle : '';
+    if (price) a.querySelector('.price').textContent = price;
+    if (d._demo) a.querySelector('.row1').insertAdjacentHTML('afterbegin', '<span class="sample">샘플</span>');
+    box.appendChild(a);
+  });
+  renderSpots(key, box);
+  document.getElementById('sheetSub').textContent =
+    [list.length ? '공구 ' + list.length + '건 · 마감 빠른 순' : '', spotCount ? '무료 나들이 ' + spotCount + '곳' : ''].filter(Boolean).join(' · ');
+  document.getElementById('sheetList').scrollTop = 0;
+  const sheet = document.getElementById('sheet');
+  // 시트가 이미 열린 채 내용만 바뀌는 경우(빈 지역 -> 전국 이용권)엔 뒤로가기 한 번에 닫히도록 히스토리를 더 쌓지 않는다
+  if (!sheet.classList.contains('show')) history.pushState({ mapSheet: 1 }, '');
+  document.getElementById('backdrop').classList.add('show');
+  sheet.classList.add('show');
+  document.body.classList.add('sheet-open');
+}
+
+function renderSpots(key, box) {
+  const spots = freeSpots.filter(sp => sp.region === key);
+  if (!spots.length) return 0;
+  box.insertAdjacentHTML('beforeend', '<div class="free-head"><h3>🌿 함께 가기 좋은 무료 나들이</h3><span>국공립 무료 명소 · 운영시간·예약은 방문 전 확인해 주세요</span></div>');
+  spots.forEach(sp => {
+    const a = document.createElement('a');
+    a.className = 'spot';
+    a.href = sp.link; a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML = '<span class="spot-icon"></span><span class="spot-body"><span class="spot-title"></span>'
+      + '<span class="spot-meta"><span class="spot-tag"></span><span class="spot-addr"></span></span></span>';
+    a.querySelector('.spot-icon').textContent = spotIcon(sp.category);
+    a.querySelector('.spot-title').textContent = sp.title;
+    a.querySelector('.spot-addr').textContent = sp.category + ' · ' + sp.address;
+    const tag = a.querySelector('.spot-tag');
+    tag.textContent = sp.tag;
+    if (!/^무료/.test(sp.tag)) tag.classList.add('warn');
+    a.addEventListener('click', () => sendGaEvent('free_spot_click', { spot_title: sp.title, map_region: sp.region }));
+    box.appendChild(a);
+  });
+  return spots.length;
+}
+
+// 공구가 0건인 지역: 무료 명소를 바로 추천하는 안내 + (있으면) 전국 이용권 버튼
+function noDealNote(key) {
+  const nationCount = deals.filter(d => subOf(d) === activeSub && d.region === '전국').length;
+  const wrap = document.createElement('div');
+  wrap.className = 'no-deal-note';
+  wrap.textContent = '현재 진행 중인 할인 공구는 없지만, 아이랑 가기 좋은 무료 명소를 추천해 드려요!';
+  if (nationCount) {
+    const btn = document.createElement('button');
+    btn.className = 'empty-cta';
+    btn.textContent = '🗺️ 전국 이용권 공구 보기 (' + nationCount + ')';
+    btn.addEventListener('click', () => { sendGaEvent('map_region_click', { map_region: '전국', deal_count: nationCount }); openSheet('전국'); });
+    wrap.appendChild(btn);
+  }
+  return wrap;
+}
+
+function emptyState(key, label) {
+  const nationCount = deals.filter(d => subOf(d) === activeSub && d.region === '전국').length;
+  const wrap = document.createElement('div');
+  wrap.className = 'empty-card';
+  wrap.innerHTML = '<div class="empty-icon">🎈</div><div class="empty-title"></div>'
+    + '<div class="empty-sub">새로운 나들이 특가가 등록되면 빠르게 알려드릴게요!</div>';
+  wrap.querySelector('.empty-title').textContent = key === '전국'
+    ? '아쉽게도 지금은 전국 이용권 공구가 없어요'
+    : '아쉽게도 지금은 ' + label + '에 진행 중인 공구가 없어요';
+  if (key !== '전국' && nationCount) {
+    const btn = document.createElement('button');
+    btn.className = 'empty-cta';
+    btn.textContent = '🗺️ 전국 이용권 모아보기 (' + nationCount + ')';
+    btn.addEventListener('click', () => { sendGaEvent('map_region_click', { map_region: '전국', deal_count: nationCount }); openSheet('전국'); });
+    wrap.appendChild(btn);
+  }
+  return wrap;
+}
+function closeSheet(fromPop) {
+  if (!document.getElementById('sheet').classList.contains('show')) return;
+  document.getElementById('backdrop').classList.remove('show');
+  document.getElementById('sheet').classList.remove('show');
+  document.body.classList.remove('sheet-open');
+  selected = null; render();
+  if (!fromPop) history.back();
+}
+
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  activeSub = t.dataset.sub;
+  sendGaEvent('map_tab_click', { map_tab: activeSub === 'stay' ? '여행·숙소' : '키카·체험' });
+  document.querySelectorAll('.tab').forEach(x => { x.classList.toggle('active', x === t); x.setAttribute('aria-selected', x === t); });
+  render();
+}));
+document.querySelectorAll('.region').forEach(g => g.addEventListener('click', () => {
+  sendGaEvent('map_region_click', { map_region: g.dataset.region, deal_count: listFor(g.dataset.region).length });
+  openSheet(g.dataset.region);
+}));
+document.getElementById('close').addEventListener('click', () => closeSheet(false));
+document.getElementById('backdrop').addEventListener('click', () => closeSheet(false));
+window.addEventListener('popstate', () => closeSheet(true));
+
+(async function init() {
+  try { const r = await fetch(SPOTS_URL, { cache: 'no-store' }); if (r.ok) freeSpots = (await r.json()).spots || []; } catch (e) { /* 무료 스팟 없이도 동작 */ }
+  const loaded = (await loadDeals()).filter(isLive);
+  const demo = new URLSearchParams(location.search).get('demo') === '1';
+  deals = demo ? loaded.concat(demoDeals()) : loaded;
+  if (demo) document.getElementById('status').textContent += ' · [샘플] 데이터 포함';
+  render();
+})();
+</script>
+</body>
+</html>
