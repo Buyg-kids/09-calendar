@@ -94,24 +94,37 @@ def _resolve_month_day(month: str, day: str, ref: date) -> date | None:
 # 2026-10-02 첫 실데이터에서 Claude가 '가평 켄싱턴'을 강원, '델피노(울산바위뷰)'를 울산으로
 # 추측했다 - 지역은 원문 근거(광역명 또는 아래 지명)가 있을 때만 인정하고, 지명이 보이면 이 표가 우선한다.
 _PLACE_REGION = {
-    "서울": ["국립중앙박물관", "잠실", "코엑스", "어린이대공원", "용산", "강남", "성수", "여의도", "마포", "송파"],
-    "부산": ["해운대", "기장", "광안리", "서면", "송도해수욕장"],
-    "인천": ["송도", "영종", "강화", "월미도"],
+    "서울": ["국립중앙박물관", "잠실", "코엑스", "어린이대공원", "용산", "강남", "성수", "여의도", "마포", "송파",
+             "서울상상나라", "국립어린이과학관"],
+    "부산": ["해운대", "기장", "광안리", "서면", "송도해수욕장", "롯데월드 어드벤처 부산", "씨라이프 부산"],
+    "대전": ["오월드", "엑스포과학공원"],
+    "대구": ["이월드", "스파밸리"],
+    "인천": ["송도", "영종", "강화", "월미도", "선재해림", "선재도", "영흥도", "을왕리"],
     "경기": ["가평", "양평", "포천", "파주", "용인", "수원", "광교", "고양", "일산", "성남", "판교", "화성",
              "평택", "김포", "남양주", "의정부", "안산", "시흥", "이천", "여주", "안성", "하남", "광명",
-             "부천", "안양", "군포", "의왕", "오산", "구리", "동두천", "연천", "과천", "에버랜드"],
+             "부천", "안양", "군포", "의왕", "오산", "구리", "동두천", "연천", "과천", "에버랜드",
+             "캐리비안베이", "서울랜드", "고고다이노", "원마운트", "한국민속촌", "서울대공원"],
     "강원": ["춘천", "원주", "강릉", "속초", "양양", "평창", "홍천", "횡성", "정선", "삼척", "동해",
-             "태백", "영월", "인제", "철원", "화천", "양구", "설악", "델피노", "알펜시아", "비발디파크"],
+             "태백", "영월", "인제", "철원", "화천", "양구", "설악", "델피노", "알펜시아", "비발디파크",
+             "소노펠리체", "하이원", "휘닉스파크", "오션월드", "레고랜드", "웰리힐리"],
     "충북": ["청주", "충주", "제천", "단양", "보은", "옥천", "영동", "진천", "괴산", "음성", "증평"],
     "충남": ["천안", "아산", "공주", "보령", "서산", "논산", "당진", "태안", "홍성", "예산", "부여", "서천", "금산"],
     "전북": ["전주", "군산", "익산", "정읍", "남원", "김제", "완주", "무주", "부안", "고창"],
     "전남": ["여수", "순천", "목포", "광양", "나주", "담양", "보성", "해남", "완도", "구례", "곡성"],
-    "경북": ["포항", "경주", "안동", "구미", "영주", "김천", "상주", "문경", "울진", "영덕", "청도"],
-    "경남": ["창원", "김해", "진주", "통영", "거제", "양산", "사천", "밀양", "남해", "하동", "거창"],
-    "제주": ["서귀포", "애월", "성산", "중문"],
+    "경북": ["포항", "경주", "안동", "구미", "영주", "김천", "상주", "문경", "울진", "영덕", "청도",
+             "블루원", "보문단지"],
+    "경남": ["창원", "김해", "진주", "통영", "거제", "양산", "사천", "밀양", "남해", "하동", "거창",
+             "로봇랜드", "통도환타지아"],
+    "제주": ["서귀포", "애월", "성산", "중문", "신화월드", "신화테마파크", "신화파크", "디스커버스",
+             "뽀로로앤타요", "아쿠아플라넷 제주"],
 }
 _PLACE_LOOKUP = sorted(((n, r) for r, names in _PLACE_REGION.items() for n in names), key=lambda x: -len(x[0]))
 _FALSE_REGION_HITS = ("울산바위",)  # 지역명이 들어갔지만 다른 곳의 지명
+# 여러 지역에 지점이 있는 체인 이용권은 지도 특정 권역이 아니라 '전국'으로 둔다.
+# ('아쿠아플라넷 제주'처럼 지점명이 붙은 경우는 위 단일 지역 표가 먼저 잡는다)
+_NATIONWIDE_CHAINS = ("공룡월드", "히어로플레이파크", "히어로파크", "뽀로로아쿠아빌리지", "뽀로로아쿠아",
+                      "뽀로로파크", "아쿠아플라넷", "키자니아", "블루타이거", "플레이인더박스", "챔피언더블랙벨트")
+_MULTI_BRANCH_RE = re.compile(r"\d+\s*개\s*지점|전\s*지점|전국\s*(?:지점|매장|어디서나)")
 
 
 def _verify_region(region: str | None, evidence: list[str]) -> str | None:
@@ -125,6 +138,17 @@ def _verify_region(region: str | None, evidence: list[str]) -> str | None:
         texts.append(t)
     if region == "전국" and any("전국" in t or "전 지점" in t for t in texts):
         return "전국"  # 여러 지점 공용 이용권 - 지점 지명(일산·여수 등)이 나열돼도 전국이 맞다
+    head = " ".join(texts[:2])  # 장소명·상품명만 (원문 전체에 체인명이 스쳐 지나가는 경우 제외)
+    # 순서: ① '아쿠아플라넷 제주'처럼 지점이 박힌 체인 항목 -> ② 체인/다지점 표현은 전국
+    # (상품명에 '세종점, 아산점…' 지점 목록이 나열돼도 전국) -> ③ 일반 지명
+    for name, mapped in _PLACE_LOOKUP:
+        if name in head and any(ch in name for ch in _NATIONWIDE_CHAINS):
+            return mapped
+    if any(ch in head for ch in _NATIONWIDE_CHAINS) or any(_MULTI_BRANCH_RE.search(t) for t in texts[:2]):
+        return "전국"
+    for name, mapped in _PLACE_LOOKUP:
+        if name in head:
+            return mapped
     for t in texts:
         for name, mapped in _PLACE_LOOKUP:
             if name in t:
@@ -132,6 +156,18 @@ def _verify_region(region: str | None, evidence: list[str]) -> str | None:
     if region in REGIONS and region != "전국" and any(region in t for t in texts):
         return region
     return None
+
+
+# 체험/숙박 공구라면 상품명이나 장소명에 이런 단어가 하나는 있다. 하나도 없고 장소명도 없으면
+# 장난감·교구 같은 물품이 키즈체험으로 잘못 분류된 것으로 보고 일반 육아용품으로 돌린다.
+_EXPERIENCE_EVIDENCE = ("권", "입장", "이용", "숙박", "체험", "티켓", "패키지", "호텔", "리조트", "펜션",
+                        "풀빌라", "키즈카페", "테마파크", "파크", "월드", "아쿠아", "워터", "클래스", "투어", "캠핑")
+
+
+def looks_like_experience(product_name: str, place_name: str | None) -> bool:
+    text = (product_name or "") + " " + (place_name or "")
+    return bool(place_name) and any(w in text for w in _EXPERIENCE_EVIDENCE) or any(
+        w in (product_name or "") for w in ("입장권", "이용권", "숙박권", "체험권", "티켓", "자유이용"))
 
 
 def _experience_meta(it: dict, category: str, source_text: str = "") -> dict:
@@ -649,8 +685,12 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
             items = []
             for it in data.get("items", []):
                 category = it.get("category", "")
-                if it.get("item_type") == "experience":
-                    category = "키즈체험"  # 체험/숙박은 카테고리도 항상 키즈체험으로 맞춘다
+                if it.get("item_type") == "experience" or category == "키즈체험":
+                    if looks_like_experience(it.get("product_name") or "", (it.get("place_name") or "").strip() or None):
+                        category = "키즈체험"  # 체험/숙박은 카테고리도 항상 키즈체험으로 맞춘다
+                    else:
+                        # 장소도 이용권 단어도 없는 '체험' = 물품 오분류 -> 일반 육아용품
+                        category, it = "육아용품", {**it, "item_type": "product"}
                 product_name = (it.get("product_name") or "").strip()
                 if category not in CATEGORIES or not product_name:
                     continue
