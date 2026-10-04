@@ -195,6 +195,105 @@
   .ptr i { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid #e6dcf3; border-top-color: var(--brand-purple); display: block; }
   .ptr.loading i { animation: ptrspin .7s linear infinite; }
   @keyframes ptrspin { to { transform: rotate(360deg); } }
+  /* ================= 공구 상세 바텀시트 / PC 중앙 모달 ================= */
+  .deal-backdrop {
+    position: fixed; inset: 0; z-index: 400; background: rgba(15,23,42,0.45);
+    opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+  }
+  .deal-backdrop.show { opacity: 1; pointer-events: auto; }
+  .deal-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 401; margin: 0 auto;
+    width: 100%; max-width: 480px; max-height: 92vh; max-height: 92dvh;
+    display: flex; flex-direction: column; background: #fff; border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.18);
+    transform: translateY(100%); visibility: hidden;
+    transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.32s;
+  }
+  .deal-sheet.show { transform: translateY(0); visibility: visible; transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  @media (min-width: 640px) {
+    .deal-sheet {
+      top: 50%; bottom: auto; left: 50%; right: auto; width: 480px; max-height: 88vh;
+      border-radius: 20px; opacity: 0; transform: translate(-50%, -46%);
+      transition: transform 0.22s ease, opacity 0.22s ease, visibility 0s linear 0.22s;
+    }
+    .deal-sheet.show { opacity: 1; transform: translate(-50%, -50%); transition: transform 0.22s ease, opacity 0.22s ease; }
+    .deal-grabber { display: none; }
+  }
+  .deal-head { position: relative; flex: 0 0 auto; height: 44px; }
+  .deal-grabber { position: absolute; top: 8px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: #e2e8f0; }
+  .deal-close {
+    position: absolute; top: 6px; right: 10px; width: 32px; height: 32px; border: none; border-radius: 50%;
+    background: #f1f5f9; color: #334155; font-size: 15px; cursor: pointer; padding: 0;
+  }
+  .deal-scroll { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: 0 18px 18px; -webkit-overflow-scrolling: touch; }
+  .deal-media {
+    position: relative; display: block; width: 100%; aspect-ratio: 1 / 1; border-radius: 14px;
+    overflow: hidden; background: var(--accent-lavender);
+  }
+  .deal-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .deal-media-link {
+    position: absolute; right: 10px; bottom: 10px; font-size: 11px; font-weight: 700; color: #fff;
+    background: rgba(0,0,0,0.55); padding: 5px 10px; border-radius: 999px;
+  }
+  .deal-media .reel-icon { width: 52px; height: 52px; }
+  .deal-media .reel-icon svg { width: 20px; height: 20px; }
+  .deal-profile { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+  .deal-avatar {
+    flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; color: #fff; font-weight: 800;
+    font-size: 16px; display: flex; align-items: center; justify-content: center; text-transform: uppercase;
+  }
+  .deal-who { flex: 1; min-width: 0; }
+  .deal-handle { font-size: 14px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .deal-nick { font-size: 11.5px; color: var(--text-sub); }
+  .deal-actions { display: flex; gap: 8px; }
+  .deal-actions .fav-btn, .deal-actions .thumb-share-btn { width: 36px; height: 36px; box-shadow: none; background: #f1f5f9; }
+  .deal-actions .fav-btn svg { width: 18px; height: 18px; }
+  .deal-actions .thumb-share-btn svg { width: 16px; height: 16px; }
+  .deal-title-row { margin-top: 14px; }
+  .deal-title-row .dday-badge { font-size: 11px; }
+  .deal-title { margin: 6px 0 0; font-size: 18px; font-weight: 800; line-height: 1.35; color: var(--text-main); word-break: keep-all; }
+  .deal-brand { margin-top: 3px; font-size: 12.5px; color: #64748b; }
+  .deal-info { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .deal-info-item { background: #f8f9fa; border-radius: 12px; padding: 10px 12px; min-width: 0; }
+  .deal-info-label { font-size: 11px; color: var(--text-sub); font-weight: 600; }
+  .deal-info-value { margin-top: 3px; font-size: 13.5px; font-weight: 800; color: var(--text-main); word-break: keep-all; }
+  .deal-info-value.price { color: #222; }
+  .deal-info-value .muted { color: var(--text-main); font-size: 12.5px; }
+  .deal-info-value .disc { color: var(--point-coral); margin-right: 4px; }
+  .deal-section { margin-top: 20px; }
+  .deal-section h3 { margin: 0 0 8px; font-size: 14.5px; font-weight: 800; color: var(--text-main); }
+  .deal-benefits { margin: 0; padding: 0; list-style: none; }
+  .deal-benefits li { position: relative; padding: 5px 0 5px 14px; font-size: 13px; line-height: 1.5; color: #334155; }
+  .deal-benefits li::before { content: ''; position: absolute; left: 2px; top: 13px; width: 5px; height: 5px; border-radius: 50%; background: var(--brand-purple); }
+  .deal-related { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .deal-related::-webkit-scrollbar { display: none; }
+  .rel-card { flex: 0 0 112px; cursor: pointer; }
+  .rel-card .list-thumb { width: 112px; height: 112px; flex-basis: auto; }
+  .rel-name { margin-top: 6px; font-size: 12px; font-weight: 700; line-height: 1.35; color: var(--text-main);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .rel-sub { margin-top: 2px; font-size: 11px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .deal-cta {
+    flex: 0 0 auto; border-top: 1px solid #f1f5f9; background: #fff;
+    padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    display: flex; flex-direction: column; gap: 8px; border-radius: 0 0 20px 20px;
+  }
+  .deal-cal-row { display: flex; gap: 8px; align-items: center; }
+  .deal-cal-btn {
+    flex: 1; padding: 11px; border-radius: 12px; border: 1.5px solid var(--brand-purple); background: #fff;
+    color: var(--brand-purple); font-size: 13.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+  }
+  .deal-gcal { font-size: 12px; font-weight: 700; color: #64748b; text-decoration: underline; text-underline-offset: 2px; padding: 4px; white-space: nowrap; }
+  .deal-apply-btn {
+    display: block; text-align: center; padding: 14px; border-radius: 12px; background: var(--brand-purple);
+    color: #fff; font-size: 15px; font-weight: 800;
+  }
+  .deal-apply-btn:active { background: #43005c; }
+  body.deal-open { overflow: hidden; }
+  .deal-apply-btn { text-decoration: none; }
+  .dm-dday { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; }
+  .dm-dday.hot { background: #fff0ee; color: #e5484d; }
+  .dm-play { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; }
+  .dm-play svg { width: 20px; height: 20px; fill: #fff; }
 </style>
 <!-- Google tag (gtag.js) - GA4 (메인 사이트와 같은 속성) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6FK3NSWH2F"></script>
@@ -246,6 +345,13 @@
 
 <div class="map-toast" id="mapToast" role="status" aria-live="polite"></div>
 <div class="backdrop" id="backdrop"></div>
+<div class="deal-backdrop" id="dealBackdrop"></div>
+<div class="deal-sheet" id="dealSheet" role="dialog" aria-modal="true" aria-labelledby="dealTitle">
+  <div class="deal-head"><div class="deal-grabber"></div><button type="button" class="deal-close" id="dealClose" aria-label="닫기">✕</button></div>
+  <div class="deal-scroll" id="dealScroll"></div>
+  <div class="deal-cta" id="dealCta"></div>
+</div>
+<script src="creator_sheet.js"></script>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="sheet-head">
     <div class="grabber"></div>
@@ -483,6 +589,118 @@ function renderSubChips() {
   box.scrollLeft = 0;
 }
 
+// ---- 공구 상세 모달 (index.html 상세 시트와 같은 구조/톤) ----
+const PLAY_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+function mkEl(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function shortDate(iso) { const d = parseDate(iso); return d ? (d.getMonth() + 1) + '/' + d.getDate() + '(' + '일월화수목금토'[d.getDay()] + ')' : ''; }
+function benefitList(d) {
+  const raw = (d.key_benefit || '').trim(); if (!raw) return [];
+  const out = []; let cur = '', depth = 0;
+  for (const ch of raw) {
+    if (ch === '(' || ch === '[') depth++;
+    if ((ch === ')' || ch === ']') && depth > 0) depth--;
+    if (depth === 0 && /[,·\n\/;]/.test(ch)) { out.push(cur); cur = ''; continue; }
+    cur += ch;
+  }
+  out.push(cur);
+  return out.map(t => t.trim()).filter(Boolean).slice(0, 8);
+}
+// 신청 방법: 구매 링크가 인스타 밖이면 링크, 게시물로 보내는 공구는 댓글·DM, 그 외 프로필
+function applyMethodOf(d) {
+  if (d.purchase_url && !/instagram\.com/.test(d.purchase_url)) return '구매 링크에서 신청';
+  if (d.post_url) return '게시물 댓글 → DM 링크';
+  return '인스타 프로필에서 확인';
+}
+function creatorLive(handle) {
+  const h = (handle || '').toLowerCase();
+  return deals.filter(x => (x.influencer_handle || '').toLowerCase() === h && isLive(x)).slice(0, 8).map(x => {
+    const dd = ddayLabel(x);
+    return { title: x.product_name, badge: dd.t, hot: dd.hot, sub: [x.region, x.place_name].filter(Boolean).join(' · '), onClick: () => openDealDetail(x) };
+  });
+}
+let dealOpenRow = null, dealPushed = false;
+function infoBox(label, value) {
+  const b = mkEl('div', 'deal-info-item'); b.appendChild(mkEl('div', 'deal-info-label', label));
+  b.appendChild(mkEl('div', 'deal-info-value', value)); return b;
+}
+function openDealDetail(d) {
+  const wasOpen = !!dealOpenRow; dealOpenRow = d;
+  const scroll = document.getElementById('dealScroll'); scroll.innerHTML = ''; scroll.scrollTop = 0;
+  const link = d.post_url || d.purchase_url || '';
+  const isReel = /instagram\.com\/reel\//.test(d.post_url || '');
+  const media = mkEl(d.post_url ? 'a' : 'div', 'deal-media');
+  if (d.post_url) { media.href = d.post_url; media.target = '_blank'; media.rel = 'noopener'; media.addEventListener('click', () => trackOutbound(d, d.post_url, 'map_detail_media')); }
+  if (d.image_url) { const img = document.createElement('img'); img.alt = d.product_name || ''; img.src = d.image_url; img.onerror = () => img.remove(); media.appendChild(img); }
+  if (isReel) { const p = mkEl('span', 'dm-play'); p.innerHTML = PLAY_SVG; media.appendChild(p); }
+  if (d.post_url) media.appendChild(mkEl('span', 'deal-media-link', (isReel ? '릴스' : '게시물') + ' 보기 ↗'));
+  scroll.appendChild(media);
+
+  const handle = d.influencer_handle || '';
+  const prof = mkEl('div', 'deal-profile');
+  const av = mkEl('div', 'deal-avatar', handle.replace(/[^0-9a-zA-Z가-힣]/g, '').charAt(0) || 'B');
+  av.style.background = ['#7b1fa2', '#e11d48', '#0891b2', '#ea580c', '#4f46e5', '#059669', '#db2777'][[...handle].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 0) % 7];
+  const who = mkEl('div', 'deal-who');
+  who.appendChild(mkEl('span', 'deal-handle', handle ? '@' + handle : '작성자 미상'));
+  const nickEl = mkEl('span', 'deal-nick', handle ? '활동 요약 보기 ›' : '');
+  who.appendChild(nickEl);
+  prof.appendChild(av); prof.appendChild(who); scroll.appendChild(prof);
+  let nickname = '';
+  if (handle && window.openCreatorSheet) {
+    [av, who].forEach(x => { x.style.cursor = 'pointer'; x.setAttribute('role', 'button'); x.addEventListener('click', () => openCreatorSheet({ handle, nickname, live: creatorLive(handle) })); });
+    if (window.loadCreatorStats) window.loadCreatorStats().then(s => {
+      const c = s && s.creators && s.creators[handle.toLowerCase()];
+      if (c && c.nickname && dealOpenRow === d) { nickname = c.nickname; nickEl.textContent = c.nickname + ' · 활동 요약 보기 ›'; }
+    });
+  }
+
+  const dd = ddayLabel(d);
+  const tr = mkEl('div', 'deal-title-row');
+  tr.appendChild(mkEl('span', 'dm-dday' + (dd.hot ? ' hot' : ''), dd.t));
+  const title = mkEl('h2', 'deal-title', d.product_name); title.id = 'dealTitle'; tr.appendChild(title);
+  tr.appendChild(mkEl('div', 'deal-brand', '📍 ' + ([d.region, d.place_name].filter(Boolean).join(' · ') || '장소는 게시물 확인') + ' · ' + (d.sub_category === 'stay' ? '숙박' : '체험/입장')));
+  scroll.appendChild(tr);
+
+  const info = mkEl('div', 'deal-info');
+  const s0 = shortDate(d.start_date), e0 = shortDate(d.end_date);
+  info.appendChild(infoBox('공구 기간', e0 && d.end_date !== d.start_date ? s0 + ' ~ ' + e0 : (s0 || '게시물 확인')));
+  const dl = d.end_date || d.start_date;
+  info.appendChild(infoBox('신청 마감', dl ? shortDate(dl) + (/^D-\d+$/.test(dd.t) || dd.hot ? ' · ' + dd.t.replace('!', '') : '') : '게시물 확인'));
+  info.appendChild(infoBox('신청 방법', applyMethodOf(d)));
+  info.appendChild(infoBox('공구 가격', priceText(d) || '게시물에서 확인'));
+  scroll.appendChild(info);
+
+  const sec = mkEl('div', 'deal-section'); sec.appendChild(mkEl('h3', '', '핵심 혜택'));
+  const ul = mkEl('ul', 'deal-benefits');
+  const items = benefitList(d);
+  (items.length ? items : ['자세한 구성·혜택은 인스타 게시물에서 확인해 주세요']).forEach(t => ul.appendChild(mkEl('li', '', t)));
+  sec.appendChild(ul); scroll.appendChild(sec);
+
+  const cta = document.getElementById('dealCta'); cta.innerHTML = '';
+  const btn = mkEl('a', 'deal-apply-btn', /instagram\.com/.test(link) || !link ? 'Instagram에서 확인하기 ›' : '공구 신청 페이지로 이동 ›');
+  if (link) { btn.href = link; btn.target = '_blank'; btn.rel = 'noopener'; btn.addEventListener('click', () => trackOutbound(d, link, 'map_detail_apply')); }
+  else if (handle) { btn.href = 'https://www.instagram.com/' + encodeURIComponent(handle) + '/'; btn.target = '_blank'; btn.rel = 'noopener'; }
+  cta.appendChild(btn);
+
+  sendGaEvent('deal_open', Object.assign(gaDealParams(d), { open_from: 'map_sheet' }));
+  try { if (!wasOpen) { history.pushState({ buygDeal: 1 }, '', location.href); dealPushed = true; } } catch (err) {}
+  document.body.classList.add('deal-open');
+  document.getElementById('dealBackdrop').classList.add('show');
+  document.getElementById('dealSheet').classList.add('show');
+}
+function closeDealDetail(fromPop) {
+  if (!dealOpenRow) return;
+  dealOpenRow = null;
+  document.getElementById('dealSheet').classList.remove('show');
+  document.getElementById('dealBackdrop').classList.remove('show');
+  document.body.classList.remove('deal-open');
+  if (fromPop) { dealPushed = false; return; }
+  if (dealPushed) { dealPushed = false; history.back(); }
+}
+document.getElementById('dealClose').addEventListener('click', () => closeDealDetail(false));
+document.getElementById('dealBackdrop').addEventListener('click', () => closeDealDetail(false));
+window.addEventListener('popstate', () => { if (dealOpenRow) closeDealDetail(true); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && dealOpenRow && !document.body.classList.contains('cs-open')) closeDealDetail(false); });
+
 function renderSheetBody() {
   const key = sheetKey;
   const sf = sheetSubFilter;
@@ -499,14 +717,10 @@ function renderSheetBody() {
   list.forEach(d => {
     const a = document.createElement('a');
     a.className = 'card';
-    const link = d.purchase_url || d.post_url;
-    if (link) {
-      a.href = link; a.target = '_blank'; a.rel = 'noopener';
-      a.addEventListener('click', () => trackOutbound(d, link, 'map_sheet'));
-    } else {
-      // 링크가 없는 카드: 본 사이트 통합 시 상세 시트(openDealModal)로 연결될 자리
-      a.addEventListener('click', () => sendGaEvent('deal_open', gaDealParams(d)));
-    }
+    // 카드를 누르면 외부 링크로 튕기지 않고 인앱 상세 모달을 먼저 연다 (외부 이동은 모달 버튼에서)
+    a.style.cursor = 'pointer'; a.setAttribute('role', 'button'); a.tabIndex = 0;
+    a.addEventListener('click', () => openDealDetail(d));
+    a.addEventListener('keydown', e => { if (e.key === 'Enter') openDealDetail(d); });
     const dd = ddayLabel(d);
     const price = priceText(d);
     a.innerHTML = `

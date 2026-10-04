@@ -643,6 +643,57 @@ def _write_experience_json(rows: list[dict]) -> Path:
     return EXPERIENCE_JSON_PATH
 
 
+CREATORS_STATS_PATH = BASE_DIR / "creators_stats.json"
+
+
+def _write_creators_stats() -> Path:
+    """작성자(인플루언서)별 누적 통계를 사이트 루트의 creators_stats.json으로 만든다.
+    DB에 쌓인 텍스트 데이터만 쓴다(프로필 사진/실시간 팔로워 크롤링 없음 - 인스타 차단 방지).
+    키는 소문자 핸들. 닉네임/팔로워는 기존 매핑 파일에서 가져온다."""
+    today_iso = date.today().isoformat()
+    nickname_map = _load_nickname_map()
+    follower_map = _load_follower_map()
+    items = _deduplicate_gonggu(gonggu_db.list_gonggu())
+    creators: dict[str, dict] = {}
+    for gb in items:
+        display, handle = _parse_influencer(gb["influencer_name"])
+        if not handle:
+            continue
+        end = gb.get("end_date") or gb.get("start_date") or ""
+        if gb.get("item_type") == "experience":
+            cat = "여행·숙소" if gb.get("sub_category") == "stay" else "키카·체험"
+        else:
+            cat = gb.get("category") or "기타"
+        c = creators.setdefault(handle.lower(), {
+            "handle": handle,
+            "nickname": nickname_map.get(handle.lower(), "") or (display if display and display != handle else ""),
+            "follower_count": follower_map.get(handle.lower(), 0),
+            "total": 0, "active": 0, "cats": {}, "history": [],
+        })
+        c["total"] += 1
+        if end >= today_iso:
+            c["active"] += 1
+        c["cats"][cat] = c["cats"].get(cat, 0) + 1
+        c["history"].append({
+            "product_name": re.sub(r"^\W*\d[\d.]*\s*[~\-]\s*[\d.]+\s*[｜|]\s*", "", gb.get("product_name") or "")[:50],
+            "start_date": gb.get("start_date") or "", "end_date": gb.get("end_date") or "", "category": cat,
+            "post_url": (gb.get("post_url") or "").replace("https://www.instagram.com/", ""),
+        })
+    out = {}
+    for key, c in creators.items():
+        top_cat, top_n = max(c["cats"].items(), key=lambda kv: kv[1])
+        c["top_category"] = top_cat
+        c["top_percent"] = round(top_n * 100 / c["total"])
+        c["categories"] = [{"name": k, "percent": round(v * 100 / c["total"])}
+                           for k, v in sorted(c["cats"].items(), key=lambda kv: -kv[1])][:3]
+        del c["cats"]
+        c["history"] = sorted(c["history"], key=lambda h: h["start_date"], reverse=True)[:6]
+        out[key] = c
+    payload = {"generated_at": datetime.now().isoformat(timespec="seconds"), "count": len(out), "creators": out}
+    CREATORS_STATS_PATH.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    return CREATORS_STATS_PATH
+
+
 def _write_view_html(rows: list[dict], start: date, end: date, title: str | None) -> Path:
     """'Buyg' 브랜드의 위시버니 스타일 모바일 커머스 뷰어 (서버 없이 더블클릭으로
     바로 열림). 마감임박/이달의공구/카테고리칩/이번주/D-14진행예정 6개 섹션은
@@ -718,6 +769,12 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
     logger.info("검색용 HTML 뷰어 생성: %s", view_path)
     exp_path = _write_experience_json(summary_rows)
     logger.info("지역/체험 공구 JSON 생성 (%d건): %s", sum(1 for r in summary_rows if r.get("item_type") == "experience"), exp_path)
+    # 작성자 통계는 부가 산출물 - 실패해도 배포는 계속(logger.exception 금지: Traceback이 배포 스킵을 유발)
+    try:
+        cs_path = _write_creators_stats()
+        logger.info("작성자 통계 JSON 생성: %s", cs_path)
+    except Exception as e:
+        logger.error("작성자 통계 생성 오류 - 무시하고 계속 진행 (%s: %s)", type(e).__name__, str(e)[:200])
 
     # 릴스 대본/캡션 생성은 부가 산출물 - 실패해도 카드뉴스/배포에 영향 없도록 격리한다
     # (reels_generator.run 자체도 예외를 삼키지만, import 오류까지 이중으로 방어).

@@ -81,6 +81,24 @@
     position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: #fff;
     padding: 14px 16px 12px; border-bottom: 1px solid #f0f0f0;
   }
+  /* ---- 새로고침 버튼 + 당겨서 새로고침 ---- */
+  html, body { overscroll-behavior-y: contain; }
+  .refresh-btn {
+    position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: 14px; z-index: 30;
+    width: 34px; height: 34px; border-radius: 50%; border: 0; background: #f3effa; color: var(--brand-purple);
+    font-size: 18px; line-height: 1; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center;
+  }
+  .refresh-btn:active { background: #e6dcf3; }
+  .refresh-btn span { display: block; transition: transform .6s ease; }
+  .refresh-btn.spin span { transform: rotate(360deg); }
+  .ptr {
+    position: fixed; top: calc(8px + env(safe-area-inset-top, 0px)); left: 50%; z-index: 70; width: 34px; height: 34px; margin-left: -17px;
+    border-radius: 50%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: translateY(-60px); pointer-events: none;
+  }
+  .ptr i { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid #e6dcf3; border-top-color: var(--brand-purple); display: block; }
+  .ptr.loading i { animation: ptrspin .7s linear infinite; }
+  @keyframes ptrspin { to { transform: rotate(360deg); } }
   [hidden] { display: none !important; }
   /* ---------------- 최상단 카카오톡 알림 유입 띠배너 ----------------
      375px에서 한 줄에 다 안 들어가는 문구라, 지저분하게 꺾이지 않도록 "안내 문구"와
@@ -175,7 +193,7 @@
 
   /* 브랜드 소개 영역: 스크롤하면 위로 사라지고 검색창 헤더만 상단에 고정된다
      (카피가 늘어난 만큼 sticky 영역까지 커지면 모바일 화면을 너무 잡아먹음). */
-  .brand-hero { padding: 18px 16px 4px; text-align: center; }
+  .brand-hero { position: relative; padding: 18px 16px 4px; text-align: center; }
   .logo {
     display: inline-block; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;
     color: var(--brand-purple); margin-bottom: 6px; text-decoration: none; cursor: pointer;
@@ -700,6 +718,7 @@
       <button type="button" class="notice-close" id="noticeClose" aria-label="알림 배너 닫기">✕</button>
     </div>
     <div class="brand-hero">
+      <button class="refresh-btn" id="refreshBtn" type="button" aria-label="새로고침"><span>↻</span></button>
       <a class="logo" href="./" id="homeLink" aria-label="Buyg 홈으로 이동">Buyg</a>
       <div class="brand-main">아이 성장에 맞춰 똑똑하게, Buyg 육아 공구 달력</div>
       <div class="brand-sub">매일 자정 업데이트되는 인스타 최저가 모아보기</div>
@@ -1781,6 +1800,15 @@ function infoItem(label, value, extraCls) {
   box.appendChild(v);
   return box;
 }
+function creatorLiveItems(handle) {
+  const h = (handle || '').toLowerCase();
+  return ROWS.filter(function (r) { return (r.influencer_handle || '').toLowerCase() === h && (isActive(r) || isFuture(r)); })
+    .sort(function (a, b) { return (a.end_date || a.start_date || '').localeCompare(b.end_date || b.start_date || ''); })
+    .slice(0, 8).map(function (r) {
+      const dd = ddayInfo(r);
+      return { title: r.product_name, badge: dd.label, hot: dd.cls === 'hot', sub: periodLabel(r), onClick: function () { openDealModal(r); } };
+    });
+}
 function fillDealSheet(row) {
   const scroll = document.getElementById('dealScroll');
   scroll.innerHTML = '';
@@ -1797,15 +1825,20 @@ function fillDealSheet(row) {
   // (3) 인플루언서 + 찜/공유
   const prof = el('div', 'deal-profile');
   const handle = row.influencer_handle || row.influencer_display || '?';
-  const av = el(row.influencer_profile_url ? 'a' : 'div', 'deal-avatar', handle.replace(/[^0-9a-zA-Z가-힣]/g, '').charAt(0) || 'B');
+  const av = el('div', 'deal-avatar', handle.replace(/[^0-9a-zA-Z가-힣]/g, '').charAt(0) || 'B');
   av.style.background = avatarColor(handle);
-  const who = el(row.influencer_profile_url ? 'a' : 'div', 'deal-who');
-  if (row.influencer_profile_url) {
-    [av, who].forEach(function (x) { x.href = row.influencer_profile_url; x.target = '_blank'; x.rel = 'noopener'; bindOutbound(x, row, 'detail_profile'); });
-  }
+  const who = el('div', 'deal-who');
   who.appendChild(el('span', 'deal-handle', handleOf(row)));
   const nick = row.influencer_nickname || (row.influencer_display && row.influencer_display !== row.influencer_handle ? row.influencer_display : '');
-  who.appendChild(el('span', 'deal-nick', nick ? nick + ' · 인스타그램 프로필' : '인스타그램 프로필'));
+  who.appendChild(el('span', 'deal-nick', nick ? nick + ' · 활동 요약 보기 ›' : '활동 요약 보기 ›'));
+  if (row.influencer_handle && window.openCreatorSheet) {
+    [av, who].forEach(function (x) {
+      x.style.cursor = 'pointer'; x.setAttribute('role', 'button');
+      x.addEventListener('click', function () {
+        openCreatorSheet({ handle: row.influencer_handle, nickname: nick, live: creatorLiveItems(row.influencer_handle) });
+      });
+    });
+  }
   const actions = el('div', 'deal-actions');
   actions.appendChild(makeShareBtn(row));
   actions.appendChild(makeFavBtn(row));
@@ -2512,6 +2545,54 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+</script>
+<script src="creator_sheet.js"></script>
+<script>
+// 새로고침 버튼 + 당겨서 새로고침 (홈 화면 추가 standalone 모드엔 주소창이 없어서)
+(function () {
+  var btn = document.getElementById('refreshBtn');
+  var busy = false;
+  function doReload() {
+    if (busy) return; busy = true;
+    if (btn) btn.classList.add('spin');
+    setTimeout(function () { window.location.reload(); }, 450);
+  }
+  if (btn) btn.addEventListener('click', doReload);
+  var ptr = document.createElement('div'); ptr.className = 'ptr'; ptr.innerHTML = '<i></i>'; document.body.appendChild(ptr);
+  var sy = 0, sx = 0, pull = 0, active = false, TH = 70;
+  function blocked(el) { // 스크롤 가능한 영역/지도/시트/모달 안에서 시작한 제스처는 제외
+    for (; el && el !== document.documentElement; el = el.parentElement) {
+      if (el.tagName === 'svg' || el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return true;
+      if (el.classList && (el.classList.contains('sheet') || el.classList.contains('sub-chips'))) return true;
+      if (el.getAttribute && el.getAttribute('aria-modal') === 'true') return true;
+      var cs = getComputedStyle(el), oy = cs.overflowY, ox = cs.overflowX;
+      if (el !== document.body && ((/(auto|scroll)/.test(oy) && el.scrollHeight > el.clientHeight) || (/(auto|scroll)/.test(ox) && el.scrollWidth > el.clientWidth))) return true;
+    }
+    return false;
+  }
+  window.addEventListener('touchstart', function (e) {
+    active = false; pull = 0;
+    if (busy || e.touches.length !== 1 || (window.scrollY || 0) > 0 || document.body.classList.contains('sheet-open') || getComputedStyle(document.body).overflow === 'hidden' || blocked(e.target)) return;
+    sy = e.touches[0].clientY; sx = e.touches[0].clientX; active = true;
+  }, { passive: true });
+  window.addEventListener('touchmove', function (e) {
+    if (!active) return;
+    var dy = e.touches[0].clientY - sy, dx = e.touches[0].clientX - sx;
+    if (dy <= 0 || Math.abs(dx) > dy || (window.scrollY || 0) > 0) { active = false; ptr.style.opacity = 0; ptr.style.transform = 'translateY(-60px)'; return; }
+    pull = Math.min(dy * 0.5, 90);
+    ptr.style.transition = 'none'; ptr.style.opacity = Math.min(pull / TH, 1);
+    ptr.style.transform = 'translateY(' + (pull - 50) + 'px) rotate(' + pull * 4 + 'deg)';
+  }, { passive: true });
+  function end() {
+    if (!active) return; active = false;
+    ptr.style.transition = 'transform .2s, opacity .2s';
+    if (pull >= TH) { busy = true; ptr.classList.add('loading'); ptr.style.opacity = 1; ptr.style.transform = 'translateY(20px)'; setTimeout(function () { window.location.reload(); }, 350); }
+    else { ptr.style.opacity = 0; ptr.style.transform = 'translateY(-60px)'; }
+    pull = 0;
+  }
+  window.addEventListener('touchend', end, { passive: true });
+  window.addEventListener('touchcancel', end, { passive: true });
+})();
 </script>
 </body>
 </html>
