@@ -678,6 +678,7 @@ def _write_creators_stats() -> Path:
             "product_name": re.sub(r"^\W*\d[\d.]*\s*[~\-]\s*[\d.]+\s*[｜|]\s*", "", gb.get("product_name") or "")[:50],
             "start_date": gb.get("start_date") or "", "end_date": gb.get("end_date") or "", "category": cat,
             "post_url": (gb.get("post_url") or "").replace("https://www.instagram.com/", ""),
+            "image_url": gb.get("image_url") or "",
         })
     out = {}
     for key, c in creators.items():
@@ -687,7 +688,7 @@ def _write_creators_stats() -> Path:
         c["categories"] = [{"name": k, "percent": round(v * 100 / c["total"])}
                            for k, v in sorted(c["cats"].items(), key=lambda kv: -kv[1])][:3]
         del c["cats"]
-        c["history"] = sorted(c["history"], key=lambda h: h["start_date"], reverse=True)[:6]
+        c["history"] = sorted(c["history"], key=lambda h: h["start_date"], reverse=True)[:5]
         out[key] = c
     payload = {"generated_at": datetime.now().isoformat(timespec="seconds"), "count": len(out), "creators": out}
     CREATORS_STATS_PATH.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

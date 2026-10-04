@@ -595,7 +595,7 @@
   .deal-actions .thumb-share-btn svg { width: 16px; height: 16px; }
   .deal-title-row { margin-top: 14px; }
   .deal-title-row .dday-badge { font-size: 11px; }
-  .deal-title { margin: 6px 0 0; font-size: 18px; font-weight: 800; line-height: 1.35; color: var(--text-main); word-break: keep-all; }
+  .deal-title { margin: 6px 0 0; font-size: 18px; font-weight: 800; line-height: 1.35; color: var(--text-main); word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .deal-brand { margin-top: 3px; font-size: 12.5px; color: #64748b; }
   .deal-info { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .deal-info-item { background: var(--bg-light); border-radius: 12px; padding: 10px 12px; min-width: 0; }
@@ -637,6 +637,12 @@
   .toast, .fav-toast { z-index: 450; }
   /* ================= 🏆 이번 주 인기 공구 (2026-10-02) ================= */
   /* 2026-10-02 저녁: 카드 5개 -> 위젯 박스 하나 안의 컴팩트 행(48px 썸네일, 구분선)으로 슬림화 */
+  .rank-pager { display: flex; gap: 10px; overflow-x: auto; padding: 0 16px; scroll-padding: 0 16px; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .rank-pager::-webkit-scrollbar { display: none; }
+  .rank-pager .rank-list { flex: 0 0 calc(100% - 32px); width: calc(100% - 32px); min-width: 0; overflow: hidden; margin: 0; scroll-snap-align: start; }
+  .rank-dots { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+  .rank-dots i { width: 6px; height: 6px; border-radius: 50%; background: #e2e8f0; }
+  .rank-dots i.on { background: var(--brand-purple); }
   .rank-list {
     list-style: none; margin: 0 16px; padding: 2px 0; border: 1px solid #f0f0f0; border-radius: 16px; background: #fff;
   }
@@ -772,7 +778,8 @@
       <div id="regularSections">
       <section class="section" id="popularSection">
         <div class="section-head"><h2>🏆 이번 주 인기 공구</h2><span class="sub">팔로워 · 동시진행 · 마감 기준</span></div>
-        <ol class="rank-list" id="popularList"></ol>
+        <div class="rank-pager" id="popularList"></div>
+        <div class="rank-dots" id="popularDots"></div>
       </section>
 
       <section class="section">
@@ -1479,7 +1486,8 @@ function renderPriceRow(row) {
 function makeNameEl(row) {
   const name = document.createElement('div');
   name.className = 'product-name';
-  name.textContent = row.product_name;
+  name.textContent = displayTitle(row.product_name);
+  name.title = row.product_name;
   return name;
 }
 
@@ -1716,7 +1724,7 @@ function renderListCard(row) {
   if (dd.label) {
     const b = document.createElement('span'); b.className = 'dday-badge ' + dd.cls; b.textContent = dd.label; r1.appendChild(b);
   }
-  const name = document.createElement('span'); name.className = 'list-name'; name.textContent = row.product_name; r1.appendChild(name);
+  const name = document.createElement('span'); name.className = 'list-name'; name.textContent = displayTitle(row.product_name); r1.appendChild(name);
   body.appendChild(r1);
 
   const r2 = document.createElement('div'); r2.className = 'list-row2';
@@ -1800,13 +1808,25 @@ function infoItem(label, value, extraCls) {
   box.appendChild(v);
   return box;
 }
+// 긴 상품명 정리: "A (옵션 나열...) / A' (옵션...)" 같은 이름에서 핵심만 남긴다(원문은 상세의 '구성'에 그대로).
+function displayTitle(name) {
+  var orig = String(name || '').trim();
+  var t = orig.split(/\s+\/\s+/)[0];
+  t = t.replace(/\([^)]{15,}\)/g, '').replace(/\[[^\]]{15,}\]/g, '').replace(/\s{2,}/g, ' ').trim();
+  var toks = t.split(' '), out = [];
+  toks.forEach(function (w) { if (!out.length || out[out.length - 1] !== w) out.push(w); });
+  t = out.join(' ').trim();
+  if (!t) t = orig;
+  if (t.length > 50) { var cut = t.slice(0, 50), sp = cut.lastIndexOf(' '); t = (sp > 25 ? cut.slice(0, sp) : cut) + '…'; }
+  return t;
+}
 function creatorLiveItems(handle) {
   const h = (handle || '').toLowerCase();
   return ROWS.filter(function (r) { return (r.influencer_handle || '').toLowerCase() === h && (isActive(r) || isFuture(r)); })
     .sort(function (a, b) { return (a.end_date || a.start_date || '').localeCompare(b.end_date || b.start_date || ''); })
     .slice(0, 8).map(function (r) {
       const dd = ddayInfo(r);
-      return { title: r.product_name, badge: dd.label, hot: dd.cls === 'hot', sub: periodLabel(r), onClick: function () { openDealModal(r); } };
+      return { title: displayTitle(r.product_name), img: r.image_url || '', badge: dd.label, hot: dd.cls === 'hot', sub: periodLabel(r), onClick: function () { openDealModal(r); } };
     });
 }
 function fillDealSheet(row) {
@@ -1849,7 +1869,7 @@ function fillDealSheet(row) {
   const titleRow = el('div', 'deal-title-row');
   const dd = ddayInfo(row);
   if (dd.label) titleRow.appendChild(el('span', 'dday-badge ' + dd.cls, dd.label));
-  const title = el('h2', 'deal-title', row.product_name); title.id = 'dealTitle';
+  const title = el('h2', 'deal-title', displayTitle(row.product_name)); title.id = 'dealTitle';
   titleRow.appendChild(title);
   if (row.item_type === 'experience') {
     const where = [row.region, row.place_name].filter(Boolean).join(' · ');
@@ -1878,6 +1898,7 @@ function fillDealSheet(row) {
   sec.appendChild(el('h3', '', '공구 상세 정보'));
   const ul = el('ul', 'deal-benefits');
   (items.length ? items : ['자세한 구성·혜택은 인스타 게시물에서 확인해 주세요']).forEach(function (t) { ul.appendChild(el('li', '', t)); });
+  if (displayTitle(row.product_name) !== row.product_name) ul.appendChild(el('li', '', '구성: ' + row.product_name));
   if (pi.text && !pi.cta && pi.text !== parsePriceParts(pi.text).final) ul.appendChild(el('li', '', '가격: ' + pi.text));
   sec.appendChild(ul);
   scroll.appendChild(sec);
@@ -1891,7 +1912,7 @@ function fillDealSheet(row) {
     rel.forEach(function (r) {
       const c = el('div', 'rel-card');
       c.appendChild(makeListThumb(r, false));
-      c.appendChild(el('div', 'rel-name', r.product_name));
+      c.appendChild(el('div', 'rel-name', displayTitle(r.product_name)));
       const d2 = ddayInfo(r);
       c.appendChild(el('div', 'rel-sub', (d2.label ? d2.label + ' · ' : '') + handleOf(r)));
       c.addEventListener('click', function () { openDealModal(r); });
@@ -1964,7 +1985,8 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && de
 //      + 긴박도(D-DAY +15 / D-1 +10 / D-2 +5)
 // 동점: 최신 시작순 → 팔로워 많은 순. 같은 상품(브랜드)은 최고점 1건만 노출해
 // 한 브랜드가 1~5위를 독차지하지 않게 한다. 다른 섹션과의 중복 제외(워터폴)에는 참여하지 않는다.
-const POPULAR_SIZE = 5;
+const POPULAR_SIZE = 10;
+const POPULAR_PAGE = 5;
 function followerPoints(n) { return n >= 100000 ? 30 : n >= 50000 ? 20 : n >= 10000 ? 10 : 0; }
 function urgencyPoints(row) {
   const end = parseDate(row.end_date) || parseDate(row.start_date);
@@ -2011,11 +2033,14 @@ function computePopular(rows) {
   return out;
 }
 function renderPopular(rows) {
-  const el = document.getElementById('popularList');
-  el.innerHTML = '';
+  const pager = document.getElementById('popularList');
+  const dots = document.getElementById('popularDots');
+  pager.innerHTML = ''; dots.innerHTML = '';
   const list = computePopular(rows);
   document.getElementById('popularSection').hidden = !list.length;
+  let ol = null;
   list.forEach(function (item, i) {
+    if (i % POPULAR_PAGE === 0) { ol = document.createElement('ol'); ol.className = 'rank-list'; pager.appendChild(ol); }
     const row = item.row;
     const li = document.createElement('li');
     li.className = 'rank-item' + (i < 3 ? ' top' : '');
@@ -2023,7 +2048,7 @@ function renderPopular(rows) {
     li.appendChild(el2('span', 'rank-no', String(i + 1)));
     li.appendChild(makeListThumb(row, false));
     const body = el2('div', 'rank-body');
-    body.appendChild(el2('div', 'rank-name', row.product_name));
+    body.appendChild(el2('div', 'rank-name', displayTitle(row.product_name)));
     body.appendChild(el2('div', 'rank-handle', handleOf(row) + (row.follower_count ? ' · ' + formatFollowers(row.follower_count) : '')));
     li.appendChild(body);
     const side = el2('div', 'rank-side');
@@ -2031,8 +2056,17 @@ function renderPopular(rows) {
     if (dd.label) side.appendChild(el2('span', 'dday-badge ' + dd.cls, dd.label));
     if (item.together > 0) side.appendChild(el2('span', 'rank-tag', '🔁 ' + (item.together + 1) + '명 동시'));
     li.appendChild(side);
-    el.appendChild(li);
+    ol.appendChild(li);
   });
+  const pages = pager.children.length;
+  if (pages > 1) {
+    for (let k = 0; k < pages; k++) dots.appendChild(document.createElement('i'));
+    const sync = function () {
+      const k = Math.min(pages - 1, Math.round(pager.scrollLeft / Math.max(1, pager.children[0].offsetWidth + 10)));
+      Array.prototype.forEach.call(dots.children, function (d, j) { d.classList.toggle('on', j === k); });
+    };
+    pager.onscroll = sync; sync();
+  }
 }
 function el2(tag, cls, text) {
   const e = document.createElement(tag);
