@@ -1124,7 +1124,7 @@ function buildIcs(row) {
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Buyg//Gonggu Calendar//KO', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    'UID:' + encodeURIComponent(favKey(row)).slice(0, 80) + '-' + deadline + '@buyg-kids.github.io',
+    'UID:' + encodeURIComponent(favKey(row)).slice(0, 80) + '-' + deadline + '@buyg.kr',
     'DTSTAMP:' + icsUtc(new Date()),
     'DTSTART:' + icsUtc(start),
     'DTEND:' + icsUtc(end),

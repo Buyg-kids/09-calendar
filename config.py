@@ -37,7 +37,9 @@ CLOUDINARY_FOLDER = "buyg/posts"
 # 바꾼다(공구 텍스트 정보는 시세 검색 히스토리용으로 그대로 보존).
 IMAGE_RETENTION_DAYS = 30
 
-SITE_BASE_URL = "https://buyg-kids.github.io/09-calendar"
+# 2026-10-05 커스텀 도메인 전환(GitHub Pages CNAME=buyg.kr). 옛 주소(LEGACY_*)는 DB에 저장된 값을 새 주소로 바꿀 때만 쓴다.
+SITE_BASE_URL = "https://buyg.kr"
+LEGACY_SITE_BASE_URL = "https://buyg-kids.github.io/09-calendar"
 IMAGE_PLACEHOLDER_URL = f"{SITE_BASE_URL}/icons/placeholder-buyg.png"      # 이미지 수집 실패/누락
 IMAGE_ENDED_PLACEHOLDER_URL = f"{SITE_BASE_URL}/icons/placeholder-ended.png"  # 보관 기간 지나 이미지 삭제됨
 

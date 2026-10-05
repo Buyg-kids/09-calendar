@@ -36,7 +36,8 @@ import requests
 import gonggu_db
 from config import (
     CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME, CLOUDINARY_FOLDER,
-    IMAGE_ENDED_PLACEHOLDER_URL, IMAGE_PLACEHOLDER_URL, IMAGE_RETENTION_DAYS, RAW_COLLECTED_PATH,
+    IMAGE_ENDED_PLACEHOLDER_URL, IMAGE_PLACEHOLDER_URL, IMAGE_RETENTION_DAYS, LEGACY_SITE_BASE_URL, RAW_COLLECTED_PATH,
+    SITE_BASE_URL,
 )
 
 logger = logging.getLogger(__name__)
@@ -292,6 +293,10 @@ def run(today: date | None = None) -> dict:
         return {}
     gonggu_db.init_db()
     today = today or date.today()
+    # 도메인 전환(2026-10-05) 전에 저장된 플레이스홀더 URL을 새 도메인으로 맞춘다(안 맞추면 아래 비교가 빗나가 매일 밤 재처리됨)
+    moved = gonggu_db.rewrite_image_host(LEGACY_SITE_BASE_URL, SITE_BASE_URL)
+    if moved:
+        logger.info("[이미지보관] 옛 도메인 image_url %d행을 %s 로 변환", moved, SITE_BASE_URL)
 
     stats = cleanup_expired(gonggu_db.list_image_rows(), today)
     stats.update(sync_images(gonggu_db.list_image_rows(), today))

@@ -3,7 +3,7 @@
    사용: window.openCreatorSheet({ handle, nickname, live: [{ title, badge, sub, onClick }] })
    index.html은 파이프라인이 매일 재생성하므로 이 파일은 템플릿(generator/templates/view_page.html)과 map.html에서 <script src>로 불러온다. */
 (function () {
-  var STATS_URLS = ['./creators_stats.json', 'https://buyg-kids.github.io/09-calendar/creators_stats.json'];
+  var STATS_URLS = ['./creators_stats.json', 'https://buyg.kr/creators_stats.json'];
   var statsPromise = null;
   var css = '' +
     '.cs-backdrop{position:fixed;inset:0;z-index:500;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:opacity .25s}' +

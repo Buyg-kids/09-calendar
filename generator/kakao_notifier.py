@@ -29,8 +29,8 @@ from config import BASE_DIR
 
 logger = logging.getLogger(__name__)
 
-# GitHub Pages 프로젝트 사이트라 /09-calendar/ 경로가 필요하다 (루트 도메인은 404).
-SITE_URL = "https://buyg-kids.github.io/09-calendar/"
+# 2026-10-05부터 커스텀 도메인(buyg.kr) 루트에서 서비스한다(옛 github.io/09-calendar 주소는 301로 넘어온다).
+SITE_URL = "https://buyg.kr/"
 INDEX_HTML = BASE_DIR / "index.html"
 NOTICE_DIR = BASE_DIR / "notices" / "kakao"
 

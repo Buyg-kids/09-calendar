@@ -49,7 +49,7 @@ except ImportError:
     pass
 
 NOTICE_DIR = BASE_DIR / "notices" / "kakao"
-SITE_URL = "https://buyg-kids.github.io/09-calendar/"
+SITE_URL = "https://buyg.kr/"
 KST = timezone(timedelta(hours=9))
 
 AUTHORIZE_URL = "https://kauth.kakao.com/oauth/authorize"

@@ -155,6 +155,16 @@ def list_image_rows() -> list[dict[str, Any]]:
         return [dict(r) for r in rows]
 
 
+def rewrite_image_host(old_base: str, new_base: str) -> int:
+    """image_url이 옛 사이트 주소로 시작하는 행(예: 기본/마감 플레이스홀더)을 새 주소로 바꾼다. 멱등. 바뀐 행 수 반환."""
+    with get_conn() as conn:
+        cur = conn.execute(
+            "UPDATE gonggu SET image_url = ? || substr(image_url, ?) WHERE image_url LIKE ?",
+            (new_base, len(old_base) + 1, old_base + "%"),
+        )
+        return cur.rowcount
+
+
 def set_image(row_ids: list[int], image_url: str, public_id: str = "") -> None:
     """여러 행의 image_url/cloudinary_public_id를 한 번에 갱신 (같은 게시물에서 나온 행들)."""
     if not row_ids:
