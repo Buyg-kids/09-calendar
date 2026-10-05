@@ -2788,13 +2788,13 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
     const out = [];
     const cap = stats.find(function (r) { return r.name === '수도권'; });
     if (cap) {
-      if (cap.w.wet || cap.w.rain >= 50) out.push({ tag: '주말예보', text: '☔ 수도권 비 소식 · 실내 나들이 추천', href: 'map.html?filter=indoor' });
-      else if (cap.w.rain < 30) out.push({ tag: '주말예보', text: (cap.w.clear ? '☀️ 수도권 맑음' : '🌤️ 수도권 구름 조금') + ' · 야외 나들이 추천', href: 'map.html?filter=outdoor' });
-      else out.push({ tag: '주말예보', text: '⛅ 수도권 흐림 · 우산 챙겨 나들이', href: 'map.html' });
+      if (cap.w.wet || cap.w.rain >= 50) out.push({ tag: '주말예보', text: '☔ 수도권 비 소식 → 실내 나들이 추천', href: 'map.html?filter=indoor' });
+      else if (cap.w.rain < 30) out.push({ tag: '주말예보', text: (cap.w.clear ? '☀️ 수도권 맑음' : '🌤️ 수도권 구름 조금') + ' → 야외 나들이 추천', href: 'map.html?filter=outdoor' });
+      else out.push({ tag: '주말예보', text: '⛅ 수도권 흐림 → 우산 챙겨 나들이', href: 'map.html' });
     }
     const best = stats.filter(function (r) { return r.name !== '수도권' && !r.w.wet; })
       .sort(function (a, b) { return a.w.rain - b.w.rain; })[0];
-    if (best && best.w.rain < 30) out.push({ tag: '주말예보', text: '🌤️ ' + best.name + ' 비 걱정 없음 · 나들이 최고', href: 'map.html?filter=outdoor' });
+    if (best && best.w.rain < 30) out.push({ tag: '주말예보', text: '🌤️ ' + best.name + ' 비 걱정 없음 → 나들이 최고', href: 'map.html?filter=outdoor' });
     out.push(CTA);
     return out;
   }
