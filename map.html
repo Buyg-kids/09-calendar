@@ -360,6 +360,25 @@
     .sheet-title { font-size: 18px; margin-top: 0; }
     .sheet-list { flex: 1 1 auto; min-height: 0; padding: 12px 16px 20px; }
   }
+  /* ---- 지도 위 날씨 위젯 카드 (글래스모피즘, 2026-10-05) ----
+     좌상단에 두어 우상단 '내 주변' 버튼/지도 도형과 겹치지 않게 한다. z-index 4 < 내 주변 5 < 바텀시트 41 < 모달. */
+  .wx-card {
+    position: absolute; top: 8px; left: 16px; z-index: 4; display: flex; align-items: center; gap: 6px;
+    max-width: calc(100% - 140px); padding: 6px 12px; border: 1px solid #ececf1; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(30, 20, 50, 0.08); font-family: inherit; font-size: 12px; font-weight: 600; color: #333;
+    cursor: pointer; white-space: nowrap; overflow: hidden; transition: border-color .15s, box-shadow .15s;
+  }
+  .wx-card[hidden] { display: none; }
+  .wx-card.static { cursor: default; }
+  .wx-card:not(.static):hover { border-color: #d8c5e6; box-shadow: 0 4px 14px rgba(95, 0, 128, 0.12); }
+  .wx-card.active { border-color: var(--brand-purple); }
+  .wx-txt { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .wx-sep { color: #8b5cf6; font-weight: 700; margin: 0 4px; font-size: 14px; line-height: 1; }
+  .wx-tip { font-weight: 800; color: var(--brand-purple); }
+  .wx-when { display: none; }
+  @media (min-width: 600px) { .wx-when { display: inline; } }
+  @media (min-width: 900px) { .wx-card { top: 12px; left: 8px; font-size: 13px; padding: 7px 14px; } }
   .deal-apply-btn { text-decoration: none; }
   .deal-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .dm-dday { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; }
@@ -398,6 +417,7 @@
 
   <div class="map-wrap">
     <button class="locate-btn" id="locateBtn" type="button">📍 내 주변</button>
+    <button class="wx-card" id="wxCard" type="button" hidden aria-label="이번 주말 나들이 날씨"></button>
     <svg viewBox="0 0 300 440" id="map" aria-label="대한민국 지역 지도">
       <g class="region" data-region="경기"><path d="M52 52 L92 34 L150 36 L162 66 L158 112 L124 124 L84 120 L58 100 Z"/><text class="name" x="132" y="104">경기</text></g>
       <g class="region" data-region="강원"><path d="M152 34 L196 12 L242 18 L272 108 L244 132 L186 128 L160 114 L164 66 Z"/><text class="name" x="214" y="74">강원</text></g>
@@ -524,7 +544,7 @@ function renderThemeChips() {
     box.hidden = !(activeSub === 'all' || activeSub === 'free');
     THEMES.forEach(t => {
       const b = document.createElement('button');
-      b.type = 'button'; b.className = 'theme-chip' + (theme === t.key ? ' active' : ''); b.textContent = t.label;
+      b.type = 'button'; b.className = 'theme-chip' + (theme === t.key ? ' active' : ''); b.textContent = t.label; b.dataset.key = t.key;
       b.addEventListener('click', () => {
         theme = theme === t.key ? '' : t.key;
         sendGaEvent('theme_chip_click', { theme: theme || 'off', theme_key: t.key });
@@ -534,6 +554,7 @@ function renderThemeChips() {
       box.appendChild(b);
     });
   });
+  if (window.syncWx) window.syncWx();
 }
 let selected = null;
 
@@ -1102,6 +1123,70 @@ window.addEventListener('popstate', () => closeSheet(true));
     const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
     if (top) openSheet(top);
   }
+})();
+</script>
+<script>
+// ---------------- 지도 위 날씨 카드: 홈과 같은 Open-Meteo 예보(30분 세션 캐시 공유) ----------------
+// 수도권 이번 주말 예보로 야외/실내 칩을 추천하고, 누르면 해당 테마 칩을 켠다(다시 누르면 해제). 예보 실패 시 카드는 숨긴다.
+(function () {
+  const card = document.getElementById('wxCard');
+  if (!card) return;
+  const REGIONS = [['수도권', 37.57, 126.98], ['충청', 36.35, 127.38], ['강원', 37.88, 127.73],
+                   ['영남', 35.87, 128.60], ['호남', 35.16, 126.85], ['제주', 33.50, 126.53]];
+  let pick = null;
+  function weekendStats(daily) {
+    const days = [];
+    for (let i = 0; i < daily.time.length; i++) {
+      const dow = new Date(daily.time[i] + 'T00:00:00').getDay();
+      if (dow === 6 || dow === 0) days.push(i);
+      if (days.length === 2) break;
+    }
+    if (!days.length) return null;
+    let rain = 0, code = 0;
+    days.forEach(function (i) { rain = Math.max(rain, daily.precipitation_probability_max[i] || 0); code = Math.max(code, daily.weather_code[i] || 0); });
+    return { rain: rain, wet: code >= 51, clear: code <= 1 };
+  }
+  function summarize(list) {
+    const w = list[0] && weekendStats(list[0].daily);
+    if (!w) return null;
+    if (w.wet || w.rain >= 50) return { ico: '☔', state: '수도권 비 소식', tip: '실내 추천', key: 'indoor' };
+    if (w.rain < 30) return { ico: w.clear ? '☀️' : '🌤️', state: w.clear ? '수도권 맑음' : '수도권 구름 조금', tip: '야외 추천', key: 'outdoor' };
+    return { ico: '⛅', state: '수도권 흐림', tip: '우산 챙기세요', key: '' };
+  }
+  function render() {
+    if (!pick) { card.hidden = true; return; }
+    card.innerHTML = '';
+    const ico = document.createElement('span'); ico.textContent = pick.ico;
+    const txt = document.createElement('span'); txt.className = 'wx-txt';
+    const when = document.createElement('span'); when.className = 'wx-when'; when.textContent = '이번 주말 ';
+    const sep = document.createElement('span'); sep.className = 'wx-sep'; sep.textContent = '›';
+    const tip = document.createElement('span'); tip.className = 'wx-tip'; tip.textContent = pick.tip;
+    txt.appendChild(when); txt.appendChild(document.createTextNode(pick.state)); txt.appendChild(sep); txt.appendChild(tip);
+    card.appendChild(ico); card.appendChild(txt);
+    card.classList.toggle('static', !pick.key);
+    card.hidden = false;
+    window.syncWx();
+  }
+  window.syncWx = function () { card.classList.toggle('active', !!pick && !!pick.key && theme === pick.key); };
+  card.addEventListener('click', function () {
+    if (!pick || !pick.key) return;
+    sendGaEvent('weather_card_click', { theme_key: pick.key });
+    if (!(activeSub === 'all' || activeSub === 'free')) document.querySelector('.tab[data-sub="all"]').click();
+    const chip = Array.prototype.find.call(document.querySelectorAll('#themeRow .theme-chip'), function (b) { return b.dataset.key === pick.key; });
+    if (chip) chip.click();
+  });
+  function apply(list) { pick = summarize(list); render(); }
+  let cached = null;
+  try { cached = JSON.parse(sessionStorage.getItem('buygWeather') || 'null'); } catch (e) {}
+  if (cached && Date.now() - cached.t < 30 * 60 * 1000) { apply(cached.list); return; }
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + REGIONS.map(function (r) { return r[1]; }).join(',')
+    + '&longitude=' + REGIONS.map(function (r) { return r[2]; }).join(',')
+    + '&daily=weather_code,precipitation_probability_max&timezone=Asia%2FSeoul&forecast_days=7';
+  fetch(url).then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (list) {
+    if (!Array.isArray(list) || list.length !== REGIONS.length) return;
+    try { sessionStorage.setItem('buygWeather', JSON.stringify({ t: Date.now(), list: list })); } catch (e) {}
+    apply(list);
+  }).catch(function () { /* 예보 실패: 카드 숨김 유지 */ });
 })();
 </script>
 <script>
