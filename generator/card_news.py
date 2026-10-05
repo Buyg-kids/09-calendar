@@ -32,7 +32,7 @@ import calendar as calendar_mod
 import json
 import logging
 import re
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
 from pathlib import Path
 
@@ -695,6 +695,24 @@ def _write_creators_stats() -> Path:
     return CREATORS_STATS_PATH
 
 
+SITEMAP_PATH = BASE_DIR / "sitemap.xml"
+_LASTMOD_RE = re.compile(r"<lastmod>[^<]*</lastmod>")
+
+
+def _update_sitemap_lastmod() -> str | None:
+    """sitemap.xml의 모든 <lastmod>를 실행 당일(KST, YYYY-MM-DD)로 갱신한다.
+    야간 스크립트가 git add -A로 커밋/배포하므로 별도 수동 수정이 필요 없다.
+    파일이 없거나 이미 오늘 날짜면 아무것도 쓰지 않고, 갱신된 날짜(또는 None)를 반환한다."""
+    if not SITEMAP_PATH.exists():
+        return None
+    today = datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
+    xml = SITEMAP_PATH.read_text(encoding="utf-8")
+    new_xml, n = _LASTMOD_RE.subn(f"<lastmod>{today}</lastmod>", xml)
+    if n and new_xml != xml:
+        SITEMAP_PATH.write_text(new_xml, encoding="utf-8", newline=chr(10))
+    return today if n else None
+
+
 def _write_view_html(rows: list[dict], start: date, end: date, title: str | None) -> Path:
     """'Buyg' 브랜드의 위시버니 스타일 모바일 커머스 뷰어 (서버 없이 더블클릭으로
     바로 열림). 마감임박/이달의공구/카테고리칩/이번주/D-14진행예정 6개 섹션은
@@ -776,6 +794,13 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
         logger.info("작성자 통계 JSON 생성: %s", cs_path)
     except Exception as e:
         logger.error("작성자 통계 생성 오류 - 무시하고 계속 진행 (%s: %s)", type(e).__name__, str(e)[:200])
+    # 검색엔진용 sitemap.xml lastmod를 오늘(KST)로 갱신 - 부가 산출물이라 실패해도 배포는 계속
+    try:
+        sm_date = _update_sitemap_lastmod()
+        if sm_date:
+            logger.info("sitemap.xml lastmod 갱신: %s", sm_date)
+    except Exception as e:
+        logger.error("sitemap lastmod 갱신 오류 - 무시하고 계속 진행 (%s: %s)", type(e).__name__, str(e)[:200])
 
     # KOPIS 어린이 공연 수집(부가 산출물) - 키 없음/API 오류여도 배포는 계속된다(run()은 예외를 던지지 않는다).
     try:
