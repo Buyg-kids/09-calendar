@@ -376,12 +376,12 @@
   .wx-txt { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .wx-sep { color: #8b5cf6; font-weight: 700; margin: 0 4px; font-size: 14px; line-height: 1; }
   .wx-tip { font-weight: 800; color: var(--brand-purple); }
-  .wx-src { position: absolute; top: 42px; left: 22px; z-index: 4; font-size: 10.5px; color: #a3a3ad; text-decoration: none; text-shadow: 0 0 3px #fff, 0 0 6px #fff; }
+  .wx-src { position: absolute; bottom: 6px; right: 16px; z-index: 4; font-size: 10px; color: #9ca3af; opacity: 0.75; text-decoration: none; }
   .wx-src[hidden] { display: none; }
-  .wx-src:hover { color: #6b7280; text-decoration: underline; }
+  .wx-src:hover { opacity: 1; }
   .wx-when { display: none; }
   @media (min-width: 600px) { .wx-when { display: inline; } }
-  @media (min-width: 900px) { .wx-card { top: 12px; left: 8px; font-size: 13px; padding: 7px 14px; } .wx-src { top: 52px; left: 16px; font-size: 11px; } }
+  @media (min-width: 900px) { .wx-card { top: 12px; left: 8px; font-size: 13px; padding: 7px 14px; } .wx-src { bottom: 8px; right: 14px; font-size: 10px; } }
   .deal-apply-btn { text-decoration: none; }
   .deal-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .dm-dday { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; }
@@ -421,7 +421,7 @@
   <div class="map-wrap">
     <button class="locate-btn" id="locateBtn" type="button">📍 내 주변</button>
     <button class="wx-card" id="wxCard" type="button" hidden aria-label="이번 주말 나들이 날씨" title="날씨 출처: 기상 예보 Open-Meteo"></button>
-    <a class="wx-src" id="wxSrc" href="https://open-meteo.com/" target="_blank" rel="noopener" hidden>날씨 출처: 기상 예보 Open-Meteo</a>
+    <a class="wx-src" id="wxSrc" href="https://open-meteo.com/" target="_blank" rel="noopener" hidden>날씨: Open-Meteo</a>
     <svg viewBox="0 0 300 440" id="map" aria-label="대한민국 지역 지도">
       <g class="region" data-region="경기"><path d="M52 52 L92 34 L150 36 L162 66 L158 112 L124 124 L84 120 L58 100 Z"/><text class="name" x="132" y="104">경기</text></g>
       <g class="region" data-region="강원"><path d="M152 34 L196 12 L242 18 L272 108 L244 132 L186 128 L160 114 L164 66 Z"/><text class="name" x="214" y="74">강원</text></g>
