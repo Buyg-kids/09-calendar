@@ -58,7 +58,7 @@ def main():
     for rx in (cx0 + 70, cx1 - 70):  # 바인더 고리
         rr(d, (rx - 9, cy0 - 18, rx + 9, cy0 + 30), 9, WHITE)
         rr(d, (rx - 5, cy0 - 14, rx + 5, cy0 + 26), 5, PURPLE_DARK)
-    d.text(((cx0 + cx1) / 2 * S, (cy0 + 44) * S), "OCTOBER", font=font(FONT_BOLD, 34), fill=WHITE, anchor="mm")
+    d.text(((cx0 + cx1) / 2 * S, (cy0 + 44) * S), "BUYG", font=font(FONT_BOLD, 36), fill=WHITE, anchor="mm")
     # 날짜 그리드
     gx0, gy0, gw, gh = cx0 + 34, cy0 + 118, 46, 44
     hot = {(1, 2), (2, 4), (3, 3)}      # 하이라이트(마감 임박/오픈 느낌)

@@ -326,6 +326,38 @@
   .perf-chip.ing { background: #fff0ee; color: #e5484d; }
   .perf-chip.price { background: #f3effa; color: var(--brand-purple); }
   .perf-more { display: block; width: 100%; margin: 4px 0 8px; padding: 11px; border-radius: 12px; border: 1px solid #e5e7eb; background: #fff; font-size: 13px; font-weight: 700; color: #475569; cursor: pointer; font-family: inherit; }
+
+  /* ================= 데스크톱 Split View (>=900px, 2026-10-05) =================
+     왼쪽: 지역별 공구/나들이 목록(시트를 고정 패널로), 오른쪽: 넓은 인터랙티브 지도.
+     모바일은 기존 바텀시트 그대로. */
+  .sheet-title:empty::before { content: '지역을 선택해 보세요'; color: var(--text-sub); }
+  .sheet-list:empty::before { content: '지도에서 지역을 누르면 공구·나들이 목록이 여기에 나와요.'; color: var(--text-sub); font-size: 13px; padding: 24px 4px; }
+  @media (min-width: 900px) {
+    html, body { background: #f4f1f8; }
+    .app { max-width: 1240px; padding: 0 36px 32px; display: grid; grid-template-columns: 440px minmax(0, 1fr); column-gap: 32px; align-items: start; box-shadow: 0 0 32px rgba(60,20,90,0.06); }
+    header#map { grid-column: 1 / -1; padding-left: 0; padding-right: 0; }
+    .title { font-size: 28px; }
+    .tabs, .theme-row, .extra { grid-column: 1 / -1; padding-left: 0; padding-right: 0; overflow: visible; flex-wrap: wrap; }
+    .tabs { padding-top: 14px; }
+    .tab { padding: 10px 18px; font-size: 14px; }
+    .refresh-btn { right: 0; }
+    .map-wrap { grid-column: 2; grid-row: 5; padding: 8px 0 0; position: sticky; top: 12px; }
+    .map-wrap svg { width: 100%; height: calc(100vh - 150px); min-height: 520px; max-height: 780px; }
+    .locate-btn { right: 8px; top: 12px; font-size: 12.5px; padding: 6px 12px; }
+    .legend, .empty-msg, .status { grid-column: 2; }
+    /* 시트 -> 왼쪽 고정 패널 */
+    .backdrop, .close, .grabber, #themeChipsSheet { display: none !important; }
+    body.sheet-open { overflow: auto; }
+    .sheet {
+      position: sticky; top: 12px; bottom: auto; left: auto; right: auto; grid-column: 1; grid-row: 5; width: auto; max-width: none; margin: 0;
+      height: calc(100vh - 24px); max-height: none; transform: none; visibility: visible; transition: none; z-index: 1;
+      border: 1px solid #ece8f1; border-radius: 18px; box-shadow: none; overflow: hidden;
+    }
+    .sheet.show { transform: none; }
+    .sheet-head { padding: 16px 18px 12px; }
+    .sheet-title { font-size: 18px; margin-top: 0; }
+    .sheet-list { flex: 1 1 auto; min-height: 0; padding: 12px 16px 20px; }
+  }
   .deal-apply-btn { text-decoration: none; }
   .deal-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .dm-dday { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; }
@@ -383,17 +415,6 @@
   <div class="legend">진한 색일수록 공구가 많은 지역 · 숫자는 진행 중 공구 수</div>
   <div class="empty-msg" id="emptyMsg" hidden></div>
   <div class="status" id="status" hidden></div>
-</div>
-
-<div class="map-toast" id="mapToast" role="status" aria-live="polite"></div>
-<div class="backdrop" id="backdrop"></div>
-<div class="deal-backdrop" id="dealBackdrop"></div>
-<div class="deal-sheet" id="dealSheet" role="dialog" aria-modal="true" aria-labelledby="dealTitle">
-  <div class="deal-head"><div class="deal-grabber"></div><button type="button" class="deal-close" id="dealClose" aria-label="닫기">✕</button></div>
-  <div class="deal-scroll" id="dealScroll"></div>
-  <div class="deal-cta" id="dealCta"></div>
-</div>
-<script src="creator_sheet.js"></script>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="sheet-head">
     <div class="grabber"></div>
@@ -405,6 +426,17 @@
   </div>
   <div class="sheet-list" id="sheetList"></div>
 </div>
+</div>
+<div class="backdrop" id="backdrop"></div>
+
+<div class="map-toast" id="mapToast" role="status" aria-live="polite"></div>
+<div class="deal-backdrop" id="dealBackdrop"></div>
+<div class="deal-sheet" id="dealSheet" role="dialog" aria-modal="true" aria-labelledby="dealTitle">
+  <div class="deal-head"><div class="deal-grabber"></div><button type="button" class="deal-close" id="dealClose" aria-label="닫기">✕</button></div>
+  <div class="deal-scroll" id="dealScroll"></div>
+  <div class="deal-cta" id="dealCta"></div>
+</div>
+<script src="creator_sheet.js"></script>
 
 <script>
 // ---- GA4 (본 사이트 view_page.html의 sendGaEvent/trackOutbound와 같은 이름·파라미터 규격) ----
@@ -626,6 +658,7 @@ function listFor(key) {
 let sheetKey = null;
 let sheetSubFilter = '전체';
 
+const isDesktop = () => window.matchMedia('(min-width: 900px)').matches;
 function openSheet(key) {
   sheetKey = key;
   sheetSubFilter = '전체';
@@ -635,7 +668,7 @@ function openSheet(key) {
   renderSheetBody();
   const sheet = document.getElementById('sheet');
   // 시트가 이미 열린 채 내용만 바뀌는 경우(빈 지역 -> 전국 이용권)엔 뒤로가기 한 번에 닫히도록 히스토리를 더 쌓지 않는다
-  if (!sheet.classList.contains('show')) history.pushState({ mapSheet: 1 }, '');
+  if (!sheet.classList.contains('show') && !isDesktop()) history.pushState({ mapSheet: 1 }, '');
   document.getElementById('backdrop').classList.add('show');
   sheet.classList.add('show');
   document.body.classList.add('sheet-open');
@@ -981,12 +1014,13 @@ function emptyState(key, label) {
   return wrap;
 }
 function closeSheet(fromPop) {
-  if (!document.getElementById('sheet').classList.contains('show')) return;
+  const desk = isDesktop();
+  if (!desk && !document.getElementById('sheet').classList.contains('show')) return;
   document.getElementById('backdrop').classList.remove('show');
   document.getElementById('sheet').classList.remove('show');
   document.body.classList.remove('sheet-open');
   selected = null; render();
-  if (!fromPop) history.back();
+  if (!fromPop && !desk) history.back();
 }
 
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
@@ -994,6 +1028,7 @@ document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () =>
   sendGaEvent('map_tab_click', { map_tab: { all: '전체', free: '무료 나들이', stay: '숙소·여행', play: '키카·체험', show: '공연·전시' }[activeSub] });
   document.querySelectorAll('.tab').forEach(x => { x.classList.toggle('active', x === t); x.setAttribute('aria-selected', x === t); });
   render(); renderThemeChips();
+  if (isDesktop() && sheetKey) { sheetSubFilter = '전체'; renderSubChips(); renderSheetBody(); }
 }));
 document.querySelectorAll('.region').forEach(g => g.addEventListener('click', () => {
   sendGaEvent('map_region_click', { map_region: g.dataset.region, deal_count: listFor(g.dataset.region).length });
@@ -1056,6 +1091,12 @@ window.addEventListener('popstate', () => closeSheet(true));
   deals = demo ? loaded.concat(demoDeals()) : loaded;
   if (demo) document.getElementById('status').textContent += ' · [샘플] 데이터 포함';
   render(); renderThemeChips();
+  // 데스크톱 Split View: 왼쪽 패널이 비어 보이지 않게 데이터가 가장 많은 지역을 먼저 열어 둔다
+  if (isDesktop()) {
+    const counts = countsFor(activeSub);
+    const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+    if (top) openSheet(top);
+  }
 })();
 </script>
 <script>

@@ -759,6 +759,71 @@
   .trip-banner-title { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -0.2px; word-break: keep-all; }
   .trip-banner-sub { display: block; margin-top: 3px; font-size: 12px; font-weight: 700; color: var(--point-coral); }
   .trip-banner-arrow { flex: 0 0 auto; font-size: 20px; color: #b49ac7; }
+
+  /* ================= 데스크톱 레이아웃 (>=768px, 2026-10-05) =================
+     모바일(<768px)은 위의 1열 앱 뷰 그대로. 데스크톱은 컨테이너를 1180px로 제한하고
+     입력창/버튼은 늘리지 않고(검색창 max-width 600px) 카드 목록은 3~4열 그리드로 재구성한다. */
+  @media (min-width: 768px) {
+    html, body { background: #f4f1f8; }
+    .app { max-width: 1180px; padding: 0 40px 56px; box-shadow: 0 0 32px rgba(60,20,90,0.06); }
+    /* 공지: 모니터 폭에 맞춘 슬림한 한 줄 띠 */
+    .notice-bar { margin: 0 -40px; padding: 8px 56px; flex-wrap: nowrap; column-gap: 14px; line-height: 1.3; }
+    .notice-msg, .notice-cta { font-size: 13px; }
+    /* 헤더/검색: 가운데 정렬 + 검색창 최대 폭 */
+    .brand-hero { padding: 30px 0 6px; }
+    .logo { font-size: 32px; }
+    .brand-main { font-size: 21px; }
+    .brand-sub { font-size: 13.5px; margin-top: 5px; }
+    .refresh-btn { right: 0; top: 30px; }
+    .app-header { margin: 0 -40px; padding: 14px 40px 12px; }
+    .search-box { max-width: 600px; margin: 0 auto; }
+    #searchInput { font-size: 15px; padding: 12px 44px 12px 22px; }
+    .count { text-align: center; }
+    /* 좌우 16px 모바일 여백은 컨테이너 패딩으로 대체 */
+    .section-head, .hscroll, .chip-row, .day-bar, #searchResults, .list-grid, #sharedSection .week-grid { padding-left: 0; padding-right: 0; }
+    .section { padding-top: 30px; }
+    .section-head h2 { font-size: 19px; }
+    .section-head .sub { font-size: 12px; }
+    .trip-banner { margin: 18px 0 2px; padding: 14px 24px; }
+    .trip-banner-title { font-size: 16.5px; }
+    .chip-row { justify-content: center; flex-wrap: wrap; overflow: visible; gap: 14px 26px; }
+    .chip-icon { width: 60px; height: 60px; font-size: 26px; }
+    .chip-label { font-size: 12.5px; }
+    /* 인기 공구: 좌우 2열(1~5위 / 6~10위) */
+    .rank-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 0; overflow: visible; scroll-snap-type: none; }
+    .rank-pager .rank-list { width: auto; flex: none; scroll-snap-align: none; }
+    .rank-dots { display: none; }
+    .rank-item { padding: 10px 18px; gap: 14px; }
+    .rank-item .list-thumb { flex-basis: 58px; width: 58px; height: 58px; }
+    .rank-name { font-size: 14px; }
+    .rank-handle { font-size: 12px; }
+    /* 마감임박/곧오픈 레일: 카드를 키우고 화살표로 넘김 */
+    .hscroll { gap: 16px; }
+    .scroll-arrow.arrow-left { left: -36px; }
+    .scroll-arrow.arrow-right { right: -36px; }
+    .closing-card, .banner-card, .upcoming-card { flex-basis: 184px; }
+    .closing-card .thumb-wrap, .banner-card .thumb-wrap, .upcoming-card .thumb-wrap { width: 184px; height: 184px; }
+    .closing-card .product-name, .upcoming-card .product-name { font-size: 14px; }
+    /* 이번 주 공구: 3열 -> 4열 카드 그리드 */
+    #weekGrid.week-carousel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; scroll-snap-type: none; padding: 0; cursor: default; }
+    .week-carousel-wrap .scroll-arrow { display: none !important; }
+    #weekGrid .feed-card { flex: none; }
+    #weekGrid .feed-card .feed-thumb { height: auto; aspect-ratio: 1 / 1; }
+    #weekGrid .feed-card .feed-thumb img { position: absolute; inset: 0; }
+    #weekGrid .feed-name { font-size: 14px; min-height: 38px; }
+    #weekGrid .feed-body { padding: 10px 12px 12px; }
+    #weekGrid .feed-more, #weekGrid .empty-note { grid-column: 1 / -1; flex: none; flex-direction: row; padding: 16px; }
+    /* 찜/공유/검색 목록: 가로형 카드를 2~3열 그리드로 */
+    .list-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    #searchResults[style*="block"] { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding-top: 16px; }
+    #searchResults .list-card { margin-bottom: 0; }
+    #noResults { grid-column: 1 / -1; }
+    .seo-footer { margin: 36px 0 0; }
+  }
+  @media (min-width: 1024px) {
+    #weekGrid.week-carousel { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .list-grid, #searchResults[style*="block"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
 </style>
 </head>
 <body>
