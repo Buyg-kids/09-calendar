@@ -146,6 +146,8 @@
   .seo-footer h3 { margin: 14px 0 4px; font-size: 12px; font-weight: 800; color: #64748b; }
   .seo-footer p { margin: 0; font-size: 11.5px; line-height: 1.65; word-break: keep-all; }
   .seo-footer a { color: #7a6a99; }
+  /* 데스크톱 전용 요소(로고/유틸 링크/GNB/히어로)는 모바일에서 숨긴다 - 아래 @media (min-width:768px)에서 켠다 */
+  .dt-logo, .dt-utils, .dt-gnb, .dt-hero { display: none; }
   [hidden] { display: none !important; }
   /* ---------------- 최상단 카카오톡 알림 유입 띠배너 ----------------
      375px에서 한 줄에 다 안 들어가는 문구라, 지저분하게 꺾이지 않도록 "안내 문구"와
@@ -767,9 +769,9 @@
      입력창/버튼은 늘리지 않고(검색창 max-width 600px) 카드 목록은 3~4열 그리드로 재구성한다. */
   @media (min-width: 768px) {
     html, body { background: #f4f1f8; }
-    .app { max-width: 1180px; padding: 0 40px 56px; box-shadow: 0 0 32px rgba(60,20,90,0.06); }
+    .app { max-width: 1140px; padding: 0 24px 56px; box-shadow: 0 0 32px rgba(60,20,90,0.06); }
     /* 공지: 모니터 폭에 맞춘 슬림한 한 줄 띠 */
-    .notice-bar { margin: 0 -40px; padding: 8px 56px; flex-wrap: nowrap; column-gap: 14px; line-height: 1.3; }
+    .notice-bar { margin: 0 -24px; padding: 8px 40px; flex-wrap: nowrap; column-gap: 14px; line-height: 1.3; }
     .notice-msg, .notice-cta { font-size: 13px; }
     /* 헤더/검색: 가운데 정렬 + 검색창 최대 폭 */
     .brand-hero { padding: 30px 0 6px; }
@@ -826,6 +828,62 @@
     #weekGrid.week-carousel { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .list-grid, #searchResults[style*="block"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
+
+  /* ================= 데스크톱 이커머스 스타일 (>=768px, 2026-10-05 마켓컬리형) =================
+     1열 헤더(로고 | 검색 | 유틸 링크) + 얇은 경계선 아래 GNB + 가로형 히어로 배너.
+     컨테이너 1140px, 카드는 화이트 + 얇은 #eee 선 + 작은 라운드. 모바일은 영향 없음. */
+  @media (min-width: 768px) {
+    .brand-hero, .trip-banner { display: none; }
+    .app-header {
+      margin: 0 -24px; padding: 0 24px; border-bottom: 1px solid #eee;
+      display: grid; grid-template-columns: 1fr minmax(0, 500px) 1fr; grid-template-rows: 76px 48px; align-items: center; column-gap: 24px;
+    }
+    .dt-logo { display: block; grid-column: 1; grid-row: 1; justify-self: start; font-size: 31px; font-weight: 900; letter-spacing: 1.5px; color: var(--brand-purple); }
+    .search-box { grid-column: 2; grid-row: 1; max-width: none; margin: 0; }
+    #searchInput {
+      height: 46px; font-size: 14.5px; padding: 0 80px 0 20px; border: 1.5px solid var(--brand-purple); border-radius: 6px;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235f0080' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") no-repeat right 16px center / 20px;
+    }
+    #searchInput:focus { box-shadow: 0 0 0 3px rgba(95, 0, 128, 0.12); }
+    #clearSearch { right: 48px; }
+    .dt-utils { display: flex; grid-column: 3; grid-row: 1; justify-self: end; gap: 24px; font-size: 13.5px; font-weight: 600; color: #4b5563; }
+    .dt-utils a { white-space: nowrap; }
+    .dt-utils a:hover { color: var(--brand-purple); }
+    .dt-gnb { display: flex; grid-column: 1 / -1; grid-row: 2; align-items: center; gap: 38px; height: 48px; border-top: 1px solid #eee; margin: 0 0; }
+    .dt-gnb a { font-size: 14.5px; font-weight: 700; color: #333; }
+    .dt-gnb a:hover { color: var(--brand-purple); }
+    .count { position: absolute; right: 24px; bottom: 15px; margin: 0; padding: 0; min-height: 0; font-size: 12.5px; }
+    .section { scroll-margin-top: 140px; }
+    #popularSection, #sec-category, #sec-closing, #sec-soon { scroll-margin-top: 140px; }
+    /* 히어로 배너 */
+    .dt-hero {
+      display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 26px 0 6px; padding: 30px 40px;
+      border: 1px solid #eee; border-radius: 8px; background: linear-gradient(100deg, #f6effb 0%, #ffffff 72%);
+    }
+    .dt-hero-title { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
+    .dt-hero-sub { margin: 8px 0 0; font-size: 15px; color: #6b7280; }
+    .dt-hero-badge { display: inline-block; margin-top: 14px; padding: 5px 13px; border-radius: 999px; background: #fff; border: 1px solid #e6d9f0; color: var(--brand-purple); font-size: 12.5px; font-weight: 700; }
+    .dt-hero-btn { flex: 0 0 auto; padding: 14px 28px; border-radius: 6px; background: var(--brand-purple); color: #fff; font-size: 15px; font-weight: 800; }
+    .dt-hero-btn:hover { background: var(--brand-purple-dark); }
+    /* 섹션 타이포 / 카테고리 */
+    .section-head h2 { font-size: 20px; letter-spacing: -0.3px; }
+    .chip-row { gap: 18px 32px; }
+    .chip-icon { width: 56px; height: 56px; font-size: 24px; background: #f6f2fa; }
+    .chip-label { font-size: 13px; color: #444; }
+    /* 카드: 화이트 + 얇은 선 + 작은 라운드 */
+    .feed-card, .list-card, .week-card { border: 1px solid #eee; border-radius: 6px; box-shadow: none; transition: border-color .15s, box-shadow .15s; }
+    .feed-card:hover, .list-card:hover { border-color: #d8c5e6; box-shadow: 0 6px 18px rgba(60, 20, 90, 0.08); }
+    .feed-card .feed-thumb { background: #fff; border-bottom: 1px solid #f3f3f3; }
+    .feed-name { font-weight: 700; color: #222; }
+    .closing-card .thumb-wrap, .banner-card .thumb-wrap, .upcoming-card .thumb-wrap { border: 1px solid #eee; border-radius: 6px; background: #fff; }
+    .list-thumb { border-radius: 6px; }
+    .rank-list { border-radius: 8px; border-color: #eee; }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .app-header { grid-template-columns: auto minmax(0, 1fr) auto; }
+    .dt-gnb { gap: 28px; }
+    .dt-utils { gap: 16px; font-size: 13px; }
+  }
 </style>
 </head>
 <body>
@@ -843,6 +901,7 @@
       <div class="today-badge" id="todayBadge" hidden></div>
     </div>
     <header class="app-header">
+      <a class="dt-logo" id="dtLogo" href="./" aria-label="BUYG 홈으로 이동">BUYG</a>
       <div class="search-box">
         <input
           type="search"
@@ -857,12 +916,31 @@
         <button type="button" id="clearSearch" aria-label="검색어 지우기">✕</button>
       </div>
       <div class="count" id="resultCount"></div>
+      <div class="dt-utils">
+        <a href="map.html">🗺️ 지도 보기</a>
+        <a id="dtNoticeLink" href="#" target="_blank" rel="noopener">🔔 공구 알림방</a>
+      </div>
+      <nav class="dt-gnb" aria-label="주요 메뉴">
+        <a href="#sec-category" data-target="sec-category">카테고리</a>
+        <a href="#popularSection" data-target="popularSection">이번 주 인기</a>
+        <a href="#sec-closing" data-target="sec-closing">마감임박</a>
+        <a href="#sec-soon" data-target="sec-soon">곧 오픈</a>
+        <a href="map.html">나들이·지도</a>
+      </nav>
     </header>
 
     <div id="searchResults"></div>
     <div id="noResults">검색 결과가 없습니다.</div>
 
     <div id="homeSections">
+      <section class="dt-hero" aria-label="BUYG 소개">
+        <div class="dt-hero-text">
+          <h2 class="dt-hero-title">0~7세 성장 맞춤 육아 공구 달력</h2>
+          <p class="dt-hero-sub">매일 자정 실시간 업데이트</p>
+          <div class="dt-hero-badge" id="dtTodayBadge" hidden></div>
+        </div>
+        <a class="dt-hero-btn" href="map.html">지도 열기 →</a>
+      </section>
       <!-- 2026-10-03 주말 나들이 지도 바로가기 (지역/체험 공구 + 무료 나들이 지도) -->
       <a class="trip-banner" href="./map.html" id="tripBanner">
         <span class="trip-banner-icon">🗺️</span>
@@ -877,7 +955,7 @@
         <div class="list-grid" id="sharedGrid"></div>
       </section>
 
-      <section class="section">
+      <section class="section" id="sec-category">
         <div class="section-head"><h2>🏷️ 카테고리</h2></div>
         <div class="chip-row" id="chipRow"></div>
       </section>
@@ -894,7 +972,7 @@
         <div class="rank-dots" id="popularDots"></div>
       </section>
 
-      <section class="section">
+      <section class="section" id="sec-closing">
         <div class="section-head"><h2>🔥 마감 임박한 공구</h2><span class="sub">서두르세요</span></div>
         <div class="hscroll-wrap">
           <button type="button" class="scroll-arrow arrow-left" data-target="closingSoonList" aria-label="이전">‹</button>
@@ -917,7 +995,7 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="sec-soon">
         <div class="section-head"><h2>✨ 곧 오픈하는 공구</h2></div>
         <div class="hscroll-wrap">
           <button type="button" class="scroll-arrow arrow-left" data-target="soonOpeningList" aria-label="이전">‹</button>
@@ -973,6 +1051,7 @@
 // ---- 외부 연동 설정 (나중에 실제 값으로 교체) ----
 // 알림방/오픈채팅 입장 링크. '#'이면 배너 링크는 "준비 중" 토스트만 띄운다.
 const KAKAO_NOTICE_URL = 'https://open.kakao.com/o/pMXysnOi';
+{ const dtn = document.getElementById('dtNoticeLink'); if (dtn && KAKAO_NOTICE_URL && KAKAO_NOTICE_URL !== '#') dtn.href = KAKAO_NOTICE_URL; }
 // 카카오 개발자 콘솔의 JavaScript 키. 비어 있으면 공유 버튼은 에러 없이 "준비 중" 안내만 한다.
 const KAKAO_JAVASCRIPT_KEY = '943ea6757346d1dc6532f9740cc1b822';
 
@@ -2427,9 +2506,11 @@ function renderFavSection() {
 function renderTodayBadge() {
   const n = ROWS.filter(isActive).length;
   const el = document.getElementById('todayBadge');
-  if (!n) { el.hidden = true; return; }
+  const dt = document.getElementById('dtTodayBadge');
+  if (!n) { el.hidden = true; if (dt) dt.hidden = true; return; }
   el.innerHTML = '🔥 오늘 진행 중인 공구 <b>' + n + '</b>개';
   el.hidden = false;
+  if (dt) { dt.innerHTML = '🔥 오늘 진행 중인 공구 <b>' + n + '</b>개'; dt.hidden = false; }
 }
 
 function renderHome() {
@@ -2532,6 +2613,29 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
   filterRows();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+
+// ---------------- 데스크톱 GNB: 섹션으로 부드럽게 이동(검색 중이면 검색을 먼저 비운다) ----------------
+(function () {
+  const nav = document.querySelector('.dt-gnb');
+  if (!nav) return;
+  nav.addEventListener('click', function (e) {
+    const a = e.target.closest('a[data-target]');
+    if (!a) return;
+    e.preventDefault();
+    if (searchInput.value) { searchInput.value = ''; filterRows(); }
+    const t = document.getElementById(a.dataset.target);
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  const logo = document.getElementById('dtLogo');
+  if (logo) logo.addEventListener('click', function (e) {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    searchInput.value = '';
+    filterRows();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
 
 // ---------------- PC 마우스 전용: 화살표 클릭 스크롤 + 드래그 스크롤 ----------------
 // 터치는 이미 네이티브 스와이프가 되므로 여기서는 손대지 않는다. 컨테이너 자체는
