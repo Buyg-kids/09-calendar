@@ -387,6 +387,14 @@
   .wx-when { display: none; }
   @media (min-width: 600px) { .wx-when { display: inline; } }
   @media (min-width: 900px) { .wx-card { top: 12px; left: 8px; font-size: 13px; padding: 7px 14px; } .wx-src { bottom: 8px; right: 14px; font-size: 10px; } }
+  /* ---- 하단 문의/면책/저작권 푸터 ---- */
+  .map-footer { margin: 0; background: #f7f7f9; border-top: 1px solid #e5e7eb; color: #666; }
+  .mf-inner { max-width: 480px; margin: 0 auto; padding: 20px 16px 28px; }
+  .map-footer .mf-contact { margin: 0 0 8px; font-size: 12.5px; line-height: 1.7; }
+  .map-footer .mf-note { margin: 0 0 10px; font-size: 12px; line-height: 1.65; word-break: keep-all; }
+  .map-footer .mf-copy { margin: 0; font-size: 11px; color: #9ca3af; }
+  .map-footer a.mail { color: #777; text-decoration: none; }
+  @media (min-width: 900px) { .mf-inner { max-width: 1240px; padding: 26px 36px 40px; } }
   .deal-apply-btn { text-decoration: none; }
   .deal-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .dm-dday { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; }
@@ -459,6 +467,13 @@
   <div class="sheet-list" id="sheetList"></div>
 </div>
 </div>
+<footer class="map-footer">
+  <div class="mf-inner">
+    <p class="mf-contact">서비스 문의 / 제휴 제안 <a class="mail" href="mailto:ayhkk1@gmail.com">ayhkk1@gmail.com</a></p>
+    <p class="mf-note">BUYG(공구캘린더)는 통신판매중개자로서 통신판매의 당사자가 아니며, 입점 및 제휴 판매자가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.</p>
+    <p class="mf-copy">© 2026 BUYG. All rights reserved.</p>
+  </div>
+</footer>
 <div class="backdrop" id="backdrop"></div>
 
 <div class="map-toast" id="mapToast" role="status" aria-live="polite"></div>
