@@ -9,7 +9,7 @@
 #   Step 4                : GitHub Pages 배포 (index.html을 git add/commit/push)
 #
 # 세 단계 모두 오류 없이 끝나면(exit code 0 이고 로그에 Traceback 없음) index.html을
-# GitHub에 푸시해 웹사이트를 갱신하고 PC를 절전 모드로 전환한다. 하나라도 문제가
+# GitHub에 푸시해 웹사이트를 갱신한다(PC 절전 전환은 2026-10-04 제거). 하나라도 문제가
 # 있으면 (배포도 절전도) 건너뛰고 원인 분석을 위해 로그만 남긴 채 그대로 둔다 -
 # 파이프라인이 실패한 상태의 데이터를 공개 웹사이트에 배포하지 않기 위함이다.
 #
@@ -206,10 +206,11 @@ if ($allOk) {
         Write-Summary "Step 4: 어제와 변경 사항 없음 - 커밋/배포 생략"
     }
 
-    Write-Summary "모든 단계 정상 완료 - 절전 모드로 전환합니다."
-    rundll32.exe powrprof.dll,SetSuspendState 0,1,0
+    # 2026-10-04: OS 절전 진입 제거 - PC가 잠들면 세션 예약 작업(Claude)이 깨어나지 못해서 로그만 남기고 정상 종료한다.
+    # (이전: rundll32.exe powrprof.dll,SetSuspendState 0,1,0)
+    Write-Summary "모든 단계 정상 완료 - 절전 없이 정상 종료합니다."
 } else {
-    Write-Summary ("오류 감지 - 절전 모드로 전환하지 않고 유지합니다. " + `
+    Write-Summary ("오류 감지 - 배포를 건너뛰고 유지합니다. " + `
         "(discoverExit=$discoverExit, pipelineExit=$pipelineExit, " + `
         "discoverTraceback=$discoverHasError, pipelineTraceback=$pipelineHasError)")
 }

@@ -727,7 +727,7 @@
       <button class="refresh-btn" id="refreshBtn" type="button" aria-label="새로고침"><span>↻</span></button>
       <a class="logo" href="./" id="homeLink" aria-label="Buyg 홈으로 이동">Buyg</a>
       <div class="brand-main">0~7세 아이 성장에 맞춘, 똑똑한 육아 공구 달력</div>
-      <div class="brand-sub">매일 자정 업데이트되는 인스타 최저가</div>
+      <div class="brand-sub">매일 자정 업데이트되는 인스타 최저가 모아보기</div>
       <div class="today-badge" id="todayBadge" hidden></div>
     </div>
     <header class="app-header">
@@ -1248,6 +1248,22 @@ function shareDescription(row) {
     : (needsPrefix ? '공구가 ' + info.text : info.text);
   return (first + '\n' + row.date_label + ' 진행' + (row.influencer_label ? ' · ' + row.influencer_label : '')).slice(0, 200);
 }
+// 카카오톡 공유 제목: 핵심 상품명 + 마감 상태 뱃지(D-day가 있을 때만)
+function shareTitle(row) {
+  const start = parseDate(row.start_date);
+  const end = parseDate(row.end_date) || start;
+  let badge = '';
+  if (start && start > TODAY) badge = '[D-' + daysBetween(start, TODAY) + ' 오픈예정] ';
+  else if (end) {
+    const left = daysBetween(end, TODAY);
+    if (left === 0) badge = '[오늘 마감!] ';
+    else if (left > 0) badge = '[D-' + left + (left <= 7 ? ' 마감임박] ' : ' 마감] ');
+  }
+  const room = Math.max(10, 70 - badge.length);
+  let t = displayTitle(row.product_name);
+  if (t.length > room) t = t.slice(0, room - 1) + '…';
+  return badge + t;
+}
 function shareRow(row) {
   if (!KAKAO_JAVASCRIPT_KEY) {
     console.log('[Buyg] KAKAO_JAVASCRIPT_KEY가 비어 있어 카카오톡 공유는 준비 중입니다.');
@@ -1269,7 +1285,7 @@ function shareRow(row) {
     const buttonLink = { webUrl: url, mobileWebUrl: url };
     Kakao.Share.sendDefault({
       objectType: 'feed',
-      content: { title: row.product_name, description: shareDescription(row), imageUrl: row.image_url || '', link: contentLink },
+      content: { title: shareTitle(row), description: shareDescription(row), imageUrl: row.image_url || '', link: contentLink },
       buttons: [{ title: '공구 보러가기', link: buttonLink }],
     });
   } catch (err) {

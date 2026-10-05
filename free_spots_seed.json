@@ -1,6 +1,6 @@
 {
- "version": "2026-10-03",
- "note": "국공립 무료(상설) 시설 위주 시드. 운영시간·휴관일·예약 여부는 방문 전 확인 필요. 주차·수유실 정보는 일반 정보 기준이라 방문 전 확인 필요.",
+ "version": "2026-10-05",
+ "note": "국공립 무료·저가 시설 위주 시드. 운영시간·휴관일·예약·요금·주차·수유실·유모차 정보는 일반 정보 기준이라 방문 전 확인 필요.",
  "spots": [
   {
    "id": "spot_01",
@@ -12,7 +12,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%A4%91%EC%95%99%EB%B0%95%EB%AC%BC%EA%B4%80%20%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "실내",
    "parking": "주차가능(유료)",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_02",
@@ -24,7 +25,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EB%AF%BC%EC%86%8D%EB%B0%95%EB%AC%BC%EA%B4%80%20%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "주차가능(유료)",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_03",
@@ -36,7 +38,8 @@
    "link": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%8C%80%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_04",
@@ -48,7 +51,8 @@
    "link": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%88%B2",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_05",
@@ -60,7 +64,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EA%B3%BC%EC%B2%9C%20%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%AF%B8%EC%88%A0%EA%B4%80",
    "space_type": "복합",
    "parking": "주차가능(유료)",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_06",
@@ -72,7 +77,8 @@
    "link": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_07",
@@ -84,7 +90,8 @@
    "link": "https://map.naver.com/p/search/%EC%9D%BC%EC%82%B0%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_08",
@@ -96,7 +103,8 @@
    "link": "https://map.naver.com/p/search/%EA%B4%91%EA%B5%90%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_09",
@@ -108,7 +116,8 @@
    "link": "https://map.naver.com/p/search/%EC%9C%A8%EB%8F%99%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_10",
@@ -120,7 +129,8 @@
    "link": "https://map.naver.com/p/search/%EC%9D%B8%EC%B2%9C%EB%8C%80%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_11",
@@ -132,7 +142,8 @@
    "link": "https://map.naver.com/p/search/%EC%86%A1%EB%8F%84%20%EC%84%BC%ED%8A%B8%EB%9F%B4%ED%8C%8C%ED%81%AC",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_12",
@@ -144,7 +155,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%84%B8%EA%B3%84%EB%AC%B8%EC%9E%90%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "실내",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_13",
@@ -156,7 +168,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%B6%98%EC%B2%9C%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_14",
@@ -168,7 +181,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%82%B0%EC%95%85%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_15",
@@ -180,7 +194,8 @@
    "link": "https://map.naver.com/p/search/%EA%B2%BD%ED%8F%AC%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_16",
@@ -192,7 +207,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%B2%AD%EC%A3%BC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_17",
@@ -204,7 +220,8 @@
    "link": "https://map.naver.com/p/search/%EC%83%81%EB%8B%B9%EC%82%B0%EC%84%B1",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": false
   },
   {
    "id": "spot_18",
@@ -216,7 +233,8 @@
    "link": "https://map.naver.com/p/search/%EB%AC%B8%EC%95%94%EC%83%9D%ED%83%9C%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_19",
@@ -228,7 +246,8 @@
    "link": "https://map.naver.com/p/search/%EB%8F%85%EB%A6%BD%EA%B8%B0%EB%85%90%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_20",
@@ -240,7 +259,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EA%B3%B5%EC%A3%BC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_21",
@@ -252,7 +272,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EB%B6%80%EC%97%AC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_22",
@@ -264,7 +285,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%A4%91%EC%95%99%EA%B3%BC%ED%95%99%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_23",
@@ -276,7 +298,8 @@
    "link": "https://map.naver.com/p/search/%ED%95%9C%EB%B0%AD%EC%88%98%EB%AA%A9%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_24",
@@ -288,7 +311,8 @@
    "link": "https://map.naver.com/p/search/%EB%8C%80%ED%86%B5%EB%A0%B9%EA%B8%B0%EB%A1%9D%EA%B4%80",
    "space_type": "실내",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_25",
@@ -300,7 +324,8 @@
    "link": "https://map.naver.com/p/search/%EC%84%B8%EC%A2%85%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_26",
@@ -312,7 +337,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%A0%84%EC%A3%BC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_27",
@@ -324,7 +350,8 @@
    "link": "https://map.naver.com/p/search/%EB%8D%95%EC%A7%84%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_28",
@@ -336,7 +363,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%9D%B5%EC%82%B0%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_29",
@@ -348,7 +376,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EA%B4%91%EC%A3%BC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_30",
@@ -360,7 +389,8 @@
    "link": "https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%ED%98%B8%20%ED%98%B8%EC%88%98%EC%83%9D%ED%83%9C%EC%9B%90",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_31",
@@ -372,7 +402,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EB%82%98%EC%A3%BC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_32",
@@ -384,7 +415,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EA%B2%BD%EC%A3%BC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_33",
@@ -396,7 +428,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EB%8C%80%EA%B5%AC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_34",
@@ -408,7 +441,8 @@
    "link": "https://map.naver.com/p/search/%EC%88%98%EC%84%B1%EB%AA%BB",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_35",
@@ -420,7 +454,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%95%B4%EC%96%91%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "실내",
    "parking": "주차가능(유료)",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_36",
@@ -432,7 +467,8 @@
    "link": "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%8B%9C%EB%AF%BC%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_37",
@@ -444,7 +480,8 @@
    "link": "https://map.naver.com/p/search/%EC%9A%B8%EC%82%B0%EB%8C%80%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_38",
@@ -456,7 +493,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EA%B9%80%ED%95%B4%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_39",
@@ -468,7 +506,8 @@
    "link": "https://map.naver.com/p/search/%EC%9A%A9%EC%A7%80%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
    "space_type": "야외",
    "parking": "주차가능(유료)",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_40",
@@ -480,7 +519,8 @@
    "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%A0%9C%EC%A3%BC%EB%B0%95%EB%AC%BC%EA%B4%80",
    "space_type": "복합",
    "parking": "무료주차",
-   "baby_care": true
+   "baby_care": true,
+   "stroller": true
   },
   {
    "id": "spot_41",
@@ -492,7 +532,8 @@
    "link": "https://map.naver.com/p/search/%ED%95%9C%EB%9D%BC%EC%88%98%EB%AA%A9%EC%9B%90",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": true
   },
   {
    "id": "spot_42",
@@ -504,7 +545,775 @@
    "link": "https://map.naver.com/p/search/%EC%82%AC%EB%A0%A4%EB%8B%88%EC%88%B2%EA%B8%B8",
    "space_type": "야외",
    "parking": "무료주차",
-   "baby_care": false
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_43",
+   "region": "서울",
+   "title": "국립한글박물관",
+   "category": "박물관/체험",
+   "address": "서울 용산구 서빙고로 139",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B8%80%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "주차가능(유료)",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_44",
+   "region": "서울",
+   "title": "올림픽공원",
+   "category": "공원/산책",
+   "address": "서울 송파구 올림픽로 424",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%98%AC%EB%A6%BC%ED%94%BD%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_45",
+   "region": "서울",
+   "title": "북서울꿈의숲",
+   "category": "공원/산책",
+   "address": "서울 강북구 월계로 173",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%B6%81%EC%84%9C%EC%9A%B8%EA%BF%88%EC%9D%98%EC%88%B2",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_46",
+   "region": "서울",
+   "title": "보라매공원",
+   "category": "공원/놀이터",
+   "address": "서울 동작구 상도로 425",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%B3%B4%EB%9D%BC%EB%A7%A4%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_47",
+   "region": "서울",
+   "title": "서울식물원",
+   "category": "식물원/산책",
+   "address": "서울 강서구 마곡동로 161",
+   "tag": "일부 유료(저렴)",
+   "link": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%8B%9D%EB%AC%BC%EC%9B%90",
+   "space_type": "복합",
+   "parking": "주차가능(유료)",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_48",
+   "region": "서울",
+   "title": "서울공예박물관",
+   "category": "박물관/체험",
+   "address": "서울 종로구 율곡로3길 4",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EA%B3%B5%EC%98%88%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "주차불가/대중교통",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_49",
+   "region": "서울",
+   "title": "서울역사박물관",
+   "category": "박물관",
+   "address": "서울 종로구 새문안로 55",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%97%AD%EC%82%AC%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "주차가능(유료)",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_50",
+   "region": "서울",
+   "title": "월드컵공원",
+   "category": "공원/생태",
+   "address": "서울 마포구 하늘공원로 95",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_51",
+   "region": "서울",
+   "title": "선유도공원",
+   "category": "공원/생태",
+   "address": "서울 영등포구 선유로 343",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%84%A0%EC%9C%A0%EB%8F%84%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차불가/대중교통",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_52",
+   "region": "서울",
+   "title": "청계천",
+   "category": "산책/물놀이",
+   "address": "서울 종로구 청계천로",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%B2%AD%EA%B3%84%EC%B2%9C",
+   "space_type": "야외",
+   "parking": "주차불가/대중교통",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_53",
+   "region": "경기",
+   "title": "안산 갈대습지공원",
+   "category": "공원/생태",
+   "address": "경기 안산시 단원구 동산로 268",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%95%88%EC%82%B0%20%EA%B0%88%EB%8C%80%EC%8A%B5%EC%A7%80%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_54",
+   "region": "경기",
+   "title": "시흥 갯골생태공원",
+   "category": "공원/생태",
+   "address": "경기 시흥시 동서로 287",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%8B%9C%ED%9D%A5%20%EA%B0%AF%EA%B3%A8%EC%83%9D%ED%83%9C%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_55",
+   "region": "경기",
+   "title": "임진각 평화누리",
+   "category": "공원/전시",
+   "address": "경기 파주시 문산읍 임진각로 148",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%9E%84%EC%A7%84%EA%B0%81%20%ED%8F%89%ED%99%94%EB%88%84%EB%A6%AC",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_56",
+   "region": "경기",
+   "title": "의왕 왕송호수공원",
+   "category": "공원/산책",
+   "address": "경기 의왕시 왕송못동로 107",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%9D%98%EC%99%95%20%EC%99%95%EC%86%A1%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_57",
+   "region": "경기",
+   "title": "국립수목원(광릉)",
+   "category": "수목원/숲길",
+   "address": "경기 포천시 소흘읍 광릉수목원로 509",
+   "tag": "일부 유료(저렴)",
+   "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%88%98%EB%AA%A9%EC%9B%90%28%EA%B4%91%EB%A6%89%29",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_58",
+   "region": "경기",
+   "title": "파주 헤이리예술마을",
+   "category": "전시/산책",
+   "address": "경기 파주시 탄현면 헤이리마을길",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%8C%8C%EC%A3%BC%20%ED%97%A4%EC%9D%B4%EB%A6%AC%EC%98%88%EC%88%A0%EB%A7%88%EC%9D%84",
+   "space_type": "복합",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_59",
+   "region": "경기",
+   "title": "남한산성",
+   "category": "역사/산책",
+   "address": "경기 광주시 남한산성면 산성리",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%82%A8%ED%95%9C%EC%82%B0%EC%84%B1",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_60",
+   "region": "인천",
+   "title": "월미공원",
+   "category": "공원/산책",
+   "address": "인천 중구 월미문화로",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%9B%94%EB%AF%B8%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_61",
+   "region": "인천",
+   "title": "청라호수공원",
+   "category": "공원/산책",
+   "address": "인천 서구 청라동",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%B2%AD%EB%9D%BC%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_62",
+   "region": "인천",
+   "title": "소래습지생태공원",
+   "category": "공원/생태",
+   "address": "인천 남동구 소래로",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%86%8C%EB%9E%98%EC%8A%B5%EC%A7%80%EC%83%9D%ED%83%9C%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_63",
+   "region": "강원",
+   "title": "속초 영랑호",
+   "category": "호수/산책",
+   "address": "강원 속초시 영랑호반길",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%20%EC%98%81%EB%9E%91%ED%98%B8",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_64",
+   "region": "강원",
+   "title": "강릉 오죽헌",
+   "category": "역사/산책",
+   "address": "강원 강릉시 율곡로3139번길 24",
+   "tag": "일부 유료(저렴)",
+   "link": "https://map.naver.com/p/search/%EA%B0%95%EB%A6%89%20%EC%98%A4%EC%A3%BD%ED%97%8C",
+   "space_type": "복합",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_65",
+   "region": "강원",
+   "title": "춘천 공지천",
+   "category": "공원/산책",
+   "address": "강원 춘천시 공지로",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%B6%98%EC%B2%9C%20%EA%B3%B5%EC%A7%80%EC%B2%9C",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_66",
+   "region": "강원",
+   "title": "월정사 전나무숲길",
+   "category": "숲길/생태",
+   "address": "강원 평창군 진부면 오대산로 374-8",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%9B%94%EC%A0%95%EC%82%AC%20%EC%A0%84%EB%82%98%EB%AC%B4%EC%88%B2%EA%B8%B8",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_67",
+   "region": "충북",
+   "title": "단양 도담삼봉",
+   "category": "명소/산책",
+   "address": "충북 단양군 매포읍 삼봉로 644",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%8B%A8%EC%96%91%20%EB%8F%84%EB%8B%B4%EC%82%BC%EB%B4%89",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_68",
+   "region": "충북",
+   "title": "제천 의림지",
+   "category": "호수/산책",
+   "address": "충북 제천시 의림대로",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%A0%9C%EC%B2%9C%20%EC%9D%98%EB%A6%BC%EC%A7%80",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_69",
+   "region": "충북",
+   "title": "청주고인쇄박물관",
+   "category": "박물관/체험",
+   "address": "충북 청주시 흥덕구 직지대로 713",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%B2%AD%EC%A3%BC%EA%B3%A0%EC%9D%B8%EC%87%84%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_70",
+   "region": "충남",
+   "title": "아산 현충사",
+   "category": "역사/산책",
+   "address": "충남 아산시 염치읍 현충사길 126",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%95%84%EC%82%B0%20%ED%98%84%EC%B6%A9%EC%82%AC",
+   "space_type": "복합",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_71",
+   "region": "충남",
+   "title": "부여 궁남지",
+   "category": "연못/산책",
+   "address": "충남 부여군 부여읍 남궁로 52",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%B6%80%EC%97%AC%20%EA%B6%81%EB%82%A8%EC%A7%80",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_72",
+   "region": "충남",
+   "title": "서산 해미읍성",
+   "category": "역사/산책",
+   "address": "충남 서산시 해미면 읍성로 143",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%84%9C%EC%82%B0%20%ED%95%B4%EB%AF%B8%EC%9D%8D%EC%84%B1",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_73",
+   "region": "충남",
+   "title": "보령 대천해수욕장",
+   "category": "해변/물놀이",
+   "address": "충남 보령시 신흑동",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%B3%B4%EB%A0%B9%20%EB%8C%80%EC%B2%9C%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_74",
+   "region": "대전/세종",
+   "title": "대전 엑스포과학공원",
+   "category": "공원/산책",
+   "address": "대전 유성구 대덕대로 480",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%20%EC%97%91%EC%8A%A4%ED%8F%AC%EA%B3%BC%ED%95%99%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_75",
+   "region": "대전/세종",
+   "title": "화폐박물관",
+   "category": "박물관/체험",
+   "address": "대전 유성구 과학로 80-67",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%99%94%ED%8F%90%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_76",
+   "region": "대전/세종",
+   "title": "국립지질박물관",
+   "category": "박물관/체험",
+   "address": "대전 유성구 과학로 124",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%A7%80%EC%A7%88%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_77",
+   "region": "대전/세종",
+   "title": "국립세종도서관",
+   "category": "도서관/어린이",
+   "address": "세종 다솜3로 48",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%EC%84%B8%EC%A2%85%EB%8F%84%EC%84%9C%EA%B4%80",
+   "space_type": "실내",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_78",
+   "region": "전북",
+   "title": "전주 한옥마을",
+   "category": "명소/산책",
+   "address": "전북 전주시 완산구 기린대로 99",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%A0%84%EC%A3%BC%20%ED%95%9C%EC%98%A5%EB%A7%88%EC%9D%84",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_79",
+   "region": "전북",
+   "title": "김제 벽골제",
+   "category": "역사/산책",
+   "address": "전북 김제시 부량면 벽골제로 442",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EA%B9%80%EC%A0%9C%20%EB%B2%BD%EA%B3%A8%EC%A0%9C",
+   "space_type": "복합",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_80",
+   "region": "전북",
+   "title": "군산 은파호수공원",
+   "category": "공원/산책",
+   "address": "전북 군산시 은파로",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EA%B5%B0%EC%82%B0%20%EC%9D%80%ED%8C%8C%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_81",
+   "region": "전남/광주",
+   "title": "담양 죽녹원",
+   "category": "숲길/산책",
+   "address": "전남 담양군 담양읍 죽녹원로 119",
+   "tag": "일부 유료(저렴)",
+   "link": "https://map.naver.com/p/search/%EB%8B%B4%EC%96%91%20%EC%A3%BD%EB%85%B9%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_82",
+   "region": "전남/광주",
+   "title": "여수 오동도",
+   "category": "공원/산책",
+   "address": "전남 여수시 오동도로 222",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%97%AC%EC%88%98%20%EC%98%A4%EB%8F%99%EB%8F%84",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_83",
+   "region": "전남/광주",
+   "title": "광주 5·18민주공원",
+   "category": "공원/역사",
+   "address": "광주 서구 상무민주로 61",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%205%C2%B718%EB%AF%BC%EC%A3%BC%EA%B3%B5%EC%9B%90",
+   "space_type": "복합",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_84",
+   "region": "경북/대구",
+   "title": "대구 두류공원",
+   "category": "공원/산책",
+   "address": "대구 달서구 공원순환로 36",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%8C%80%EA%B5%AC%20%EB%91%90%EB%A5%98%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_85",
+   "region": "경북/대구",
+   "title": "대구 앞산공원",
+   "category": "공원/산책",
+   "address": "대구 남구 앞산순환로 574",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%8C%80%EA%B5%AC%20%EC%95%9E%EC%82%B0%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_86",
+   "region": "경북/대구",
+   "title": "포항 영일대해수욕장",
+   "category": "해변/산책",
+   "address": "경북 포항시 북구 두호동",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%8F%AC%ED%95%AD%20%EC%98%81%EC%9D%BC%EB%8C%80%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_87",
+   "region": "경남/부산/울산",
+   "title": "부산어린이대공원",
+   "category": "공원/놀이터",
+   "address": "부산 부산진구 새싹로 295",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%8C%80%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_88",
+   "region": "경남/부산/울산",
+   "title": "UN평화공원",
+   "category": "공원/역사",
+   "address": "부산 남구 유엔평화로 93",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/UN%ED%8F%89%ED%99%94%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_89",
+   "region": "경남/부산/울산",
+   "title": "다대포해변공원",
+   "category": "해변/물놀이",
+   "address": "부산 사하구 다대동",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EB%8B%A4%EB%8C%80%ED%8F%AC%ED%95%B4%EB%B3%80%EA%B3%B5%EC%9B%90",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_90",
+   "region": "경남/부산/울산",
+   "title": "광안리해수욕장",
+   "category": "해변/산책",
+   "address": "부산 수영구 광안해변로 219",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EA%B4%91%EC%95%88%EB%A6%AC%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_91",
+   "region": "경남/부산/울산",
+   "title": "해운대해수욕장",
+   "category": "해변/산책",
+   "address": "부산 해운대구 해운대해변로 264",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%95%B4%EC%9A%B4%EB%8C%80%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5",
+   "space_type": "야외",
+   "parking": "주차가능(유료)",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_92",
+   "region": "경남/부산/울산",
+   "title": "태화강 국가정원",
+   "category": "정원/산책",
+   "address": "울산 중구 태화강국가정원길 154",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%83%9C%ED%99%94%EA%B0%95%20%EA%B5%AD%EA%B0%80%EC%A0%95%EC%9B%90",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_93",
+   "region": "경남/부산/울산",
+   "title": "장생포고래박물관",
+   "category": "박물관/체험",
+   "address": "울산 남구 장생포고래로 244",
+   "tag": "일부 유료(저렴)",
+   "link": "https://map.naver.com/p/search/%EC%9E%A5%EC%83%9D%ED%8F%AC%EA%B3%A0%EB%9E%98%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_94",
+   "region": "경남/부산/울산",
+   "title": "창원 주남저수지",
+   "category": "생태/산책",
+   "address": "경남 창원시 의창구 동읍 주남저수지",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%B0%BD%EC%9B%90%20%EC%A3%BC%EB%82%A8%EC%A0%80%EC%88%98%EC%A7%80",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_95",
+   "region": "경남/부산/울산",
+   "title": "통영 동피랑마을",
+   "category": "명소/산책",
+   "address": "경남 통영시 동피랑1길",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%86%B5%EC%98%81%20%EB%8F%99%ED%94%BC%EB%9E%91%EB%A7%88%EC%9D%84",
+   "space_type": "야외",
+   "parking": "주차불가/대중교통",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_96",
+   "region": "제주",
+   "title": "협재해수욕장",
+   "category": "해변/물놀이",
+   "address": "제주 제주시 한림읍 협재리",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%98%91%EC%9E%AC%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_97",
+   "region": "제주",
+   "title": "함덕해수욕장",
+   "category": "해변/물놀이",
+   "address": "제주 제주시 조천읍 함덕리",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%ED%95%A8%EB%8D%95%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_98",
+   "region": "제주",
+   "title": "제주 용두암",
+   "category": "명소/산책",
+   "address": "제주 제주시 용담이동",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%A0%9C%EC%A3%BC%20%EC%9A%A9%EB%91%90%EC%95%94",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
+  },
+  {
+   "id": "spot_99",
+   "region": "제주",
+   "title": "새별오름",
+   "category": "오름/자연",
+   "address": "제주 제주시 애월읍 봉성리",
+   "tag": "무료입장",
+   "link": "https://map.naver.com/p/search/%EC%83%88%EB%B3%84%EC%98%A4%EB%A6%84",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": false
+  },
+  {
+   "id": "spot_100",
+   "region": "제주",
+   "title": "제주민속자연사박물관",
+   "category": "박물관/체험",
+   "address": "제주 제주시 일주동로 40",
+   "tag": "일부 유료(저렴)",
+   "link": "https://map.naver.com/p/search/%EC%A0%9C%EC%A3%BC%EB%AF%BC%EC%86%8D%EC%9E%90%EC%97%B0%EC%82%AC%EB%B0%95%EB%AC%BC%EA%B4%80",
+   "space_type": "실내",
+   "parking": "무료주차",
+   "baby_care": true,
+   "stroller": true
+  },
+  {
+   "id": "spot_101",
+   "region": "제주",
+   "title": "절물자연휴양림",
+   "category": "숲길/생태",
+   "address": "제주 제주시 명림로 584",
+   "tag": "일부 유료(저렴)",
+   "link": "https://map.naver.com/p/search/%EC%A0%88%EB%AC%BC%EC%9E%90%EC%97%B0%ED%9C%B4%EC%96%91%EB%A6%BC",
+   "space_type": "야외",
+   "parking": "무료주차",
+   "baby_care": false,
+   "stroller": true
   }
  ]
 }
