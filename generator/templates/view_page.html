@@ -962,9 +962,9 @@
       </div>
       <nav class="dt-gnb" aria-label="주요 메뉴">
         <a href="#sec-category" data-target="sec-category">카테고리</a>
-        <a href="#popularSection" data-target="popularSection">이번 주 인기</a>
+        <a href="#popularSection" data-target="popularSection">인기공구</a>
         <a href="#sec-closing" data-target="sec-closing">마감임박</a>
-        <a href="#sec-soon" data-target="sec-soon">곧 오픈</a>
+        <a href="#sec-soon" data-target="sec-soon">오픈예정</a>
         <a href="map.html">아이와 나들이</a>
       </nav>
     </header>
@@ -1007,7 +1007,7 @@
 
       <div id="regularSections">
       <section class="section" id="popularSection">
-        <div class="section-head"><h2>🏆 이번 주 인기 공구</h2><span class="sub">팔로워 · 동시진행 · 마감 기준</span></div>
+        <div class="section-head"><h2>🏆 인기공구</h2><span class="sub">팔로워 · 동시진행 · 마감 기준</span></div>
         <div class="rank-pager" id="popularList"></div>
         <div class="rank-dots" id="popularDots"></div>
       </section>
@@ -1036,7 +1036,7 @@
       </section>
 
       <section class="section" id="sec-soon">
-        <div class="section-head"><h2>✨ 곧 오픈하는 공구</h2></div>
+        <div class="section-head"><h2>✨ 오픈예정</h2></div>
         <div class="hscroll-wrap">
           <button type="button" class="scroll-arrow arrow-left" data-target="soonOpeningList" aria-label="이전">‹</button>
           <div class="hscroll" id="soonOpeningList"></div>
@@ -1850,7 +1850,7 @@ function renderSoonOpening(rows, usedIds) {
   const el = document.getElementById('soonOpeningList');
   el.innerHTML = '';
   if (!list.length) {
-    el.innerHTML = '<div class="empty-note">곧 오픈 예정인 공구가 아직 없어요.</div>';
+    el.innerHTML = '<div class="empty-note">오픈예정 공구가 아직 없어요.</div>';
     return;
   }
   list.forEach(function (row) {
