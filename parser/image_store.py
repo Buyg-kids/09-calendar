@@ -90,12 +90,23 @@ def _fresh_image_map() -> dict[str, str]:
     return fresh
 
 
-def _download(url: str) -> bytes | None:
+def _download(url: str, fails: dict | None = None) -> bytes | None:
+    """이미지를 받아 bytes로 반환. 실패하면 None - fails(dict)가 있으면 원인별로 센다
+    (403/404/other_status/bad_type/exception). 로그엔 요약만 남긴다(URL은 서명 토큰이라 찍지 않음)."""
+    def _count(reason: str) -> None:
+        if fails is not None:
+            fails[reason] = fails.get(reason, 0) + 1
+
     try:
         resp = requests.get(url, headers=_DOWNLOAD_HEADERS, timeout=_DOWNLOAD_TIMEOUT_SEC)
     except requests.RequestException:
+        _count("exception")
         return None
-    if resp.status_code != 200 or not resp.headers.get("Content-Type", "").startswith("image/"):
+    if resp.status_code != 200:
+        _count(str(resp.status_code) if resp.status_code in (403, 404) else "other_status")
+        return None
+    if not resp.headers.get("Content-Type", "").startswith("image/"):
+        _count("bad_type")
         return None
     return resp.content
 
@@ -170,9 +181,40 @@ def cleanup_expired(rows: list[dict], today: date) -> dict:
     return stats
 
 
+def _brand_fallback(today: date, fresh_codes: set[str]) -> int:
+    """끝까지 이미지를 못 구한(플레이스홀더) 행에, 같은 인플루언서 + 같은 브랜드로 이미 올라간 다른
+    행의 이미지를 빌려 쓴다. 같은 상품이 아니라 "같은 브랜드" 이미지이므로 brand가 비어 있으면 건너뛴다.
+    - 빌린 행은 같은 cloudinary_public_id를 가리킨다. cleanup_expired는 보관기간 안의 다른 행이 쓰는
+      public_id는 destroy하지 않으므로(모든 행이 만료돼야 삭제) 공유해도 안전하다.
+    - 오늘 밤 새로 캡처된 게시물(fresh_codes)은 다운로드 실패가 일시적일 수 있어 건너뛴다(다음 밤 재시도).
+    반환: 구제한 행 수."""
+    cutoff = (today - timedelta(days=IMAGE_RETENTION_DAYS)).isoformat()
+    rows = [r for r in gonggu_db.list_image_rows() if not (_effective_end(r) and _effective_end(r) < cutoff)]
+    donors: dict[tuple[str, str], dict] = {}
+    for r in rows:
+        brand = (r.get("brand") or "").strip()
+        if brand and r.get("cloudinary_public_id") and r.get("image_url") not in (IMAGE_PLACEHOLDER_URL, IMAGE_ENDED_PLACEHOLDER_URL):
+            key = (r["influencer_name"], brand)
+            if key not in donors or (r.get("start_date") or "") > (donors[key].get("start_date") or ""):
+                donors[key] = r
+    reused = 0
+    for r in rows:
+        brand = (r.get("brand") or "").strip()
+        if not brand or r.get("image_url") != IMAGE_PLACEHOLDER_URL or r.get("cloudinary_public_id"):
+            continue
+        if _shortcode(r.get("post_url") or "") in fresh_codes:
+            continue
+        donor = donors.get((r["influencer_name"], brand))
+        if donor:
+            gonggu_db.set_image([r["id"]], donor["image_url"], donor["cloudinary_public_id"])
+            reused += 1
+    return reused
+
+
 def sync_images(rows: list[dict], today: date) -> dict:
     """보관 기간 안의 공구 중 아직 Cloudinary로 안 옮긴 게시물 이미지를 업로드한다."""
-    stats = {"uploaded": 0, "reused": 0, "placeholder": 0, "upload_failed": 0, "aborted": False}
+    stats = {"uploaded": 0, "reused": 0, "placeholder": 0, "upload_failed": 0, "aborted": False,
+             "no_source": 0, "brand_reused": 0, "download_failed": 0, "no_candidate": 0, "dl_fails": {}}
     cutoff = (today - timedelta(days=IMAGE_RETENTION_DAYS)).isoformat()
     active = [r for r in rows if not (_effective_end(r) and _effective_end(r) < cutoff)]
     fresh = _fresh_image_map()
@@ -190,6 +232,8 @@ def sync_images(rows: list[dict], today: date) -> dict:
     if no_source:
         gonggu_db.set_image(no_source, IMAGE_PLACEHOLDER_URL, "")
         stats["placeholder"] += len(no_source)
+    # 원본 게시물이 없어 이미지를 구할 수 없는 행 수(이미 플레이스홀더인 행 포함, 브랜드 폴백 전 기준)
+    stats["no_source"] = sum(1 for r in active if not _shortcode(r.get("post_url") or "") and not r.get("cloudinary_public_id"))
 
     consecutive_errors = 0
     for code, group in by_code.items():
@@ -205,12 +249,16 @@ def sync_images(rows: list[dict], today: date) -> dict:
         candidates = list(dict.fromkeys(u for u in candidates if _is_insta_cdn(u)))
         data = None
         for url in candidates:
-            data = _download(url)
+            data = _download(url, stats["dl_fails"])
             if data:
                 break
 
         ids = [r["id"] for r in group]
         if not data:
+            if candidates:
+                stats["download_failed"] += 1   # 시도했는데 못 받은 게시물
+            else:
+                stats["no_candidate"] += 1      # 시도할 인스타 URL 자체가 없음(만료돼 플레이스홀더로 바뀐 뒤 재수집 안 됨)
             stale = [r["id"] for r in group if r.get("image_url") != IMAGE_PLACEHOLDER_URL]
             if stale:
                 gonggu_db.set_image(stale, IMAGE_PLACEHOLDER_URL, "")
@@ -234,6 +282,7 @@ def sync_images(rows: list[dict], today: date) -> dict:
         stats["uploaded"] += 1
         time.sleep(_REQUEST_INTERVAL_SEC)
 
+    stats["brand_reused"] = _brand_fallback(today, set(fresh))
     return stats
 
 
@@ -252,6 +301,14 @@ def run(today: date | None = None) -> dict:
         stats["uploaded"], stats["reused"], stats["placeholder"], stats["upload_failed"],
         stats["expired_rows"], stats["destroyed"], stats["destroy_failed"],
         " - 연속 실패로 중단됨" if stats["aborted"] else "",
+    )
+    f = stats.get("dl_fails") or {}
+    logger.info(
+        "[이미지보관] 다운로드 실패 %d건 (403: %d, 404: %d, 기타: %d, 예외: %d, 비이미지: %d) / 실패 게시물 %d개 / "
+        "재시도할 URL 없음 %d개 / 원본 없음 %d건 / 브랜드 재사용 %d건",
+        sum(f.values()), f.get("403", 0), f.get("404", 0), f.get("other_status", 0), f.get("exception", 0),
+        f.get("bad_type", 0), stats.get("download_failed", 0), stats.get("no_candidate", 0),
+        stats.get("no_source", 0), stats.get("brand_reused", 0),
     )
     return stats
 

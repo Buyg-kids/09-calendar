@@ -1285,7 +1285,7 @@ function shareRow(row) {
     const buttonLink = { webUrl: url, mobileWebUrl: url };
     Kakao.Share.sendDefault({
       objectType: 'feed',
-      content: { title: shareTitle(row), description: shareDescription(row), imageUrl: row.image_url || '', link: contentLink },
+      content: { title: shareTitle(row), description: shareDescription(row), imageUrl: isPlaceholderUrl(row.image_url) ? '' : (row.image_url || ''), link: contentLink },
       buttons: [{ title: '공구 보러가기', link: buttonLink }],
     });
   } catch (err) {
@@ -1324,13 +1324,21 @@ function matchesChip(row, chip) {
   return chip.keywords.some(function (kw) { return hay.indexOf(kw.toLowerCase()) !== -1; });
 }
 
-function placeholderDataUri(category) {
+// 끝까지 이미지를 못 구한 카드(Buyg 기본 로고 URL)는 카테고리 색 + 이모지 타일로 대신 그린다.
+function isPlaceholderUrl(u) { return /icons\/placeholder-buyg\.png/.test(u || ''); }
+function placeholderDataUri(category, color) {
   const emoji = CATEGORY_EMOJI[category] || '🛍️';
+  const tint = /^#[0-9a-fA-F]{6}$/.test(color || '') ? color : '#9b7bb8';
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">'
-    + '<rect width="100%" height="100%" fill="#ede5f3"/>'
-    + '<text x="50%" y="52%" font-size="90" text-anchor="middle" dominant-baseline="middle">' + emoji + '</text>'
+    + '<rect width="100%" height="100%" fill="#ffffff"/>'
+    + '<rect width="100%" height="100%" fill="' + tint + '" fill-opacity="0.2"/>'
+    + '<circle cx="150" cy="150" r="92" fill="#ffffff" fill-opacity="0.55"/>'
+    + '<text x="50%" y="52%" font-size="96" text-anchor="middle" dominant-baseline="middle">' + emoji + '</text>'
     + '</svg>';
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+function imgSrcFor(row) {
+  return (!row.image_url || isPlaceholderUrl(row.image_url)) ? placeholderDataUri(row.category, row.color) : row.image_url;
 }
 
 function makeThumb(row, className) {
@@ -1339,8 +1347,8 @@ function makeThumb(row, className) {
   const img = document.createElement('img');
   img.loading = 'lazy';
   img.alt = row.product_name || '';
-  img.src = row.image_url || placeholderDataUri(row.category);
-  img.onerror = function () { this.onerror = null; this.src = placeholderDataUri(row.category); };
+  img.src = imgSrcFor(row);
+  img.onerror = function () { this.onerror = null; this.src = placeholderDataUri(row.category, row.color); };
   wrap.appendChild(img);
   // 카드 전체가 이미 구매링크로 가는 <a>라 그 안에 또 <a>를 중첩할 수 없다
   // (중첩 앵커는 무효한 HTML - 클릭 동작이 브라우저마다 달라짐). 대신 <span>에
@@ -1650,8 +1658,8 @@ function makeImg(row) {
   const img = document.createElement('img');
   img.loading = 'lazy';
   img.alt = row.product_name || '';
-  img.src = row.image_url || placeholderDataUri(row.category);
-  img.onerror = function () { this.onerror = null; this.src = placeholderDataUri(row.category); };
+  img.src = imgSrcFor(row);
+  img.onerror = function () { this.onerror = null; this.src = placeholderDataUri(row.category, row.color); };
   return img;
 }
 function makeListThumb(row, withFav) {
@@ -1842,7 +1850,7 @@ function creatorLiveItems(handle) {
     .sort(function (a, b) { return (a.end_date || a.start_date || '').localeCompare(b.end_date || b.start_date || ''); })
     .slice(0, 8).map(function (r) {
       const dd = ddayInfo(r);
-      return { title: displayTitle(r.product_name), img: r.image_url || '', badge: dd.label, hot: dd.cls === 'hot', sub: periodLabel(r), onClick: function () { openDealModal(r); } };
+      return { title: displayTitle(r.product_name), img: isPlaceholderUrl(r.image_url) ? placeholderDataUri(r.category, r.color) : (r.image_url || ''), badge: dd.label, hot: dd.cls === 'hot', sub: periodLabel(r), onClick: function () { openDealModal(r); } };
     });
 }
 function fillDealSheet(row) {

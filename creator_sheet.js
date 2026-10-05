@@ -74,7 +74,7 @@
   }
   function thumb(url) {
     var t = el('div', 'cs-thumb');
-    if (url) { var i = document.createElement('img'); i.alt = ''; i.loading = 'lazy'; i.src = url; i.onerror = function () { i.remove(); }; t.appendChild(i); }
+    if (url && url.indexOf('/icons/placeholder-') < 0) { var i = document.createElement('img'); i.alt = ''; i.loading = 'lazy'; i.src = url; i.onerror = function () { i.remove(); }; t.appendChild(i); }
     return t;
   }
   function dt(s) { return typeof window.displayTitle === 'function' ? window.displayTitle(s) : s; }

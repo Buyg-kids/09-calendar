@@ -150,7 +150,7 @@ def list_image_rows() -> list[dict[str, Any]]:
     """이미지 동기화/정리(parser/image_store.py)에 필요한 최소 컬럼만 전체 조회."""
     with get_conn() as conn:
         rows = conn.execute(
-            "SELECT id, start_date, end_date, image_url, post_url, cloudinary_public_id FROM gonggu"
+            "SELECT id, influencer_name, brand, start_date, end_date, image_url, post_url, cloudinary_public_id FROM gonggu"
         ).fetchall()
         return [dict(r) for r in rows]
 

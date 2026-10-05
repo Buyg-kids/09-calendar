@@ -665,6 +665,18 @@ function displayTitle(name) {
   return t;
 }
 
+// 이미지를 못 구한 공구(Buyg 기본 로고 URL/빈 값)는 구분 색 + 이모지 타일로 대신 그린다.
+function isPlaceholderUrl(u) { return /icons\/placeholder-buyg\.png/.test(u || ''); }
+function tileFor(d) {
+  const stay = d.sub_category === 'stay';
+  const emoji = stay ? '🧳' : '🎠', tint = stay ? '#4f7cff' : '#ff8a3d';
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="100%" height="100%" fill="#fff"/>'
+    + '<rect width="100%" height="100%" fill="' + tint + '" fill-opacity="0.2"/><circle cx="150" cy="150" r="92" fill="#fff" fill-opacity="0.55"/>'
+    + '<text x="50%" y="52%" font-size="96" text-anchor="middle" dominant-baseline="middle">' + emoji + '</text></svg>';
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+function imgOf(d) { return (!d.image_url || isPlaceholderUrl(d.image_url)) ? tileFor(d) : d.image_url; }
+
 // ---- 공구 상세 모달 (index.html 상세 시트와 같은 구조/톤) ----
 const PLAY_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
 function mkEl(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -691,7 +703,7 @@ function creatorLive(handle) {
   const h = (handle || '').toLowerCase();
   return deals.filter(x => (x.influencer_handle || '').toLowerCase() === h && isLive(x)).slice(0, 8).map(x => {
     const dd = ddayLabel(x);
-    return { title: displayTitle(x.product_name), img: x.image_url || '', badge: dd.t, hot: dd.hot, sub: [x.region, x.place_name].filter(Boolean).join(' · '), onClick: () => openDealDetail(x) };
+    return { title: displayTitle(x.product_name), img: imgOf(x), badge: dd.t, hot: dd.hot, sub: [x.region, x.place_name].filter(Boolean).join(' · '), onClick: () => openDealDetail(x) };
   });
 }
 let dealOpenRow = null, dealPushed = false;
@@ -706,7 +718,7 @@ function openDealDetail(d) {
   const isReel = /instagram\.com\/reel\//.test(d.post_url || '');
   const media = mkEl(d.post_url ? 'a' : 'div', 'deal-media');
   if (d.post_url) { media.href = d.post_url; media.target = '_blank'; media.rel = 'noopener'; media.addEventListener('click', () => trackOutbound(d, d.post_url, 'map_detail_media')); }
-  if (d.image_url) { const img = document.createElement('img'); img.alt = d.product_name || ''; img.src = d.image_url; img.onerror = () => img.remove(); media.appendChild(img); }
+  { const img = document.createElement('img'); img.alt = d.product_name || ''; img.src = imgOf(d); img.onerror = () => { img.onerror = null; img.src = tileFor(d); }; media.appendChild(img); }
   if (isReel) { const p = mkEl('span', 'dm-play'); p.innerHTML = PLAY_SVG; media.appendChild(p); }
   if (d.post_url) media.appendChild(mkEl('span', 'deal-media-link', (isReel ? '릴스' : '게시물') + ' 보기 ↗'));
   scroll.appendChild(media);
@@ -862,13 +874,13 @@ function renderSheetBody() {
     const dd = ddayLabel(d);
     const price = priceText(d);
     a.innerHTML = `
-      <div class="thumb">${d.image_url ? `<img loading="lazy" alt="">` : ''}</div>
+      <div class="thumb"><img loading="lazy" alt=""></div>
       <div class="body">
         <div class="row1"><span class="dday ${dd.hot ? 'hot' : ''}"></span><span class="name"></span></div>
         <div class="place"></div>
         <div class="meta"><span class="handle"></span>${price ? '<span class="price"></span>' : '<span class="chip">공구가 링크 확인</span>'}</div>
       </div>`;
-    if (d.image_url) a.querySelector('img').src = d.image_url;
+    { const im = a.querySelector('img'); im.src = imgOf(d); im.onerror = () => { im.onerror = null; im.src = tileFor(d); }; }
     a.querySelector('.dday').textContent = dd.t;
     a.querySelector('.name').textContent = displayTitle(d.product_name);
     a.querySelector('.place').textContent = '📍 ' + [d.region, d.place_name].filter(Boolean).join(' · ');
