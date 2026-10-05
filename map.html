@@ -379,6 +379,11 @@
   .wx-src { position: absolute; bottom: 6px; right: 16px; z-index: 4; font-size: 10px; color: #9ca3af; opacity: 0.75; text-decoration: none; }
   .wx-src[hidden] { display: none; }
   .wx-src:hover { opacity: 1; }
+  .sheet-wx { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; max-width: 100%; padding: 5px 11px; border: 1px solid #ececf1; border-radius: 999px; background: #faf7fd; font-family: inherit; font-size: 12px; font-weight: 600; color: #333; cursor: pointer; white-space: nowrap; overflow: hidden; }
+  .sheet-wx[hidden] { display: none; }
+  .sheet-wx.static { cursor: default; }
+  .sheet-wx.active { border-color: var(--brand-purple); background: #fff; }
+  @media (min-width: 900px) { .sheet-wx { display: none !important; } }
   .wx-when { display: none; }
   @media (min-width: 600px) { .wx-when { display: inline; } }
   @media (min-width: 900px) { .wx-card { top: 12px; left: 8px; font-size: 13px; padding: 7px 14px; } .wx-src { bottom: 8px; right: 14px; font-size: 10px; } }
@@ -446,6 +451,7 @@
     <div class="grabber"></div>
     <div class="sheet-title" id="sheetTitle"></div>
     <div class="sheet-sub" id="sheetSub"></div>
+    <button class="sheet-wx" id="sheetWx" type="button" hidden aria-label="이 지역 이번 주말 날씨"></button>
     <div class="theme-chips" id="themeChipsSheet"></div>
     <div class="sub-chips" id="subChips" hidden></div>
     <button class="close" id="close" aria-label="닫기">✕</button>
@@ -1138,6 +1144,7 @@ window.addEventListener('popstate', () => closeSheet(true));
 (function () {
   const card = document.getElementById('wxCard');
   const src = document.getElementById('wxSrc');
+  const sheetWx = document.getElementById('sheetWx');
   if (!card) return;
   const DEFAULT_REGION = '서울';
   // 지도 권역 -> [카드에 보일 이름, 위도, 경도]
@@ -1149,7 +1156,7 @@ window.addEventListener('popstate', () => closeSheet(true));
   };
   const TTL = 30 * 60 * 1000;
   const inflight = {};
-  let current = DEFAULT_REGION, pick = null, token = 0;
+  let current = DEFAULT_REGION, pick = null, token = 0, sheetRegion = null;
 
   function cacheGet(region) {
     try {
@@ -1189,11 +1196,12 @@ window.addEventListener('popstate', () => closeSheet(true));
     const w = weekendStats(daily);
     if (!w) return null;
     const name = COORD[region][0];
-    if (w.wet || w.rain >= 50) return { ico: '☔', state: name + ' 비 소식', tip: '실내 추천', key: 'indoor' };
-    if (w.rain < 30) return { ico: w.clear ? '☀️' : '🌤️', state: name + (w.clear ? ' 맑음' : ' 구름 조금'), tip: '야외 추천', key: 'outdoor' };
-    return { ico: '⛅', state: name + ' 흐림', tip: '우산 챙기세요', key: '' };
+    if (w.wet || w.rain >= 50) return { region: region, ico: '☔', cond: '비 소식', state: name + ' 비 소식', tip: '실내 추천', key: 'indoor' };
+    if (w.rain < 30) return { region: region, ico: w.clear ? '☀️' : '🌤️', cond: w.clear ? '맑음' : '구름 조금', state: name + (w.clear ? ' 맑음' : ' 구름 조금'), tip: '야외 추천', key: 'outdoor' };
+    return { region: region, ico: '⛅', cond: '흐림', state: name + ' 흐림', tip: '우산 챙기세요', key: '' };
   }
   function render() {
+    renderSheetChip();
     if (!pick) { card.hidden = true; if (src) src.hidden = true; return; }
     card.innerHTML = '';
     const ico = document.createElement('span'); ico.textContent = pick.ico;
@@ -1208,11 +1216,30 @@ window.addEventListener('popstate', () => closeSheet(true));
     if (src) src.hidden = false;
     window.syncWx();
   }
-  window.syncWx = function () { card.classList.toggle('active', !!pick && !!pick.key && theme === pick.key); };
+  // 바텀시트 헤더 칩: 선택한 지역의 예보가 로딩돼 있을 때만 '🌤️ 구름 조금 › 야외 추천'
+  function renderSheetChip() {
+    if (!sheetWx) return;
+    if (!sheetRegion || !pick || pick.region !== sheetRegion) { sheetWx.hidden = true; return; }
+    sheetWx.innerHTML = '';
+    const ico = document.createElement('span'); ico.textContent = pick.ico;
+    const sep = document.createElement('span'); sep.className = 'wx-sep'; sep.textContent = '›';
+    const tip = document.createElement('span'); tip.className = 'wx-tip'; tip.textContent = pick.tip;
+    sheetWx.appendChild(ico); sheetWx.appendChild(document.createTextNode('이번 주말 ' + pick.cond)); sheetWx.appendChild(sep); sheetWx.appendChild(tip);
+    sheetWx.classList.toggle('static', !pick.key);
+    sheetWx.hidden = false;
+    window.syncWx();
+  }
+  window.syncWx = function () {
+    const on = !!pick && !!pick.key && theme === pick.key;
+    card.classList.toggle('active', on);
+    if (sheetWx) sheetWx.classList.toggle('active', on);
+  };
   // 지역 변경 훅: openSheet(key)에서는 그 지역, closeSheet에서는 null(기본 지역)
   window.wxSetRegion = function (key) {
     const region = COORD[key] ? key : DEFAULT_REGION;
-    if (region === current && pick) return;
+    sheetRegion = COORD[key] ? key : null;     // 전국/미상/닫힘이면 시트 칩 없음
+    if (region === current && pick) { renderSheetChip(); return; }
+    if (sheetWx) sheetWx.hidden = true;        // 새 지역 예보를 받는 동안 이전 지역 칩이 남지 않게
     current = region;
     const my = ++token;
     load(region).then(function (daily) {
@@ -1220,13 +1247,15 @@ window.addEventListener('popstate', () => closeSheet(true));
       pick = summarize(daily, region); render();
     }).catch(function () { if (my === token) { pick = null; render(); } });
   };
-  card.addEventListener('click', function () {
+  function toggleFilter() {
     if (!pick || !pick.key) return;
     sendGaEvent('weather_card_click', { theme_key: pick.key, region: current });
     if (!(activeSub === 'all' || activeSub === 'free')) document.querySelector('.tab[data-sub="all"]').click();
     const chip = Array.prototype.find.call(document.querySelectorAll('#themeRow .theme-chip'), function (b) { return b.dataset.key === pick.key; });
     if (chip) chip.click();
-  });
+  }
+  card.addEventListener('click', toggleFilter);
+  if (sheetWx) sheetWx.addEventListener('click', toggleFilter);
   pick = null; current = null; window.wxSetRegion(DEFAULT_REGION);
 })();
 </script>
