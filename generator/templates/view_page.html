@@ -924,6 +924,25 @@
     .faq h2 { font-size: 19px; }
     .footer-cols { grid-template-columns: 1.5fr 1fr; gap: 72px; }
   }
+
+  /* ---- GNB 우측 나들이 날씨 롤링 칩 (데스크톱 전용, 1024px 이상) ---- */
+  .dt-gnb a.dt-weather {
+    position: relative; margin: auto 0 auto auto; width: 360px; height: 32px; overflow: hidden;
+    border: 0; border-radius: 999px; background: #f4effa; color: #4a2b63; font-size: 13.5px; font-weight: 600;
+    padding: 0; display: block; transition: background .15s;
+  }
+  .dt-gnb a.dt-weather:hover { background: #ebe1f6; color: var(--brand-purple); border: 0; }
+  .dtw-item {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 16px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; transform: translateY(12px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .dtw-item.on { opacity: 1; transform: translateY(0); }
+  .dtw-item.out { opacity: 0; transform: translateY(-12px); }
+  /* 검색 중에는 우측 하단 '검색 결과 N건'과 자리가 겹치므로 숨긴다 */
+  .count:not(:empty) ~ .dt-gnb .dt-weather { display: none; }
+  @media (max-width: 1023px) { .dt-gnb a.dt-weather { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .dtw-item { transition: none; } }
 </style>
 </head>
 <body>
@@ -966,6 +985,7 @@
         <a href="#sec-closing" data-target="sec-closing">마감임박</a>
         <a href="#sec-soon" data-target="sec-soon">오픈예정</a>
         <a href="map.html">아이와 나들이</a>
+        <a class="dt-weather" id="dtWeather" href="map.html" aria-label="이번 주말 나들이 날씨 큐레이션"><span class="dtw-item on">🎈 주말 어디 갈까? 아이와 나들이 지도 열기 →</span></a>
       </nav>
     </header>
 
@@ -2696,6 +2716,94 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
     filterRows();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+})();
+
+
+// ---------------- GNB 우측 '아이와 나들이 날씨' 롤링 칩 ----------------
+// Open-Meteo(무료, 키 없음) 일 단위 예보로 이번 주말 지역별 강수확률을 보고 문구를 만든다.
+// 예보를 못 받으면 고정 안내 문구 하나만 보여 준다(없는 날씨를 지어내지 않는다).
+(function () {
+  const chip = document.getElementById('dtWeather');
+  if (!chip) return;
+  const REGIONS = [['수도권', 37.57, 126.98], ['충청', 36.35, 127.38], ['강원', 37.88, 127.73],
+                   ['영남', 35.87, 128.60], ['호남', 35.16, 126.85], ['제주', 33.50, 126.53]];
+  const CTA = { text: '🎈 주말 어디 갈까? 아이와 나들이 지도 열기 →', href: 'map.html' };
+  let items = [CTA], idx = 0, timer = null;
+
+  function render() {
+    chip.innerHTML = '';
+    items.forEach(function (it, i) {
+      const s = document.createElement('span');
+      s.className = 'dtw-item' + (i === 0 ? ' on' : '');
+      s.textContent = it.text;
+      chip.appendChild(s);
+    });
+    chip.href = items[0].href;
+    idx = 0;
+  }
+  function roll() {
+    if (items.length < 2) return;
+    const els = chip.children, cur = els[idx];
+    idx = (idx + 1) % items.length;
+    const nxt = els[idx];
+    cur.classList.remove('on'); cur.classList.add('out');
+    nxt.classList.remove('out'); nxt.classList.add('on');
+    chip.href = items[idx].href;
+    setTimeout(function () { cur.classList.remove('out'); }, 650);
+  }
+  function start() {
+    clearInterval(timer);
+    if (items.length > 1 && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) timer = setInterval(roll, 3600);
+  }
+  chip.addEventListener('mouseenter', function () { clearInterval(timer); });
+  chip.addEventListener('mouseleave', start);
+  chip.addEventListener('click', function () {
+    try { if (typeof gtag === 'function') gtag('event', 'weather_chip_click', { message: (items[idx].text || '').slice(0, 60) }); } catch (e) {}
+  });
+
+  // 이번 주말(토/일) 예보 요약: 최대 강수확률, 비 코드(WMO 51+) 여부, 맑음 여부
+  function weekendStats(daily) {
+    const days = [];
+    for (let i = 0; i < daily.time.length; i++) {
+      const dow = new Date(daily.time[i] + 'T00:00:00').getDay();
+      if (dow === 6 || dow === 0) days.push(i);
+      if (days.length === 2) break;
+    }
+    if (!days.length) return null;
+    let rain = 0, code = 0;
+    days.forEach(function (i) { rain = Math.max(rain, daily.precipitation_probability_max[i] || 0); code = Math.max(code, daily.weather_code[i] || 0); });
+    return { rain: rain, wet: code >= 51, clear: code <= 1 };
+  }
+  function buildItems(list) {
+    const stats = list.map(function (d, i) { return { name: REGIONS[i][0], w: weekendStats(d.daily) }; }).filter(function (r) { return r.w; });
+    if (!stats.length) return [CTA];
+    const out = [];
+    const cap = stats.find(function (r) { return r.name === '수도권'; });
+    if (cap) {
+      if (cap.w.wet || cap.w.rain >= 50) out.push({ text: '☔ 이번 주말 수도권 비 소식 · 실내 나들이 추천', href: 'map.html?filter=indoor' });
+      else if (cap.w.rain < 30) out.push({ text: cap.w.clear ? '☀️ 이번 주말 수도권 맑음 · 야외 나들이 추천' : '🌤️ 이번 주말 수도권 구름 조금 · 야외 나들이 추천', href: 'map.html?filter=outdoor' });
+      else out.push({ text: '⛅ 이번 주말 수도권 흐림 · 우산 챙겨서 나들이', href: 'map.html' });
+    }
+    const best = stats.filter(function (r) { return r.name !== '수도권' && !r.w.wet; })
+      .sort(function (a, b) { return a.w.rain - b.w.rain; })[0];
+    if (best && best.w.rain < 30) out.push({ text: '🌤️ ' + best.name + ' 나들이 지수 최고! · 비 걱정 없어요', href: 'map.html?filter=outdoor' });
+    out.push(CTA);
+    return out;
+  }
+  function apply(list) { items = buildItems(list); render(); start(); }
+
+  render();
+  let cached = null;
+  try { cached = JSON.parse(sessionStorage.getItem('buygWeather') || 'null'); } catch (e) {}
+  if (cached && Date.now() - cached.t < 30 * 60 * 1000) { apply(cached.list); return; }
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + REGIONS.map(function (r) { return r[1]; }).join(',')
+    + '&longitude=' + REGIONS.map(function (r) { return r[2]; }).join(',')
+    + '&daily=weather_code,precipitation_probability_max&timezone=Asia%2FSeoul&forecast_days=7';
+  fetch(url).then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (list) {
+    if (!Array.isArray(list) || list.length !== REGIONS.length) return;
+    try { sessionStorage.setItem('buygWeather', JSON.stringify({ t: Date.now(), list: list })); } catch (e) {}
+    apply(list);
+  }).catch(function () { /* 예보 실패: 고정 문구 유지 */ });
 })();
 
 // ---------------- PC 마우스 전용: 화살표 클릭 스크롤 + 드래그 스크롤 ----------------

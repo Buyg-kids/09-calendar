@@ -510,7 +510,8 @@ function subMatch(d) { return activeSub === 'all' ? true : activeSub === 'free' 
 let shows = [];
 let theme = '';
 const THEMES = [
-  { key: 'rain', label: '🌧️ 비오는 날(실내)', ok: sp => sp.space_type === '실내' },
+  { key: 'outdoor', label: '☀️ 야외 핫플·공원', ok: sp => sp.space_type === '야외' },
+  { key: 'indoor', label: '☔ 비 와도 안심 실내', ok: sp => sp.space_type === '실내' || (sp.space_type === '복합' && /^(박물관|과학관|미술관|전시|도서관)/.test(sp.category || '')) },
   { key: 'baby', label: '🍼 0~2세(수유실/유모차)', ok: sp => !!sp.baby_care && sp.stroller === true },
   { key: 'forest', label: '🌳 숲/야외놀이터', ok: sp => sp.space_type === '야외' && /생태|숲|수목원|오름|자연|정원|놀이터|식물원|습지/.test(sp.category || '') },
 ];
@@ -1092,6 +1093,8 @@ window.addEventListener('popstate', () => closeSheet(true));
   const demo = new URLSearchParams(location.search).get('demo') === '1';
   deals = demo ? loaded.concat(demoDeals()) : loaded;
   if (demo) document.getElementById('status').textContent += ' · [샘플] 데이터 포함';
+  const qf = new URLSearchParams(location.search).get('filter');
+  if (qf === 'outdoor' || qf === 'indoor') { theme = qf; sendGaEvent('theme_chip_click', { theme: qf, theme_key: qf, from: 'home_weather' }); }
   render(); renderThemeChips();
   // 데스크톱 Split View: 왼쪽 패널이 비어 보이지 않게 데이터가 가장 많은 지역을 먼저 열어 둔다
   if (isDesktop()) {
