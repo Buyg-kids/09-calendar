@@ -941,6 +941,7 @@
   .dtw-item.out { opacity: 0; transform: translateY(-12px); }
   .dtw-tag { flex: 0 0 auto; font-size: 12px; font-weight: 800; color: var(--brand-purple); letter-spacing: -0.2px; }
   .dtw-text { flex: 1 1 auto; min-width: 0; font-size: 13.5px; font-weight: 500; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: underline transparent; text-underline-offset: 3px; transition: text-decoration-color .18s; }
+  .dtw-sep { color: #8b5cf6; margin: 0 6px; font-weight: 700; font-size: 15px; line-height: 1; }
   .dtw-arrow { flex: 0 0 auto; font-style: normal; font-size: 16px; line-height: 1; color: #9a8aa8; transition: transform .18s, color .18s; }
   .dt-gnb a.dt-weather:hover .dtw-text { text-decoration-color: #333; }
   .dt-gnb a.dt-weather:hover .dtw-arrow { transform: translateX(3px); color: var(--brand-purple); }
@@ -2741,7 +2742,13 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
       const s = document.createElement('span');
       s.className = 'dtw-item' + (i === 0 ? ' on' : '');
       const tag = document.createElement('b'); tag.className = 'dtw-tag'; tag.textContent = it.tag;
-      const tx = document.createElement('span'); tx.className = 'dtw-text'; tx.textContent = it.text;
+      const tx = document.createElement('span'); tx.className = 'dtw-text';
+      const parts = it.text.split(' → ');   // 문구 안의 ' → ' 자리를 보라색 슬림 '›' 로 그린다
+      tx.appendChild(document.createTextNode(parts[0]));
+      if (parts.length > 1) {
+        const sep = document.createElement('span'); sep.className = 'dtw-sep'; sep.textContent = '›';
+        tx.appendChild(sep); tx.appendChild(document.createTextNode(parts.slice(1).join(' → ')));
+      }
       const ar = document.createElement('i'); ar.className = 'dtw-arrow'; ar.textContent = '›';
       s.appendChild(tag); s.appendChild(tx); s.appendChild(ar);
       chip.appendChild(s);
