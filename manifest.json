@@ -7,8 +7,8 @@
   "id": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ffffff",
-  "theme_color": "#7c3aed",
+  "background_color": "#5f0080",
+  "theme_color": "#5f0080",
   "lang": "ko",
   "icons": [
     {
