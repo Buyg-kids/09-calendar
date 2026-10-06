@@ -979,6 +979,64 @@
   .footer-info li.footer-contact { color: #666; line-height: 1.7; }
   .footer-info a.mail, .map-footer a.mail { color: #777; text-decoration: none; }
   .footer-info a.mail:hover, .map-footer a.mail:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ================= 비주얼 밀도 개선 (2026-10-06): 웜그레이 배경 + 화이트 카드 엘리베이션 ================= */
+  html, body { background: #f7f7f8; }
+  .app { background: #f7f7f8; }
+  .brand-hero { background: #fff; padding-bottom: 8px; }
+  /* 메인 섹션 컨테이너 = 화이트 카드(라운드 14 / 1px 라이트 보더 / 소프트 섀도우) */
+  .section {
+    background: #fff; border: 1px solid #eeeef1; border-radius: 14px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    margin: 12px 10px 0; padding: 18px 0 14px;
+  }
+  .section[hidden] { display: none; }
+  .list-card, .feed-card, .week-card, .rank-list {
+    border: 1px solid #eeeef1; border-radius: 14px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+  /* 카드 마이크로 인터랙션: 호버/터치 시 살짝 떠오름 */
+  .list-card, .feed-card, .week-card, .closing-card, .upcoming-card, .banner-card, .rank-item { transition: all 0.2s ease; }
+  .list-card:hover, .feed-card:hover, .week-card:hover, .closing-card:hover, .upcoming-card:hover, .banner-card:hover, .rank-item:hover,
+  .list-card:active, .feed-card:active, .week-card:active, .rank-item:active { transform: translateY(-2px); }
+  .rank-item:hover, .rank-item:active { background: #fbf9fe; }
+  /* 인기공구: 큰 썸네일 + 10px 곡률 */
+  .rank-item { gap: 12px; padding: 10px 12px; }
+  .rank-item .list-thumb { flex: 0 0 60px; width: 60px; height: 60px; border-radius: 10px; }
+  .rank-name { font-size: 13.5px; }
+  /* 뱃지(D-day / 오늘마감 / N명 동시) 정돈 */
+  .dday-badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; line-height: 1.2; letter-spacing: -0.1px; }
+  .rank-tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; line-height: 1.2; color: #5b6575; background: #f3f4f6; }
+  /* 상단 비주얼 큐레이션 배너(오늘 진행 중 공구) */
+  .hot-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 10px 0; padding: 16px 18px;
+    border: 1px solid #eadff6; border-radius: 14px; text-decoration: none; color: var(--text-main);
+    background: linear-gradient(120deg, #eee2fb 0%, #f6efff 55%, #fff3fb 100%); box-shadow: 0 4px 16px rgba(95, 0, 128, 0.07);
+    transition: all 0.2s ease;
+  }
+  .hot-banner:hover, .hot-banner:active { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(95, 0, 128, 0.12); }
+  .hot-text { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .hot-title { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; color: #2a1a3a; word-break: keep-all; }
+  .hot-sub { font-size: 12.5px; font-weight: 700; color: var(--brand-purple); }
+  .hot-arrow { flex: 0 0 auto; font-style: normal; font-size: 24px; line-height: 1; color: #8b5cf6; }
+  .today-badge { display: none; }   /* 구 텍스트 뱃지는 배너로 대체 */
+  .mw-bar, .trip-banner { margin-left: 10px; margin-right: 10px; }   /* 카드 좌우 여백(10px)에 정렬 */
+  @media (min-width: 768px) {
+    html, body { background: #f7f7f8; }
+    .app { background: #f7f7f8; }
+    .section { margin: 18px 0 0; padding: 22px 24px 20px; }
+    .dt-hero { margin-top: 22px; }
+    .dt-hero-badge, #dtTodayBadge { display: none; }
+    .hot-banner { margin: 14px 0 0; padding: 18px 26px; }
+    .hot-title { font-size: 19px; }
+    .hot-sub { font-size: 13.5px; }
+    .feed-card, .list-card, .week-card, .rank-list { border: 1px solid #eeeef1; border-radius: 14px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04); }
+    .feed-card:hover, .list-card:hover { border-color: #e2d6ee; box-shadow: 0 8px 22px rgba(60, 20, 90, 0.08); }
+    .closing-card .thumb-wrap, .banner-card .thumb-wrap, .upcoming-card .thumb-wrap, .list-thumb { border-radius: 10px; }
+    .rank-item .list-thumb { flex: 0 0 68px; width: 68px; height: 68px; border-radius: 10px; }
+    .rank-item { padding: 12px 18px; }
+    .scroll-arrow.arrow-left { left: -12px; }
+    .scroll-arrow.arrow-right { right: -12px; }
+    .rank-list { border-radius: 14px; }
+  }
 </style>
 </head>
 <body>
@@ -1038,6 +1096,13 @@
         </div>
         <a class="dt-hero-btn" href="map.html">나들이 지도 보기 →</a>
       </section>
+      <a class="hot-banner" id="hotBanner" href="#popularSection" aria-label="오늘 진행 중인 공구 보기">
+        <span class="hot-text">
+          <b class="hot-title">엄마들이 실시간으로 찜하는 육아 핫딜</b>
+          <span class="hot-sub" id="hotBannerSub">🔥 오늘 진행 중인 공구 확인하기</span>
+        </span>
+        <i class="hot-arrow">›</i>
+      </a>
       <!-- 2026-10-03 주말 나들이 지도 바로가기 (지역/체험 공구 + 무료 나들이 지도) -->
       <a class="trip-banner" href="./map.html" id="tripBanner">
         <span class="trip-banner-icon">🗺️</span>
@@ -2626,6 +2691,8 @@ function renderTodayBadge() {
   const n = ROWS.filter(isActive).length;
   const el = document.getElementById('todayBadge');
   const dt = document.getElementById('dtTodayBadge');
+  const hs = document.getElementById('hotBannerSub');
+  if (hs) hs.textContent = n ? '🔥 오늘 진행 중인 공구 ' + n + '개 확인하기' : '🔥 오늘의 공구 확인하기';
   if (!n) { el.hidden = true; if (dt) dt.hidden = true; return; }
   el.innerHTML = '🔥 오늘 진행 중인 공구 <b>' + n + '</b>개';
   el.hidden = false;
@@ -2857,6 +2924,18 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
     try { sessionStorage.setItem('buygWeather', JSON.stringify({ t: Date.now(), list: list })); } catch (e) {}
     apply(list);
   }).catch(function () { /* 예보 실패: 고정 문구 유지 */ });
+})();
+
+
+// 상단 큐레이션 배너: 인기공구 섹션으로 부드럽게 이동
+(function () {
+  const b = document.getElementById('hotBanner');
+  if (!b) return;
+  b.addEventListener('click', function (e) {
+    e.preventDefault();
+    const t = document.getElementById('popularSection');
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 })();
 
 // ---------------- PC 마우스 전용: 화살표 클릭 스크롤 + 드래그 스크롤 ----------------
