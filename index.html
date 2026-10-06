@@ -1037,6 +1037,80 @@
     .scroll-arrow.arrow-right { right: -12px; }
     .rank-list { border-radius: 14px; }
   }
+
+  /* ================= 홈 레이아웃 개편 (2026-10-06): 카테고리+인기 통합 / 브리지 띠배너 / 통합 피드 탭 ================= */
+  :root { --hdr-h: 92px; }
+  /* 카테고리 칩 바: 상단에 붙는 sticky + 아래 인기공구와 한 장의 카드처럼 이어짐 */
+  #sec-category {
+    position: sticky; top: calc(var(--hdr-h) + env(safe-area-inset-top, 0px)); z-index: 15;
+    margin-bottom: 0; padding: 12px 0 10px; border-bottom: 0; border-radius: 14px 14px 0 0;
+  }
+  #sec-category .section-head { display: none; }
+  #sec-category .chip-row { gap: 10px; }
+  #sec-category .chip-icon { width: 46px; height: 46px; font-size: 21px; }
+  #sec-category .chip-label { font-size: 10.5px; }
+  #popularSection { margin-top: 0; border-top: 0; border-radius: 0 0 14px 14px; }
+  /* 인기공구: 가로 스와이프 카드(큰 썸네일 + 순위/D-day 뱃지) */
+  .pop-scroll { gap: 12px; padding: 0 16px 8px; }
+  .pop-card { flex: 0 0 150px; scroll-snap-align: start; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; gap: 4px; }
+  .pop-card:hover, .pop-card:active { transform: translateY(-2px); }
+  .pop-thumb { position: relative; width: 150px; height: 150px; border-radius: 14px; overflow: hidden; background: var(--accent-lavender); }
+  .pop-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .pop-thumb .reel-icon { width: 34px; height: 34px; }
+  .pop-rank {
+    position: absolute; left: 8px; top: 8px; min-width: 34px; padding: 4px 8px; border-radius: 8px; text-align: center;
+    font-size: 13px; font-weight: 800; line-height: 1.1; color: #fff; background: rgba(30, 41, 59, 0.72); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  }
+  .pop-rank.top { background: var(--brand-purple); }
+  .pop-dday { position: absolute; right: 8px; top: 8px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); }
+  .pop-name { margin-top: 6px; font-size: 13.5px; font-weight: 700; line-height: 1.35; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 37px; }
+  .pop-handle { font-size: 11.5px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pop-tag { align-self: flex-start; margin-top: 2px; }
+  /* 마감임박: 브리지 띠배너 */
+  .section.bridge { padding: 0 0 14px; overflow: hidden; }
+  .bridge-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 16px; color: #fff;
+    background: linear-gradient(110deg, #3a0a58 0%, #7a1fa2 52%, #d6336c 100%);
+  }
+  .bridge-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .bridge-title { font-size: 16.5px; font-weight: 800; letter-spacing: -0.3px; }
+  .bridge-sub { font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, 0.85); }
+  .bridge-clock { flex: 0 0 auto; font-size: 12px; font-weight: 800; padding: 6px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bridge-clock[hidden] { display: none; }
+  @media (max-width: 767px) {
+    .bridge-head { flex-wrap: wrap; row-gap: 8px; }
+    .bridge-text { flex: 1 1 100%; }
+    .bridge-title { white-space: nowrap; word-break: keep-all; }
+    .bridge-clock { order: 3; }
+  }
+  .bridge-body { margin-top: 14px; }
+  /* 이번 주 공구 | 오픈예정 통합 피드 탭 */
+  .feed-tabs { display: flex; gap: 8px; padding: 0 16px 14px; }
+  .feed-tab {
+    flex: 1; padding: 10px 8px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; color: #6b7280;
+    font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.15s ease;
+  }
+  .feed-tab.on { background: var(--brand-purple); border-color: var(--brand-purple); color: #fff; }
+  .feed-pane[hidden] { display: none; }
+  #popularSection, #sec-closing, #sec-feed { scroll-margin-top: calc(var(--hdr-h) + 96px); }
+  @media (min-width: 768px) {
+    #sec-category { padding: 14px 24px 12px; top: var(--hdr-h); }
+    #sec-category .chip-row { gap: 12px 28px; }
+    #sec-category .chip-icon { width: 52px; height: 52px; font-size: 23px; }
+    #sec-category .chip-label { font-size: 12px; }
+    #popularSection { margin-top: 0; }
+    .pop-scroll { padding: 0 0 8px; gap: 16px; }
+    .pop-card { flex-basis: 188px; }
+    .pop-thumb { width: 188px; height: 188px; }
+    .pop-name { font-size: 14px; }
+    .section.bridge { padding: 0 0 20px; }
+    .bridge-head { padding: 18px 24px; }
+    .bridge-title { font-size: 19px; }
+    .bridge-sub { font-size: 13px; }
+    .bridge-body { margin: 18px 24px 0; }
+    .feed-tabs { padding: 0 0 16px; max-width: 420px; }
+    #popularSection, #sec-closing, #sec-feed { scroll-margin-top: calc(var(--hdr-h) + 90px); }
+  }
 </style>
 </head>
 <body>
@@ -1130,39 +1204,48 @@
       <div id="regularSections">
       <section class="section" id="popularSection">
         <div class="section-head"><h2>🏆 인기공구</h2><span class="sub">팔로워 · 동시진행 · 마감 기준</span></div>
-        <div class="rank-pager" id="popularList"></div>
-        <div class="rank-dots" id="popularDots"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="popularList" aria-label="이전">‹</button>
+          <div class="hscroll pop-scroll" id="popularList"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="popularList" aria-label="다음">›</button>
+        </div>
       </section>
 
-      <section class="section" id="sec-closing">
-        <div class="section-head"><h2>🔥 마감 임박한 공구</h2><span class="sub">서두르세요</span></div>
-        <div class="hscroll-wrap">
+      <section class="section bridge" id="sec-closing">
+        <div class="bridge-head">
+          <div class="bridge-text"><b class="bridge-title" id="bridgeTitle">⏰ 오늘 자정 종료! 긴급 특가</b><span class="bridge-sub" id="bridgeSub">마감 임박 공구만 모았어요</span></div>
+          <span class="bridge-clock" id="bridgeClock" hidden>⏳ 자정까지 --:--:--</span>
+        </div>
+        <div class="hscroll-wrap bridge-body">
           <button type="button" class="scroll-arrow arrow-left" data-target="closingSoonList" aria-label="이전">‹</button>
           <div class="hscroll" id="closingSoonList"></div>
           <button type="button" class="scroll-arrow arrow-right" data-target="closingSoonList" aria-label="다음">›</button>
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-head"><h2>📅 이번 주 공구</h2></div>
-        <div class="hscroll-wrap">
-          <button type="button" class="scroll-arrow arrow-left" data-target="dayBar" aria-label="이전">‹</button>
-          <div class="day-bar" id="dayBar"></div>
-          <button type="button" class="scroll-arrow arrow-right" data-target="dayBar" aria-label="다음">›</button>
+      <section class="section" id="sec-feed">
+        <div class="feed-tabs" role="tablist" aria-label="공구 피드">
+          <button type="button" class="feed-tab on" role="tab" data-feed="week">📅 이번 주 공구</button>
+          <button type="button" class="feed-tab" role="tab" data-feed="soon">✨ 오픈예정</button>
         </div>
-        <div class="hscroll-wrap week-carousel-wrap">
-          <button type="button" class="scroll-arrow arrow-left" data-target="weekGrid" aria-label="이전">‹</button>
-          <div class="hscroll week-carousel" id="weekGrid"></div>
-          <button type="button" class="scroll-arrow arrow-right" data-target="weekGrid" aria-label="다음">›</button>
+        <div class="feed-pane" id="feedWeek">
+          <div class="hscroll-wrap">
+            <button type="button" class="scroll-arrow arrow-left" data-target="dayBar" aria-label="이전">‹</button>
+            <div class="day-bar" id="dayBar"></div>
+            <button type="button" class="scroll-arrow arrow-right" data-target="dayBar" aria-label="다음">›</button>
+          </div>
+          <div class="hscroll-wrap week-carousel-wrap">
+            <button type="button" class="scroll-arrow arrow-left" data-target="weekGrid" aria-label="이전">‹</button>
+            <div class="hscroll week-carousel" id="weekGrid"></div>
+            <button type="button" class="scroll-arrow arrow-right" data-target="weekGrid" aria-label="다음">›</button>
+          </div>
         </div>
-      </section>
-
-      <section class="section" id="sec-soon">
-        <div class="section-head"><h2>✨ 오픈예정</h2></div>
-        <div class="hscroll-wrap">
-          <button type="button" class="scroll-arrow arrow-left" data-target="soonOpeningList" aria-label="이전">‹</button>
-          <div class="hscroll" id="soonOpeningList"></div>
-          <button type="button" class="scroll-arrow arrow-right" data-target="soonOpeningList" aria-label="다음">›</button>
+        <div class="feed-pane" id="feedSoon" hidden>
+          <div class="hscroll-wrap">
+            <button type="button" class="scroll-arrow arrow-left" data-target="soonOpeningList" aria-label="이전">‹</button>
+            <div class="hscroll" id="soonOpeningList"></div>
+            <button type="button" class="scroll-arrow arrow-right" data-target="soonOpeningList" aria-label="다음">›</button>
+          </div>
         </div>
       </section>
       </div>
@@ -1936,6 +2019,21 @@ function renderClosingSoon(rows, usedIds) {
   // 이 페이지 로드 한 번 안에서 배열 인덱스로 배정돼 항상 고유하므로 안전하다.
   list.forEach(function (row) { usedIds.add(row.row_id); });
 
+  // 브리지 띠배너 문구: 오늘/내일 자정 마감 건수에 맞춰 사실대로 표기한다
+  const urgentAll = rows.filter(function (r) {
+    const e = parseDate(r.end_date) || parseDate(r.start_date);
+    return e && e >= TODAY && daysBetween(e, TODAY) <= 1;
+  });
+  const nToday = urgentAll.filter(function (r) { return daysBetween(parseDate(r.end_date) || parseDate(r.start_date), TODAY) === 0; }).length;
+  const nTomorrow = urgentAll.length - nToday;
+  const bt = document.getElementById('bridgeTitle'), bs = document.getElementById('bridgeSub'), bc = document.getElementById('bridgeClock');
+  if (bt && bs) {
+    if (nToday > 0) { bt.textContent = '⏰ 오늘 자정 종료! 긴급 특가'; bs.textContent = '오늘 마감 ' + nToday + '건' + (nTomorrow ? ' · 내일 마감 ' + nTomorrow + '건' : ''); }
+    else if (nTomorrow > 0) { bt.textContent = '⏰ 내일 자정 종료 임박 특가'; bs.textContent = '내일 마감 ' + nTomorrow + '건'; }
+    else { bt.textContent = '⏰ 마감 임박 특가'; bs.textContent = '지금은 마감 임박 공구가 없어요'; }
+  }
+  if (bc) bc.hidden = !(nToday > 0);
+
   const el = document.getElementById('closingSoonList');
   el.innerHTML = '';
   if (!list.length) {
@@ -2441,41 +2539,30 @@ function computePopular(rows) {
   return out;
 }
 function renderPopular(rows) {
-  const pager = document.getElementById('popularList');
-  const dots = document.getElementById('popularDots');
-  pager.innerHTML = ''; dots.innerHTML = '';
+  const box = document.getElementById('popularList');
+  box.innerHTML = '';
   const list = computePopular(rows);
   document.getElementById('popularSection').hidden = !list.length;
-  let ol = null;
   list.forEach(function (item, i) {
-    if (i % POPULAR_PAGE === 0) { ol = document.createElement('ol'); ol.className = 'rank-list'; pager.appendChild(ol); }
     const row = item.row;
-    const li = document.createElement('li');
-    li.className = 'rank-item' + (i < 3 ? ' top' : '');
-    li.addEventListener('click', function () { openDealModal(row); });
-    li.appendChild(el2('span', 'rank-no', String(i + 1)));
-    li.appendChild(makeListThumb(row, false));
-    const body = el2('div', 'rank-body');
-    body.appendChild(el2('div', 'rank-name', displayTitle(row.product_name)));
-    body.appendChild(el2('div', 'rank-handle', handleOf(row) + (row.follower_count ? ' · ' + formatFollowers(row.follower_count) : '')));
-    li.appendChild(body);
-    const side = el2('div', 'rank-side');
+    const card = el2('div', 'pop-card');
+    card.setAttribute('role', 'button'); card.tabIndex = 0;
+    card.addEventListener('click', function () { openDealModal(row); });
+    card.addEventListener('keydown', function (e) { if (e.key === 'Enter') openDealModal(row); });
+    const th = el2('div', 'pop-thumb');
+    th.appendChild(makeImg(row));
+    if (isReelRow(row)) { const p = el2('span', 'reel-icon'); p.innerHTML = PLAY_SVG; th.appendChild(p); }
+    th.appendChild(el2('span', 'pop-rank' + (i < 3 ? ' top' : ''), (i + 1) + '위'));
     const dd = ddayInfo(row);
-    if (dd.label) side.appendChild(el2('span', 'dday-badge ' + dd.cls, dd.label));
-    if (item.together > 0) side.appendChild(el2('span', 'rank-tag', '🔁 ' + (item.together + 1) + '명 동시'));
-    li.appendChild(side);
-    ol.appendChild(li);
+    if (dd.label) th.appendChild(el2('span', 'dday-badge pop-dday ' + dd.cls, dd.label));
+    card.appendChild(th);
+    card.appendChild(el2('div', 'pop-name', displayTitle(row.product_name)));
+    card.appendChild(el2('div', 'pop-handle', handleOf(row) + (row.follower_count ? ' · ' + formatFollowers(row.follower_count) : '')));
+    if (item.together > 0) card.appendChild(el2('span', 'rank-tag pop-tag', '🔁 ' + (item.together + 1) + '명 동시'));
+    box.appendChild(card);
   });
-  const pages = pager.children.length;
-  if (pages > 1) {
-    for (let k = 0; k < pages; k++) dots.appendChild(document.createElement('i'));
-    const sync = function () {
-      const k = Math.min(pages - 1, Math.round(pager.scrollLeft / Math.max(1, pager.children[0].offsetWidth + 10)));
-      Array.prototype.forEach.call(dots.children, function (d, j) { d.classList.toggle('on', j === k); });
-    };
-    pager.onscroll = sync; sync();
-  }
 }
+
 function el2(tag, cls, text) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -2810,7 +2897,9 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
     if (!a) return;
     e.preventDefault();
     if (searchInput.value) { searchInput.value = ''; filterRows(); }
-    const t = document.getElementById(a.dataset.target);
+    let id = a.dataset.target;
+    if (id === 'sec-soon') { if (window.showFeedTab) window.showFeedTab('soon'); id = 'sec-feed'; }   // 오픈예정은 통합 피드의 두 번째 탭
+    const t = document.getElementById(id);
     if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   const logo = document.getElementById('dtLogo');
@@ -2938,6 +3027,35 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
   });
 })();
 
+
+// ---------------- 레이아웃 보조: 헤더 높이 변수 / 통합 피드 탭 / 마감 카운트다운 ----------------
+(function () {
+  // sticky 카테고리 바가 붙을 높이 = 상단 고정 헤더 높이
+  const hdr = document.querySelector('.app-header');
+  function setHdr() { if (hdr) document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px'); }
+  setHdr(); window.addEventListener('resize', setHdr); window.addEventListener('load', setHdr);
+  // [이번 주 공구 | 오픈예정] 탭
+  function showFeedTab(name) {
+    document.querySelectorAll('.feed-tab').forEach(function (b) {
+      const on = b.dataset.feed === name; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    document.getElementById('feedWeek').hidden = name !== 'week';
+    document.getElementById('feedSoon').hidden = name !== 'soon';
+  }
+  window.showFeedTab = showFeedTab;
+  document.querySelectorAll('.feed-tab').forEach(function (b) { b.addEventListener('click', function () { showFeedTab(b.dataset.feed); }); });
+  // 오늘 자정(KST)까지 남은 시간 카운트다운
+  const clock = document.getElementById('bridgeClock');
+  function tick() {
+    if (!clock || clock.hidden) return;
+    const kst = Date.now() + 9 * 3600 * 1000;
+    const left = 86400000 - (kst % 86400000);
+    const h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000), s = Math.floor(left % 60000 / 1000);
+    clock.textContent = '⏳ 자정까지 ' + String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
 // ---------------- PC 마우스 전용: 화살표 클릭 스크롤 + 드래그 스크롤 ----------------
 // 터치는 이미 네이티브 스와이프가 되므로 여기서는 손대지 않는다. 컨테이너 자체는
 // 재렌더링돼도 안 바뀌므로(innerHTML만 갈아끼움) 페이지 로드 시 한 번만 걸어두면 된다.
@@ -2984,7 +3102,7 @@ function scrollArrowClick(targetId, dir) {
 }
 
 function setupSliders() {
-  ['closingSoonList', 'dayBar', 'weekGrid', 'soonOpeningList'].forEach(function (id) {
+  ['popularList', 'closingSoonList', 'dayBar', 'weekGrid', 'soonOpeningList'].forEach(function (id) {
     const el = document.getElementById(id);
     if (el) enableDragScroll(el);
   });
