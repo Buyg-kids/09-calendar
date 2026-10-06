@@ -38,4 +38,8 @@ def quick_prefilter(text: str) -> bool:
     if not text or len(text.strip()) < MIN_TEXT_LENGTH:
         return False
     haystack = text.replace(" ", "")
-    return any(word.replace(" ", "") in haystack for word in GROUP_BUY_SIGNAL_WORDS)
+    if any(word.replace(" ", "") in haystack for word in GROUP_BUY_SIGNAL_WORDS):
+        return True
+    # 2026-10-06: 체험/여행/숙소 글은 "입장권 판매" 처럼 공구 신호어 없이도 쓰인다 - 패스 키워드가 있으면 통과
+    from config import EXPERIENCE_PASS_KEYWORDS
+    return any(kw in haystack for kw in EXPERIENCE_PASS_KEYWORDS)
