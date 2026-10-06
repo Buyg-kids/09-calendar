@@ -50,17 +50,18 @@
      manifest.json과 icons/는 index.html과 같은 저장소 루트에 있어야 하므로
      상대경로(리딩 슬래시 없이)로 참조한다 - GitHub Pages 서브패스(/09-calendar/)
      배포와도 호환됨. -->
-<link rel="manifest" href="manifest.json" />
+<link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#5f0080" />
 <link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
 <!-- iOS는 매니페스트의 display:standalone을 따르지 않아 이 메타태그들이 따로 필요하다. -->
+<meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <!-- black-translucent는 설치 앱에서 콘텐츠를 상태바 밑으로 밀어넣고 시계를 흰 글씨로 그려
      노란 배너와 겹쳤다 - default로 두면 iOS가 상태바 영역을 따로 확보한다. -->
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Buyg" />
+<meta name="apple-mobile-web-app-title" content="BUYG" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 
 <!-- Google tag (gtag.js) - GA4 -->
@@ -3096,6 +3097,27 @@ if ('serviceWorker' in navigator) {
   }
   window.addEventListener('touchend', end, { passive: true });
   window.addEventListener('touchcancel', end, { passive: true });
+})();
+</script>
+<script>
+// PWA / 홈 화면 추가 GA4 추적 (index.html·map.html 공통, 템플릿에도 동일)
+(function () {
+  function ga(name, params) { try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) {} }
+  var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  // 바탕화면 아이콘으로 열었을 때: 세션당 1회만
+  if (standalone) {
+    var sent = false;
+    try { sent = sessionStorage.getItem('buygHomescreenOpened') === '1'; sessionStorage.setItem('buygHomescreenOpened', '1'); } catch (e) {}
+    if (!sent) ga('opened_from_homescreen');
+  }
+  // 설치 가능 상태 알림(설치 완료가 아님) - 브라우저가 설치 안내를 띄울 수 있을 때, 세션당 1회
+  window.addEventListener('beforeinstallprompt', function () {
+    var sent = false;
+    try { sent = sessionStorage.getItem('buygInstallPromptSeen') === '1'; sessionStorage.setItem('buygInstallPromptSeen', '1'); } catch (e) {}
+    if (!sent) ga('pwa_install_prompt', { method: 'homescreen' });
+  });
+  // 실제 설치 완료
+  window.addEventListener('appinstalled', function () { ga('pwa_installed', { method: 'homescreen' }); });
 })();
 </script>
 </body>
