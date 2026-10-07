@@ -951,15 +951,6 @@
   @media (max-width: 1023px) { .dt-gnb a.dt-weather { display: none; } }
   @media (prefers-reduced-motion: reduce) { .dtw-item { transition: none; } }
   /* ---- 모바일 날씨 롤링 바 (768px 미만, 검색창 아래 / 지도 배너 위) ---- */
-  .mw-bar {
-    position: relative; display: block; height: 32px; margin: 12px 16px 0; overflow: hidden;
-    border: 1px solid #ececf1; border-radius: 6px; background: #fcfaff; color: #333;
-  }
-  .mw-bar .dtw-item { padding: 0 12px; gap: 8px; }
-  .mw-bar .dtw-tag { font-size: 11.5px; }
-  .mw-bar .dtw-text { font-size: 13px; }
-  .mw-bar:active { background: #f6f0fb; }
-  @media (min-width: 768px) { .mw-bar { display: none; } }
   /* ---- 모바일 FAQ/푸터 터치/가독성 ---- */
   @media (max-width: 767px) {
     .faq-item summary { display: flex; align-items: center; min-height: 48px; padding: 10px 44px 10px 16px; font-size: 14px; }
@@ -1018,7 +1009,7 @@
   .hot-sub { font-size: 12.5px; font-weight: 700; color: var(--brand-purple); }
   .hot-arrow { flex: 0 0 auto; font-style: normal; font-size: 24px; line-height: 1; color: #8b5cf6; }
   .today-badge { display: none; }   /* 구 텍스트 뱃지는 배너로 대체 */
-  .mw-bar, .trip-banner { margin-left: 10px; margin-right: 10px; }   /* 카드 좌우 여백(10px)에 정렬 */
+  .trip-banner { margin-left: 10px; margin-right: 10px; }   /* 카드 좌우 여백(10px)에 정렬 */
   @media (min-width: 768px) {
     html, body { background: #f7f7f8; }
     .app { background: #f7f7f8; }
@@ -1177,7 +1168,6 @@
     <div id="noResults">검색 결과가 없습니다.</div>
 
     <div id="homeSections">
-      <a class="mw-bar" id="mwWeather" href="map.html" aria-label="이번 주말 나들이 날씨"><span class="dtw-item on"><b class="dtw-tag">나들이TIP</b><span class="dtw-text">🎈 이번 주말 어디 갈까? 지도 보기</span><i class="dtw-arrow">›</i></span></a>
       <section class="dt-hero" aria-label="BUYG 소개">
         <div class="dt-hero-text">
           <h2 class="dt-hero-title">0~7세 성장 맞춤 육아 공구 달력</h2>
@@ -2938,12 +2928,13 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
 })();
 
 
-// ---------------- 홈 '아이와 나들이 날씨' 롤링 바 (PC: GNB 우측 / 모바일: 검색창 아래) ----------------
+// ---------------- 홈 '아이와 나들이 날씨' 롤링 바 (PC: GNB 우측) ----------------
 // Open-Meteo(무료, 키 없음) 일 단위 예보로 이번 주말 지역별 강수확률을 보고 문구를 만든다.
 // 예보를 못 받으면 고정 안내 문구 하나만 보여 준다(없는 날씨를 지어내지 않는다).
 (function () {
-  const chips = [document.getElementById('dtWeather'), document.getElementById('mwWeather')].filter(Boolean);
+  const chips = [document.getElementById('dtWeather')].filter(Boolean);
   if (!chips.length) return;
+  if (window.matchMedia('(max-width: 1023px)').matches) return;   // 2026-10-07 모바일 날씨 바 제거 - GNB 칩이 숨겨지는 폭에서는 예보를 받아도 쓸 곳이 없다
   const REGIONS = [['수도권', 37.57, 126.98], ['충청', 36.35, 127.38], ['강원', 37.88, 127.73],
                    ['영남', 35.87, 128.60], ['호남', 35.16, 126.85], ['제주', 33.50, 126.53]];
   const CTA = { tag: '나들이TIP', text: '🎈 이번 주말 어디 갈까? 지도 보기', href: 'map.html' };
