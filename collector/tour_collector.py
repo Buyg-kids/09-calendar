@@ -53,6 +53,16 @@ AREA_CODE_TO_REGION = {
     "31": "경기", "32": "강원", "33": "충북", "34": "충남", "35": "경북", "36": "경남", "37": "전북", "38": "전남", "39": "제주",
 }
 
+# 법정동 시도코드(lDongRegnCd 앞 2자리) -> 광역명. 2026-10 드라이런에서 areacode 는 비어 있고 이 필드만 채워짐을 확인했다.
+# 구 코드(29/42/45/46)와 신 코드(12 전남광주통합, 51 강원특별자치도, 52 전북특별자치도)를 모두 받는다.
+# 전남광주통합특별시(12)는 KOPIS 수집기와 같이 '광주'로 두고, 지도는 두 권역을 '전남/광주' 한 권역으로 묶는다.
+LDONG_TO_REGION = {
+    "11": "서울", "26": "부산", "27": "대구", "28": "인천", "29": "광주", "30": "대전", "31": "울산", "36": "세종",
+    "41": "경기", "42": "강원", "51": "강원", "43": "충북", "44": "충남", "45": "전북", "52": "전북",
+    "46": "전남", "12": "광주", "47": "경북", "48": "경남", "50": "제주",
+}
+MAX_DURATION_DAYS = 45   # '섬 방문의 해'처럼 몇 달~몇 년짜리 캠페인/상설 항목은 기간 한정 행사가 아니라서 제외
+
 # 한국 본토+제주 대략 범위(경도 mapx, 위도 mapy). 벗어나면 잘못된 좌표로 보고 버린다.
 KOREA_LON = (124.0, 132.0)
 KOREA_LAT = (33.0, 39.0)
@@ -61,9 +71,10 @@ KOREA_LAT = (33.0, 39.0)
 # ---------------------------------------------------------------------------
 # 순수 함수 (테스트 대상)
 # ---------------------------------------------------------------------------
-def region_of(area_code: str, address: str) -> str:
-    """areaCode 로 권역을 정하고 주소로 교차검증. 코드가 없으면 주소만으로, 둘이 어긋나면 ''(제외)."""
-    by_code = AREA_CODE_TO_REGION.get(str(area_code or "").strip(), "")
+def region_of(area_code: str, address: str, ldong_code: str = "") -> str:
+    """법정동 시도코드(lDongRegnCd)/areaCode 로 권역을 정하고 주소로 교차검증. 코드가 없으면 주소만으로, 어긋나면 ''(제외)."""
+    ld = str(ldong_code or "").strip()[:2]
+    by_code = LDONG_TO_REGION.get(ld, "") or AREA_CODE_TO_REGION.get(str(area_code or "").strip(), "")
     # 주소 전체가 아니라 첫 토큰(시·도)만 본다 - "부산 해운대구" 의 '대구' 처럼 구 이름이 다른 광역으로 오인되는 것 방지
     by_addr = map_area((address or "").split(" ")[0] if (address or "").strip() else "")
     if by_code and by_addr and by_code != by_addr:
@@ -73,7 +84,9 @@ def region_of(area_code: str, address: str) -> str:
 
 _FREE_RE = re.compile(r"무\s*료|free|입장료\s*없|비용\s*없|참가비\s*없|관람료\s*없", re.IGNORECASE)
 _PAID_RE = re.compile(r"유\s*료|\d[\d,]*\s*원|\d+\s*만\s*원")
-_NOT_FREE_RE = re.compile(r"무\s*료\s*(?:가\s*)?(?:아님|아니|불가|제외)|유\s*료")
+_NOT_FREE_RE = re.compile(r"무\s*료\s*(?:가\s*)?(?:아님|아니|불가|제외)")
+# '입장/관람/참가(료) 무료' 처럼 들어가는 비용이 무료라고 명시되면, 일부 체험·푸드트럭 등 부가 유료 언급이 있어도 무료로 본다.
+_ENTRY_FREE_RE = re.compile(r"(?:입장|관람|참가|참여)\s*(?:료|비)?\s*(?:은|는)?\s*(?:전\s*면\s*)?무\s*료")
 
 
 def classify_fee(text: str) -> str:
@@ -83,6 +96,8 @@ def classify_fee(text: str) -> str:
         return "unknown"
     if _NOT_FREE_RE.search(t):
         return "paid"
+    if _ENTRY_FREE_RE.search(t):
+        return "free"
     free, paid = bool(_FREE_RE.search(t)), bool(_PAID_RE.search(t))
     if free and paid:
         return "partial"
@@ -172,8 +187,10 @@ def normalize_item(raw: dict, today: date, range_days: int = RANGE_DAYS, fee_tex
     horizon = (today + timedelta(days=range_days)).isoformat()
     if end < today.isoformat() or start > horizon:      # 이미 끝났거나 너무 먼 미래
         return None
+    if (date.fromisoformat(end) - date.fromisoformat(start)).days + 1 > MAX_DURATION_DAYS:   # 장기 캠페인/상설
+        return None
     address = " ".join(x for x in (raw.get("addr1"), raw.get("addr2")) if x).strip()
-    region = region_of(raw.get("areacode"), address)
+    region = region_of(raw.get("areacode"), address, raw.get("lDongRegnCd"))
     if not region:
         return None
     lon, lat = _float(raw.get("mapx")), _float(raw.get("mapy"))

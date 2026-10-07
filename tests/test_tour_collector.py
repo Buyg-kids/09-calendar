@@ -29,6 +29,15 @@ class TestRegion(unittest.TestCase):
         self.assertEqual(tc.region_of("32", "강원특별자치도 춘천시"), "강원")
         self.assertEqual(tc.region_of("35", "경상북도 경주시"), "경북")
 
+    def test_ldong_code(self):
+        # 실제 응답: areacode 는 비어 있고 lDongRegnCd 만 채워진다
+        self.assertEqual(tc.region_of("", "서울특별시 송파구", "11"), "서울")
+        self.assertEqual(tc.region_of("", "전남광주통합특별시 여수시", "12"), "광주")
+        self.assertEqual(tc.region_of("", "세종특별자치시 한솔동", "36110"), "세종")
+        self.assertEqual(tc.region_of("", "강원특별자치도 춘천시", "51"), "강원")
+        self.assertEqual(tc.region_of("", "전북특별자치도 전주시", "52"), "전북")
+        self.assertEqual(tc.region_of("", "경기도 수원시", "11"), "")      # 코드(서울)와 주소(경기) 불일치
+
     def test_address_only_and_missing(self):
         self.assertEqual(tc.region_of("", "부산광역시 해운대구"), "부산")
         self.assertEqual(tc.region_of("", ""), "")
@@ -48,6 +57,11 @@ class TestFee(unittest.TestCase):
 
     def test_partial(self):
         self.assertEqual(tc.classify_fee("어린이 무료, 성인 5,000원"), "partial")
+        self.assertEqual(tc.classify_fee("무료 (유료 체험 별도 3,000원)"), "partial")
+
+    def test_entry_free_with_paid_extras(self):
+        self.assertEqual(tc.classify_fee("입장료 무료 (일부 체험, 홍보판매 푸드트럭 등 유료)"), "free")
+        self.assertEqual(tc.classify_fee("관람 무료, 일부 프로그램 유료"), "free")
 
     def test_paid(self):
         for t in ["10,000원", "유료", "성인 3000원 / 청소년 2000원", "무료 아님"]:
@@ -92,6 +106,8 @@ class TestNormalize(unittest.TestCase):
         self.assertIsNone(tc.normalize_item({**base, "eventstartdate": "20270101", "eventenddate": "20270102"}, TODAY))  # 너무 먼 미래
         self.assertIsNotNone(tc.normalize_item({**base, "eventstartdate": "20261001", "eventenddate": "20261011"}, TODAY))  # 진행 중
         self.assertIsNone(tc.normalize_item({**base, "eventstartdate": ""}, TODAY))
+        self.assertIsNone(tc.normalize_item({**base, "eventstartdate": "20260301", "eventenddate": "20261231"}, TODAY))   # 장기 캠페인
+        self.assertIsNotNone(tc.normalize_item({**base, "eventstartdate": "20261001", "eventenddate": "20261030"}, TODAY))  # 30일
 
     def test_bad_coordinates_and_region(self):
         base = dict(self.items()[0])
