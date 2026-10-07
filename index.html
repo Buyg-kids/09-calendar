@@ -847,7 +847,7 @@
      1열 헤더(로고 | 검색 | 유틸 링크) + 얇은 경계선 아래 GNB + 가로형 히어로 배너.
      컨테이너 1140px, 카드는 화이트 + 얇은 #eee 선 + 작은 라운드. 모바일은 영향 없음. */
   @media (min-width: 768px) {
-    .brand-hero, .trip-banner { display: none; }
+    .brand-hero { display: none; }
     .app-header {
       margin: 0 -24px; padding: 0 24px; border-bottom: 1px solid #eee;
       display: grid; grid-template-columns: 1fr minmax(0, 500px) 1fr; grid-template-rows: 76px 48px; align-items: center; column-gap: 24px;
@@ -1111,6 +1111,22 @@
     .feed-tabs { padding: 0 0 16px; max-width: 420px; }
     #popularSection, #sec-closing, #sec-feed { scroll-margin-top: calc(var(--hdr-h) + 90px); }
   }
+
+  /* ================= 상단 배너 개편 (2026-10-07) ================= */
+  .count-bar {
+    margin: 8px 10px 0; padding: 11px 16px; border-radius: 12px; background: #f6f0fb; border: 1px solid #eadff6;
+    text-align: center; font-size: 13px; font-weight: 700; color: #4a2a63; word-break: keep-all; line-height: 1.45; cursor: default;
+  }
+  .count-bar[hidden] { display: none; }
+  .count-bar, .trip-banner-title { text-wrap: balance; }   /* 두 줄로 꺾일 때 '수집'/'🎭' 한 단어만 남지 않게 */
+  .count-bar b { color: var(--brand-purple); font-weight: 800; font-size: 1.08em; }
+  .culture-bridge { background: linear-gradient(135deg, #fdf1f6 0%, #f4ecfa 100%); border-color: #f3dcea; margin-bottom: 6px; }
+  .trip-banner:hover { border-color: #e2d0ef; }
+  @media (min-width: 768px) {
+    .trip-banner { display: flex; }
+    .count-bar { margin: 10px 0 0; padding: 13px 24px; font-size: 14.5px; }
+    .culture-bridge { margin: 22px 0 4px; }
+  }
 </style>
 </head>
 <body>
@@ -1170,22 +1186,16 @@
         </div>
         <a class="dt-hero-btn" href="map.html">나들이 지도 보기 →</a>
       </section>
-      <a class="hot-banner" id="hotBanner" href="#popularSection" aria-label="오늘 진행 중인 공구 보기">
-        <span class="hot-text">
-          <b class="hot-title">엄마들이 실시간으로 찜하는 육아 핫딜</b>
-          <span class="hot-sub" id="hotBannerSub">🔥 오늘 진행 중인 공구 확인하기</span>
-        </span>
-        <i class="hot-arrow">›</i>
-      </a>
-      <!-- 2026-10-03 주말 나들이 지도 바로가기 (지역/체험 공구 + 무료 나들이 지도) -->
-      <a class="trip-banner" href="./map.html" id="tripBanner">
+      <!-- 2026-10-07 상단 배너 개편: 1) 주말 무료 나들이 유도(지도 '무료 나들이' 탭으로 진입) 2) 데이터 규모 카운팅 바(링크 아님) -->
+      <a class="trip-banner" href="./map.html?tab=free" id="tripBanner">
         <span class="trip-banner-icon">🗺️</span>
         <span class="trip-banner-text">
-          <span class="trip-banner-title">이번 주말 아이랑 어디 갈까?</span>
-          <span class="trip-banner-sub">👉 전국 나들이·공구 지도 열기</span>
+          <span class="trip-banner-title">이번 주말 아이랑 뭐 하지?</span>
+          <span class="trip-banner-sub">전국 무료 나들이·축제 지도 한눈에 보기</span>
         </span>
         <span class="trip-banner-arrow">›</span>
       </a>
+      <div class="count-bar" id="countBar" role="status" hidden>🔥 오늘 진행 &amp; 오픈 예정 육아 공구 총 <b id="countBarNum">0</b>개 실시간 수집</div>
       <section class="section" id="sharedSection" hidden>
         <div class="section-head"><h2>🎁 공유받은 공구</h2><button type="button" class="shared-close" id="sharedClose">닫기 ✕</button></div>
         <div class="list-grid" id="sharedGrid"></div>
@@ -1248,6 +1258,15 @@
           </div>
         </div>
       </section>
+      <!-- 2026-10-07 공구 리스트 하단 브릿지: 공연·전시 유도 -->
+      <a class="trip-banner culture-bridge" href="./map.html?tab=show" id="cultureBridge">
+        <span class="trip-banner-icon">🎭</span>
+        <span class="trip-banner-text">
+          <span class="trip-banner-title">아이와 함께 볼만한 이번 달 공연·전시 🎭</span>
+          <span class="trip-banner-sub">어린이 뮤지컬·체험전 일정 지도에서 확인하기</span>
+        </span>
+        <span class="trip-banner-arrow">›</span>
+      </a>
       </div>
     </div>
     <footer class="site-footer">
@@ -1670,6 +1689,7 @@ function showFavToast(row) {
 }
 document.getElementById('favToastClose').addEventListener('click', hideFavToast);
 document.getElementById('tripBanner').addEventListener('click', function () { sendGaEvent('trip_banner_click', { banner: 'home_weekend_map' }); });
+(function () { const cb = document.getElementById('cultureBridge'); if (cb) cb.addEventListener('click', function () { sendGaEvent('culture_bridge_click', { banner: 'home_culture_map' }); }); })();
 document.getElementById('favToastCalBtn').addEventListener('click', function () {
   if (favToastRow) addToDeviceCalendar(favToastRow);
   hideFavToast();
@@ -2778,8 +2798,13 @@ function renderTodayBadge() {
   const n = ROWS.filter(isActive).length;
   const el = document.getElementById('todayBadge');
   const dt = document.getElementById('dtTodayBadge');
-  const hs = document.getElementById('hotBannerSub');
-  if (hs) hs.textContent = n ? '🔥 오늘 진행 중인 공구 ' + n + '개 확인하기' : '🔥 오늘의 공구 확인하기';
+  // 상단 카운팅 바: 오늘 진행 + 오픈 예정 공구 총 개수(정보 제공용)
+  const cb = document.getElementById('countBar');
+  if (cb) {
+    const total = ROWS.filter(function (r) { return isActive(r) || isFuture(r); }).length;
+    document.getElementById('countBarNum').textContent = total.toLocaleString('ko-KR');
+    cb.hidden = !total;
+  }
   if (!n) { el.hidden = true; if (dt) dt.hidden = true; return; }
   el.innerHTML = '🔥 오늘 진행 중인 공구 <b>' + n + '</b>개';
   el.hidden = false;
@@ -3013,18 +3038,6 @@ document.getElementById('homeLink').addEventListener('click', function (e) {
     try { sessionStorage.setItem('buygWeather', JSON.stringify({ t: Date.now(), list: list })); } catch (e) {}
     apply(list);
   }).catch(function () { /* 예보 실패: 고정 문구 유지 */ });
-})();
-
-
-// 상단 큐레이션 배너: 인기공구 섹션으로 부드럽게 이동
-(function () {
-  const b = document.getElementById('hotBanner');
-  if (!b) return;
-  b.addEventListener('click', function (e) {
-    e.preventDefault();
-    const t = document.getElementById('popularSection');
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
 })();
 
 

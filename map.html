@@ -1147,6 +1147,10 @@ window.addEventListener('popstate', () => closeSheet(true));
   if (demo) document.getElementById('status').textContent += ' · [샘플] 데이터 포함';
   const qf = new URLSearchParams(location.search).get('filter');
   if (qf === 'outdoor' || qf === 'indoor') { theme = qf; sendGaEvent('theme_chip_click', { theme: qf, theme_key: qf, from: 'home_weather' }); }
+  // 2026-10-07: 홈 배너 딥링크 ?tab=free(무료 나들이) / ?tab=show(공연·전시, culture 별칭) 로 해당 탭을 선택한 채 진입
+  const qtab = { culture: 'show' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
+  const qtabBtn = qtab && document.querySelector('.tab[data-sub="' + qtab.replace(/[^a-z]/g, '') + '"]');
+  if (qtabBtn) qtabBtn.click();
   render(); renderThemeChips();
   // 데스크톱 Split View: 왼쪽 패널이 비어 보이지 않게 데이터가 가장 많은 지역을 먼저 열어 둔다
   if (isDesktop()) {
