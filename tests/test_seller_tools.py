@@ -1,4 +1,4 @@
-﻿"""셀러 발굴 도구·사전필터 확장 단위 테스트 (네트워크/DB 접근 없음).
+"""셀러 발굴 도구·사전필터 확장 단위 테스트 (네트워크/DB 접근 없음).
 
 실행:  python -m unittest tests.test_seller_tools -v   (프로젝트 루트에서)
 """
@@ -139,6 +139,30 @@ class TestPrefilter(unittest.TestCase):
         for t in self.MUST_PASS + self.MUST_FAIL + self.LEGACY_PASS:
             if legacy_prefilter(t):
                 self.assertTrue(quick_prefilter(t))
+
+class TestEvidenceAndRegex(unittest.TestCase):
+    def test_use_evidence(self):
+        t = [{"influencer_name": "k", "instagram_id": "@k", "multilink_url": ""},
+             {"influencer_name": "n", "instagram_id": "@n", "multilink_url": ""}]
+        raw = [{"instagram": {"handle": "k", "bio_text": "문의 link.inpock.co.kr/k_shop"}},
+               {"instagram": {"handle": "n", "bio_text": "그냥 육아 일상"}}]
+        new, _ = fv.classify(t, raw)
+        self.assertEqual([x["is_verified_seller"] for x in new], [True, False])
+        self.assertEqual(new[0]["multilink_url"], "")  # 수집기 동작이 바뀌지 않도록 URL 은 채우지 않는다
+        new, _ = fv.classify(t)  # 근거 미사용 시에는 그대로 false
+        self.assertEqual([x["is_verified_seller"] for x in new], [False, False])
+
+    def test_scheduler_regex_schemeless(self):
+        from scraper.auto_discover_scheduler import MULTILINK_URL_RE
+        for txt, want in [("육아 link.inpock.co.kr/abc_d", "link.inpock.co.kr/abc_d"),
+                          ("https://litt.ly/xyz", "https://litt.ly/xyz"),
+                          ("inpk.link/q1 문의", "inpk.link/q1"),
+                          ("lit.link/foo.bar", "lit.link/foo.bar")]:
+            m = MULTILINK_URL_RE.search(txt)
+            self.assertIsNotNone(m, txt)
+            self.assertEqual(m.group(0), want)
+        self.assertIsNone(MULTILINK_URL_RE.search("evilinpk.link/q1"))
+        self.assertIsNone(MULTILINK_URL_RE.search("육아 일상 기록"))
 
 
 if __name__ == "__main__":

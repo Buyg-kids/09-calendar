@@ -112,12 +112,15 @@ PARENTING_KEYWORDS = ["이유식", "유아", "아동", "키즈", "베이비", "�
 CURATOR_BIO_KEYWORDS = ["공구연구소", "공구아카이브", "육아공구모음", "매일업데이트", "한눈에모아", "모아드려요", "아카이브"]
 MULTILINK_DOMAIN_MAP = {
     "inpock.co": "inpock",
+    "inpk.link": "inpock",
     "litt.ly": "littly",
     "linktr.ee": "linktree",
     "lit.link": "litlink",
 }
+# 2026-10-07: 프로필 소개에는 "link.inpock.co.kr/abc" 처럼 https:// 없이 적히는 경우가 많아(수집 데이터 374명) 스킴 없는 형태도 잡는다.
 MULTILINK_URL_RE = re.compile(
-    r"https?://[^\s]*(?:inpock\.co[^\s]*|litt\.ly/[A-Za-z0-9_.\-]+|linktr\.ee/[A-Za-z0-9_.\-]+|lit\.link/[A-Za-z0-9_.\-]+)"
+    r"(?:https?://[^\s]*(?:inpock\.co[^\s]*|litt\.ly/[A-Za-z0-9_.\-]+|linktr\.ee/[A-Za-z0-9_.\-]+|lit\.link/[A-Za-z0-9_.\-]+)"
+    r"|(?<![A-Za-z0-9.\-/])(?:link\.inpock\.co\.kr|inpk\.link|litt\.ly|linktr\.ee|lit\.link)/[A-Za-z0-9_.\-]+)"
 )
 
 # 인스타그램 실제 핸들 형식: 영문/숫자/마침표/밑줄, 1~30자 (공백·한글·기타 기호 불가).
@@ -291,6 +294,8 @@ def _check_profile(browser, handle: str) -> dict | None:
         m = MULTILINK_URL_RE.search(header_text)
         if m:
             multilink_url = m.group(0)
+            if not multilink_url.lower().startswith("http"):
+                multilink_url = "https://" + multilink_url
             for domain, mtype in MULTILINK_DOMAIN_MAP.items():
                 if domain in multilink_url:
                     multilink_type = mtype

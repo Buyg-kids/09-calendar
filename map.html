@@ -683,20 +683,18 @@ function render() {
       `<g class="badge"><circle cx="${x}" cy="${y}" r="9"/><text x="${x}" y="${y}">${n}</text></g>`);
   });
 
-  // 지도에 못 올리는 공구: 전국 이용권 / 지역 미상
+  // 지도에 못 올리는 공구: 전국 이용권 (지역 미상은 로드 단계에서 이미 제외됨)
   const extra = document.getElementById('extra');
   extra.innerHTML = '';
   const noExtra = activeSub === 'show' || activeSub === 'free' || themeActive();
   const nation = noExtra ? [] : deals.filter(d => subMatch(d) && d.region === '전국');
-  const unknown = noExtra ? [] : deals.filter(d => subMatch(d) && !REGION_GROUP[d.region] && d.region !== '전국');
   if (nation.length) extra.insertAdjacentHTML('beforeend', `<button class="pill" data-extra="전국">🗺️ 전국 이용권 ${nation.length}</button>`);
-  if (unknown.length) extra.insertAdjacentHTML('beforeend', `<button class="pill muted" data-extra="미상">📍 지역 미상 ${unknown.length}</button>`);
   extra.querySelectorAll('.pill').forEach(b => b.addEventListener('click', () => {
     sendGaEvent('map_region_click', { map_region: b.dataset.extra, deal_count: listFor(b.dataset.extra).length });
     openSheet(b.dataset.extra);
   }));
 
-  const total = Object.values(counts).reduce((a, b) => a + b, 0) + nation.length + unknown.length;
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) + nation.length;
   const msg = document.getElementById('emptyMsg');
   msg.hidden = total > 0;
   msg.textContent = activeSub === 'show' ? '지금 진행·예정인 어린이 공연이 없어요.' : themeActive() ? '이 테마에 맞는 나들이 장소가 아직 없어요.' : activeSub === 'stay' ? '지금 진행 중인 숙소·여행 공구가 없어요.' : activeSub === 'play' ? '지금 진행 중인 키카·체험 공구가 없어요.' : '지금 표시할 공구·나들이 정보가 없어요.';
@@ -705,7 +703,6 @@ function render() {
 function listFor(key) {
   return deals.filter(d => subMatch(d) && (
     key === '전국' ? d.region === '전국'
-      : key === '미상' ? (!REGION_GROUP[d.region] && d.region !== '전국')
         : REGION_GROUP[d.region] === key))
     .sort((a, b) => (a.end_date || '9999').localeCompare(b.end_date || '9999'));
 }
@@ -718,7 +715,7 @@ function openSheet(key) {
   sheetKey = key;
   if (window.wxSetRegion) window.wxSetRegion(key);
   sheetSubFilter = '전체';
-  selected = (key === '전국' || key === '미상') ? null : key;
+  selected = key === '전국' ? null : key;
   render();
   renderSubChips();
   renderSheetBody();
@@ -735,7 +732,7 @@ function renderSubChips() {
   const box = document.getElementById('subChips');
   box.innerHTML = '';
   const key = sheetKey;
-  if (key === '전국' || key === '미상' || activeSub === 'show' || themeActive()) { box.hidden = true; return; }
+  if (key === '전국' || activeSub === 'show' || themeActive()) { box.hidden = true; return; }
   const counts = {};
   listFor(key).forEach(d => { const k = subOfDeal(d); counts[k] = (counts[k] || 0) + 1; });
   freeSpots.filter(sp => sp.region === key).forEach(sp => { const k = subOfSpot(sp); counts[k] = (counts[k] || 0) + 1; });
@@ -963,7 +960,7 @@ function renderSheetBody() {
   const sf = sheetSubFilter;
   const list = listFor(key).filter(d => sf === '전체' || subOfDeal(d) === sf);
   const spots = freeSpots.filter(sp => sp.region === key && (sf === '전체' || subOfSpot(sp) === sf));
-  const label = key === '전국' ? '전국 이용권' : key === '미상' ? '지역 미상' : key.replace(/\//g, '·');
+  const label = key === '전국' ? '전국 이용권' : key.replace(/\//g, '·');
   const hasSpots = freeSpots.some(sp => sp.region === key);
   document.getElementById('sheetTitle').textContent = activeSub === 'free' ? label + ' 무료 나들이'
     : activeSub === 'all' ? (listFor(key).length ? label + ' 공구·나들이' : label + ' 나들이 추천')
@@ -1143,7 +1140,8 @@ window.addEventListener('popstate', () => closeSheet(true));
 (async function init() {
   try { const r = await fetch(SHOWS_URL, { cache: 'no-store' }); if (r.ok) shows = (await r.json()).performances || []; } catch (e) { /* 공연 없이도 동작 */ }
   try { const r = await fetch(SPOTS_URL, { cache: 'no-store' }); if (r.ok) freeSpots = (await r.json()).spots || []; } catch (e) { /* 무료 스팟 없이도 동작 */ }
-  const loaded = (await loadDeals()).filter(isLive);
+  // 2026-10-07: 주소/지역을 알 수 없는 공구(지역 미상)는 지도에서 완전히 제외 - 홈의 '체험/여행' 탭에서만 노출. 전국 이용권은 유지.
+  const loaded = (await loadDeals()).filter(isLive).filter(d => REGION_GROUP[d.region] || d.region === '전국');
   const demo = new URLSearchParams(location.search).get('demo') === '1';
   deals = demo ? loaded.concat(demoDeals()) : loaded;
   if (demo) document.getElementById('status').textContent += ' · [샘플] 데이터 포함';
