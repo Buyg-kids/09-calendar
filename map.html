@@ -440,6 +440,7 @@
   <div class="tabs" role="tablist">
     <button class="tab active" data-sub="all" role="tab" aria-selected="true">🗺️ 전체</button>
     <button class="tab" data-sub="free" role="tab" aria-selected="false">🌿 무료 나들이</button>
+    <button class="tab" data-sub="festival" role="tab" aria-selected="false">🎪 행사·축제</button>
     <button class="tab" data-sub="stay" role="tab" aria-selected="false">🧳 숙소·여행</button>
     <button class="tab" data-sub="play" role="tab" aria-selected="false">🎠 키카·체험</button>
     <button class="tab" data-sub="show" role="tab" aria-selected="false">🎭 공연·전시</button>
@@ -570,7 +571,7 @@ const TOUR_URLS = ['./tour_events.json', 'https://buyg.kr/tour_events.json'];
 let tourEvents = [];   // 한국관광공사 TourAPI 행사·축제 (무료 나들이 탭에만 사용)
 let activeSub = 'all';
 // 탭 -> 공구 매칭: 전체=숙소+체험 모두, 무료 나들이=공구 없음(스팟만), 그 외=해당 분류
-function subMatch(d) { return activeSub === 'all' ? true : activeSub === 'free' ? false : subOf(d) === activeSub; }
+function subMatch(d) { return activeSub === 'all' ? true : (activeSub === 'free' || activeSub === 'festival') ? false : subOf(d) === activeSub; }
 let shows = [];
 let theme = '';
 const THEMES = [
@@ -663,6 +664,10 @@ function countsFor(sub) {
     shows.forEach(p => { const g = REGION_GROUP[p.region]; if (g) counts[g] = (counts[g] || 0) + 1; });
     return counts;
   }
+  if (sub === 'festival') {
+    tourAll().forEach(e => { const g = REGION_GROUP[e.region]; counts[g] = (counts[g] || 0) + 1; });
+    return counts;
+  }
   if (themeActive()) {
     themeSpots().forEach(sp => { counts[sp.region] = (counts[sp.region] || 0) + 1; });
     return counts;
@@ -671,7 +676,6 @@ function countsFor(sub) {
     const g = REGION_GROUP[d.region]; counts[g] = (counts[g] || 0) + 1;
   });
   if (sub === 'all' || sub === 'free') freeSpots.forEach(sp => { counts[sp.region] = (counts[sp.region] || 0) + 1; });
-  if (sub === 'free') tourFree().forEach(e => { const g = REGION_GROUP[e.region]; counts[g] = (counts[g] || 0) + 1; });
   return counts;
 }
 
@@ -700,7 +704,7 @@ function render() {
   // 지도에 못 올리는 공구: 전국 이용권 (지역 미상은 로드 단계에서 이미 제외됨)
   const extra = document.getElementById('extra');
   extra.innerHTML = '';
-  const noExtra = activeSub === 'show' || activeSub === 'free' || themeActive();
+  const noExtra = activeSub === 'show' || activeSub === 'free' || activeSub === 'festival' || themeActive();
   const nation = noExtra ? [] : deals.filter(d => subMatch(d) && d.region === '전국');
   if (nation.length) extra.insertAdjacentHTML('beforeend', `<button class="pill" data-extra="전국">🗺️ 전국 이용권 ${nation.length}</button>`);
   extra.querySelectorAll('.pill').forEach(b => b.addEventListener('click', () => {
@@ -711,7 +715,7 @@ function render() {
   const total = Object.values(counts).reduce((a, b) => a + b, 0) + nation.length;
   const msg = document.getElementById('emptyMsg');
   msg.hidden = total > 0;
-  msg.textContent = activeSub === 'show' ? '지금 진행·예정인 어린이 공연이 없어요.' : themeActive() ? '이 테마에 맞는 나들이 장소가 아직 없어요.' : activeSub === 'stay' ? '지금 진행 중인 숙소·여행 공구가 없어요.' : activeSub === 'play' ? '지금 진행 중인 키카·체험 공구가 없어요.' : '지금 표시할 공구·나들이 정보가 없어요.';
+  msg.textContent = activeSub === 'show' ? '지금 진행·예정인 어린이 공연이 없어요.' : activeSub === 'festival' ? '지금 진행·예정인 행사·축제가 없어요.' : themeActive() ? '이 테마에 맞는 나들이 장소가 아직 없어요.' : activeSub === 'stay' ? '지금 진행 중인 숙소·여행 공구가 없어요.' : activeSub === 'play' ? '지금 진행 중인 키카·체험 공구가 없어요.' : '지금 표시할 공구·나들이 정보가 없어요.';
 }
 
 function listFor(key) {
@@ -746,7 +750,7 @@ function renderSubChips() {
   const box = document.getElementById('subChips');
   box.innerHTML = '';
   const key = sheetKey;
-  if (key === '전국' || activeSub === 'show' || themeActive()) { box.hidden = true; return; }
+  if (key === '전국' || activeSub === 'show' || activeSub === 'festival' || themeActive()) { box.hidden = true; return; }
   const counts = {};
   listFor(key).forEach(d => { const k = subOfDeal(d); counts[k] = (counts[k] || 0) + 1; });
   freeSpots.filter(sp => sp.region === key).forEach(sp => { const k = subOfSpot(sp); counts[k] = (counts[k] || 0) + 1; });
@@ -969,12 +973,12 @@ function renderThemeSheet() {
 
 function renderSheetBody() {
   if (activeSub === 'show') { renderShowSheet(); return; }
+  if (activeSub === 'festival') { renderFestivalSheet(); return; }
   if (themeActive()) { renderThemeSheet(); return; }
   const key = sheetKey;
   const sf = sheetSubFilter;
   const list = listFor(key).filter(d => sf === '전체' || subOfDeal(d) === sf);
   const spots = freeSpots.filter(sp => sp.region === key && (sf === '전체' || subOfSpot(sp) === sf));
-  const evs = activeSub === 'free' && sf === '전체' ? tourFor(key) : [];
   const label = key === '전국' ? '전국 이용권' : key.replace(/\//g, '·');
   const hasSpots = freeSpots.some(sp => sp.region === key);
   document.getElementById('sheetTitle').textContent = activeSub === 'free' ? label + ' 무료 나들이'
@@ -983,7 +987,7 @@ function renderSheetBody() {
     : label + ' ' + (activeSub === 'stay' ? '숙소·여행' : '키카·체험') + ' 공구';
   const box = document.getElementById('sheetList');
   box.innerHTML = '';
-  if (!list.length && !(activeSub === 'free' && (spots.length || evs.length))) box.appendChild(spots.length ? noDealNote(key) : emptyState(key, label));
+  if (!list.length && !(activeSub === 'free' && spots.length)) box.appendChild(spots.length ? noDealNote(key) : emptyState(key, label));
   list.forEach(d => {
     const a = document.createElement('a');
     a.className = 'card';
@@ -1009,18 +1013,17 @@ function renderSheetBody() {
     if (d._demo) a.querySelector('.row1').insertAdjacentHTML('afterbegin', '<span class="sample">샘플</span>');
     box.appendChild(a);
   });
-  renderTourEvents(evs, box);
   renderSpots(spots, box);
   document.getElementById('sheetSub').textContent =
-    [list.length ? '공구 ' + list.length + '건 · 마감 빠른 순' : '', evs.length ? '무료 행사 ' + evs.length + '건' : '', spots.length ? '무료 나들이 ' + spots.length + '곳' : ''].filter(Boolean).join(' · ');
+    [list.length ? '공구 ' + list.length + '건 · 마감 빠른 순' : '', spots.length ? '무료 나들이 ' + spots.length + '곳' : ''].filter(Boolean).join(' · ');
   box.scrollTop = 0;
 }
 
 // ---- 한국관광공사 TourAPI 무료 행사·축제 ----
-function tourFree() { return tourEvents.filter(e => e.is_free && REGION_GROUP[e.region] && isLive(e)); }
+function tourAll() { return tourEvents.filter(e => REGION_GROUP[e.region] && isLive(e)); }
 // 아이 적합도 점수 높은 순 -> 시작일 빠른 순 (점수로 제외하지는 않는다)
 function tourFor(key) {
-  return tourFree().filter(e => REGION_GROUP[e.region] === key)
+  return tourAll().filter(e => REGION_GROUP[e.region] === key)
     .sort((a, b) => (b.kid_score || 0) - (a.kid_score || 0) || (a.start_date || '').localeCompare(b.start_date || '') || (a.title || '').localeCompare(b.title || ''));
 }
 function tourStatus(e) {
@@ -1031,15 +1034,17 @@ function tourStatus(e) {
 }
 function renderTourEvents(evs, box) {
   if (!evs.length) return 0;
-  box.insertAdjacentHTML('beforeend', '<div class="free-head"><h3>🎪 무료 행사·축제</h3><span>출처: 한국관광공사 · 일정·운영은 방문 전 확인해 주세요</span></div>');
+  box.insertAdjacentHTML('beforeend', '<div class="free-head"><h3>🎪 행사·축제</h3><span>출처: 한국관광공사 · 일정·운영은 방문 전 확인해 주세요</span></div>');
   evs.forEach(e => {
     const a = document.createElement('a');
     a.className = 'spot ev';
     a.href = e.link; a.target = '_blank'; a.rel = 'noopener';
     a.innerHTML = '<span class="spot-icon">🎪</span><span class="spot-body"><span class="spot-title"></span>'
-      + '<span class="spot-meta"><span class="ev-date st"></span><span class="ev-date dt"></span><span class="spot-tag">무료</span></span>'
+      + '<span class="spot-meta"><span class="ev-date st"></span><span class="ev-date dt"></span><span class="spot-tag"></span></span>'
       + '<span class="spot-addr"></span></span>';
     a.querySelector('.spot-title').textContent = e.title;   // 원문 그대로(가공 금지)
+    const fee = { free: '무료', partial: '일부 무료', paid: '유료', unknown: '요금 확인' }[e.fee_type] || '요금 확인';
+    const feeEl = a.querySelector('.spot-tag'); feeEl.textContent = fee; if (e.fee_type !== 'free') feeEl.classList.add('warn');
     const st = tourStatus(e);
     const stEl = a.querySelector('.st'); stEl.textContent = st.t; if (st.c) stEl.classList.add(st.c);
     a.querySelector('.dt').textContent = '📅 ' + (e.end_date && e.end_date !== e.start_date ? shortDate(e.start_date) + ' ~ ' + shortDate(e.end_date) : shortDate(e.start_date));
@@ -1049,6 +1054,19 @@ function renderTourEvents(evs, box) {
     box.appendChild(a);
   });
   return evs.length;
+}
+
+function renderFestivalSheet() {
+  const key = sheetKey;
+  const label = key.replace(/\//g, '·');
+  const list = tourFor(key);
+  document.getElementById('sheetTitle').textContent = label + ' 행사·축제';
+  document.getElementById('sheetSub').textContent = list.length ? '진행·예정 ' + list.length + '건 · 한국관광공사' : '';
+  const box = document.getElementById('sheetList');
+  box.innerHTML = '';
+  if (!list.length) { box.appendChild(emptyState(key, label)); return; }
+  renderTourEvents(list, box);
+  box.scrollTop = 0;
 }
 
 function renderSpots(spots, box) {
@@ -1130,7 +1148,7 @@ function closeSheet(fromPop) {
 
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
   activeSub = t.dataset.sub;
-  sendGaEvent('map_tab_click', { map_tab: { all: '전체', free: '무료 나들이', stay: '숙소·여행', play: '키카·체험', show: '공연·전시' }[activeSub] });
+  sendGaEvent('map_tab_click', { map_tab: { all: '전체', free: '무료 나들이', festival: '행사·축제', stay: '숙소·여행', play: '키카·체험', show: '공연·전시' }[activeSub] });
   document.querySelectorAll('.tab').forEach(x => { x.classList.toggle('active', x === t); x.setAttribute('aria-selected', x === t); });
   render(); renderThemeChips();
   if (isDesktop() && sheetKey) { sheetSubFilter = '전체'; renderSubChips(); renderSheetBody(); }
@@ -1202,7 +1220,7 @@ window.addEventListener('popstate', () => closeSheet(true));
   const qf = new URLSearchParams(location.search).get('filter');
   if (qf === 'outdoor' || qf === 'indoor') { theme = qf; sendGaEvent('theme_chip_click', { theme: qf, theme_key: qf, from: 'home_weather' }); }
   // 2026-10-07: 홈 배너 딥링크 ?tab=free(무료 나들이) / ?tab=show(공연·전시, culture 별칭) 로 해당 탭을 선택한 채 진입
-  const qtab = { culture: 'show' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
+  const qtab = { culture: 'show', events: 'festival' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
   const qtabBtn = qtab && document.querySelector('.tab[data-sub="' + qtab.replace(/[^a-z]/g, '') + '"]');
   if (qtabBtn) qtabBtn.click();
   render(); renderThemeChips();
