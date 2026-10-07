@@ -39,12 +39,14 @@ logger = logging.getLogger(__name__)
 OUTPUT_PATH = BASE_DIR / "tour_events.json"
 KOPIS_PATH = BASE_DIR / "kids_performances.json"
 DETAIL_CACHE_PATH = BASE_DIR / "data" / "tour_detail_cache.json"   # data/ 는 gitignore
+HOME_CACHE_PATH = BASE_DIR / "data" / "tour_home_cache.json"       # 공식 홈페이지 URL 캐시 (modifiedtime 기준)
 BASE_URL = "https://apis.data.go.kr/B551011/KorService2"
 SOURCE_NAME = "한국관광공사"
 RANGE_DAYS = 75          # KOPIS 수집기와 같은 기간
 ROWS = 100
 MAX_PAGES = 5
 MAX_DETAIL_CALLS = 150   # 상세(요금) 호출 상한 - modifiedtime 이 바뀐 것만 호출한다
+MAX_HOME_CALLS = 250     # 공식 홈페이지(detailCommon2) 호출 상한 - 역시 modifiedtime 이 바뀐 것만
 TIMEOUT = 20
 
 # TourAPI 지역코드(areaCode) -> 지도 데이터 광역명. 코드표는 areaCode2 로 확인 가능(첫 드라이런에서 대조).
@@ -122,6 +124,30 @@ def kid_score(title: str, extra: str = "") -> int | None:
     return len({w for w in _KID_POS if w in hay})
 
 
+_HREF_RE = re.compile(r"""href\s*=\s*["']([^"']+)["']""", re.IGNORECASE)
+
+
+def clean_homepage(text: str) -> str:
+    """detailCommon2 의 homepage(HTML 앵커/맨 주소/스킴 없는 주소가 섞여 있음) -> 안전한 http(s) URL, 없으면 ''."""
+    t = (text or "").strip()
+    if not t:
+        return ""
+    m = _HREF_RE.search(t)
+    url = m.group(1).strip() if m else re.sub(r"<[^>]+>", " ", t).split()[0] if re.sub(r"<[^>]+>", " ", t).split() else ""
+    if not url or url.lower().startswith(("javascript:", "data:", "mailto:", "tel:")):
+        return ""
+    if not re.match(r"^https?://", url, re.IGNORECASE):
+        url = "https://" + url.lstrip("/")
+    host = re.sub(r"^https?://", "", url, flags=re.IGNORECASE).split("/")[0]
+    return url if "." in host and " " not in url else ""
+
+
+def naver_map_url(address: str, title: str = "") -> str:
+    """네이버 지도 검색 URL. 행사명이 아니라 주소(괄호 속 동 이름 제거)로 검색해야 '업체 없음'이 나지 않는다. 주소가 없으면 장소/제목."""
+    q = re.sub(r"\s+", " ", re.sub(r"\([^)]*\)", " ", address or "")).strip() or (title or "").strip()
+    return "https://map.naver.com/p/search/" + quote(q)
+
+
 def sort_events(events: list[dict]) -> list[dict]:
     """아이 적합도 점수가 높은 행사를 위로, 같으면 시작일 빠른 순, 그다음 제목순. (점수로 제외하지는 않는다 - 성인 대상만 kid_score()가 걸러냄)"""
     return sorted(events, key=lambda e: (-(e.get("kid_score") or 0), e.get("start_date", ""), e.get("title", "")))
@@ -182,7 +208,7 @@ def parse_items(payload: dict) -> list[dict]:
     return [item] if isinstance(item, dict) else list(item or [])
 
 
-def normalize_item(raw: dict, today: date, range_days: int = RANGE_DAYS, fee_text: str = "") -> dict | None:
+def normalize_item(raw: dict, today: date, range_days: int = RANGE_DAYS, fee_text: str = "", homepage: str = "") -> dict | None:
     """원본 item 1건 -> 지도용 이벤트 dict. 지역/날짜/좌표가 불분명하거나 성인 대상이면 None."""
     cid = str(raw.get("contentid") or "").strip()
     title = (raw.get("title") or "").strip()
@@ -212,7 +238,8 @@ def normalize_item(raw: dict, today: date, range_days: int = RANGE_DAYS, fee_tex
         "mapx": lon, "mapy": lat, "fee_text": fee_text, "fee_type": ftype, "is_free": ftype == "free",
         "kid_score": score, "tel": (raw.get("tel") or "").strip(), "modifiedtime": str(raw.get("modifiedtime") or ""),
         "source": SOURCE_NAME,
-        "link": "https://map.naver.com/p/search/" + quote(title),   # 이미지 없이 링크만(1차)
+        "link": naver_map_url((raw.get("addr1") or ""), title),   # 이미지 없이 링크만 - 주소(addr1) 기반 네이버 지도
+        "info_url": clean_homepage(homepage),                      # 공식/상세 안내(TourAPI detailCommon2 homepage), 없으면 ''
     }
 
 
@@ -257,6 +284,23 @@ def fetch_festivals(key: str, today: date, range_days: int = RANGE_DAYS) -> list
     return out
 
 
+def fetch_homepage(key: str, raw: dict, cache: dict, budget: list[int]) -> str:
+    """공식 홈페이지 URL(detailCommon2). modifiedtime 이 같으면 캐시를 쓰고, 호출은 budget 만큼만."""
+    cid, mod = str(raw.get("contentid")), str(raw.get("modifiedtime") or "")
+    hit = cache.get(cid)
+    if hit is not None and hit.get("modifiedtime") == mod:
+        return hit.get("homepage", "")
+    if budget[0] <= 0:
+        return hit.get("homepage", "") if hit else ""
+    budget[0] -= 1
+    payload = _get("detailCommon2", key, {"contentId": cid})
+    items = parse_items(payload) if payload else []
+    hp = clean_homepage((items[0].get("homepage") if items else "") or "")
+    cache[cid] = {"modifiedtime": mod, "homepage": hp}
+    time.sleep(0.2)
+    return hp
+
+
 def _load_cache() -> dict:
     try:
         return json.loads(DETAIL_CACHE_PATH.read_text(encoding="utf-8"))
@@ -285,10 +329,17 @@ def fetch_fee(key: str, raw: dict, cache: dict, budget: list[int]) -> str:
 def build_events(key: str, today: date) -> tuple[list[dict], dict]:
     raws = fetch_festivals(key, today)
     cache, budget = _load_cache(), [MAX_DETAIL_CALLS]
+    try:
+        hcache = json.loads(HOME_CACHE_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        hcache = {}
+    hbudget = [MAX_HOME_CALLS]
     events, dropped = [], Counter()
     for raw in raws:
         fee = fetch_fee(key, raw, cache, budget)
         ev = normalize_item(raw, today, fee_text=fee)
+        if ev:   # 홈페이지는 지도에 올라갈 행사에 대해서만 조회한다
+            ev["info_url"] = fetch_homepage(key, raw, hcache, hbudget)
         if ev:
             events.append(ev)
         else:
@@ -296,6 +347,7 @@ def build_events(key: str, today: date) -> tuple[list[dict], dict]:
     try:
         DETAIL_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
         DETAIL_CACHE_PATH.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        HOME_CACHE_PATH.write_text(json.dumps(hcache, ensure_ascii=False), encoding="utf-8")
     except OSError:
         pass
     try:

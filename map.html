@@ -315,6 +315,20 @@
     color: #fff; font-size: 15px; font-weight: 800;
   }
   .deal-apply-btn:active { background: #43005c; }
+  /* 행사·장소 상세 시트 버튼 (공구 상세 시트 재사용) */
+  .pd-actions { display: flex; flex-direction: column; gap: 8px; }
+  .pd-row { display: flex; gap: 8px; }
+  .pd-btn {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 13px 10px; border-radius: 12px;
+    border: 1.5px solid #e2e8f0; background: #fff; color: #334155; font-size: 14px; font-weight: 800; text-decoration: none;
+    cursor: pointer; font-family: inherit; text-align: center; word-break: keep-all;
+  }
+  .pd-btn.primary { background: var(--brand-purple); border-color: var(--brand-purple); color: #fff; }
+  .pd-btn.primary:active { background: #43005c; }
+  .pd-btn.fav { flex: 0 0 36%; }
+  .pd-btn.fav.on { background: #fff1f4; border-color: #f9a8bb; color: #e11d48; }
+  .pd-src { margin-top: 12px; font-size: 11.5px; color: #94a3b8; }
+  .deal-brand .spot-tag { margin-left: 4px; vertical-align: 1px; }
   body.deal-open { overflow: hidden; }
   .sb.stroller { background: #eafaf0; color: #1f8f4e; }
   .sb.stroller.warn { background: #fff4e5; color: #c2710c; }
@@ -1038,7 +1052,7 @@ function renderTourEvents(evs, box) {
   evs.forEach(e => {
     const a = document.createElement('a');
     a.className = 'spot ev';
-    a.href = e.link; a.target = '_blank'; a.rel = 'noopener';
+    a.style.cursor = 'pointer'; a.setAttribute('role', 'button'); a.tabIndex = 0;
     a.innerHTML = '<span class="spot-icon">🎪</span><span class="spot-body"><span class="spot-title"></span>'
       + '<span class="spot-meta"><span class="ev-date st"></span><span class="ev-date dt"></span><span class="spot-tag"></span></span>'
       + '<span class="spot-addr"></span></span>';
@@ -1050,10 +1064,94 @@ function renderTourEvents(evs, box) {
     a.querySelector('.dt').textContent = '📅 ' + (e.end_date && e.end_date !== e.start_date ? shortDate(e.start_date) + ' ~ ' + shortDate(e.end_date) : shortDate(e.start_date));
     a.querySelector('.spot-addr').textContent = '📍 ' + (e.place || e.address || e.region);
     if ((e.kid_score || 0) >= 1) a.querySelector('.spot-meta').insertAdjacentHTML('beforeend', '<span class="ev-kid">🧒 아이 동반 추천</span>');
-    a.addEventListener('click', () => sendGaEvent('tour_event_click', { event_title: (e.title || '').slice(0, 100), map_region: e.region }));
+    const openIt = () => { sendGaEvent('tour_event_click', { event_title: (e.title || '').slice(0, 100), map_region: e.region }); openPlaceDetail(eventInfo(e)); };
+    a.addEventListener('click', openIt); a.addEventListener('keydown', ev => { if (ev.key === 'Enter') openIt(); });
     box.appendChild(a);
   });
   return evs.length;
+}
+
+// ---- 행사·장소 상세 (바텀시트/모달: 공구 상세 시트 DOM 재사용) + 찜하기(localStorage) ----
+const PLACE_FAV_KEY = 'buyg_place_favs_v1';   // 메인 홈 '찜한 공구' 탭이 같은 키를 읽는다
+const FEE_LABEL = { free: '무료', partial: '일부 무료', paid: '유료', unknown: '요금 확인' };
+function placeFavs() { try { const a = JSON.parse(localStorage.getItem(PLACE_FAV_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (err) { return []; } }
+function isPlaceFav(id) { return placeFavs().some(f => f && f.id === id); }
+function togglePlaceFav(info) {
+  const list = placeFavs(); const i = list.findIndex(f => f && f.id === info.id);
+  if (i >= 0) list.splice(i, 1); else list.push(Object.assign({}, info.fav, { id: info.id, saved_at: Date.now() }));
+  try { localStorage.setItem(PLACE_FAV_KEY, JSON.stringify(list)); } catch (err) { /* 저장소 차단: 상태 유지 */ }
+  return isPlaceFav(info.id);
+}
+// 네이버 지도는 행사명으로 검색하면 '업체 없음'이 나므로 주소(괄호 속 동 이름 제거)로 연결한다. 주소가 없으면 장소/제목.
+function naverMapUrl(addr, fallback) {
+  const q = String(addr || '').replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim() || String(fallback || '').trim();
+  return 'https://map.naver.com/p/search/' + encodeURIComponent(q);
+}
+function webSearchUrl(q) { return 'https://search.naver.com/search.naver?query=' + encodeURIComponent(q); }
+function eventInfo(e) {
+  const fee = FEE_LABEL[e.fee_type] || '요금 확인';
+  const ft = (e.fee_text || '').replace(/\s+/g, ' ').trim();
+  const period = e.end_date && e.end_date !== e.start_date ? shortDate(e.start_date) + ' ~ ' + shortDate(e.end_date) : shortDate(e.start_date);
+  const rows = [['행사 기간', period], ['요금', fee + (ft && ft.length <= 60 && ft !== fee ? ' · ' + ft : '')], ['주소', e.address || e.place || e.region]];
+  if (e.tel) rows.push(['문의', e.tel]);
+  return {
+    id: e.id, kind: 'event', title: e.title, region: e.region, badge: tourStatus(e), fee: { t: fee, free: e.fee_type === 'free' }, rows,
+    mapUrl: naverMapUrl(e.address || e.place, e.title), infoUrl: e.info_url || '', infoLabel: e.info_url ? '🔗 공식 안내 페이지' : '🔎 행사 정보 검색',
+    searchUrl: webSearchUrl(e.title + ' ' + e.region), source: '출처: 한국관광공사 · 일정·요금·운영은 방문 전 공식 안내를 확인해 주세요',
+    fav: { kind: 'event', tab: 'festival', title: e.title, region: e.region, address: e.address || '', start_date: e.start_date, end_date: e.end_date, fee },
+  };
+}
+function spotInfo(sp) {
+  const facility = [sp.space_type, sp.parking, sp.baby_care ? '수유실' : '', sp.stroller === true ? '유모차 가능' : sp.stroller === false ? '유모차 주의' : ''].filter(Boolean).join(' · ');
+  const free = /^무료/.test(sp.tag || '');
+  return {
+    id: sp.id, kind: 'spot', title: sp.title, region: sp.region, badge: null, fee: { t: free ? '무료' : (sp.tag || '요금 확인'), free },
+    rows: [['구분', sp.category || '무료 나들이'], ['요금·운영', sp.tag || '방문 전 확인'], ['시설 정보', facility || '정보 없음'], ['주소', sp.address || sp.region]],
+    mapUrl: sp.link || naverMapUrl(sp.address, sp.title), infoUrl: '', infoLabel: '🔎 공식·관련 안내 검색', searchUrl: webSearchUrl(sp.title),
+    source: '운영시간·휴관일·예약은 방문 전 확인해 주세요',
+    fav: { kind: 'spot', tab: 'free', title: sp.title, region: sp.region, address: sp.address || '', start_date: '', end_date: '', fee: free ? '무료' : (sp.tag || '') },
+  };
+}
+function openPlaceDetail(info) {
+  const wasOpen = !!dealOpenRow; dealOpenRow = info;
+  const scroll = document.getElementById('dealScroll'); scroll.innerHTML = ''; scroll.scrollTop = 0;
+  const tr = mkEl('div', 'deal-title-row');
+  if (info.badge) tr.appendChild(mkEl('span', 'dm-dday' + (info.badge.c === 'soon' ? ' hot' : ''), info.badge.t));
+  const title = mkEl('h2', 'deal-title', info.title); title.id = 'dealTitle';
+  title.style.display = 'block'; title.style.webkitLineClamp = 'unset';   // 제목 전체를 원문 그대로 보여 준다
+  tr.appendChild(title);
+  const meta = mkEl('div', 'deal-brand', '📍 ' + String(info.region).replace(/\//g, '·'));
+  meta.appendChild(mkEl('span', 'spot-tag' + (info.fee.free ? '' : ' warn'), info.fee.t));
+  tr.appendChild(meta); scroll.appendChild(tr);
+  const grid = mkEl('div', 'deal-info'); info.rows.forEach(r => grid.appendChild(infoBox(r[0], r[1]))); scroll.appendChild(grid);
+  if (info.source) scroll.appendChild(mkEl('div', 'pd-src', info.source));
+
+  const cta = document.getElementById('dealCta'); cta.innerHTML = '';
+  const wrap = mkEl('div', 'pd-actions'), row = mkEl('div', 'pd-row');
+  const fav = mkEl('button', 'pd-btn fav'); fav.type = 'button';
+  const syncFav = () => { const on = isPlaceFav(info.id); fav.classList.toggle('on', on); fav.textContent = on ? '♥ 찜 해제' : '♡ 찜하기'; fav.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  syncFav();
+  fav.addEventListener('click', () => {
+    const on = togglePlaceFav(info); syncFav();
+    sendGaEvent('place_fav_toggle', { kind: info.kind, on: on ? 1 : 0, title: (info.title || '').slice(0, 100) });
+    showMapToast(on ? '찜했어요! 메인 홈의 ‘찜한 공구’ 탭에서 볼 수 있어요' : '찜을 해제했어요');
+  });
+  row.appendChild(fav);
+  const link = (cls, text, href, target) => {
+    const a = mkEl('a', cls, text); a.href = href; a.target = '_blank'; a.rel = 'noopener';
+    a.addEventListener('click', () => sendGaEvent('place_outbound', { kind: info.kind, target, title: (info.title || '').slice(0, 100) }));
+    return a;
+  };
+  row.appendChild(link('pd-btn primary', '📍 네이버 지도 길찾기', info.mapUrl, 'naver_map'));
+  wrap.appendChild(row);
+  wrap.appendChild(link('pd-btn', info.infoLabel, info.infoUrl || info.searchUrl, info.infoUrl ? 'official' : 'search'));
+  cta.appendChild(wrap);
+
+  sendGaEvent('place_detail_open', { kind: info.kind, title: (info.title || '').slice(0, 100), map_region: info.region });
+  try { if (!wasOpen) { history.pushState({ buygDeal: 1 }, '', location.href); dealPushed = true; } } catch (err) {}
+  document.body.classList.add('deal-open');
+  document.getElementById('dealBackdrop').classList.add('show');
+  document.getElementById('dealSheet').classList.add('show');
 }
 
 function renderFestivalSheet() {
@@ -1075,7 +1173,7 @@ function renderSpots(spots, box) {
   spots.forEach(sp => {
     const a = document.createElement('a');
     a.className = 'spot';
-    a.href = sp.link; a.target = '_blank'; a.rel = 'noopener';
+    a.style.cursor = 'pointer'; a.setAttribute('role', 'button'); a.tabIndex = 0;
     a.innerHTML = '<span class="spot-icon"></span><span class="spot-body"><span class="spot-title"></span>'
       + '<span class="spot-meta"><span class="spot-tag"></span><span class="spot-addr"></span></span></span>';
     a.querySelector('.spot-icon').textContent = spotIcon(sp.category);
@@ -1095,7 +1193,8 @@ function renderSpots(spots, box) {
     const tag = a.querySelector('.spot-tag');
     tag.textContent = sp.tag;
     if (!/^무료/.test(sp.tag)) tag.classList.add('warn');
-    a.addEventListener('click', () => sendGaEvent('free_spot_click', { spot_title: sp.title, map_region: sp.region }));
+    const openIt = () => { sendGaEvent('free_spot_click', { spot_title: sp.title, map_region: sp.region }); openPlaceDetail(spotInfo(sp)); };
+    a.addEventListener('click', openIt); a.addEventListener('keydown', ev => { if (ev.key === 'Enter') openIt(); });
     box.appendChild(a);
   });
   return spots.length;
@@ -1220,7 +1319,9 @@ window.addEventListener('popstate', () => closeSheet(true));
   const qf = new URLSearchParams(location.search).get('filter');
   if (qf === 'outdoor' || qf === 'indoor') { theme = qf; sendGaEvent('theme_chip_click', { theme: qf, theme_key: qf, from: 'home_weather' }); }
   // 2026-10-07: 홈 배너 딥링크 ?tab=free(무료 나들이) / ?tab=show(공연·전시, culture 별칭) 로 해당 탭을 선택한 채 진입
-  const qtab = { culture: 'show', events: 'festival' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
+  const qplace = new URLSearchParams(location.search).get('place');
+  let qtab = { culture: 'show', events: 'festival' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
+  if (!qtab && qplace) qtab = qplace.indexOf('tour_') === 0 ? 'festival' : 'free';
   const qtabBtn = qtab && document.querySelector('.tab[data-sub="' + qtab.replace(/[^a-z]/g, '') + '"]');
   if (qtabBtn) qtabBtn.click();
   render(); renderThemeChips();
@@ -1229,6 +1330,10 @@ window.addEventListener('popstate', () => closeSheet(true));
     const counts = countsFor(activeSub);
     const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
     if (top) openSheet(top);
+  }
+  if (qplace) {   // 홈 '찜한 공구' 탭의 장소 카드에서 들어온 경우 상세 시트를 바로 연다
+    const ev = tourEvents.find(x => x.id === qplace), sp = freeSpots.find(x => x.id === qplace);
+    if (ev) openPlaceDetail(eventInfo(ev)); else if (sp) openPlaceDetail(spotInfo(sp));
   }
 })();
 </script>

@@ -1118,6 +1118,15 @@
     .count-bar { margin: 10px 0 0; padding: 13px 24px; font-size: 14.5px; }
     .culture-bridge { margin: 22px 0 4px; }
   }
+
+  /* ================= 찜한 나들이·행사 (map.html 상세 시트에서 저장, 2026-10-07) ================= */
+  #favPlaces { padding: 0 16px; }
+  @media (min-width: 768px) { #favPlaces { padding: 0; } }
+  .fav-places-head { margin: 18px 0 8px; font-size: 15px; font-weight: 800; color: var(--text-main); }
+  .fav-place { position: relative; display: block; margin-bottom: 8px; padding: 12px 40px 12px 14px; border: 1px solid #eeeef1; border-radius: 14px; background: #fff; text-decoration: none; color: inherit; box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+  .fav-place b { display: block; font-size: 14px; font-weight: 800; line-height: 1.35; word-break: keep-all; }
+  .fav-place span { display: block; margin-top: 3px; font-size: 12px; color: #7a8394; }
+  .fav-place .fav-place-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: #f1f5f9; color: #64748b; font-size: 13px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -1199,6 +1208,7 @@
       <section class="section" id="favSection" hidden>
         <div class="section-head"><h2>❤️ 찜한 공구</h2><span class="sub" id="favSub"></span></div>
         <div class="list-grid" id="favGrid"></div>
+        <div id="favPlaces"></div>
       </section>
 
       <div id="regularSections">
@@ -1439,7 +1449,12 @@ function favKey(row) {
   return (row.influencer_handle || row.influencer_name || '') + '|' + (row.brand || name);
 }
 function isFav(row) { return favSet.has(favKey(row)); }
-function favCount() { return ROWS.filter(isFav).length; }
+// map.html 상세 시트에서 찜한 행사·나들이 장소(공구가 아니라 ROWS 에 없음) - 같은 브라우저 localStorage 를 공유한다
+const PLACE_FAV_KEY = 'buyg_place_favs_v1';
+function placeFavList() {
+  try { const a = JSON.parse(localStorage.getItem(PLACE_FAV_KEY) || '[]'); return Array.isArray(a) ? a.filter(function (f) { return f && f.id && f.title; }) : []; } catch (e) { return []; }
+}
+function favCount() { return ROWS.filter(isFav).length + placeFavList().length; }
 
 function syncFavBtn(btn) {
   const on = favSet.has(btn.dataset.favKey);
@@ -2772,16 +2787,46 @@ function currentFilteredRows() {
 function renderFavSection() {
   const grid = document.getElementById('favGrid');
   const sub = document.getElementById('favSub');
+  const pbox = document.getElementById('favPlaces');
   grid.innerHTML = '';
+  if (pbox) pbox.innerHTML = '';
   const list = ROWS.filter(isFav).sort(function (a, b) {
     return (a.end_date || a.start_date || '').localeCompare(b.end_date || b.start_date || '');
   });
-  sub.textContent = list.length ? (list.length + '개 · 마감 빠른 순') : '';
-  if (!list.length) {
+  const places = placeFavList().sort(function (a, b) { return (b.saved_at || 0) - (a.saved_at || 0); });
+  const n = list.length + places.length;
+  sub.textContent = n ? (n + '개' + (list.length ? ' · 공구는 마감 빠른 순' : '')) : '';
+  if (!n) {
     grid.innerHTML = '<div class="fav-empty"><b>아직 찜한 공구가 없어요</b><span>마음에 드는 카드 우측 상단의 ♡를 눌러 담아보세요.</span></div>';
     return;
   }
   list.forEach(function (row) { grid.appendChild(renderListCard(row)); });
+  if (pbox && places.length) renderFavPlaces(pbox, places);
+}
+function renderFavPlaces(box, places) {
+  const md = function (iso) { const m = /^\d{4}-(\d{2})-(\d{2})/.exec(iso || ''); return m ? (+m[1]) + '/' + (+m[2]) : ''; };
+  const head = document.createElement('div'); head.className = 'fav-places-head'; head.textContent = '📍 찜한 나들이·행사';
+  box.appendChild(head);
+  places.forEach(function (f) {
+    const a = document.createElement('a');
+    a.className = 'fav-place';
+    a.href = 'map.html?tab=' + (f.tab === 'free' ? 'free' : 'festival') + '&place=' + encodeURIComponent(f.id);
+    const t = document.createElement('b'); t.textContent = f.title; a.appendChild(t);
+    const dates = f.start_date ? (f.end_date && f.end_date !== f.start_date ? md(f.start_date) + ' ~ ' + md(f.end_date) : md(f.start_date)) : '';
+    const s = document.createElement('span');
+    s.textContent = [f.region ? String(f.region).replace(/\//g, '·') : '', dates ? '📅 ' + dates : '', f.fee || ''].filter(Boolean).join(' · ');
+    a.appendChild(s);
+    const x = document.createElement('button');
+    x.type = 'button'; x.className = 'fav-place-x'; x.setAttribute('aria-label', '찜 해제'); x.textContent = '✕';
+    x.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      try { localStorage.setItem(PLACE_FAV_KEY, JSON.stringify(placeFavList().filter(function (p) { return p.id !== f.id; }))); } catch (err) {}
+      updateFavChipCount();
+      renderFavSection();
+    });
+    a.appendChild(x);
+    box.appendChild(a);
+  });
 }
 
 function renderTodayBadge() {

@@ -80,6 +80,35 @@ class TestKid(unittest.TestCase):
         self.assertIsNone(tc.kid_score("가족 와인 페스티벌"))     # 긍정 키워드가 있어도 성인 키워드가 우선
 
 
+class TestLinks(unittest.TestCase):
+    def test_naver_map_url_uses_address_not_title(self):
+        u = tc.naver_map_url("서울특별시 송파구 올림픽로 300 (신천동)", "아이가 행복입니다 S9")
+        self.assertTrue(u.startswith("https://map.naver.com/p/search/"))
+        self.assertIn("%EC%98%AC%EB%A6%BC%ED%94%BD%EB%A1%9C%20300", u)      # 올림픽로 300
+        self.assertNotIn("%EC%8B%A0%EC%B2%9C%EB%8F%99", u)                  # 괄호 속 동 이름 제거
+        self.assertNotIn("S9", u)                                           # 행사명은 쓰지 않는다
+
+    def test_naver_map_url_fallback_title(self):
+        self.assertIn("%EA%B0%80%EB%9D%BD", tc.naver_map_url("", "가락 시장"))
+
+    def test_clean_homepage(self):
+        self.assertEqual(tc.clean_homepage("https://www.dsart.or.kr/"), "https://www.dsart.or.kr/")
+        self.assertEqual(tc.clean_homepage("www.gngsctf.or.kr"), "https://www.gngsctf.or.kr")
+        self.assertEqual(tc.clean_homepage('<a href="http://a.kr/x" target="_blank">링크</a>'), "http://a.kr/x")
+        self.assertEqual(tc.clean_homepage("자세한 내용은 홈페이지 참조"), "")
+        self.assertEqual(tc.clean_homepage("javascript:alert(1)"), "")
+        self.assertEqual(tc.clean_homepage('<a href="javascript:void(0)">x</a>'), "")
+        self.assertEqual(tc.clean_homepage(""), "")
+
+    def test_event_has_info_url_field(self):
+        raw = {"contentid": "7", "title": "어린이 축제", "addr1": "서울특별시 종로구 세종대로 1 (세종로)", "lDongRegnCd": "11",
+               "mapx": "127.0", "mapy": "37.5", "eventstartdate": "20261012", "eventenddate": "20261013"}
+        ev = tc.normalize_item(raw, TODAY, homepage="www.x.or.kr")
+        self.assertEqual(ev["info_url"], "https://www.x.or.kr")
+        self.assertIn("map.naver.com/p/search/", ev["link"])
+        self.assertNotIn("%EC%96%B4%EB%A6%B0%EC%9D%B4", ev["link"])      # 제목('어린이')이 아니라 주소
+
+
 class TestKidKeywordsAndSort(unittest.TestCase):
     def test_new_keywords(self):
         for title in ["곤충 체험 축제", "공룡 나라 대축제", "과학 놀이 한마당", "유성독서대전", "가을 퍼레이드", "숲속 음악회"]:
