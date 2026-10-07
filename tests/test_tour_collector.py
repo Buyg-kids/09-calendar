@@ -80,6 +80,23 @@ class TestKid(unittest.TestCase):
         self.assertIsNone(tc.kid_score("가족 와인 페스티벌"))     # 긍정 키워드가 있어도 성인 키워드가 우선
 
 
+class TestKidKeywordsAndSort(unittest.TestCase):
+    def test_new_keywords(self):
+        for title in ["곤충 체험 축제", "공룡 나라 대축제", "과학 놀이 한마당", "유성독서대전", "가을 퍼레이드", "숲속 음악회"]:
+            self.assertGreaterEqual(tc.kid_score(title), 1, title)
+
+    def test_not_a_cutoff(self):
+        self.assertEqual(tc.kid_score("가을 국화 전시"), 0)            # 0점도 제외되지 않고 점수만 낮다
+        ev = tc.normalize_item({"contentid": "9", "title": "가을 국화 전시", "addr1": "서울특별시 종로구", "lDongRegnCd": "11",
+                                "mapx": "127.0", "mapy": "37.5", "eventstartdate": "20261012", "eventenddate": "20261013"}, TODAY)
+        self.assertIsNotNone(ev)
+
+    def test_sort(self):
+        evs = [{"title": "b", "kid_score": 0, "start_date": "2026-10-11"}, {"title": "a", "kid_score": 2, "start_date": "2026-10-20"},
+               {"title": "c", "kid_score": 2, "start_date": "2026-10-12"}, {"title": "d", "kid_score": 1, "start_date": "2026-10-10"}]
+        self.assertEqual([e["title"] for e in tc.sort_events(evs)], ["c", "a", "d", "b"])
+
+
 class TestNormalize(unittest.TestCase):
     def items(self):
         return tc.parse_items(SAMPLE)

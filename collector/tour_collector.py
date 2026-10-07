@@ -108,7 +108,8 @@ def classify_fee(text: str) -> str:
     return "unknown"
 
 
-_KID_POS = ["어린이", "아이", "가족", "키즈", "유아", "영유아", "체험", "동물", "놀이", "동화", "인형극", "캐릭터", "가족"]
+_KID_POS = ["어린이", "아이", "가족", "키즈", "유아", "영유아", "체험", "동물", "놀이", "동화", "인형극", "캐릭터",
+            "곤충", "공룡", "과학", "독서", "퍼레이드", "숲"]   # 2026-10-07 보강: 곤충/공룡/과학/독서/퍼레이드/숲 추가
 _KID_NEG = ["맥주", "와인", "막걸리", "소주", "주류", "클럽", "성인", "19세", "술축제", "나이트", "와인페스타"]
 
 
@@ -119,6 +120,11 @@ def kid_score(title: str, extra: str = "") -> int | None:
     if any(w in hay for w in _KID_NEG):
         return None
     return len({w for w in _KID_POS if w in hay})
+
+
+def sort_events(events: list[dict]) -> list[dict]:
+    """아이 적합도 점수가 높은 행사를 위로, 같으면 시작일 빠른 순, 그다음 제목순. (점수로 제외하지는 않는다 - 성인 대상만 kid_score()가 걸러냄)"""
+    return sorted(events, key=lambda e: (-(e.get("kid_score") or 0), e.get("start_date", ""), e.get("title", "")))
 
 
 def _norm_title(s: str) -> str:
@@ -316,7 +322,7 @@ def run(dry_run: bool = False) -> "os.PathLike | dict | None":
         if not events:
             logger.error("TourAPI 행사 0건 - 기존 파일 유지")
             return None
-        events.sort(key=lambda e: (e["start_date"], e["title"]))
+        events = sort_events(events)
         payload = {"generated_at": datetime.now().isoformat(timespec="seconds"), "source": SOURCE_NAME,
                    "count": len(events), "events": events}
         tmp = OUTPUT_PATH.with_suffix(".json.tmp")
