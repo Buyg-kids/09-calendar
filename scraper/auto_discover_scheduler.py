@@ -312,6 +312,7 @@ def _check_profile(browser, handle: str) -> dict | None:
             "multilink_url": multilink_url,
             "multilink_type": multilink_type,
             "primary_focus": "육아용품",
+            "is_verified_seller": False,  # tools/flag_verified_sellers.py 가 멀티링크 도메인 기준으로 표시
         }
         if is_curator:
             entry["is_curator"] = True

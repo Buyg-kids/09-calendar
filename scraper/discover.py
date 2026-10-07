@@ -209,6 +209,7 @@ def discover() -> list[dict]:
                 "multilink_url": url,
                 "multilink_type": service,
                 "primary_focus": category_hint,
+                "is_verified_seller": False,
             }
             new_found += 1
             logger.info("발굴: %s -> @%s (%s / %s)", url, handle, service, category_hint)
