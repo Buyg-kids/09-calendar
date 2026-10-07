@@ -325,9 +325,14 @@
   }
   .pd-btn.primary { background: var(--brand-purple); border-color: var(--brand-purple); color: #fff; }
   .pd-btn.primary:active { background: #43005c; }
-  .pd-btn.fav { flex: 0 0 36%; }
+  .pd-btn.fav { flex: 1; }
   .pd-btn.fav.on { background: #fff1f4; border-color: #f9a8bb; color: #e11d48; }
   .pd-src { margin-top: 12px; font-size: 11.5px; color: #94a3b8; }
+  /* 공식 대표 이미지: 공공누리 3유형(변경금지)이라 자르거나 늘리지 않고 원본 비율 그대로(contain) 보여 준다 */
+  .pd-img { margin: 0 0 12px; min-height: 140px; border-radius: 14px; background: #f1f5f9; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .pd-img img { display: block; width: 100%; height: auto; max-height: 240px; object-fit: contain; }
+  .pd-img-credit { margin: -6px 0 10px; font-size: 11px; color: #94a3b8; text-align: right; }
+  .pd-btn.share { flex: 1; }
   .deal-brand .spot-tag { margin-left: 4px; vertical-align: 1px; }
   body.deal-open { overflow: hidden; }
   .sb.stroller { background: #eafaf0; color: #1f8f4e; }
@@ -1095,7 +1100,7 @@ function eventInfo(e) {
   const rows = [['행사 기간', period], ['요금', fee + (ft && ft.length <= 60 && ft !== fee ? ' · ' + ft : '')], ['주소', e.address || e.place || e.region]];
   if (e.tel) rows.push(['문의', e.tel]);
   return {
-    id: e.id, kind: 'event', title: e.title, region: e.region, badge: tourStatus(e), fee: { t: fee, free: e.fee_type === 'free' }, rows,
+    id: e.id, kind: 'event', tab: 'festival', image: e.image || '', imageThumb: e.image_thumb || '', title: e.title, region: e.region, badge: tourStatus(e), fee: { t: fee, free: e.fee_type === 'free' }, rows,
     mapUrl: naverMapUrl(e.address || e.place, e.title), infoUrl: e.info_url || '', infoLabel: e.info_url ? '🔗 공식 안내 페이지' : '🔎 행사 정보 검색',
     searchUrl: webSearchUrl(e.title + ' ' + e.region), source: '출처: 한국관광공사 · 일정·요금·운영은 방문 전 공식 안내를 확인해 주세요',
     fav: { kind: 'event', tab: 'festival', title: e.title, region: e.region, address: e.address || '', start_date: e.start_date, end_date: e.end_date, fee },
@@ -1105,16 +1110,56 @@ function spotInfo(sp) {
   const facility = [sp.space_type, sp.parking, sp.baby_care ? '수유실' : '', sp.stroller === true ? '유모차 가능' : sp.stroller === false ? '유모차 주의' : ''].filter(Boolean).join(' · ');
   const free = /^무료/.test(sp.tag || '');
   return {
-    id: sp.id, kind: 'spot', title: sp.title, region: sp.region, badge: null, fee: { t: free ? '무료' : (sp.tag || '요금 확인'), free },
+    id: sp.id, kind: 'spot', tab: 'free', image: sp.image || '', imageThumb: '', title: sp.title, region: sp.region, badge: null, fee: { t: free ? '무료' : (sp.tag || '요금 확인'), free },
     rows: [['구분', sp.category || '무료 나들이'], ['요금·운영', sp.tag || '방문 전 확인'], ['시설 정보', facility || '정보 없음'], ['주소', sp.address || sp.region]],
     mapUrl: sp.link || naverMapUrl(sp.address, sp.title), infoUrl: '', infoLabel: '🔎 공식·관련 안내 검색', searchUrl: webSearchUrl(sp.title),
     source: '운영시간·휴관일·예약은 방문 전 확인해 주세요',
     fav: { kind: 'spot', tab: 'free', title: sp.title, region: sp.region, address: sp.address || '', start_date: '', end_date: '', fee: free ? '무료' : (sp.tag || '') },
   };
 }
+// ---- 공유하기: 모바일은 기본 공유창(navigator.share), PC/미지원은 딥링크를 클립보드에 복사 ----
+function placeDeepLink(info) {
+  const u = new URL('map.html', location.href);   // 배포(buyg.kr)에서는 https://buyg.kr/map.html, 로컬에서는 로컬 주소
+  u.search = ''; u.hash = '';
+  u.searchParams.set('tab', info.tab); u.searchParams.set('place', info.id);
+  return u.href;
+}
+async function copyText(text) {
+  try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch (err) { /* 아래 폴백 */ }
+  try {
+    const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+    document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok;
+  } catch (err) { return false; }
+}
+async function sharePlace(info) {
+  const url = placeDeepLink(info);
+  const mobile = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  if (mobile && navigator.share) {
+    try {
+      await navigator.share({ title: info.title, text: info.title, url });
+      sendGaEvent('place_share', { kind: info.kind, method: 'native', title: (info.title || '').slice(0, 100) });
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;   // 사용자가 공유창을 닫음
+      /* 그 외 실패는 복사로 대체 */
+    }
+  }
+  const ok = await copyText(url);
+  sendGaEvent('place_share', { kind: info.kind, method: ok ? 'copy' : 'fail', title: (info.title || '').slice(0, 100) });
+  showMapToast(ok ? '링크가 복사되었습니다!' : '링크 복사에 실패했어요. 주소창의 링크를 직접 복사해 주세요');
+}
+
 function openPlaceDetail(info) {
   const wasOpen = !!dealOpenRow; dealOpenRow = info;
   const scroll = document.getElementById('dealScroll'); scroll.innerHTML = ''; scroll.scrollTop = 0;
+  if (info.image || info.imageThumb) {   // 공식 대표 이미지가 있는 항목만 노출(없으면 영역 자체를 만들지 않음). 로드 실패 시 썸네일 -> 제거
+    const box = mkEl('div', 'pd-img'); const img = document.createElement('img');
+    img.alt = info.title; img.referrerPolicy = 'no-referrer';   // 시트가 열릴 때만 만들어지는 이미지라 lazy 없이 바로 로드
+    let triedThumb = false;
+    img.onerror = () => { if (!triedThumb && info.imageThumb && img.src !== info.imageThumb) { triedThumb = true; img.src = info.imageThumb; } else { box.remove(); credit.remove(); } };
+    img.src = info.image || info.imageThumb; box.appendChild(img); scroll.appendChild(box);
+    var credit = mkEl('div', 'pd-img-credit', '이미지 출처: 한국관광공사'); scroll.appendChild(credit);
+  }
   const tr = mkEl('div', 'deal-title-row');
   if (info.badge) tr.appendChild(mkEl('span', 'dm-dday' + (info.badge.c === 'soon' ? ' hot' : ''), info.badge.t));
   const title = mkEl('h2', 'deal-title', info.title); title.id = 'dealTitle';
@@ -1137,13 +1182,16 @@ function openPlaceDetail(info) {
     showMapToast(on ? '찜했어요! 메인 홈의 ‘찜한 공구’ 탭에서 볼 수 있어요' : '찜을 해제했어요');
   });
   row.appendChild(fav);
+  const share = mkEl('button', 'pd-btn share', '공유하기 🔗'); share.type = 'button';
+  share.addEventListener('click', () => sharePlace(info));
+  row.appendChild(share);
   const link = (cls, text, href, target) => {
     const a = mkEl('a', cls, text); a.href = href; a.target = '_blank'; a.rel = 'noopener';
     a.addEventListener('click', () => sendGaEvent('place_outbound', { kind: info.kind, target, title: (info.title || '').slice(0, 100) }));
     return a;
   };
-  row.appendChild(link('pd-btn primary', '📍 네이버 지도 길찾기', info.mapUrl, 'naver_map'));
   wrap.appendChild(row);
+  wrap.appendChild(link('pd-btn primary', '📍 네이버 지도 길찾기', info.mapUrl, 'naver_map'));
   wrap.appendChild(link('pd-btn', info.infoLabel, info.infoUrl || info.searchUrl, info.infoUrl ? 'official' : 'search'));
   cta.appendChild(wrap);
 

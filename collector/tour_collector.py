@@ -148,6 +148,25 @@ def naver_map_url(address: str, title: str = "") -> str:
     return "https://map.naver.com/p/search/" + quote(q)
 
 
+# 공공누리 유형 중 상업적 이용이 가능한 1·3유형(출처표시, 3유형은 변경금지)만 이미지를 쓴다. 2·4유형(상업적 이용 금지)이나 미표시는 제외.
+IMAGE_OK_TYPES = {"Type1", "Type3"}
+
+
+def _safe_https(url: str) -> str:
+    u = (url or "").strip()
+    if u.startswith("http://"):
+        u = "https://" + u[len("http://"):]
+    host = u.split("/")[2] if u.startswith("https://") and len(u.split("/")) > 2 else ""
+    return u if host == "visitkorea.or.kr" or host.endswith(".visitkorea.or.kr") else ""
+
+
+def pick_images(raw: dict) -> tuple[str, str]:
+    """(대표 이미지 firstimage, 썸네일 firstimage2). 저작권 유형이 허용 범위가 아니거나 공식 호스트가 아니면 ('', '')."""
+    if (raw.get("cpyrhtDivCd") or "") not in IMAGE_OK_TYPES:
+        return "", ""
+    return _safe_https(raw.get("firstimage")), _safe_https(raw.get("firstimage2"))
+
+
 def sort_events(events: list[dict]) -> list[dict]:
     """아이 적합도 점수가 높은 행사를 위로, 같으면 시작일 빠른 순, 그다음 제목순. (점수로 제외하지는 않는다 - 성인 대상만 kid_score()가 걸러냄)"""
     return sorted(events, key=lambda e: (-(e.get("kid_score") or 0), e.get("start_date", ""), e.get("title", "")))
@@ -239,6 +258,7 @@ def normalize_item(raw: dict, today: date, range_days: int = RANGE_DAYS, fee_tex
         "kid_score": score, "tel": (raw.get("tel") or "").strip(), "modifiedtime": str(raw.get("modifiedtime") or ""),
         "source": SOURCE_NAME,
         "link": naver_map_url((raw.get("addr1") or ""), title),   # 이미지 없이 링크만 - 주소(addr1) 기반 네이버 지도
+        "image": pick_images(raw)[0], "image_thumb": pick_images(raw)[1],   # 상세 시트 상단용(원본 비율 그대로, 가공 금지)
         "info_url": clean_homepage(homepage),                      # 공식/상세 안내(TourAPI detailCommon2 homepage), 없으면 ''
     }
 

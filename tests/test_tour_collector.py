@@ -109,6 +109,30 @@ class TestLinks(unittest.TestCase):
         self.assertNotIn("%EC%96%B4%EB%A6%B0%EC%9D%B4", ev["link"])      # 제목('어린이')이 아니라 주소
 
 
+class TestImages(unittest.TestCase):
+    RAW = {"cpyrhtDivCd": "Type3", "firstimage": "http://tong.visitkorea.or.kr/cms/resource/1/a.jpg",
+           "firstimage2": "https://tong.visitkorea.or.kr/cms/resource/1/a_thumb.jpg"}
+
+    def test_ok_and_https_upgrade(self):
+        self.assertEqual(tc.pick_images(self.RAW), ("https://tong.visitkorea.or.kr/cms/resource/1/a.jpg", "https://tong.visitkorea.or.kr/cms/resource/1/a_thumb.jpg"))
+
+    def test_blocked_copyright_types(self):
+        for typ in ("Type2", "Type4", "", None):
+            self.assertEqual(tc.pick_images({**self.RAW, "cpyrhtDivCd": typ}), ("", ""), typ)
+
+    def test_foreign_host_and_missing(self):
+        self.assertEqual(tc.pick_images({**self.RAW, "firstimage": "https://evil.example.com/a.jpg", "firstimage2": ""}), ("", ""))
+        self.assertEqual(tc.pick_images({**self.RAW, "firstimage": "https://notvisitkorea.or.kr/a.jpg"}), ("", "https://tong.visitkorea.or.kr/cms/resource/1/a_thumb.jpg"))
+        self.assertEqual(tc.pick_images({"cpyrhtDivCd": "Type3"}), ("", ""))
+
+    def test_event_fields(self):
+        raw = {"contentid": "8", "title": "어린이 축제", "addr1": "서울특별시 종로구 세종대로 1", "lDongRegnCd": "11", "mapx": "127.0", "mapy": "37.5",
+               "eventstartdate": "20261012", "eventenddate": "20261013", **self.RAW}
+        ev = tc.normalize_item(raw, TODAY)
+        self.assertTrue(ev["image"].startswith("https://tong.visitkorea.or.kr/"))
+        self.assertTrue(ev["image_thumb"].endswith("a_thumb.jpg"))
+
+
 class TestKidKeywordsAndSort(unittest.TestCase):
     def test_new_keywords(self):
         for title in ["곤충 체험 축제", "공룡 나라 대축제", "과학 놀이 한마당", "유성독서대전", "가을 퍼레이드", "숲속 음악회"]:
@@ -140,7 +164,7 @@ class TestNormalize(unittest.TestCase):
         ev = tc.normalize_item(self.items()[0], TODAY, fee_text="무료")
         self.assertEqual((ev["id"], ev["region"], ev["start_date"], ev["end_date"]), ("tour_1001", "서울", "2026-10-12", "2026-10-14"))
         self.assertTrue(ev["is_free"])
-        self.assertNotIn("image", ev)                     # 1차는 이미지 없음
+        self.assertEqual(ev["image"], "")                 # 원본 응답에 이미지/허용 저작권 유형이 없으면 이미지 필드는 비어 있다
         self.assertTrue(ev["link"].startswith("https://map.naver.com/"))
 
     def test_adult_event_dropped(self):
