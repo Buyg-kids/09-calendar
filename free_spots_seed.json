@@ -1,5 +1,5 @@
 {
- "version": "2026-10-05",
+ "version": "2026-10-08",
  "note": "국공립 무료·저가 시설 위주 시드. 운영시간·휴관일·예약·요금·주차·수유실·유모차 정보는 일반 정보 기준이라 방문 전 확인 필요.",
  "spots": [
   {
@@ -13,7 +13,8 @@
    "space_type": "실내",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.museum.go.kr/site/child/home"
   },
   {
    "id": "spot_02",
@@ -26,7 +27,8 @@
    "space_type": "복합",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_03",
@@ -39,7 +41,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.sisul.or.kr/open_content/childrenpark/"
   },
   {
    "id": "spot_04",
@@ -52,7 +55,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://seoulforest.or.kr/"
   },
   {
    "id": "spot_05",
@@ -65,7 +69,8 @@
    "space_type": "복합",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.mmca.go.kr/"
   },
   {
    "id": "spot_06",
@@ -78,7 +83,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://musenet.ggcf.kr/"
   },
   {
    "id": "spot_07",
@@ -91,7 +97,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_08",
@@ -104,7 +111,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_09",
@@ -117,7 +125,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_10",
@@ -130,7 +139,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.incheon.go.kr/park/index"
   },
   {
    "id": "spot_11",
@@ -143,7 +153,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_12",
@@ -156,7 +167,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_13",
@@ -169,7 +181,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://chuncheon.museum.go.kr/"
   },
   {
    "id": "spot_14",
@@ -182,7 +195,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_15",
@@ -195,7 +209,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_16",
@@ -208,7 +223,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://cheongju.museum.go.kr/"
   },
   {
    "id": "spot_17",
@@ -221,7 +237,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_18",
@@ -234,7 +251,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_19",
@@ -247,7 +265,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://i815.or.kr/"
   },
   {
    "id": "spot_20",
@@ -260,7 +279,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_21",
@@ -273,7 +293,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://buyeo.museum.go.kr/"
   },
   {
    "id": "spot_22",
@@ -286,7 +307,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.science.go.kr/"
   },
   {
    "id": "spot_23",
@@ -299,7 +321,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.daejeon.go.kr/gar/index.do"
   },
   {
    "id": "spot_24",
@@ -312,7 +335,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_25",
@@ -325,7 +349,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_26",
@@ -338,7 +363,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://jeonju.museum.go.kr/"
   },
   {
    "id": "spot_27",
@@ -351,7 +377,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_28",
@@ -364,7 +391,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://iksan.museum.go.kr/"
   },
   {
    "id": "spot_29",
@@ -377,7 +405,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://gwangju.museum.go.kr/"
   },
   {
    "id": "spot_30",
@@ -390,7 +419,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_31",
@@ -403,7 +433,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://naju.museum.go.kr/"
   },
   {
    "id": "spot_32",
@@ -416,7 +447,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://gyeongju.museum.go.kr/"
   },
   {
    "id": "spot_33",
@@ -429,7 +461,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://daegu.museum.go.kr/"
   },
   {
    "id": "spot_34",
@@ -442,7 +475,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_35",
@@ -455,7 +489,8 @@
    "space_type": "실내",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_36",
@@ -468,7 +503,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_37",
@@ -481,7 +517,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_38",
@@ -494,7 +531,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://gimhae.museum.go.kr/"
   },
   {
    "id": "spot_39",
@@ -507,7 +545,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_40",
@@ -520,7 +559,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://jeju.museum.go.kr/"
   },
   {
    "id": "spot_41",
@@ -533,7 +573,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_42",
@@ -546,7 +587,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_43",
@@ -559,7 +601,8 @@
    "space_type": "실내",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.hangeul.go.kr/"
   },
   {
    "id": "spot_44",
@@ -572,7 +615,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_45",
@@ -585,7 +629,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_46",
@@ -598,7 +643,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_47",
@@ -611,7 +657,8 @@
    "space_type": "복합",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://botanicpark.seoul.go.kr/"
   },
   {
    "id": "spot_48",
@@ -624,7 +671,8 @@
    "space_type": "실내",
    "parking": "주차불가/대중교통",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_49",
@@ -637,7 +685,8 @@
    "space_type": "실내",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_50",
@@ -650,7 +699,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_51",
@@ -663,7 +713,8 @@
    "space_type": "야외",
    "parking": "주차불가/대중교통",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_52",
@@ -676,7 +727,8 @@
    "space_type": "야외",
    "parking": "주차불가/대중교통",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.sisul.or.kr/open_content/cheonggye/"
   },
   {
    "id": "spot_53",
@@ -689,7 +741,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_54",
@@ -702,7 +755,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_55",
@@ -715,7 +769,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_56",
@@ -728,7 +783,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_57",
@@ -741,7 +797,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://kna.forest.go.kr/"
   },
   {
    "id": "spot_58",
@@ -754,7 +811,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.heyri.net/"
   },
   {
    "id": "spot_59",
@@ -767,7 +825,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_60",
@@ -780,7 +839,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_61",
@@ -793,7 +853,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_62",
@@ -806,7 +867,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_63",
@@ -819,7 +881,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_64",
@@ -832,7 +895,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_65",
@@ -845,7 +909,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_66",
@@ -858,7 +923,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_67",
@@ -871,7 +937,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_68",
@@ -884,7 +951,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_69",
@@ -897,7 +965,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_70",
@@ -910,7 +979,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://hcs.cha.go.kr/"
   },
   {
    "id": "spot_71",
@@ -923,7 +993,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_72",
@@ -936,7 +1007,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_73",
@@ -949,7 +1021,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_74",
@@ -962,7 +1035,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_75",
@@ -975,7 +1049,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_76",
@@ -988,7 +1063,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.kigam.re.kr/museum/"
   },
   {
    "id": "spot_77",
@@ -1001,7 +1077,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://sejong.nl.go.kr/"
   },
   {
    "id": "spot_78",
@@ -1014,7 +1091,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://hanok.jeonju.go.kr/"
   },
   {
    "id": "spot_79",
@@ -1027,7 +1105,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_80",
@@ -1040,7 +1119,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_81",
@@ -1053,7 +1133,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_82",
@@ -1066,7 +1147,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_83",
@@ -1079,7 +1161,8 @@
    "space_type": "복합",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_84",
@@ -1092,7 +1175,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_85",
@@ -1105,7 +1189,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_86",
@@ -1118,7 +1203,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_87",
@@ -1131,7 +1217,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_88",
@@ -1144,7 +1231,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_89",
@@ -1157,7 +1245,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_90",
@@ -1170,7 +1259,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_91",
@@ -1183,7 +1273,8 @@
    "space_type": "야외",
    "parking": "주차가능(유료)",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_92",
@@ -1196,7 +1287,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_93",
@@ -1209,7 +1301,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_94",
@@ -1222,7 +1315,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_95",
@@ -1235,7 +1329,8 @@
    "space_type": "야외",
    "parking": "주차불가/대중교통",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_96",
@@ -1248,7 +1343,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_97",
@@ -1261,7 +1357,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_98",
@@ -1274,7 +1371,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   },
   {
    "id": "spot_99",
@@ -1287,7 +1385,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": false
+   "stroller": false,
+   "homepage_url": ""
   },
   {
    "id": "spot_100",
@@ -1300,7 +1399,8 @@
    "space_type": "실내",
    "parking": "무료주차",
    "baby_care": true,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": "https://www.jeju.go.kr/museum/index.htm"
   },
   {
    "id": "spot_101",
@@ -1313,7 +1413,8 @@
    "space_type": "야외",
    "parking": "무료주차",
    "baby_care": false,
-   "stroller": true
+   "stroller": true,
+   "homepage_url": ""
   }
  ]
 }

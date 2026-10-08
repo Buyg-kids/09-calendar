@@ -741,6 +741,18 @@ def _write_view_html(rows: list[dict], start: date, end: date, title: str | None
     return out_path
 
 
+def _collect_tour_events() -> None:
+    """한국관광공사 TourAPI 행사·축제 수집(부가 산출물, map.html '행사·축제' 탭). 키 없음/API 오류/응답 불완전이어도
+    배포는 계속된다 - tour_collector.run()은 예외를 던지지 않고 실패 시 기존 tour_events.json 을 그대로 둔다.
+    import 오류까지 이중으로 방어한다(로그에 Traceback 이 남으면 야간 파이프라인이 배포를 건너뛴다)."""
+    try:
+        from collector import tour_collector
+
+        tour_collector.run()
+    except Exception as e:
+        logger.error("TourAPI 행사 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
+
+
 def run(today: date | None = None, week_start: date | None = None, title: str | None = None) -> list[str]:
     """today: '이번 주'/노출 기간 판단 기준일 (week_start가 없을 때만 사용).
     week_start: 명시적으로 특정 주(월요일)를 지정하고 싶을 때 사용 - 지정하면 today는
@@ -809,6 +821,9 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
         kopis_collector.run()
     except Exception as e:
         logger.error("KOPIS 어린이 공연 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
+
+    # TourAPI 행사·축제 수집(부가 산출물) - KOPIS 와 같은 방식으로 격리
+    _collect_tour_events()
 
     # 릴스 대본/캡션 생성은 부가 산출물 - 실패해도 카드뉴스/배포에 영향 없도록 격리한다
     # (reels_generator.run 자체도 예외를 삼키지만, import 오류까지 이중으로 방어).

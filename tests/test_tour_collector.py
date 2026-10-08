@@ -2,6 +2,7 @@
 
 ※ SAMPLE 응답은 공식 문서 기준으로 가정한 형태다. 키 발급 후 첫 드라이런에서 실제 응답과 대조할 것.
 """
+import json
 import os
 import sys
 import unittest
@@ -220,6 +221,106 @@ class TestRunSafety(unittest.TestCase):
         finally:
             if old is not None:
                 os.environ["TOURAPI_SERVICE_KEY"] = old
+
+
+class TestPipelineIsolation(unittest.TestCase):
+    """야간 파이프라인 연결 안전성: 실패해도 예외 없이 끝나고 기존 tour_events.json 이 보존된다."""
+
+    def setUp(self):
+        import tempfile
+        self.tmp = Path(tempfile.mkdtemp())
+        self.out = self.tmp / "tour_events.json"
+        self.old = '{"generated_at":"x","count":%d,"events":[%s]}'
+        self.patches = []
+        from unittest import mock
+        for name, val in (("OUTPUT_PATH", self.out), ("DETAIL_CACHE_PATH", self.tmp / "d.json"), ("HOME_CACHE_PATH", self.tmp / "h.json"),
+                          ("KOPIS_PATH", self.tmp / "none.json")):
+            p = mock.patch.object(tc, name, val); p.start(); self.patches.append(p)
+        self.env = mock.patch.dict(os.environ, {"TOURAPI_SERVICE_KEY": "test-key"}); self.env.start(); self.patches.append(self.env)
+
+    def tearDown(self):
+        for p in self.patches:
+            p.stop()
+        import shutil
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def _raw(self, i):
+        return {"contentid": str(i), "title": f"어린이 축제 {i}", "addr1": "서울특별시 종로구 세종대로 1", "lDongRegnCd": "11", "mapx": "127.0", "mapy": "37.5",
+                "eventstartdate": "20261012", "eventenddate": "20261013", "modifiedtime": "1", "cpyrhtDivCd": "Type3"}
+
+    def _write_old(self, n):
+        self.out.write_text(self.old % (n, ""), encoding="utf-8")
+        return self.out.read_text(encoding="utf-8")
+
+    def _run_with(self, raws, complete):
+        from unittest import mock
+        with mock.patch.object(tc, "fetch_festivals", return_value=(raws, complete)), \
+             mock.patch.object(tc, "fetch_fee", return_value=""), mock.patch.object(tc, "fetch_homepage", return_value=""):
+            return tc.run()
+
+    def test_incomplete_response_keeps_old_file(self):
+        before = self._write_old(60)
+        self.assertIsNone(self._run_with([self._raw(i) for i in range(60)], False))
+        self.assertEqual(self.out.read_text(encoding="utf-8"), before)
+
+    def test_sudden_drop_keeps_old_file(self):
+        before = self._write_old(60)
+        self.assertIsNone(self._run_with([self._raw(i) for i in range(5)], True))     # 60 -> 5건
+        self.assertEqual(self.out.read_text(encoding="utf-8"), before)
+
+    def test_zero_events_keeps_old_file(self):
+        before = self._write_old(60)
+        self.assertIsNone(self._run_with([], True))
+        self.assertEqual(self.out.read_text(encoding="utf-8"), before)
+
+    def test_normal_update_writes_atomically(self):
+        self._write_old(60)
+        res = self._run_with([self._raw(i) for i in range(50)], True)      # 60 -> 50건(정상 범위)
+        self.assertEqual(Path(res), self.out)
+        self.assertEqual(json.loads(self.out.read_text(encoding="utf-8"))["count"], 50)
+        self.assertFalse((self.tmp / "tour_events.json.tmp").exists())
+
+    def test_small_existing_file_skips_drop_guard(self):
+        self._write_old(10)
+        self.assertIsNotNone(self._run_with([self._raw(i) for i in range(3)], True))
+
+    def test_api_failure_never_raises(self):
+        from unittest import mock
+        with mock.patch.object(tc.requests, "get", side_effect=RuntimeError("boom")), mock.patch.object(tc.time, "sleep"):
+            before = self._write_old(60)
+            self.assertIsNone(tc.run())
+        self.assertEqual(self.out.read_text(encoding="utf-8"), before)
+
+    def test_fetch_festivals_completeness(self):
+        from unittest import mock
+        page = lambda n: {"response": {"body": {"items": {"item": [{"contentid": str(i)} for i in range(n)]}}}}
+        with mock.patch.object(tc.time, "sleep"):
+            with mock.patch.object(tc, "_get", return_value=page(40)):
+                items, ok = tc.fetch_festivals("k", TODAY)
+                self.assertTrue(ok); self.assertEqual(len(items), 40)
+            seq = [page(100), None]
+            with mock.patch.object(tc, "_get", side_effect=seq):
+                items, ok = tc.fetch_festivals("k", TODAY)
+                self.assertFalse(ok)                                        # 2페이지 호출 실패 -> 불완전
+            calls = {"n": 0}
+            def full(*a, **k):
+                calls["n"] += 1
+                return {"response": {"body": {"items": {"item": [{"contentid": f"{calls['n']}-{i}"} for i in range(100)]}}}}
+            with mock.patch.object(tc, "_get", side_effect=full):
+                items, ok = tc.fetch_festivals("k", TODAY)
+                self.assertFalse(ok)                                        # 상한까지 꽉 참 -> 잘렸을 수 있음
+
+    def test_card_news_hook_never_raises(self):
+        from unittest import mock
+        try:
+            from generator import card_news
+        except Exception as e:   # 환경에 카드뉴스 의존성이 없으면 이 테스트만 건너뛴다
+            self.skipTest("card_news import 불가: " + type(e).__name__)
+        with mock.patch.object(tc, "run", side_effect=RuntimeError("boom")):
+            card_news._collect_tour_events()                                # 예외가 밖으로 나오면 실패
+        with mock.patch.object(tc, "run", return_value=None) as r:
+            card_news._collect_tour_events()
+            r.assert_called_once()
 
 
 if __name__ == "__main__":

@@ -1127,6 +1127,49 @@
   .fav-place b { display: block; font-size: 14px; font-weight: 800; line-height: 1.35; word-break: keep-all; }
   .fav-place span { display: block; margin-top: 3px; font-size: 12px; color: #7a8394; }
   .fav-place .fav-place-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: #f1f5f9; color: #64748b; font-size: 13px; cursor: pointer; }
+
+  /* ================= 상단 히어로 캐러셀 (2026-10-08): 4장 자동 롤링, 슬라이드마다 다른 무드/배경 ================= */
+  .hero-carousel { margin: 12px 10px 0; }
+  .hc-viewport { position: relative; height: 176px; border-radius: 18px; overflow: hidden; background: #1A1A2E; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .hc-slide {
+    position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 20px 20px 18px;
+    color: #fff; text-decoration: none; overflow: hidden; visibility: hidden; transform: translate3d(100%, 0, 0); will-change: transform;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hc-slide:first-child { visibility: visible; transform: none; }
+  .hc-slide::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 88% 14%, rgba(255,255,255,0.16), transparent 52%); }
+  .hc-slide.s1 { background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%); }
+  .hc-slide.s2 { background: linear-gradient(135deg, #1B3B2B 0%, #2D5A43 100%); }
+  .hc-slide.s3 { background: linear-gradient(135deg, #8C3A27 0%, #A04732 100%); }
+  .hc-slide.s4 { background: linear-gradient(135deg, #4A2545 0%, #7B3258 100%); }
+  .hc-eyebrow { position: relative; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; opacity: 0.72; }
+  .hc-head { position: relative; display: block; max-width: 92%; font-size: 21px; font-weight: 800; line-height: 1.28; letter-spacing: -0.6px; word-break: keep-all; text-wrap: balance; }
+  .hc-sub { position: relative; display: block; max-width: calc(100% - 78px); font-size: 12.5px; font-weight: 500; line-height: 1.45; opacity: 0.86; word-break: keep-all; }
+  .hc-count { position: relative; align-self: flex-start; margin-top: 2px; padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,0.12); font-size: 11.5px; font-weight: 600; }
+  .hc-count[hidden] { display: none; }
+  .hc-count b { font-weight: 800; }
+  .hc-deco { position: absolute; right: 14px; top: 14px; font-style: normal; font-size: 64px; line-height: 1; opacity: 0.2; transform: rotate(-8deg); pointer-events: none; }
+  .hc-ind {
+    position: absolute; right: 12px; bottom: 12px; z-index: 2; display: flex; align-items: center; gap: 5px; padding: 3px 4px 3px 11px;
+    border-radius: 999px; background: rgba(0,0,0,0.38); color: #fff; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  }
+  .hc-sep { opacity: 0.5; }
+  .hc-next { width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,0.18); color: #fff; font-size: 15px; line-height: 20px; cursor: pointer; font-family: inherit; }
+  .hc-next:hover { background: rgba(255,255,255,0.3); }
+  @media (min-width: 768px) {
+    .hero-carousel { margin: 22px 0 0; }
+    .hc-viewport { height: 236px; border-radius: 16px; }
+    .hc-slide { padding: 32px 40px 30px; gap: 8px; }
+    .hc-eyebrow { font-size: 12px; }
+    .hc-head { font-size: 32px; max-width: 70%; }
+    .hc-sub { font-size: 15.5px; max-width: 60%; }
+    .hc-count { font-size: 13px; padding: 5px 14px; }
+    .hc-deco { right: 48px; top: 28px; font-size: 120px; }
+    .hc-ind { right: 20px; bottom: 18px; font-size: 13px; padding: 4px 5px 4px 14px; }
+    .hc-next { width: 26px; height: 26px; line-height: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hc-slide { transition: none !important; } }
 </style>
 </head>
 <body>
@@ -1177,24 +1220,37 @@
     <div id="noResults">검색 결과가 없습니다.</div>
 
     <div id="homeSections">
-      <section class="dt-hero" aria-label="BUYG 소개">
-        <div class="dt-hero-text">
-          <h2 class="dt-hero-title">0~7세 성장 맞춤 육아 공구 달력</h2>
-          <p class="dt-hero-sub">매일 자정 실시간 업데이트</p>
-          <div class="dt-hero-badge" id="dtTodayBadge" hidden></div>
+      <!-- 2026-10-08 상단 배너 통합: 4장 자동 롤링 캐러셀(기존 dt-hero + 미니 배너 2개 대체) -->
+      <section class="hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="BUYG 추천 배너">
+        <div class="hc-viewport" id="hcViewport">
+          <a class="hc-slide s1" href="#sec-feed" data-scroll="sec-feed" data-slide="1">
+            <span class="hc-eyebrow">EARLY BIRD · 육아 공구 달력</span>
+            <b class="hc-head">매일 밤 자정, 가장 빠른 육아 특가</b>
+            <span class="hc-sub">0~7세 성장 맞춤 실시간 공구 달력 (매일 자정 실시간 업데이트)</span>
+            <span class="hc-count" id="hcCount" hidden>🔥 오늘 진행 &amp; 오픈 예정 공구 <b id="hcCountNum">0</b>개 실시간 수집</span>
+            <i class="hc-deco" aria-hidden="true">🛍️</i>
+          </a>
+          <a class="hc-slide s2" href="map.html?tab=free" data-slide="2">
+            <span class="hc-eyebrow">WEEKEND · 무료 나들이</span>
+            <b class="hc-head">이번 주말, 아이 손잡고 어디로 떠날까요?</b>
+            <span class="hc-sub">전국 무료 나들이 &amp; 숲놀이터 지도 한눈에 보기</span>
+            <i class="hc-deco" aria-hidden="true">🌲</i>
+          </a>
+          <a class="hc-slide s3" href="map.html?tab=culture" data-slide="3">
+            <span class="hc-eyebrow">STAGE · 공연·전시</span>
+            <b class="hc-head">아이의 오감을 깨우는 특별한 무대</b>
+            <span class="hc-sub">이번 달 우리 동네 어린이 뮤지컬·체험전</span>
+            <i class="hc-deco" aria-hidden="true">🎭</i>
+          </a>
+          <a class="hc-slide s4" href="map.html?tab=festival" data-slide="4">
+            <span class="hc-eyebrow">FESTIVAL · 전국 축제·행사</span>
+            <b class="hc-head">설레는 계절, 아이와 함께 걷는 축제</b>
+            <span class="hc-sub">한국관광공사 제공 전국 지자체 가족 축제·행사</span>
+            <i class="hc-deco" aria-hidden="true">🎪</i>
+          </a>
+          <div class="hc-ind" id="hcInd"><span id="hcCur">1</span><span class="hc-sep">|</span><span id="hcTot">4</span><button type="button" class="hc-next" id="hcNext" aria-label="다음 배너">›</button></div>
         </div>
-        <a class="dt-hero-btn" href="map.html">나들이 지도 보기 →</a>
       </section>
-      <!-- 2026-10-07 상단 배너 개편: 1) 주말 무료 나들이 유도(지도 '무료 나들이' 탭으로 진입) 2) 데이터 규모 카운팅 바(링크 아님) -->
-      <a class="trip-banner" href="./map.html?tab=festival" id="tripBanner">
-        <span class="trip-banner-icon">🗺️</span>
-        <span class="trip-banner-text">
-          <span class="trip-banner-title">이번 주말 아이랑 뭐 하지?</span>
-          <span class="trip-banner-sub">전국 무료 나들이·축제 지도 한눈에 보기</span>
-        </span>
-        <span class="trip-banner-arrow">›</span>
-      </a>
-      <div class="count-bar" id="countBar" role="status" hidden>🔥 오늘 진행 &amp; 오픈 예정 육아 공구 총 <b id="countBarNum">0</b>개 실시간 수집</div>
       <section class="section" id="sharedSection" hidden>
         <div class="section-head"><h2>🎁 공유받은 공구</h2><button type="button" class="shared-close" id="sharedClose">닫기 ✕</button></div>
         <div class="list-grid" id="sharedGrid"></div>
@@ -1693,7 +1749,122 @@ function showFavToast(row) {
   favToastTimer = setTimeout(hideFavToast, 3500);
 }
 document.getElementById('favToastClose').addEventListener('click', hideFavToast);
-document.getElementById('tripBanner').addEventListener('click', function () { sendGaEvent('trip_banner_click', { banner: 'home_weekend_map' }); });
+// ---------------- 상단 히어로 캐러셀: 3.5초 자동 롤링 / 호버·포커스·터치 시 일시정지 / 터치 스와이프 / [ 1 | 4 > ] 인디케이터 ----------------
+(function () {
+  const box = document.getElementById('hcViewport');
+  if (!box) return;
+  const slides = Array.prototype.slice.call(box.querySelectorAll('.hc-slide'));
+  const n = slides.length;
+  if (n < 2) return;
+  const curEl = document.getElementById('hcCur');
+  const INTERVAL = 3500, DUR = 550;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let idx = 0, anim = false, timer = null, paused = false, W = box.offsetWidth;
+  let suppressClick = false;
+
+  function place(el, x, animate) {
+    el.style.transition = animate ? 'transform ' + DUR + 'ms cubic-bezier(.4,0,.2,1)' : 'none';
+    el.style.transform = 'translate3d(' + x + 'px,0,0)';
+  }
+  function setIdx(j) {
+    idx = j;
+    curEl.textContent = String(idx + 1);
+    slides.forEach(function (s, i) { s.tabIndex = i === idx ? 0 : -1; s.setAttribute('aria-hidden', i === idx ? 'false' : 'true'); });
+  }
+  function go(dir) {
+    if (anim) return;
+    W = box.offsetWidth;
+    const from = slides[idx], j = (idx + dir + n) % n, to = slides[j];
+    anim = true;
+    place(to, dir * W, false); to.style.visibility = 'visible';
+    void to.offsetWidth;
+    place(from, -dir * W, true); place(to, 0, true);
+    setTimeout(function () { from.style.visibility = 'hidden'; setIdx(j); anim = false; }, DUR + 30);
+  }
+  function stop() { clearTimeout(timer); timer = null; }
+  function schedule() {
+    stop();
+    if (reduce || paused || document.hidden) return;
+    timer = setTimeout(function () { go(1); schedule(); }, INTERVAL);
+  }
+  function pause() { paused = true; stop(); }
+  function resume() { paused = false; schedule(); }
+
+  setIdx(0);
+  slides.forEach(function (s, i) { if (i > 0) { s.style.visibility = 'hidden'; } });
+
+  // 인디케이터 다음 버튼
+  document.getElementById('hcNext').addEventListener('click', function (e) {
+    e.preventDefault(); e.stopPropagation();
+    go(1); schedule();
+  });
+  // 마우스 오버/키보드 포커스 시 일시정지
+  box.addEventListener('mouseenter', pause);
+  box.addEventListener('mouseleave', resume);
+  box.addEventListener('focusin', pause);
+  box.addEventListener('focusout', resume);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else if (!paused) schedule(); });
+  window.addEventListener('resize', function () { W = box.offsetWidth; });
+
+  // 터치 스와이프(드래그 중에는 손가락을 따라가고, 20% 이상 끌면 넘긴다)
+  let x0 = 0, y0 = 0, dx = 0, tracking = false, dragging = false, nb = null, nbDir = 0;
+  box.addEventListener('touchstart', function (e) {
+    if (anim || e.touches.length !== 1) return;
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = 0; tracking = true; dragging = false; W = box.offsetWidth;
+    pause();
+  }, { passive: true });
+  box.addEventListener('touchmove', function (e) {
+    if (!tracking) return;
+    const t = e.touches[0]; dx = t.clientX - x0; const dy = t.clientY - y0;
+    if (!dragging) {
+      if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) { tracking = false; resume(); return; }   // 세로 스크롤
+      if (Math.abs(dx) < 8) return;
+      dragging = true;
+    }
+    e.preventDefault();
+    const dir = dx < 0 ? 1 : -1;
+    if (dir !== nbDir) {
+      if (nb) { nb.style.visibility = 'hidden'; }
+      nbDir = dir; nb = slides[(idx + dir + n) % n]; nb.style.visibility = 'visible';
+    }
+    place(slides[idx], dx, false); place(nb, nbDir * W + dx, false);
+  }, { passive: false });
+  function endTouch() {
+    if (!tracking) return;
+    tracking = false;
+    if (!dragging) { resume(); return; }
+    dragging = false; suppressClick = true; setTimeout(function () { suppressClick = false; }, 350);
+    const from = slides[idx], to = nb, dir = nbDir;
+    anim = true;
+    if (Math.abs(dx) > W * 0.2) {
+      place(from, -dir * W, true); place(to, 0, true);
+      setTimeout(function () { from.style.visibility = 'hidden'; setIdx(slides.indexOf(to)); anim = false; }, DUR + 30);
+    } else {
+      place(from, 0, true); place(to, dir * W, true);
+      setTimeout(function () { to.style.visibility = 'hidden'; anim = false; }, DUR + 30);
+    }
+    nb = null; nbDir = 0; dx = 0;
+    resume();
+  }
+  box.addEventListener('touchend', endTouch);
+  box.addEventListener('touchcancel', endTouch);
+
+  // 클릭: 스와이프 직후엔 무시, 첫 슬라이드는 공구 목록으로 부드럽게 스크롤(주소창 해시를 건드리지 않는다), GA 이벤트
+  slides.forEach(function (s) {
+    s.addEventListener('click', function (e) {
+      if (suppressClick) { e.preventDefault(); return; }
+      sendGaEvent('hero_slide_click', { slide: Number(s.dataset.slide), target: s.getAttribute('href') });
+      const id = s.dataset.scroll;
+      if (id) {
+        e.preventDefault();
+        const t = document.getElementById(id);
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+  schedule();
+})();
+
 (function () { const cb = document.getElementById('cultureBridge'); if (cb) cb.addEventListener('click', function () { sendGaEvent('culture_bridge_click', { banner: 'home_culture_map' }); }); })();
 document.getElementById('favToastCalBtn').addEventListener('click', function () {
   if (favToastRow) addToDeviceCalendar(favToastRow);
@@ -2834,10 +3005,10 @@ function renderTodayBadge() {
   const el = document.getElementById('todayBadge');
   const dt = document.getElementById('dtTodayBadge');
   // 상단 카운팅 바: 오늘 진행 + 오픈 예정 공구 총 개수(정보 제공용)
-  const cb = document.getElementById('countBar');
+  const cb = document.getElementById('hcCount');
   if (cb) {
     const total = ROWS.filter(function (r) { return isActive(r) || isFuture(r); }).length;
-    document.getElementById('countBarNum').textContent = total.toLocaleString('ko-KR');
+    document.getElementById('hcCountNum').textContent = total.toLocaleString('ko-KR');
     cb.hidden = !total;
   }
   if (!n) { el.hidden = true; if (dt) dt.hidden = true; return; }

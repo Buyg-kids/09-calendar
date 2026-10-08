@@ -282,8 +282,11 @@ def _get(endpoint: str, key: str, params: dict) -> dict | None:
     return None
 
 
-def fetch_festivals(key: str, today: date, range_days: int = RANGE_DAYS) -> list[dict]:
+def fetch_festivals(key: str, today: date, range_days: int = RANGE_DAYS) -> tuple[list[dict], bool]:
+    """(행사 원본 목록, 완전 수집 여부). 어느 페이지든 호출에 실패했거나 상한(MAX_PAGES)까지 꽉 차면 complete=False -
+    부분 결과로 기존 tour_events.json 을 덮어쓰지 않기 위한 신호다."""
     out, seen = [], set()
+    complete = False
     for page in range(1, MAX_PAGES + 1):
         payload = _get("searchFestival2", key, {
             "numOfRows": ROWS, "pageNo": page,
@@ -291,7 +294,7 @@ def fetch_festivals(key: str, today: date, range_days: int = RANGE_DAYS) -> list
             "eventEndDate": (today + timedelta(days=range_days)).strftime("%Y%m%d"),
         })
         if payload is None:
-            break
+            return out, False
         items = parse_items(payload)
         for it in items:
             cid = str(it.get("contentid") or "")
@@ -299,9 +302,10 @@ def fetch_festivals(key: str, today: date, range_days: int = RANGE_DAYS) -> list
                 seen.add(cid)
                 out.append(it)
         if len(items) < ROWS:
+            complete = True      # 마지막 페이지까지 정상적으로 읽음
             break
         time.sleep(0.2)
-    return out
+    return out, complete
 
 
 def fetch_homepage(key: str, raw: dict, cache: dict, budget: list[int]) -> str:
@@ -347,7 +351,7 @@ def fetch_fee(key: str, raw: dict, cache: dict, budget: list[int]) -> str:
 
 # ---------------------------------------------------------------------------
 def build_events(key: str, today: date) -> tuple[list[dict], dict]:
-    raws = fetch_festivals(key, today)
+    raws, complete = fetch_festivals(key, today)
     cache, budget = _load_cache(), [MAX_DETAIL_CALLS]
     try:
         hcache = json.loads(HOME_CACHE_PATH.read_text(encoding="utf-8"))
@@ -375,11 +379,22 @@ def build_events(key: str, today: date) -> tuple[list[dict], dict]:
     except (OSError, ValueError):
         perfs = []
     events, dup = dedupe_against_kopis(events, perfs)
-    stats = {"raw": len(raws), "kept": len(events), "dropped": dict(dropped), "kopis_dup": len(dup),
+    stats = {"complete": complete, "raw": len(raws), "kept": len(events), "dropped": dict(dropped), "kopis_dup": len(dup),
              "fee_type": dict(Counter(e["fee_type"] for e in events)),
              "region": dict(Counter(e["region"] for e in events)),
              "kid_score": dict(Counter(e["kid_score"] for e in events))}
     return events, stats
+
+
+MIN_PREV_FOR_DROP_GUARD = 30   # 기존 파일에 이 건수 이상 있을 때만 급감 검사
+MIN_KEEP_RATIO = 0.4           # 새 결과가 기존의 40% 미만이면 API 이상으로 간주
+
+
+def _existing_count() -> int:
+    try:
+        return int(json.loads(OUTPUT_PATH.read_text(encoding="utf-8")).get("count", 0))
+    except (OSError, ValueError, TypeError):
+        return 0
 
 
 def run(dry_run: bool = False) -> "os.PathLike | dict | None":
@@ -391,8 +406,15 @@ def run(dry_run: bool = False) -> "os.PathLike | dict | None":
         events, stats = build_events(key, date.today())
         if dry_run:
             return stats
+        if not stats["complete"]:
+            logger.error("TourAPI 응답이 불완전(호출 실패 또는 페이지 상한) - 기존 파일 유지")
+            return None
         if not events:
             logger.error("TourAPI 행사 0건 - 기존 파일 유지")
+            return None
+        prev = _existing_count()
+        if prev >= MIN_PREV_FOR_DROP_GUARD and len(events) < prev * MIN_KEEP_RATIO:
+            logger.error("TourAPI 행사 %d건 -> %d건으로 급감 - 이상 응답으로 보고 기존 파일 유지", prev, len(events))
             return None
         events = sort_events(events)
         payload = {"generated_at": datetime.now().isoformat(timespec="seconds"), "source": SOURCE_NAME,

@@ -1112,7 +1112,8 @@ function spotInfo(sp) {
   return {
     id: sp.id, kind: 'spot', tab: 'free', image: sp.image || '', imageThumb: '', title: sp.title, region: sp.region, badge: null, fee: { t: free ? '무료' : (sp.tag || '요금 확인'), free },
     rows: [['구분', sp.category || '무료 나들이'], ['요금·운영', sp.tag || '방문 전 확인'], ['시설 정보', facility || '정보 없음'], ['주소', sp.address || sp.region]],
-    mapUrl: sp.link || naverMapUrl(sp.address, sp.title), infoUrl: '', infoLabel: '🔎 공식·관련 안내 검색', searchUrl: webSearchUrl(sp.title),
+    mapUrl: sp.link || naverMapUrl(sp.address, sp.title), infoUrl: /^https:\/\//.test(sp.homepage_url || '') ? sp.homepage_url : '',
+    infoLabel: /^https:\/\//.test(sp.homepage_url || '') ? '🔗 공식 홈페이지 바로가기' : '🔎 공식·관련 안내 검색', searchUrl: webSearchUrl(sp.title),
     source: '운영시간·휴관일·예약은 방문 전 확인해 주세요',
     fav: { kind: 'spot', tab: 'free', title: sp.title, region: sp.region, address: sp.address || '', start_date: '', end_date: '', fee: free ? '무료' : (sp.tag || '') },
   };
