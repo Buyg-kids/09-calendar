@@ -753,6 +753,18 @@ def _collect_tour_events() -> None:
         logger.error("TourAPI 행사 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
 
 
+def _match_alert_keywords(rows: list[dict], today: date) -> None:
+    """고객 '키워드 알림 신청'(data/alert_keywords.json)과 오늘의 공구 목록을 매칭해 관리자용 복붙 메시지를 만든다
+    (output/matched_alerts_today.json·txt, 콘솔 로그). 부가 산출물 - alert_matcher.run()은 예외를 던지지 않고,
+    import 오류까지 이중으로 방어한다(로그에 Traceback 이 남으면 야간 파이프라인이 배포를 건너뛴다)."""
+    try:
+        from generator import alert_matcher
+
+        alert_matcher.run(rows, today)
+    except Exception as e:
+        logger.error("키워드 알림 매칭 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
+
+
 def run(today: date | None = None, week_start: date | None = None, title: str | None = None) -> list[str]:
     """today: '이번 주'/노출 기간 판단 기준일 (week_start가 없을 때만 사용).
     week_start: 명시적으로 특정 주(월요일)를 지정하고 싶을 때 사용 - 지정하면 today는
@@ -824,6 +836,9 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
 
     # TourAPI 행사·축제 수집(부가 산출물) - KOPIS 와 같은 방식으로 격리
     _collect_tour_events()
+
+    # 고객 키워드 알림 매칭(부가 산출물) - 오늘의 공구 목록 기준, 실패해도 배포는 계속
+    _match_alert_keywords(summary_rows, today_date)
 
     # 릴스 대본/캡션 생성은 부가 산출물 - 실패해도 카드뉴스/배포에 영향 없도록 격리한다
     # (reels_generator.run 자체도 예외를 삼키지만, import 오류까지 이중으로 방어).
