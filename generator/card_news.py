@@ -753,6 +753,18 @@ def _collect_tour_events() -> None:
         logger.error("TourAPI 행사 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
 
 
+def _collect_seoul_reserve() -> None:
+    """서울시 공공서비스예약(체험/견학/교육) 수집(부가 산출물, map.html '주말나들이' 탭의 [예약] 항목). 키 없음/API 오류/응답 불완전이어도
+    배포는 계속된다 - seoul_reserve_collector.run()은 예외를 던지지 않고 실패 시 기존 seoul_reserve.json 을 그대로 둔다.
+    import 오류까지 이중으로 방어한다(로그에 Traceback 이 남으면 야간 파이프라인이 배포를 건너뛴다)."""
+    try:
+        from collector import seoul_reserve_collector
+
+        seoul_reserve_collector.run()
+    except Exception as e:
+        logger.error("서울 공공서비스예약 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
+
+
 def _match_alert_keywords(rows: list[dict], today: date) -> None:
     """고객 '키워드 알림 신청'(data/alert_keywords.json)과 오늘의 공구 목록을 매칭해 관리자용 복붙 메시지를 만든다
     (output/matched_alerts_today.json·txt, 콘솔 로그). 부가 산출물 - alert_matcher.run()은 예외를 던지지 않고,
@@ -836,6 +848,9 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
 
     # TourAPI 행사·축제 수집(부가 산출물) - KOPIS 와 같은 방식으로 격리
     _collect_tour_events()
+
+    # 서울시 공공서비스예약 수집(부가 산출물) - 같은 방식으로 격리
+    _collect_seoul_reserve()
 
     # 고객 키워드 알림 매칭(부가 산출물) - 오늘의 공구 목록 기준, 실패해도 배포는 계속
     _match_alert_keywords(summary_rows, today_date)
