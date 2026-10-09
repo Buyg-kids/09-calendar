@@ -710,7 +710,16 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
             if not data.get("is_group_buy"):
                 return []
             items = []
-            for it in data.get("items", []):
+            raw_items = data.get("items", [])
+            if not isinstance(raw_items, list):
+                raw_items = []
+            for it in raw_items:
+                # 2026-10-09: 간혹 Claude 가 items 에 객체가 아닌 문자열을 섞어 보내 `it.get` 에서 AttributeError 가 났고,
+                # 그 Traceback 때문에 야간 파이프라인이 배포를 건너뛰었다. 형식이 이상한 항목만 건너뛰고 나머지는 살린다.
+                # (크레딧 소진 등 API 오류용 logger.exception 은 extract_from_text 에서 그대로 유지한다.)
+                if not isinstance(it, dict):
+                    logger.warning("[%s] Claude 결과에 객체가 아닌 항목이 있어 건너뜀: %.40r", influencer_name, it)
+                    continue
                 category = it.get("category", "")
                 if it.get("item_type") == "experience" or category == "키즈체험":
                     if looks_like_experience(it.get("product_name") or "", (it.get("place_name") or "").strip() or None):
