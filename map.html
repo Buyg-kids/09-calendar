@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>BUYG(바이그) | 이번 주말 어디 갈까? 전국 무료 나들이 &amp; 키즈 숙소 특가 지도</title>
-<meta name="description" content="이번 주말 아이랑 어디 갈까? 전국 무료 나들이 명소와 키즈 숙소·체험 공구 특가를 지도에서 한눈에 확인하세요. 인스타그램 공구 일정은 매일 자정 업데이트되는 바이그에서 찾아보세요." />
-<meta name="keywords" content="인스타그램 공구, 인스타그램 공구 검색방법, 인스타 공구 찾는법, 인스타그램 공구 제품 찾는 법, 인스타그램 공구가 확인방법, 인스타그램 공구 플랫폼, 육아 공구 캘린더, 바이그, 주말 나들이, 무료 나들이, 키즈 숙소" />
+<title>BUYG(바이그) | 이번 주말 어디 갈까? 전국 주말나들이 &amp; 키즈 숙소 특가 지도</title>
+<meta name="description" content="이번 주말 아이랑 어디 갈까? 전국 주말나들이 명소와 키즈 숙소·체험 공구 특가를 지도에서 한눈에 확인하세요. 인스타그램 공구 일정은 매일 자정 업데이트되는 바이그에서 찾아보세요." />
+<meta name="keywords" content="인스타그램 공구, 인스타그램 공구 검색방법, 인스타 공구 찾는법, 인스타그램 공구 제품 찾는 법, 인스타그램 공구가 확인방법, 인스타그램 공구 플랫폼, 육아 공구 캘린더, 바이그, 주말 나들이, 주말나들이, 키즈 숙소" />
 <link rel="canonical" href="https://buyg.kr/map.html" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="BUYG(바이그)" />
@@ -123,7 +123,7 @@
     margin-top: 16px; padding: 11px 16px; border: none; border-radius: 12px; cursor: pointer; font-family: inherit;
     background: var(--point-coral-bg); color: var(--point-coral); font-size: 13.5px; font-weight: 800;
   }
-  /* ---- 무료 나들이 섹션 (공구와 함께 보여주는 하이브리드) ---- */
+  /* ---- 주말나들이 섹션 (공구와 함께 보여주는 하이브리드) ---- */
   .free-head { margin: 16px 0 2px; }
   .free-head h3 { margin: 0; font-size: 14.5px; font-weight: 800; }
   .free-head span { display: block; margin-top: 2px; font-size: 11px; color: var(--text-sub); }
@@ -149,6 +149,7 @@
   .ev-date { flex: 0 0 auto; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #f3ecfa; color: #5f0080; white-space: nowrap; }
   .ev-date.ing { background: #e8f5ee; color: #2f7d4f; }
   .ev-date.soon { background: #fff1ec; color: #c2410c; }
+  .perf-chip.free { background: #e8f5ee; color: #2f7d4f; font-weight: 800; }
   .ev-kid { flex: 0 0 auto; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: #fff8e1; color: #92620a; white-space: nowrap; }
   .map-footer .mf-source { margin: 0 0 8px; font-size: 12px; color: #777; }
 
@@ -453,18 +454,18 @@
     <button class="refresh-btn" id="refreshBtn" type="button" aria-label="새로고침"><span>↻</span></button>
     <a class="logo" href="./" style="text-decoration:none">‹ Buyg</a>
     <h1 class="title">아이와 함께 떠나볼까요?</h1>
-    <p class="sub">이번 주말 어디 갈까? 전국 무료 나들이 &amp; 키즈 숙소 특가</p>
+    <p class="sub">이번 주말 어디 갈까? 전국 주말나들이 &amp; 키즈 숙소 특가</p>
   </header>
 
   <div class="tabs" role="tablist">
     <button class="tab active" data-sub="all" role="tab" aria-selected="true">🗺️ 전체</button>
-    <button class="tab" data-sub="free" role="tab" aria-selected="false">🌿 무료 나들이</button>
+    <button class="tab" data-sub="free" role="tab" aria-selected="false">🌿 주말나들이</button>
     <button class="tab" data-sub="festival" role="tab" aria-selected="false">🎪 행사·축제</button>
     <button class="tab" data-sub="stay" role="tab" aria-selected="false">🧳 숙소·여행</button>
     <button class="tab" data-sub="play" role="tab" aria-selected="false">🎠 키카·체험</button>
     <button class="tab" data-sub="show" role="tab" aria-selected="false">🎭 공연·전시</button>
   </div>
-  <div class="theme-row" id="themeRow" aria-label="무료 나들이 테마 필터"></div>
+  <div class="theme-row" id="themeRow" aria-label="주말나들이 테마 필터"></div>
   <div class="extra"><span id="extra" style="display:contents"></span></div>
 
   <div class="map-wrap">
@@ -587,9 +588,9 @@ const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
 let deals = [];
 let freeSpots = [];
 const TOUR_URLS = ['./tour_events.json', 'https://buyg.kr/tour_events.json'];
-let tourEvents = [];   // 한국관광공사 TourAPI 행사·축제 (무료 나들이 탭에만 사용)
+let tourEvents = [];   // 한국관광공사 TourAPI 행사·축제 (주말나들이 탭에만 사용)
 let activeSub = 'all';
-// 탭 -> 공구 매칭: 전체=숙소+체험 모두, 무료 나들이=공구 없음(스팟만), 그 외=해당 분류
+// 탭 -> 공구 매칭: 전체=숙소+체험 모두, 주말나들이=공구 없음(스팟만), 그 외=해당 분류
 function subMatch(d) { return activeSub === 'all' ? true : (activeSub === 'free' || activeSub === 'festival') ? false : subOf(d) === activeSub; }
 let shows = [];
 let theme = '';
@@ -948,7 +949,7 @@ function perfCard(p) {
   chip(p.state === '공연중' ? '공연중' : '공연예정', p.state === '공연중' ? 'ing' : '');
   chip('📅 ' + perfDates(p));
   chip(p.age && p.age.trim() ? p.age.trim() : '');
-  chip((p.price || '').trim().slice(0, 28), 'price');
+  { const fb = feeBadge(p); (fb.free || p.fee_min > 0 || wonOf(p.price)) ? chip(fb.t, fb.free ? 'free' : 'price') : chip((p.price || '').trim().slice(0, 28), 'price'); }
   a.addEventListener('click', () => sendGaEvent('show_click', { show_title: (p.title || '').slice(0, 100), map_region: p.region }));
   return a;
 }
@@ -978,7 +979,7 @@ function renderThemeSheet() {
   const t = THEMES.find(x => x.key === theme);
   const spots = themeSpots().filter(sp => sp.region === key);
   document.getElementById('sheetTitle').textContent = label + ' · ' + t.label.replace(/^\S+\s/, '');
-  document.getElementById('sheetSub').textContent = spots.length ? '무료 나들이 ' + spots.length + '곳' : '';
+  document.getElementById('sheetSub').textContent = spots.length ? '주말나들이 ' + spots.length + '곳' : '';
   const box = document.getElementById('sheetList');
   box.innerHTML = '';
   if (!spots.length) {
@@ -1000,7 +1001,7 @@ function renderSheetBody() {
   const spots = freeSpots.filter(sp => sp.region === key && (sf === '전체' || subOfSpot(sp) === sf));
   const label = key === '전국' ? '전국 이용권' : key.replace(/\//g, '·');
   const hasSpots = freeSpots.some(sp => sp.region === key);
-  document.getElementById('sheetTitle').textContent = activeSub === 'free' ? label + ' 무료 나들이'
+  document.getElementById('sheetTitle').textContent = activeSub === 'free' ? label + ' 주말나들이'
     : activeSub === 'all' ? (listFor(key).length ? label + ' 공구·나들이' : label + ' 나들이 추천')
     : (!listFor(key).length && hasSpots) ? label + ' 나들이 추천'
     : label + ' ' + (activeSub === 'stay' ? '숙소·여행' : '키카·체험') + ' 공구';
@@ -1034,7 +1035,7 @@ function renderSheetBody() {
   });
   renderSpots(spots, box);
   document.getElementById('sheetSub').textContent =
-    [list.length ? '공구 ' + list.length + '건 · 마감 빠른 순' : '', spots.length ? '무료 나들이 ' + spots.length + '곳' : ''].filter(Boolean).join(' · ');
+    [list.length ? '공구 ' + list.length + '건 · 마감 빠른 순' : '', spots.length ? '주말나들이 ' + spots.length + '곳' : ''].filter(Boolean).join(' · ');
   box.scrollTop = 0;
 }
 
@@ -1044,6 +1045,17 @@ function tourAll() { return tourEvents.filter(e => REGION_GROUP[e.region] && isL
 function tourFor(key) {
   return tourAll().filter(e => REGION_GROUP[e.region] === key)
     .sort((a, b) => (b.kid_score || 0) - (a.kid_score || 0) || (a.start_date || '').localeCompare(b.start_date || '') || (a.title || '').localeCompare(b.title || ''));
+}
+// 요금 뱃지: 무료 -> [무료] / 소액 유료 -> 해당 요금(3,000원, 여러 요금이면 3,000원~) / 일부 무료 / 유료 / 요금 미기재는 '요금 확인'(무료로 단정하지 않는다)
+function wonOf(text) { const m = String(text || '').match(/(\d[\d,]*)\s*원/g) || []; const n = m.map(x => parseInt(x.replace(/[^\d]/g, ''), 10)).filter(v => v > 0); return n.length ? { min: Math.min.apply(null, n), max: Math.max.apply(null, n) } : null; }
+function feeBadge(e) {
+  if (e.is_free === true || e.fee_type === 'free') return { t: '무료', free: true };
+  if (e.fee_type === 'partial') return { t: '일부 무료', free: false };
+  let min = e.fee_min, max = e.fee_max;
+  if (!(min > 0)) { const w = wonOf(e.fee_text || e.price); if (w) { min = w.min; max = w.max; } }
+  if (min > 0) return { t: min.toLocaleString('ko-KR') + '원' + (max > min ? '~' : ''), free: false };
+  if (e.fee_type === 'paid') return { t: '유료', free: false };
+  return { t: '요금 확인', free: false };
 }
 function tourStatus(e) {
   const s = parseDate(e.start_date), en = parseDate(e.end_date) || s;
@@ -1062,8 +1074,8 @@ function renderTourEvents(evs, box) {
       + '<span class="spot-meta"><span class="ev-date st"></span><span class="ev-date dt"></span><span class="spot-tag"></span></span>'
       + '<span class="spot-addr"></span></span>';
     a.querySelector('.spot-title').textContent = e.title;   // 원문 그대로(가공 금지)
-    const fee = { free: '무료', partial: '일부 무료', paid: '유료', unknown: '요금 확인' }[e.fee_type] || '요금 확인';
-    const feeEl = a.querySelector('.spot-tag'); feeEl.textContent = fee; if (e.fee_type !== 'free') feeEl.classList.add('warn');
+    const fb = feeBadge(e);
+    const feeEl = a.querySelector('.spot-tag'); feeEl.textContent = fb.t; if (!fb.free) feeEl.classList.add('warn');
     const st = tourStatus(e);
     const stEl = a.querySelector('.st'); stEl.textContent = st.t; if (st.c) stEl.classList.add(st.c);
     a.querySelector('.dt').textContent = '📅 ' + (e.end_date && e.end_date !== e.start_date ? shortDate(e.start_date) + ' ~ ' + shortDate(e.end_date) : shortDate(e.start_date));
@@ -1094,13 +1106,13 @@ function naverMapUrl(addr, fallback) {
 }
 function webSearchUrl(q) { return 'https://search.naver.com/search.naver?query=' + encodeURIComponent(q); }
 function eventInfo(e) {
-  const fee = FEE_LABEL[e.fee_type] || '요금 확인';
+  const fee = feeBadge(e).t;
   const ft = (e.fee_text || '').replace(/\s+/g, ' ').trim();
   const period = e.end_date && e.end_date !== e.start_date ? shortDate(e.start_date) + ' ~ ' + shortDate(e.end_date) : shortDate(e.start_date);
   const rows = [['행사 기간', period], ['요금', fee + (ft && ft.length <= 60 && ft !== fee ? ' · ' + ft : '')], ['주소', e.address || e.place || e.region]];
   if (e.tel) rows.push(['문의', e.tel]);
   return {
-    id: e.id, kind: 'event', tab: 'festival', image: e.image || '', imageThumb: e.image_thumb || '', title: e.title, region: e.region, badge: tourStatus(e), fee: { t: fee, free: e.fee_type === 'free' }, rows,
+    id: e.id, kind: 'event', tab: 'festival', image: e.image || '', imageThumb: e.image_thumb || '', title: e.title, region: e.region, badge: tourStatus(e), fee: { t: fee, free: feeBadge(e).free }, rows,
     mapUrl: naverMapUrl(e.address || e.place, e.title), infoUrl: e.info_url || '', infoLabel: e.info_url ? '🔗 공식 안내 페이지' : '🔎 행사 정보 검색',
     searchUrl: webSearchUrl(e.title + ' ' + e.region), source: '출처: 한국관광공사 · 일정·요금·운영은 방문 전 공식 안내를 확인해 주세요',
     fav: { kind: 'event', tab: 'festival', title: e.title, region: e.region, address: e.address || '', start_date: e.start_date, end_date: e.end_date, fee },
@@ -1111,7 +1123,7 @@ function spotInfo(sp) {
   const free = /^무료/.test(sp.tag || '');
   return {
     id: sp.id, kind: 'spot', tab: 'free', image: sp.image || '', imageThumb: '', title: sp.title, region: sp.region, badge: null, fee: { t: free ? '무료' : (sp.tag || '요금 확인'), free },
-    rows: [['구분', sp.category || '무료 나들이'], ['요금·운영', sp.tag || '방문 전 확인'], ['시설 정보', facility || '정보 없음'], ['주소', sp.address || sp.region]],
+    rows: [['구분', sp.category || '주말나들이'], ['요금·운영', sp.tag || '방문 전 확인'], ['시설 정보', facility || '정보 없음'], ['주소', sp.address || sp.region]],
     mapUrl: sp.link || naverMapUrl(sp.address, sp.title), infoUrl: /^https:\/\//.test(sp.homepage_url || '') ? sp.homepage_url : '',
     infoLabel: /^https:\/\//.test(sp.homepage_url || '') ? '🔗 공식 홈페이지 바로가기' : '🔎 공식·관련 안내 검색', searchUrl: webSearchUrl(sp.title),
     source: '운영시간·휴관일·예약은 방문 전 확인해 주세요',
@@ -1218,7 +1230,7 @@ function renderFestivalSheet() {
 
 function renderSpots(spots, box) {
   if (!spots.length) return 0;
-  box.insertAdjacentHTML('beforeend', '<div class="free-head"><h3>🌿 함께 가기 좋은 무료 나들이</h3><span>국공립 무료 명소 · 운영시간·예약은 방문 전 확인해 주세요</span></div>');
+  box.insertAdjacentHTML('beforeend', '<div class="free-head"><h3>🌿 함께 가기 좋은 주말나들이</h3><span>국공립 무료·저가 명소 · 운영시간·예약은 방문 전 확인해 주세요</span></div>');
   spots.forEach(sp => {
     const a = document.createElement('a');
     a.className = 'spot';
@@ -1296,7 +1308,7 @@ function closeSheet(fromPop) {
 
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
   activeSub = t.dataset.sub;
-  sendGaEvent('map_tab_click', { map_tab: { all: '전체', free: '무료 나들이', festival: '행사·축제', stay: '숙소·여행', play: '키카·체험', show: '공연·전시' }[activeSub] });
+  sendGaEvent('map_tab_click', { map_tab: { all: '전체', free: '주말나들이', festival: '행사·축제', stay: '숙소·여행', play: '키카·체험', show: '공연·전시' }[activeSub] });
   document.querySelectorAll('.tab').forEach(x => { x.classList.toggle('active', x === t); x.setAttribute('aria-selected', x === t); });
   render(); renderThemeChips();
   if (isDesktop() && sheetKey) { sheetSubFilter = '전체'; renderSubChips(); renderSheetBody(); }
@@ -1367,7 +1379,7 @@ window.addEventListener('popstate', () => closeSheet(true));
   if (demo) document.getElementById('status').textContent += ' · [샘플] 데이터 포함';
   const qf = new URLSearchParams(location.search).get('filter');
   if (qf === 'outdoor' || qf === 'indoor') { theme = qf; sendGaEvent('theme_chip_click', { theme: qf, theme_key: qf, from: 'home_weather' }); }
-  // 2026-10-07: 홈 배너 딥링크 ?tab=free(무료 나들이) / ?tab=show(공연·전시, culture 별칭) 로 해당 탭을 선택한 채 진입
+  // 2026-10-07: 홈 배너 딥링크 ?tab=free(주말나들이) / ?tab=show(공연·전시, culture 별칭) 로 해당 탭을 선택한 채 진입
   const qplace = new URLSearchParams(location.search).get('place');
   let qtab = { culture: 'show', events: 'festival' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
   if (!qtab && qplace) qtab = qplace.indexOf('tour_') === 0 ? 'festival' : 'free';

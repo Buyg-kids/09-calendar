@@ -25,6 +25,7 @@ from datetime import date, datetime, timedelta
 
 import requests
 
+from collector.fee_utils import describe_fee
 from config import BASE_DIR
 
 logger = logging.getLogger(__name__)
@@ -148,6 +149,7 @@ def run() -> "os.PathLike | None":
                 "id": it["id"], "title": it["title"], "start_date": it["start_date"], "end_date": it["end_date"],
                 "venue": it["venue"], "region": region, "poster": it["poster"], "genre": it["genre"],
                 "age": it.get("age", ""), "price": it.get("price", ""), "state": it["state"],
+                **describe_fee(it.get("price", "")),     # fee_type / is_free / fee_min / fee_max (원문 price 는 그대로)
                 "link": "https://www.kopis.or.kr/por/db/pblprfr/pblprfrView.do?menuId=MNU_00020&mt20Id=" + it["id"],
             })
         payload = {"generated_at": datetime.now().isoformat(timespec="seconds"), "count": len(perfs), "performances": perfs}

@@ -84,42 +84,25 @@ def region_of(area_code: str, address: str, ldong_code: str = "") -> str:
     return by_code or by_addr
 
 
-_FREE_RE = re.compile(r"무\s*료|free|입장료\s*없|비용\s*없|참가비\s*없|관람료\s*없", re.IGNORECASE)
-_PAID_RE = re.compile(r"유\s*료|\d[\d,]*\s*원|\d+\s*만\s*원")
-_NOT_FREE_RE = re.compile(r"무\s*료\s*(?:가\s*)?(?:아님|아니|불가|제외)")
-# '입장/관람/참가(료) 무료' 처럼 들어가는 비용이 무료라고 명시되면, 일부 체험·푸드트럭 등 부가 유료 언급이 있어도 무료로 본다.
-_ENTRY_FREE_RE = re.compile(r"(?:입장|관람|참가|참여)\s*(?:료|비)?\s*(?:은|는)?\s*(?:전\s*면\s*)?무\s*료")
-
-
-def classify_fee(text: str) -> str:
-    """요금 텍스트 -> 'free'(전면 무료) / 'partial'(일부 무료·일부 유료) / 'paid' / 'unknown'(정보 없음)."""
-    t = (text or "").strip()
-    if not t:
-        return "unknown"
-    if _NOT_FREE_RE.search(t):
-        return "paid"
-    if _ENTRY_FREE_RE.search(t):
-        return "free"
-    free, paid = bool(_FREE_RE.search(t)), bool(_PAID_RE.search(t))
-    if free and paid:
-        return "partial"
-    if free:
-        return "free"
-    if paid:
-        return "paid"
-    return "unknown"
+# 요금 파서는 KOPIS 수집기와 공유한다(collector/fee_utils.py). 기존 이름(classify_fee 등)은 그대로 쓸 수 있게 다시 내보낸다.
+from collector.fee_utils import classify_fee, describe_fee, parse_fee_max, parse_fee_min  # noqa: E402,F401
 
 
 _KID_POS = ["어린이", "아이", "가족", "키즈", "유아", "영유아", "체험", "동물", "놀이", "동화", "인형극", "캐릭터",
-            "곤충", "공룡", "과학", "독서", "퍼레이드", "숲"]   # 2026-10-07 보강: 곤충/공룡/과학/독서/퍼레이드/숲 추가
-_KID_NEG = ["맥주", "와인", "막걸리", "소주", "주류", "클럽", "성인", "19세", "술축제", "나이트", "와인페스타"]
+            "곤충", "공룡", "과학", "독서", "퍼레이드", "숲", "박물관"]   # 2026-10-10: 박물관 추가(육아/가족 타깃 우선 정렬)
+# 성인 대상 + 전문가/취업/학술 행사는 육아와 무관해 제외한다(2026-10-10 확장). '무료'인지 여부로는 절대 거르지 않는다.
+_KID_NEG = ["맥주", "와인", "막걸리", "소주", "주류", "클럽", "성인", "19세", "술축제", "나이트", "와인페스타",
+            "취업", "채용", "학술", "심포지엄", "컨퍼런스", "세미나", "포럼", "전문가", "학회", "창업"]
 
 
 def kid_score(title: str, extra: str = "") -> int | None:
     """아이 동반 적합도 점수. 성인 대상 키워드가 있으면 None(제외), 아니면 긍정 키워드 개수(0 이상).
     TourAPI 에는 연령 필드가 없어 키워드 기반이다 - 임계값은 드라이런 분포를 보고 정한다."""
-    hay = ((title or "") + " " + (extra or "")).replace(" ", "")
-    if any(w in hay for w in _KID_NEG):
+    # 제외 키워드는 제목만 본다 - 요금 문구의 "성인 5,000원 / 어린이 3,000원" 때문에 가족 행사가 성인 행사로 오인돼
+    # 버려지던 문제(2026-10-10 수정). 가산점(긍정 키워드)은 제목 + 부가 텍스트(요금 등)를 함께 본다.
+    title_hay = (title or "").replace(" ", "")
+    hay = title_hay + (extra or "").replace(" ", "")
+    if any(w in title_hay for w in _KID_NEG):
         return None
     return len({w for w in _KID_POS if w in hay})
 
@@ -250,11 +233,13 @@ def normalize_item(raw: dict, today: date, range_days: int = RANGE_DAYS, fee_tex
     score = kid_score(title, fee_text)
     if score is None:
         return None
-    ftype = classify_fee(fee_text)
+    fee = describe_fee(fee_text)      # fee_type / is_free / fee_min / fee_max (원문 fee_text 는 그대로 보존)
+    ftype = fee["fee_type"]
     return {
         "id": "tour_" + cid, "title": title, "start_date": start, "end_date": end,
         "place": (raw.get("addr1") or "").strip(), "address": address, "region": region,
-        "mapx": lon, "mapy": lat, "fee_text": fee_text, "fee_type": ftype, "is_free": ftype == "free",
+        "mapx": lon, "mapy": lat, "fee_text": fee_text, "fee_type": ftype, "is_free": fee["is_free"],
+        "fee_min": fee["fee_min"], "fee_max": fee["fee_max"],
         "kid_score": score, "tel": (raw.get("tel") or "").strip(), "modifiedtime": str(raw.get("modifiedtime") or ""),
         "source": SOURCE_NAME,
         "link": naver_map_url((raw.get("addr1") or ""), title),   # 이미지 없이 링크만 - 주소(addr1) 기반 네이버 지도
