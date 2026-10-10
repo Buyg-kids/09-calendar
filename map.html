@@ -150,6 +150,11 @@
   .ev-date.ing { background: #e8f5ee; color: #2f7d4f; }
   .ev-date.soon { background: #fff1ec; color: #c2410c; }
   .perf-chip.free { background: #e8f5ee; color: #2f7d4f; font-weight: 800; }
+  .spot[hidden] { display: none; }
+  .rsv-badge { flex: 0 0 auto; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #e6f0ff; color: #1d4ed8; white-space: nowrap; }
+  .rsv-dday { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; white-space: nowrap; }
+  .rsv-dday.soon { background: var(--point-coral-bg); color: var(--point-coral); }
+  .pd-btn.reserve { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
   .ev-kid { flex: 0 0 auto; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: #fff8e1; color: #92620a; white-space: nowrap; }
   .map-footer .mf-source { margin: 0 0 8px; font-size: 12px; color: #777; }
 
@@ -588,6 +593,8 @@ const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
 let deals = [];
 let freeSpots = [];
 const TOUR_URLS = ['./tour_events.json', 'https://buyg.kr/tour_events.json'];
+let seoulReserve = [];   // 서울시 공공서비스예약 체험·프로그램 (주말나들이 탭 '예약 가능' 섹션)
+const SEOUL_RESERVE_URLS = ['./seoul_reserve.json', 'https://buyg.kr/seoul_reserve.json'];
 let tourEvents = [];   // 한국관광공사 TourAPI 행사·축제 (주말나들이 탭에만 사용)
 let activeSub = 'all';
 // 탭 -> 공구 매칭: 전체=숙소+체험 모두, 주말나들이=공구 없음(스팟만), 그 외=해당 분류
@@ -678,6 +685,20 @@ async function loadDeals() {
   return [];
 }
 
+function reserveAll() {
+  return seoulReserve.filter(e => REGION_GROUP[e.region] && e.reserve_url && /^https:\/\//.test(e.reserve_url) && (!e.rcpt_end || parseDate(e.rcpt_end) >= TODAY));
+}
+// 접수 마감 임박 순 -> 아이 적합도 높은 순
+function reserveFor(key) {
+  return reserveAll().filter(e => REGION_GROUP[e.region] === key)
+    .sort((a, b) => (a.rcpt_end || '9999').localeCompare(b.rcpt_end || '9999') || (b.kid_score || 0) - (a.kid_score || 0) || (a.title || '').localeCompare(b.title || ''));
+}
+function reserveDday(e) {
+  const en = parseDate(e.rcpt_end);
+  if (!en) return { t: '접수중', c: '' };
+  const n = Math.round((en - TODAY) / 864e5);
+  return n <= 0 ? { t: '오늘 접수 마감', c: 'soon' } : { t: '접수 마감 D-' + n, c: n <= 3 ? 'soon' : '' };
+}
 function countsFor(sub) {
   const counts = {};
   if (sub === 'show') {
@@ -696,6 +717,7 @@ function countsFor(sub) {
     const g = REGION_GROUP[d.region]; counts[g] = (counts[g] || 0) + 1;
   });
   if (sub === 'all' || sub === 'free') freeSpots.forEach(sp => { counts[sp.region] = (counts[sp.region] || 0) + 1; });
+  if (sub === 'free') reserveAll().forEach(e => { const g = REGION_GROUP[e.region]; counts[g] = (counts[g] || 0) + 1; });
   return counts;
 }
 
@@ -1000,14 +1022,15 @@ function renderSheetBody() {
   const list = listFor(key).filter(d => sf === '전체' || subOfDeal(d) === sf);
   const spots = freeSpots.filter(sp => sp.region === key && (sf === '전체' || subOfSpot(sp) === sf));
   const label = key === '전국' ? '전국 이용권' : key.replace(/\//g, '·');
-  const hasSpots = freeSpots.some(sp => sp.region === key);
+  const rsv = activeSub === 'free' ? reserveFor(key) : [];
+  const hasSpots = freeSpots.some(sp => sp.region === key) || rsv.length > 0;
   document.getElementById('sheetTitle').textContent = activeSub === 'free' ? label + ' 주말나들이'
     : activeSub === 'all' ? (listFor(key).length ? label + ' 공구·나들이' : label + ' 나들이 추천')
     : (!listFor(key).length && hasSpots) ? label + ' 나들이 추천'
     : label + ' ' + (activeSub === 'stay' ? '숙소·여행' : '키카·체험') + ' 공구';
   const box = document.getElementById('sheetList');
   box.innerHTML = '';
-  if (!list.length && !(activeSub === 'free' && spots.length)) box.appendChild(spots.length ? noDealNote(key) : emptyState(key, label));
+  if (!list.length && !(activeSub === 'free' && (spots.length || rsv.length))) box.appendChild(spots.length ? noDealNote(key) : emptyState(key, label));
   list.forEach(d => {
     const a = document.createElement('a');
     a.className = 'card';
@@ -1034,8 +1057,9 @@ function renderSheetBody() {
     box.appendChild(a);
   });
   renderSpots(spots, box);
+  renderReserve(rsv, box);
   document.getElementById('sheetSub').textContent =
-    [list.length ? '공구 ' + list.length + '건 · 마감 빠른 순' : '', spots.length ? '주말나들이 ' + spots.length + '곳' : ''].filter(Boolean).join(' · ');
+    [list.length ? '공구 ' + list.length + '건 · 마감 빠른 순' : '', spots.length ? '주말나들이 ' + spots.length + '곳' : '', rsv.length ? '예약 가능 ' + rsv.length + '건' : ''].filter(Boolean).join(' · ');
   box.scrollTop = 0;
 }
 
@@ -1116,6 +1140,21 @@ function eventInfo(e) {
     mapUrl: naverMapUrl(e.address || e.place, e.title), infoUrl: e.info_url || '', infoLabel: e.info_url ? '🔗 공식 안내 페이지' : '🔎 행사 정보 검색',
     searchUrl: webSearchUrl(e.title + ' ' + e.region), source: '출처: 한국관광공사 · 일정·요금·운영은 방문 전 공식 안내를 확인해 주세요',
     fav: { kind: 'event', tab: 'festival', title: e.title, region: e.region, address: e.address || '', start_date: e.start_date, end_date: e.end_date, fee },
+  };
+}
+function reserveInfo(e) {
+  const fee = feeBadge(e).t;
+  const ft = (e.fee_text || '').replace(/\s+/g, ' ').trim();
+  const period = e.start_date ? (e.end_date && e.end_date !== e.start_date ? shortDate(e.start_date) + ' ~ ' + shortDate(e.end_date) : shortDate(e.start_date)) : '예약 페이지 확인';
+  const rcpt = e.rcpt_end ? (e.rcpt_start ? shortDate(e.rcpt_start) + ' ~ ' : '~ ') + shortDate(e.rcpt_end) : '예약 페이지 확인';
+  const rows = [['접수 기간', rcpt], ['이용·행사 일시', period], ['요금', fee + (ft && ft.length <= 60 && ft !== fee ? ' · ' + ft : '')], ['장소', [e.place, e.address].filter(Boolean).join(' · ') || e.region]];
+  if (e.target) rows.push(['대상', e.target]);
+  if (e.tel) rows.push(['문의', e.tel]);
+  return {
+    id: e.id, kind: 'reserve', tab: 'free', image: '', imageThumb: '', title: e.title, region: e.region, badge: reserveDday(e), fee: { t: fee, free: feeBadge(e).free }, rows,
+    mapUrl: naverMapUrl(e.address || e.place, e.title), reserveUrl: e.reserve_url, infoUrl: '', infoLabel: '🔎 정보 검색', searchUrl: webSearchUrl(e.title),
+    source: '출처: 서울시 공공서비스예약 · 접수 현황·요금·대상은 예약 페이지의 원문을 기준으로 확인해 주세요',
+    fav: { kind: 'reserve', tab: 'free', title: e.title, region: e.region, address: e.address || '', start_date: e.start_date || '', end_date: e.end_date || '', fee },
   };
 }
 function spotInfo(sp) {
@@ -1204,8 +1243,9 @@ function openPlaceDetail(info) {
     return a;
   };
   wrap.appendChild(row);
-  wrap.appendChild(link('pd-btn primary', '📍 네이버 지도 길찾기', info.mapUrl, 'naver_map'));
-  wrap.appendChild(link('pd-btn', info.infoLabel, info.infoUrl || info.searchUrl, info.infoUrl ? 'official' : 'search'));
+  if (info.reserveUrl) wrap.appendChild(link('pd-btn primary reserve', '🎟️ 예약하러 가기', info.reserveUrl, 'seoul_reserve'));
+  wrap.appendChild(link(info.reserveUrl ? 'pd-btn' : 'pd-btn primary', '📍 네이버 지도 길찾기', info.mapUrl, 'naver_map'));
+  if (!info.reserveUrl) wrap.appendChild(link('pd-btn', info.infoLabel, info.infoUrl || info.searchUrl, info.infoUrl ? 'official' : 'search'));
   cta.appendChild(wrap);
 
   sendGaEvent('place_detail_open', { kind: info.kind, title: (info.title || '').slice(0, 100), map_region: info.region });
@@ -1226,6 +1266,38 @@ function renderFestivalSheet() {
   if (!list.length) { box.appendChild(emptyState(key, label)); return; }
   renderTourEvents(list, box);
   box.scrollTop = 0;
+}
+
+function renderReserve(items, box) {
+  if (!items.length) return 0;
+  box.insertAdjacentHTML('beforeend', '<div class="free-head"><h3>🎟️ 예약 가능한 체험·프로그램</h3><span>출처: 서울시 공공서비스예약 · 접수 상태·요금은 예약 페이지에서 확인해 주세요</span></div>');
+  const LIMIT = 30, more = items.length > LIMIT;
+  items.forEach((e, idx) => {
+    const a = document.createElement('a');
+    a.className = 'spot ev';
+    if (more && idx >= LIMIT) { a.hidden = true; a.dataset.more = '1'; }
+    a.style.cursor = 'pointer'; a.setAttribute('role', 'button'); a.tabIndex = 0;
+    a.innerHTML = '<span class="spot-icon">🎟️</span><span class="spot-body"><span class="spot-title"></span>'
+      + '<span class="spot-meta"><span class="rsv-badge">예약</span><span class="rsv-dday"></span><span class="spot-tag"></span></span>'
+      + '<span class="spot-addr"></span></span>';
+    a.querySelector('.spot-title').textContent = e.title;   // 원문 그대로(가공 금지)
+    const dd = reserveDday(e);
+    const dEl = a.querySelector('.rsv-dday'); dEl.textContent = dd.t; if (dd.c) dEl.classList.add(dd.c);
+    const fb = feeBadge(e);
+    const feeEl = a.querySelector('.spot-tag'); feeEl.textContent = fb.t; if (!fb.free) feeEl.classList.add('warn');
+    const period = e.start_date ? (e.end_date && e.end_date !== e.start_date ? shortDate(e.start_date) + ' ~ ' + shortDate(e.end_date) : shortDate(e.start_date)) : '';
+    a.querySelector('.spot-addr').textContent = '📍 ' + (e.place || e.address || e.region) + (period ? ' · ' + period : '');
+    const openIt = () => { sendGaEvent('seoul_reserve_click', { event_title: (e.title || '').slice(0, 100), map_region: e.region }); openPlaceDetail(reserveInfo(e)); };
+    a.addEventListener('click', openIt); a.addEventListener('keydown', ev => { if (ev.key === 'Enter') openIt(); });
+    box.appendChild(a);
+  });
+  if (more) {
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'empty-cta';
+    btn.textContent = '예약 가능 프로그램 ' + (items.length - LIMIT) + '건 더 보기';
+    btn.addEventListener('click', () => { box.querySelectorAll('[data-more]').forEach(x => { x.hidden = false; }); btn.remove(); });
+    box.appendChild(btn);
+  }
+  return items.length;
 }
 
 function renderSpots(spots, box) {
@@ -1373,6 +1445,9 @@ window.addEventListener('popstate', () => closeSheet(true));
   for (const url of TOUR_URLS) {   // 한국관광공사 행사 (없어도 동작)
     try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { tourEvents = (await r.json()).events || []; break; } } catch (e) { /* 다음 경로 */ }
   }
+  for (const url of SEOUL_RESERVE_URLS) {   // 서울시 공공서비스예약 (없어도 동작)
+    try { const r = await fetch(url, { cache: 'no-store' }); if (r.ok) { seoulReserve = (await r.json()).items || []; break; } } catch (e) { /* 다음 경로 */ }
+  }
   const loaded = (await loadDeals()).filter(isLive).filter(d => REGION_GROUP[d.region] || d.region === '전국');
   const demo = new URLSearchParams(location.search).get('demo') === '1';
   deals = demo ? loaded.concat(demoDeals()) : loaded;
@@ -1393,8 +1468,8 @@ window.addEventListener('popstate', () => closeSheet(true));
     if (top) openSheet(top);
   }
   if (qplace) {   // 홈 '찜한 공구' 탭의 장소 카드에서 들어온 경우 상세 시트를 바로 연다
-    const ev = tourEvents.find(x => x.id === qplace), sp = freeSpots.find(x => x.id === qplace);
-    if (ev) openPlaceDetail(eventInfo(ev)); else if (sp) openPlaceDetail(spotInfo(sp));
+    const ev = tourEvents.find(x => x.id === qplace), sp = freeSpots.find(x => x.id === qplace), rv = seoulReserve.find(x => x.id === qplace);
+    if (ev) openPlaceDetail(eventInfo(ev)); else if (sp) openPlaceDetail(spotInfo(sp)); else if (rv) openPlaceDetail(reserveInfo(rv));
   }
 })();
 </script>

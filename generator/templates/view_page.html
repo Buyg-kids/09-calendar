@@ -1170,6 +1170,35 @@
     .hc-next { width: 26px; height: 26px; line-height: 24px; }
   }
   @media (prefers-reduced-motion: reduce) { .hc-slide { transition: none !important; } }
+
+  /* ================= 2026-10-10 마켓컬리 스타일 2분할 배너: 좌 텍스트 / 우 이미지(왼쪽으로 페이드) ================= */
+  .hc-viewport { height: 168px; }
+  .hc-slide { padding: 16px 18px; gap: 4px; }
+  .hc-top, .hc-head, .hc-cta { position: relative; z-index: 1; max-width: 56%; }
+  .hc-top, .hc-cta { word-break: keep-all; }
+  .hc-head { white-space: normal; word-break: keep-all; font-size: clamp(17px, 5vw, 21px); }
+  .hc-img { position: absolute; top: 0; right: 0; bottom: 0; width: 58%; z-index: 0; pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 22%, #000 48%); mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 22%, #000 48%); }
+  .hc-img img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 50%); }
+  .hc-count { top: 10px; right: 10px; max-width: 46%; overflow: hidden; text-overflow: ellipsis; }
+  @media (min-width: 768px) {
+    .hc-viewport { height: 240px; }
+    .hc-slide { padding: 30px 56px; gap: 8px; }
+    .hc-top, .hc-head, .hc-cta { max-width: 46%; }
+    .hc-head { font-size: 36px; }
+    .hc-img { width: 56%; }
+    .hc-count { max-width: none; }
+  }
+  /* 연령별 인기공구 */
+  #sec-age { scroll-margin-top: calc(var(--hdr-h) + 96px); }
+  @media (min-width: 768px) { #sec-age { scroll-margin-top: calc(var(--hdr-h) + 90px); } }
+  .age-tabs { display: flex; gap: 6px; padding: 0 16px 10px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .age-tabs::-webkit-scrollbar { display: none; }
+  .age-tab { flex: 0 0 auto; padding: 7px 13px; border: 1px solid #e3e7ee; border-radius: 999px; background: #fff; color: #4b5563; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap; }
+  .age-tab.on { background: #4B2FA8; border-color: #4B2FA8; color: #fff; }
+  .age-tab small { font-weight: 600; opacity: 0.75; margin-left: 3px; }
+  .age-empty { padding: 18px 16px; color: #7a8394; font-size: 13px; }
+  @media (min-width: 768px) { .age-tabs { padding: 0 0 12px; flex-wrap: wrap; } }
 </style>
 </head>
 <body>
@@ -1204,7 +1233,6 @@
       <div class="count" id="resultCount"></div>
       <div class="dt-utils">
         <a href="map.html">🗺️ 아이와 나들이</a>
-        <a id="dtNoticeLink" href="#" target="_blank" rel="noopener">🔔 공구 알림방</a>
       </div>
       <nav class="dt-gnb" aria-label="주요 메뉴">
         <a href="#sec-category" data-target="sec-category">카테고리</a>
@@ -1223,26 +1251,30 @@
       <!-- 2026-10-08 상단 배너 통합: 4장 자동 롤링 캐러셀(기존 dt-hero + 미니 배너 2개 대체) -->
       <section class="hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="BUYG 추천 배너">
         <div class="hc-viewport" id="hcViewport">
-          <a class="hc-slide s1" href="#sec-feed" data-scroll="sec-feed" data-slide="1">
-            <span class="hc-top">매일 밤 12시 오픈</span>
-            <b class="hc-head">최저가 육아공구 달력</b>
-            <span class="hc-cta">오늘의 핫딜 보러 가기 ›</span>
+          <a class="hc-slide s1" href="#sec-age" data-scroll="sec-age" data-slide="1">
+            <span class="hc-top">0~7세 우리 아이 맞춤</span>
+            <b class="hc-head">연령별 인기공구</b>
+            <span class="hc-cta">나이별로 골라보기 ›</span>
             <span class="hc-count" id="hcCount" hidden>오늘 수집 <b id="hcCountNum">0</b>개 실시간 반영</span>
+            <span class="hc-img" style="--pos: 50% 35%"><img src="icons/banners/banner_exp.jpg" alt="" width="800" height="597" decoding="async"></span>
           </a>
           <a class="hc-slide s2" href="map.html?tab=free" data-slide="2">
             <span class="hc-top">이번 주말 아이 손잡고</span>
             <b class="hc-head">주말나들이 명소 지도</b>
             <span class="hc-cta">전국 나들이 명소 확인 ›</span>
+            <span class="hc-img" style="--pos: 30% 60%"><img src="icons/banners/banner_picnic.jpg" alt="" width="800" height="521" decoding="async"></span>
           </a>
           <a class="hc-slide s3" href="map.html?tab=culture" data-slide="3">
             <span class="hc-top">아이의 상상력이 자라는</span>
             <b class="hc-head">우리 동네 뮤지컬·체험전</b>
             <span class="hc-cta">이번 달 일정 보러 가기 ›</span>
+            <span class="hc-img" style="--pos: 8% 72%"><img src="icons/banners/banner_musical.jpg" alt="" width="800" height="597" decoding="async"></span>
           </a>
           <a class="hc-slide s4" href="map.html?tab=festival" data-slide="4">
             <span class="hc-top">온 가족이 함께 떠나는</span>
             <b class="hc-head">계절 페스티벌 &amp; 가족 축제</b>
             <span class="hc-cta">주말 행사 일정 보기 ›</span>
+            <span class="hc-img" style="--pos: 50% 32%"><img src="icons/banners/banner_festival.jpg" alt="" width="800" height="993" decoding="async"></span>
           </a>
           <div class="hc-ind" id="hcInd"><span id="hcCur">1</span><span class="hc-sep">|</span><span id="hcTot">4</span><button type="button" class="hc-next" id="hcNext" aria-label="다음 배너">›</button></div>
         </div>
@@ -1270,6 +1302,16 @@
           <button type="button" class="scroll-arrow arrow-left" data-target="popularList" aria-label="이전">‹</button>
           <div class="hscroll pop-scroll" id="popularList"></div>
           <button type="button" class="scroll-arrow arrow-right" data-target="popularList" aria-label="다음">›</button>
+        </div>
+      </section>
+
+      <section class="section" id="sec-age" hidden>
+        <div class="section-head"><h2>🧒 연령별 인기공구</h2><span class="sub">자동 분류 · 대상은 원문 확인</span></div>
+        <div class="age-tabs" id="ageTabs" role="tablist" aria-label="연령 선택"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="ageList" aria-label="이전">‹</button>
+          <div class="hscroll pop-scroll" id="ageList"></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="ageList" aria-label="다음">›</button>
         </div>
       </section>
 
@@ -1342,7 +1384,6 @@
           <div class="footer-info">
             <h3>고객 안내</h3>
             <ul>
-              <li><a id="ftNoticeLink" href="#" target="_blank" rel="noopener">공구 알림방 · 카카오 오픈채팅</a></li>
               <li><a href="map.html">아이와 나들이 지도</a></li>
               <li class="footer-contact">서비스 문의 / 제휴 제안 <a class="mail" href="mailto:ayhkk1@gmail.com">ayhkk1@gmail.com</a></li>
             </ul>
@@ -1387,11 +1428,8 @@
 
 <script>
 // ---- 외부 연동 설정 (나중에 실제 값으로 교체) ----
-// 알림방/오픈채팅 입장 링크. '#'이면 배너 링크는 "준비 중" 토스트만 띄운다.
-const KAKAO_NOTICE_URL = 'https://open.kakao.com/o/pMXysnOi';
-// 최상단 띠배너: 오픈채팅 대신 '나만의 키워드 알림 신청' 카카오톡 채널(2026-10-09). 푸터의 오픈채팅 링크는 KAKAO_NOTICE_URL 그대로.
+// 최상단 띠배너: 오픈채팅 대신 '나만의 키워드 알림 신청' 카카오톡 채널(2026-10-09).
 const KEYWORD_ALERT_URL = 'https://pf.kakao.com/_MAPFX/chat';
-['dtNoticeLink', 'ftNoticeLink'].forEach(function (id) { const a = document.getElementById(id); if (a && KAKAO_NOTICE_URL && KAKAO_NOTICE_URL !== '#') a.href = KAKAO_NOTICE_URL; });
 // 카카오 개발자 콘솔의 JavaScript 키. 비어 있으면 공유 버튼은 에러 없이 "준비 중" 안내만 한다.
 const KAKAO_JAVASCRIPT_KEY = '943ea6757346d1dc6532f9740cc1b822';
 
@@ -2699,11 +2737,11 @@ function formatFollowers(n) {
   if (!n) return '';
   return n >= 10000 ? (Math.round(n / 1000) / 10) + '만' : n.toLocaleString('ko-KR');
 }
-function computePopular(rows) {
-  const weekEnd = toLocalIso(new Date(TODAY.getTime() + 6 * 86400000));
+function computePopular(rows, age) {
+  const weekEnd = toLocalIso(new Date(TODAY.getTime() + (age ? 13 : 6) * 86400000));   // age: 연령별 섹션은 2주 범위
   const week = rows.filter(function (r) {
     const end = r.end_date || r.start_date;
-    return r.start_date && r.start_date <= weekEnd && end >= TODAY_ISO;
+    return r.start_date && r.start_date <= weekEnd && end >= TODAY_ISO && (!age || (r.age_groups || []).indexOf(age) >= 0);
   });
   const influencersByKey = {};
   week.forEach(function (r) {
@@ -2729,11 +2767,11 @@ function computePopular(rows) {
   }
   return out;
 }
-function renderPopular(rows) {
-  const box = document.getElementById('popularList');
+function renderPopular(rows, boxId, age, sectionId) {
+  const box = document.getElementById(boxId || 'popularList');
   box.innerHTML = '';
-  const list = computePopular(rows);
-  document.getElementById('popularSection').hidden = !list.length;
+  const list = computePopular(rows, age);
+  if (sectionId !== null) document.getElementById(sectionId || 'popularSection').hidden = !list.length;
   list.forEach(function (item, i) {
     const row = item.row;
     const card = el2('div', 'pop-card');
@@ -2752,6 +2790,47 @@ function renderPopular(rows) {
     if (item.together > 0) card.appendChild(el2('span', 'rank-tag pop-tag', '🔁 ' + (item.together + 1) + '명 동시'));
     box.appendChild(card);
   });
+}
+
+// ---------------- 연령별 인기공구 (2026-10-10): 행의 age_groups(야간 빌드에서 룰 기반 태깅)로 4개 연령 탭 ----------------
+const AGE_TABS = [['baby', '🍼 0~1세 베이비'], ['toddler', '🧸 2~3세 토들러'], ['kid', '🎨 4~5세 키즈'], ['preschool', '🎒 6~7세 프리스쿨']];
+let activeAge = '';
+let ageDeepLinkPending = true;
+function renderAgeSection(rows) {
+  const sec = document.getElementById('sec-age'), tabs = document.getElementById('ageTabs');
+  if (!sec || !tabs) return;
+  const counts = {};
+  AGE_TABS.forEach(function (t) { counts[t[0]] = computePopular(rows, t[0]).length; });
+  const total = AGE_TABS.reduce(function (a, t) { return a + counts[t[0]]; }, 0);
+  sec.hidden = !total;
+  if (!total) return;
+  let qAge = '';
+  try { qAge = new URLSearchParams(location.search).get('age') || ''; } catch (err) { /* 무시 */ }
+  if (ageDeepLinkPending && counts[qAge] != null) activeAge = qAge;
+  if (!activeAge || !counts[activeAge]) activeAge = (AGE_TABS.filter(function (t) { return counts[t[0]]; })[0] || AGE_TABS[0])[0];
+  tabs.innerHTML = '';
+  AGE_TABS.forEach(function (t) {
+    const b = el2('button', 'age-tab' + (t[0] === activeAge ? ' on' : ''));
+    b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', t[0] === activeAge ? 'true' : 'false');
+    b.appendChild(document.createTextNode(t[1]));
+    b.appendChild(el2('small', '', String(counts[t[0]])));
+    b.addEventListener('click', function () {
+      activeAge = t[0]; sendGaEvent('age_tab_click', { age: t[0] });
+      renderAgeSection(rows);
+    });
+    tabs.appendChild(b);
+  });
+  const onTab = tabs.querySelector('.on'); if (onTab) tabs.scrollLeft = Math.max(0, onTab.offsetLeft - 16);
+  const box = document.getElementById('ageList');
+  renderPopular(rows, 'ageList', activeAge, null);
+  if (!box.children.length) box.appendChild(el2('div', 'age-empty', '이 연령대에 맞는 진행·예정 공구가 아직 없어요.'));
+  if (ageDeepLinkPending) {
+    ageDeepLinkPending = false;
+    if (qAge && counts[qAge] != null) {
+      const go = function () { setTimeout(function () { sec.scrollIntoView({ block: 'start' }); }, 350); };
+      if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+    }
+  }
 }
 
 function el2(tag, cls, text) {
@@ -3024,6 +3103,7 @@ function renderHome() {
   homeUsedIds = new Set();
   weekShownIds = new Set();
   renderPopular(filtered);
+  renderAgeSection(filtered);
   renderClosingSoon(filtered, homeUsedIds);
   renderWeekGrid(filtered, homeUsedIds);
   const soonExcludeIds = new Set(homeUsedIds);
@@ -3317,7 +3397,7 @@ function scrollArrowClick(targetId, dir) {
 }
 
 function setupSliders() {
-  ['popularList', 'closingSoonList', 'dayBar', 'weekGrid', 'soonOpeningList'].forEach(function (id) {
+  ['popularList', 'ageList', 'closingSoonList', 'dayBar', 'weekGrid', 'soonOpeningList'].forEach(function (id) {
     const el = document.getElementById(id);
     if (el) enableDragScroll(el);
   });

@@ -39,6 +39,7 @@ from pathlib import Path
 import gonggu_db
 from config import BASE_DIR, CATEGORIES, CATEGORY_NAMES, OUTPUT_DIR, RAW_COLLECTED_PATH, TARGETS_PATH
 from generator.card_renderer import render_card_html, render_card_png
+from generator.age_tags import age_groups_for_row
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -583,6 +584,7 @@ def _build_summary_rows(start: date, end: date, hide_before: date | None = None)
                 "place_name": gb.get("place_name"),
                 "influencer_profile_url": profile_url,
                 "key_benefit": gb.get("key_benefit") or "",
+                "age_groups": age_groups_for_row({"product_name": product_name, "brand": brand, "key_benefit": gb.get("key_benefit") or ""}),
                 "post_url": post_url,
                 "purchase_url": purchase_url,
                 "purchase_label": purchase_label,
