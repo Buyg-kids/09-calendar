@@ -27,6 +27,7 @@ def main() -> None:
     exp_path = cn._write_experience_json(rows)
     cn._write_creators_stats()
     cn._update_sitemap_lastmod()
+    cn._build_search_index()
     n_exp = sum(1 for r in rows if r.get("item_type") == "experience")
     print(f"요약 행 {len(rows)}건 / 지도 체험 {n_exp}건 -> {exp_path}")
 

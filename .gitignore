@@ -25,3 +25,6 @@ reels/
 
 # Buyg 브랜드 에셋 (로컬 전용)
 Buyg_Assets/
+
+# 수정 전 자동 스냅샷(DB 데이터 포함 - 공개 저장소에 올리면 안 됨)
+backups/

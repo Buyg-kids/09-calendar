@@ -1171,6 +1171,25 @@
   }
   @media (prefers-reduced-motion: reduce) { .hc-slide { transition: none !important; } }
 
+  /* ================= 2026-10-12 메인 통합 검색: 공구 / 주말나들이·체험 탭 ================= */
+  .search-tabs { display: none; gap: 8px; padding: 10px 16px 4px; }
+  .search-tabs.show { display: flex; }
+  #outingResults { display: none; padding: 4px 16px 20px; }
+  .out-head { margin: 14px 0 6px; font-size: 14px; font-weight: 800; color: #1e2540; }
+  .out-card { display: block; padding: 11px 13px; margin-bottom: 8px; border: 1px solid #e8ebf2; border-radius: 14px; background: #fff; color: inherit; text-decoration: none; }
+  .out-card:hover, .out-card:focus-visible { border-color: #cfc3f3; }
+  .out-title { display: block; font-size: 14.5px; font-weight: 700; line-height: 1.35; color: #1e2540; word-break: keep-all; }
+  .out-meta { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-top: 4px; font-size: 12px; color: #7a8394; }
+  .out-fee { font-weight: 700; color: #2f7d4f; }
+  .out-more { display: block; width: 100%; margin: 6px 0 10px; padding: 11px; border: 1px solid #e3e7ee; border-radius: 12px; background: #fff; color: #4b5563; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  @media (min-width: 768px) {
+    .search-tabs, #outingResults { max-width: var(--dt-container); margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+    .search-tabs { width: 100%; box-sizing: border-box; }
+    #outingResults { box-sizing: border-box; display: none; }
+    #outingResults[style*="block"] { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 14px; align-content: start; }
+    #outingResults .out-head, #outingResults .out-more { grid-column: 1 / -1; }
+  }
+
   /* ================= 2026-10-10 마켓컬리 스타일 2분할 배너: 좌 텍스트 / 우 이미지(왼쪽으로 페이드) ================= */
   .hc-viewport { height: 168px; }
   .hc-slide { padding: 16px 18px; gap: 4px; }
@@ -1244,7 +1263,9 @@
       </nav>
     </header>
 
+    <div class="search-tabs" id="searchTabs" role="group" aria-label="검색 결과 구분"></div>
     <div id="searchResults"></div>
+    <div id="outingResults"></div>
     <div id="noResults">검색 결과가 없습니다.</div>
 
     <div id="homeSections">
@@ -3145,16 +3166,95 @@ function rowMatchesQuery(row, tokens) {
   return tokens.every(function (t) { return hay.indexOf(t) !== -1; });
 }
 
+// ---------------- 메인 통합 검색 (2026-10-12): 공구(ROWS) + 주말나들이·체험(search_index.json, 첫 포커스 때 지연 로딩) ----------------
+const OUTING_GROUPS = [['rs', '🎟️ 예약 가능한 체험·프로그램', 'free'], ['ev', '🎪 행사·축제', 'festival'], ['sh', '🎭 어린이 공연', 'show']];
+const OUTING_PAGE = 30;
+let outingIndex = null, outingState = 0, outingTab = '', outingTabTouched = false;   // state: 0 미요청, 1 로딩, 2 준비, 3 실패
+function loadOutingIndex() {
+  if (outingState !== 0) return;
+  outingState = 1;
+  fetch('search_index.json', { cache: 'default' }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).then(function (d) {
+    const today = TODAY_ISO;
+    outingIndex = (d.items || []).filter(function (it) { return !it[5] || it[5] >= today; }).map(function (it) {
+      return { id: it[0], kind: it[1], title: it[2], sub: it[3], start: it[4], end: it[5], fee: it[6], hay: (it[2] + ' ' + it[3] + ' ' + it[7]).toLowerCase() };
+    });
+    outingState = 2;
+  }).catch(function () { outingState = 3; }).then(function () { if (searchInput.value.trim()) filterRows(); });
+}
+function outingMatches(tokens) {
+  if (outingState !== 2) return [];
+  return outingIndex.filter(function (o) { return tokens.every(function (t) { return o.hay.indexOf(t) !== -1; }); });
+}
+function outShortDate(iso) { const m = /^\d{4}-(\d{2})-(\d{2})$/.exec(iso || ''); return m ? Number(m[1]) + '/' + Number(m[2]) : ''; }
+function outingCard(o, tab) {
+  const a = el2('a', 'out-card');
+  a.href = 'map.html?tab=' + tab + '&place=' + encodeURIComponent(o.id);
+  a.appendChild(el2('span', 'out-title', o.title));
+  const meta = el2('span', 'out-meta');
+  if (o.sub) meta.appendChild(el2('span', '', '📍 ' + o.sub));
+  const s = outShortDate(o.start), e = outShortDate(o.end);
+  if (o.kind === 'rs') { if (e) meta.appendChild(el2('span', '', '📅 ' + e + ' 접수 마감')); }   // 예약 항목의 종료일 = 접수 마감일(시작일은 이용 시작이라 섞어 보여 주지 않는다)
+  else if (s || e) meta.appendChild(el2('span', '', '📅 ' + (s && e && s !== e ? s + ' ~ ' + e : (s || e))));
+  if (o.fee) meta.appendChild(el2('span', 'out-fee', o.fee));
+  a.appendChild(meta);
+  a.addEventListener('click', function () { sendGaEvent('search_outing_click', { kind: o.kind, title: (o.title || '').slice(0, 100) }); });
+  return a;
+}
+function renderOutingResults(list) {
+  const box = document.getElementById('outingResults');
+  box.innerHTML = '';
+  OUTING_GROUPS.forEach(function (g) {
+    const items = list.filter(function (o) { return o.kind === g[0]; });
+    if (!items.length) return;
+    box.appendChild(el2('div', 'out-head', g[1] + ' ' + items.length + '건'));
+    const more = el2('button', 'out-more', '더 보기 (' + Math.max(0, items.length - OUTING_PAGE) + '건)');
+    more.type = 'button';
+    const hidden = [];
+    items.forEach(function (o, i) { const c = outingCard(o, g[2]); if (i >= OUTING_PAGE) { c.hidden = true; hidden.push(c); } box.appendChild(c); });
+    if (hidden.length) {
+      box.appendChild(more);
+      more.addEventListener('click', function () { hidden.forEach(function (x) { x.hidden = false; }); more.remove(); });
+    }
+  });
+}
+function renderSearchTabs(nDeal, nOut) {
+  const bar = document.getElementById('searchTabs');
+  const show = outingState !== 3;
+  bar.classList.toggle('show', show);
+  bar.innerHTML = '';
+  if (!show) return;
+  [['deal', '공구 ' + nDeal + '건'], ['out', '주말나들이·체험 ' + (outingState === 2 ? nOut + '건' : '…')]].forEach(function (t) {
+    const b = el2('button', 'age-tab' + (outingTab === t[0] ? ' on' : ''), t[1]);
+    b.type = 'button'; b.setAttribute('aria-pressed', outingTab === t[0] ? 'true' : 'false');
+    b.addEventListener('click', function () { outingTab = t[0]; outingTabTouched = true; sendGaEvent('search_tab_click', { tab: t[0] }); filterRows(); });
+    bar.appendChild(b);
+  });
+}
+
 function renderSearchResults(q) {
   // 인플루언서 핸들 검색 시 "@juney.s2"처럼 @를 붙여 입력하는 경우가 흔한데,
   // influencer_label은 닉네임이 있으면 '또니맘 (seohui_jeong)' 형식이라 '@'가
   // 없어 매칭이 안 됐다 - 검색어 쪽 선행 '@'를 지워 있어도/없어도 같게 만든다.
   const tokens = q.split(/\s+/).filter(Boolean).map(function (t) { return t.replace(/^@/, ''); });
   const matches = ROWS.filter(function (r) { return rowMatchesQuery(r, tokens); });
+  const outs = outingMatches(tokens);
+  if (!outingTabTouched) outingTab = (!matches.length && outs.length) ? 'out' : 'deal';   // 사용자가 탭을 고르기 전에는 결과가 있는 쪽을 연다(공구 우선)
+  if (outingState === 3) outingTab = 'deal';
+  renderSearchTabs(matches.length, outs.length);
+  const outBox = document.getElementById('outingResults');
   searchResultsEl.innerHTML = '';
-  noResultsEl.style.display = matches.length ? 'none' : 'block';
-  matches.forEach(function (row) { searchResultsEl.appendChild(renderListCard(row)); });
-  document.getElementById('resultCount').textContent = '검색 결과: ' + matches.length + '건';
+  if (outingTab === 'out') {
+    searchResultsEl.style.display = 'none';
+    renderOutingResults(outs);
+    outBox.style.display = 'block';
+    noResultsEl.style.display = (outingState === 2 && !outs.length) ? 'block' : 'none';
+  } else {
+    outBox.style.display = 'none'; outBox.innerHTML = '';
+    searchResultsEl.style.display = 'block';
+    noResultsEl.style.display = matches.length ? 'none' : 'block';
+    matches.forEach(function (row) { searchResultsEl.appendChild(renderListCard(row)); });
+  }
+  document.getElementById('resultCount').textContent = '검색 결과: 공구 ' + matches.length + '건' + (outingState === 2 ? ' · 나들이·체험 ' + outs.length + '건' : '');
   return matches.length;
 }
 
@@ -3163,6 +3263,7 @@ function filterRows() {
   clearBtn.classList.toggle('show', q.length > 0);
 
   if (q) {
+    loadOutingIndex();
     homeSections.style.display = 'none';
     searchResultsEl.style.display = 'block';
     renderSearchResults(q);
@@ -3171,9 +3272,13 @@ function filterRows() {
     searchResultsEl.style.display = 'none';
     noResultsEl.style.display = 'none';
     document.getElementById('resultCount').textContent = '';
+    outingTabTouched = false;
+    document.getElementById('searchTabs').classList.remove('show');
+    const ob = document.getElementById('outingResults'); ob.style.display = 'none'; ob.innerHTML = '';
   }
 }
 
+searchInput.addEventListener('focus', loadOutingIndex, { once: true });
 searchInput.addEventListener('input', filterRows);
 searchInput.addEventListener('search', filterRows);
 clearBtn.addEventListener('click', function () {

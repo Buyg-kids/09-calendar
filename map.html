@@ -155,6 +155,7 @@
   .rsv-dday { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #f1f5f9; color: #64748b; white-space: nowrap; }
   .rsv-dday.soon { background: var(--point-coral-bg); color: var(--point-coral); }
   .pd-btn.reserve { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+  .perf.focus { outline: 2px solid #4B2FA8; outline-offset: -2px; }
   .ev-kid { flex: 0 0 auto; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: #fff8e1; color: #92620a; white-space: nowrap; }
   .map-footer .mf-source { margin: 0 0 8px; font-size: 12px; color: #777; }
 
@@ -593,6 +594,7 @@ const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
 let deals = [];
 let freeSpots = [];
 const TOUR_URLS = ['./tour_events.json', 'https://buyg.kr/tour_events.json'];
+let focusShowId = '';   // ?place=<KOPIS 공연 id> 딥링크: 공연 시트에서 맨 위 + 강조
 let seoulReserve = [];   // 서울시 공공서비스예약 체험·프로그램 (주말나들이 탭 '예약 가능' 섹션)
 const SEOUL_RESERVE_URLS = ['./seoul_reserve.json', 'https://buyg.kr/seoul_reserve.json'];
 let tourEvents = [];   // 한국관광공사 TourAPI 행사·축제 (주말나들이 탭에만 사용)
@@ -961,7 +963,7 @@ function perfDates(p) {
 }
 function perfCard(p) {
   const a = document.createElement('a');
-  a.className = 'perf'; a.href = p.link; a.target = '_blank'; a.rel = 'noopener';
+  a.className = 'perf' + (p.id === focusShowId ? ' focus' : ''); a.href = p.link; a.target = '_blank'; a.rel = 'noopener';
   a.innerHTML = '<span class="perf-poster"><img loading="lazy" alt=""></span><span class="perf-body"><span class="perf-title"></span><span class="perf-venue"></span><span class="perf-meta"></span></span>';
   const img = a.querySelector('img'); if (p.poster) { img.src = p.poster; img.onerror = () => img.remove(); } else img.remove();
   a.querySelector('.perf-title').textContent = p.title;
@@ -979,7 +981,7 @@ function renderShowSheet() {
   const key = sheetKey;
   const label = key.replace(/\//g, '·');
   const list = shows.filter(p => REGION_GROUP[p.region] === key)
-    .sort((a, b) => (a.state !== '공연중') - (b.state !== '공연중') || (a.start_date || '').localeCompare(b.start_date || ''));
+    .sort((a, b) => (b.id === focusShowId) - (a.id === focusShowId) || (a.state !== '공연중') - (b.state !== '공연중') || (a.start_date || '').localeCompare(b.start_date || ''));
   document.getElementById('sheetTitle').textContent = label + ' 어린이 공연';
   document.getElementById('sheetSub').textContent = list.length ? '진행·예정 ' + list.length + '건 · KOPIS 공연예술통합전산망' : '';
   const box = document.getElementById('sheetList');
@@ -1457,7 +1459,7 @@ window.addEventListener('popstate', () => closeSheet(true));
   // 2026-10-07: 홈 배너 딥링크 ?tab=free(주말나들이) / ?tab=show(공연·전시, culture 별칭) 로 해당 탭을 선택한 채 진입
   const qplace = new URLSearchParams(location.search).get('place');
   let qtab = { culture: 'show', events: 'festival' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
-  if (!qtab && qplace) qtab = qplace.indexOf('tour_') === 0 ? 'festival' : 'free';
+  if (!qtab && qplace) qtab = qplace.indexOf('tour_') === 0 ? 'festival' : /^PF/.test(qplace) ? 'show' : 'free';
   const qtabBtn = qtab && document.querySelector('.tab[data-sub="' + qtab.replace(/[^a-z]/g, '') + '"]');
   if (qtabBtn) qtabBtn.click();
   render(); renderThemeChips();
@@ -1468,8 +1470,9 @@ window.addEventListener('popstate', () => closeSheet(true));
     if (top) openSheet(top);
   }
   if (qplace) {   // 홈 '찜한 공구' 탭의 장소 카드에서 들어온 경우 상세 시트를 바로 연다
-    const ev = tourEvents.find(x => x.id === qplace), sp = freeSpots.find(x => x.id === qplace), rv = seoulReserve.find(x => x.id === qplace);
+    const ev = tourEvents.find(x => x.id === qplace), sp = freeSpots.find(x => x.id === qplace), rv = seoulReserve.find(x => x.id === qplace), sh = shows.find(x => x.id === qplace);
     if (ev) openPlaceDetail(eventInfo(ev)); else if (sp) openPlaceDetail(spotInfo(sp)); else if (rv) openPlaceDetail(reserveInfo(rv));
+    else if (sh && REGION_GROUP[sh.region]) { focusShowId = sh.id; openSheet(REGION_GROUP[sh.region]); }
   }
 })();
 </script>
