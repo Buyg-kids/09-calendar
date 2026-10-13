@@ -202,3 +202,6 @@
 - **통합 검색 적용**: `generator/search_index.py`(→ `search_index.json`, 야간 빌드 훅 `_build_search_index`), 메인 검색 [공구 N건]/[주말나들이·체험 N건] 탭, `map.html?tab=show&place=PF…` 공연 딥링크.
 - **수정 전 자동 백업 체계**: `tools/backup_snapshot.py`·`tools/rollback_snapshot.py`, `backups/` gitignore, 7장 8번 강제 규칙.
 - 참고: 10/13 야간 파이프라인은 이 작업 중 이미 실행 중이어서 메모리에 로드된 이전 `card_news` 로 빌드된다(검색 인덱스 훅은 10/14 밤부터 자동).
+- **10/13 밤 야간 파이프라인**: 22:10 정상 종료(Traceback 0, 배포 성공, Claude 701건·크레딧 정상).
+- **지도 상세 시트 개편 적용(10/13 22시대)**: 연령 4단계 일원화(홈과 동일, `generator/age_annotate.py`가 tour_events/seoul_reserve/free_spots_seed 에 `age_groups` 사전 계산, 야간 훅 `_annotate_ages`), 하단 액션 바 [길찾기][공유][찜] 1줄(모바일 높이 약 200→77px), 예약/공식 링크 헤더로 이동, '시설 정보' 칸 제거, 카드 모듈(육아 안심 체크리스트·연계 동선 네이버 지도 검색 링크·준비물 + 수수료 문구 자리). KOPIS 공연은 변경 없음. 연령 뱃지 커버리지: 서울 예약 363/669, 장소 시드 13/101, 행사 4/159(근거 문구 없는 곳은 숨김).
+- 참고: `search_index.json` 은 10/13 밤 빌드에서 훅이 돌지 않아(메모리에 로드된 이전 코드) 22:20 수동 생성(1,422건). 10/14 밤부터 자동 갱신.

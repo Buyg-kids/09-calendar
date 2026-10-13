@@ -156,6 +156,33 @@
   .rsv-dday.soon { background: var(--point-coral-bg); color: var(--point-coral); }
   .pd-btn.reserve { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
   .perf.focus { outline: 2px solid #4B2FA8; outline-offset: -2px; }
+
+  /* ===== [프로토타입] 상세 시트 카드 모듈 ===== */
+  .pd-badges { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0 2px; }
+  .pd-chip { font-size: 11.5px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: #f1ecff; color: #4B2FA8; white-space: nowrap; }
+  .pd-chip.book { background: #e6f0ff; color: #1d4ed8; }
+  .pd-chip.walk { background: #e8f5ee; color: #2f7d4f; }
+  .pd-mod { margin: 14px 0 0; padding: 12px 13px 13px; border: 1px solid #e8ebf2; border-radius: 16px; background: #fff; }
+  .pd-mod > h4 { margin: 0 0 9px; font-size: 13.5px; font-weight: 800; color: #1e2540; }
+  .pd-care { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .pd-tile { padding: 9px 8px; border-radius: 12px; background: #f6f8fb; text-align: center; min-width: 0; }
+  .pd-tile .ic { display: block; font-size: 20px; line-height: 1.2; }
+  .pd-tile .lb { display: block; margin-top: 3px; font-size: 11px; color: #7a8394; }
+  .pd-tile .vl { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 800; color: #1e2540; word-break: keep-all; }
+  .pd-tile.ok { background: #eaf6ef; } .pd-tile.ok .vl { color: #1f7a45; }
+  .pd-tile.warn { background: #fff4e5; } .pd-tile.warn .vl { color: #b45309; }
+  .pd-tile.unk .vl { color: #8a94a6; font-weight: 700; }
+  .pd-care-one { font-size: 12.5px; color: #6b7587; line-height: 1.5; }
+  .pd-tip { margin-top: 8px; padding: 8px 10px; border-radius: 10px; background: #fffbe6; color: #7a5a00; font-size: 12px; line-height: 1.45; }
+  .pd-links { display: flex; flex-wrap: wrap; gap: 7px; }
+  .pd-link { display: inline-flex; align-items: center; gap: 4px; padding: 8px 11px; border: 1px solid #e3e7ee; border-radius: 999px; background: #fff; color: #1e2540; font-size: 12.5px; font-weight: 700; text-decoration: none; }
+  .pd-link:hover { border-color: #cfc3f3; }
+  .pd-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; }
+  .pd-reserve-btn { display: block; width: 100%; box-sizing: border-box; text-align: center; padding: 12px; border-radius: 12px; background: #1d4ed8; color: #fff; font-size: 14.5px; font-weight: 800; text-decoration: none; }
+  .pd-textlink { font-size: 12.5px; font-weight: 700; color: #4B2FA8; text-decoration: underline; text-underline-offset: 2px; }
+  .pd-row .pd-btn.primary { flex: 1 1 auto; }
+  .pd-row .pd-btn.icon { flex: 0 0 54px; padding-left: 0; padding-right: 0; font-size: 19px; }
+  .pd-note { margin: 8px 0 0; font-size: 11px; color: #9aa3b2; line-height: 1.4; }
   .ev-kid { flex: 0 0 auto; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: #fff8e1; color: #92620a; white-space: nowrap; }
   .map-footer .mf-source { margin: 0 0 8px; font-size: 12px; color: #777; }
 
@@ -1138,7 +1165,7 @@ function eventInfo(e) {
   const rows = [['행사 기간', period], ['요금', fee + (ft && ft.length <= 60 && ft !== fee ? ' · ' + ft : '')], ['주소', e.address || e.place || e.region]];
   if (e.tel) rows.push(['문의', e.tel]);
   return {
-    id: e.id, kind: 'event', tab: 'festival', image: e.image || '', imageThumb: e.image_thumb || '', title: e.title, region: e.region, badge: tourStatus(e), fee: { t: fee, free: feeBadge(e).free }, rows,
+    id: e.id, kind: 'event', raw: e, tab: 'festival', image: e.image || '', imageThumb: e.image_thumb || '', title: e.title, region: e.region, badge: tourStatus(e), fee: { t: fee, free: feeBadge(e).free }, rows,
     mapUrl: naverMapUrl(e.address || e.place, e.title), infoUrl: e.info_url || '', infoLabel: e.info_url ? '🔗 공식 안내 페이지' : '🔎 행사 정보 검색',
     searchUrl: webSearchUrl(e.title + ' ' + e.region), source: '출처: 한국관광공사 · 일정·요금·운영은 방문 전 공식 안내를 확인해 주세요',
     fav: { kind: 'event', tab: 'festival', title: e.title, region: e.region, address: e.address || '', start_date: e.start_date, end_date: e.end_date, fee },
@@ -1153,7 +1180,7 @@ function reserveInfo(e) {
   if (e.target) rows.push(['대상', e.target]);
   if (e.tel) rows.push(['문의', e.tel]);
   return {
-    id: e.id, kind: 'reserve', tab: 'free', image: '', imageThumb: '', title: e.title, region: e.region, badge: reserveDday(e), fee: { t: fee, free: feeBadge(e).free }, rows,
+    id: e.id, kind: 'reserve', raw: e, tab: 'free', image: '', imageThumb: '', title: e.title, region: e.region, badge: reserveDday(e), fee: { t: fee, free: feeBadge(e).free }, rows,
     mapUrl: naverMapUrl(e.address || e.place, e.title), reserveUrl: e.reserve_url, infoUrl: '', infoLabel: '🔎 정보 검색', searchUrl: webSearchUrl(e.title),
     source: '출처: 서울시 공공서비스예약 · 접수 현황·요금·대상은 예약 페이지의 원문을 기준으로 확인해 주세요',
     fav: { kind: 'reserve', tab: 'free', title: e.title, region: e.region, address: e.address || '', start_date: e.start_date || '', end_date: e.end_date || '', fee },
@@ -1163,8 +1190,8 @@ function spotInfo(sp) {
   const facility = [sp.space_type, sp.parking, sp.baby_care ? '수유실' : '', sp.stroller === true ? '유모차 가능' : sp.stroller === false ? '유모차 주의' : ''].filter(Boolean).join(' · ');
   const free = /^무료/.test(sp.tag || '');
   return {
-    id: sp.id, kind: 'spot', tab: 'free', image: sp.image || '', imageThumb: '', title: sp.title, region: sp.region, badge: null, fee: { t: free ? '무료' : (sp.tag || '요금 확인'), free },
-    rows: [['구분', sp.category || '주말나들이'], ['요금·운영', sp.tag || '방문 전 확인'], ['시설 정보', facility || '정보 없음'], ['주소', sp.address || sp.region]],
+    id: sp.id, kind: 'spot', raw: sp, tab: 'free', image: sp.image || '', imageThumb: '', title: sp.title, region: sp.region, badge: null, fee: { t: free ? '무료' : (sp.tag || '요금 확인'), free },
+    rows: [['구분', sp.category || '주말나들이'], ['요금·운영', sp.tag || '방문 전 확인'], ['주소', sp.address || sp.region]],
     mapUrl: sp.link || naverMapUrl(sp.address, sp.title), infoUrl: /^https:\/\//.test(sp.homepage_url || '') ? sp.homepage_url : '',
     infoLabel: /^https:\/\//.test(sp.homepage_url || '') ? '🔗 공식 홈페이지 바로가기' : '🔎 공식·관련 안내 검색', searchUrl: webSearchUrl(sp.title),
     source: '운영시간·휴관일·예약은 방문 전 확인해 주세요',
@@ -1203,6 +1230,90 @@ async function sharePlace(info) {
   showMapToast(ok ? '링크가 복사되었습니다!' : '링크 복사에 실패했어요. 주소창의 링크를 직접 복사해 주세요');
 }
 
+
+// ---------------- [프로토타입] 상세 시트 카드 모듈 (pdModules) ----------------
+const PD_AGE = { baby: '🍼 0~1세 베이비', toddler: '🧸 2~3세 토들러', kid: '🎨 4~5세 키즈', preschool: '🎒 6~7세 프리스쿨' };
+function pdBadges(info) {   // 연령 뱃지는 야간 빌드가 미리 계산한 age_groups(generator/age_annotate.py)만 쓴다 - 없으면 숨김
+  const box = mkEl('div', 'pd-badges');
+  ((info.raw && info.raw.age_groups) || []).forEach(k => { if (PD_AGE[k]) box.appendChild(mkEl('span', 'pd-chip', PD_AGE[k])); });
+  if (info.kind === 'reserve') box.appendChild(mkEl('span', 'pd-chip book', '📝 사전 예약'));
+  return box.children.length ? box : null;
+}
+function pdTopLinks(info) {   // 하단 바에서 빠진 링크: 예약(대표 버튼) / 공식 안내
+  const box = mkEl('div', 'pd-top');
+  const out = (cls, text, href, target) => {
+    const a = mkEl('a', cls, text); a.href = href; a.target = '_blank'; a.rel = 'noopener';
+    a.addEventListener('click', () => sendGaEvent('place_outbound', { kind: info.kind, target, title: (info.title || '').slice(0, 100) }));
+    return a;
+  };
+  if (info.reserveUrl) box.appendChild(out('pd-reserve-btn', '🎟️ 예약하러 가기 ›', info.reserveUrl, 'seoul_reserve'));
+  else box.appendChild(out('pd-textlink', info.infoLabel, info.infoUrl || info.searchUrl, info.infoUrl ? 'official' : 'search'));
+  return box;
+}
+function pdTile(cls, ic, lb, vl) {
+  const d = mkEl('div', 'pd-tile ' + cls);
+  d.appendChild(mkEl('span', 'ic', ic)); d.appendChild(mkEl('span', 'lb', lb)); d.appendChild(mkEl('span', 'vl', vl));
+  return d;
+}
+function pdCare(info) {
+  const r = info.raw || {};
+  const mod = mkEl('div', 'pd-mod'); mod.appendChild(mkEl('h4', '', '👶 육아 안심 체크리스트'));
+  if (info.kind !== 'spot') {   // 행사·예약에는 시설 정보가 없다 - 추정하지 않고 한 줄로 안내
+    mod.appendChild(mkEl('div', 'pd-care-one', '🚼 유모차 · 🍼 수유실 · 🚗 주차 정보는 아직 모아 두지 못했어요. 방문 전 아래 길찾기·공식 안내에서 확인해 주세요.'));
+    return mod;
+  }
+  const g = mkEl('div', 'pd-care');
+  g.appendChild(r.stroller === true ? pdTile('ok', '🚼', '유모차', '수월함') : r.stroller === false ? pdTile('warn', '🚼', '유모차', '주의 (경사·계단)') : pdTile('unk', '🚼', '유모차', '확인 필요'));
+  g.appendChild(r.baby_care ? pdTile('ok', '🍼', '수유실', '있음') : pdTile('unk', '🍼', '수유실', '확인 필요'));   // false/없음은 '없다'가 아니라 '모른다'
+  const pk = String(r.parking || '');
+  g.appendChild(/^무료주차/.test(pk) ? pdTile('ok', '🚗', '주차', '무료') : /^주차가능/.test(pk) ? pdTile('', '🚗', '주차', '유료 주차') : /대중교통/.test(pk) ? pdTile('warn', '🚗', '주차', '대중교통 권장') : pdTile('unk', '🚗', '주차', '확인 필요'));
+  mod.appendChild(g);
+  if (r.tip) mod.appendChild(mkEl('div', 'pd-tip', '💡 ' + r.tip));   // 부모 꿀팁(시드 데이터에 tip 이 있을 때만)
+  return mod;
+}
+function pdAreaQuery(info) {   // 주소에서 '시/군/구 + 동/읍/면' 정도만 뽑아 검색어로 쓴다
+  const a = String((info.raw && (info.raw.address)) || '').replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
+  const m = a.match(/([가-힣]+(?:특별시|광역시|도)?\s*)?([가-힣]+[시군구])\s*([가-힣0-9]+[동읍면로길])?/);
+  return m ? [m[2], m[3]].filter(Boolean).join(' ') : (info.region || '');
+}
+function pdCourse(info) {
+  const area = pdAreaQuery(info); if (!area) return null;
+  const mod = mkEl('div', 'pd-mod'); mod.appendChild(mkEl('h4', '', '🗺️ 이어서 가기 좋은 코스'));
+  const box = mkEl('div', 'pd-links');
+  [['🍽️ 아기의자 식당', area + ' 아기의자 식당'], ['☕ 아이랑 카페', area + ' 아이랑 카페'], ['🧸 키즈카페', area + ' 키즈카페']].forEach(x => {
+    const a = mkEl('a', 'pd-link', x[0]); a.href = naverMapUrl(x[1], x[1]); a.target = '_blank'; a.rel = 'noopener';
+    a.addEventListener('click', () => sendGaEvent('place_course_click', { kind: info.kind, target: x[0] })); box.appendChild(a);
+  });
+  mod.appendChild(box);
+  mod.appendChild(mkEl('div', 'pd-note', '네이버 지도 검색으로 연결돼요. 영업·메뉴는 방문 전 확인해 주세요.'));
+  return mod;
+}
+function pdPrep(info) {
+  const r = info.raw || {};
+  const t = [r.title, r.category, r.space_type, r.place].join(' ');
+  const items = [];
+  const outdoor = r.space_type === '야외' || /공원|숲|수목원|농장|캠핑|텃밭|생태|등반|산림|축제|야외/.test(t);
+  const water = /물놀이|워터|수영|계곡|해수욕|갯벌|분수|물총/.test(t);
+  const indoor = r.space_type === '실내' || /키즈카페|박물관|전시|도서관|체험관|과학관|공연|극장|뮤지컬/.test(t);
+  if (outdoor) items.push(['🧴 선크림·모자', '아기 선크림 모자'], ['🧻 돗자리', '피크닉 돗자리'], ['🦟 아기 모기기피', '아기 모기패치']);
+  if (water) items.push(['🩱 래시가드', '유아 래시가드'], ['👶 수영장 기저귀', '아기 수영 기저귀'], ['🧖 방수 타월', '아기 비치타월']);
+  if (indoor) items.push(['🧦 미끄럼방지 양말', '유아 미끄럼방지 양말'], ['👕 여벌 옷', '아기 여벌 옷 파우치']);
+  items.push(['🧼 물티슈·손소독제', '아기 물티슈 휴대용']);
+  const seen = new Set(), uniq = items.filter(x => !seen.has(x[0]) && seen.add(x[0])).slice(0, 6);
+  const mod = mkEl('div', 'pd-mod'); mod.appendChild(mkEl('h4', '', '🎒 이번 주말 준비물'));
+  const box = mkEl('div', 'pd-links');
+  uniq.forEach(x => {
+    const a = mkEl('a', 'pd-link', x[0]); a.href = 'https://search.shopping.naver.com/search/all?query=' + encodeURIComponent(x[1]); a.target = '_blank'; a.rel = 'noopener nofollow sponsored';
+    a.addEventListener('click', () => sendGaEvent('place_prep_click', { kind: info.kind, item: x[1] })); box.appendChild(a);
+  });
+  mod.appendChild(box);
+  mod.appendChild(mkEl('div', 'pd-note', '네이버 쇼핑 검색 링크예요(현재 제휴 수수료 없음). 제휴 링크를 쓰게 되면 이 자리에 "수수료를 받을 수 있음" 문구를 함께 표시합니다.'));
+  return mod;
+}
+function pdModules(scroll, info) {
+  [pdCare(info), pdCourse(info), pdPrep(info)].forEach(m => { if (m) scroll.appendChild(m); });
+}
+
 function openPlaceDetail(info) {
   const wasOpen = !!dealOpenRow; dealOpenRow = info;
   const scroll = document.getElementById('dealScroll'); scroll.innerHTML = ''; scroll.scrollTop = 0;
@@ -1221,33 +1332,30 @@ function openPlaceDetail(info) {
   tr.appendChild(title);
   const meta = mkEl('div', 'deal-brand', '📍 ' + String(info.region).replace(/\//g, '·'));
   meta.appendChild(mkEl('span', 'spot-tag' + (info.fee.free ? '' : ' warn'), info.fee.t));
-  tr.appendChild(meta); scroll.appendChild(tr);
+  tr.appendChild(meta); { const bd = pdBadges(info); if (bd) tr.appendChild(bd); } tr.appendChild(pdTopLinks(info)); scroll.appendChild(tr);
   const grid = mkEl('div', 'deal-info'); info.rows.forEach(r => grid.appendChild(infoBox(r[0], r[1]))); scroll.appendChild(grid);
+  pdModules(scroll, info);
   if (info.source) scroll.appendChild(mkEl('div', 'pd-src', info.source));
 
   const cta = document.getElementById('dealCta'); cta.innerHTML = '';
   const wrap = mkEl('div', 'pd-actions'), row = mkEl('div', 'pd-row');
-  const fav = mkEl('button', 'pd-btn fav'); fav.type = 'button';
-  const syncFav = () => { const on = isPlaceFav(info.id); fav.classList.toggle('on', on); fav.textContent = on ? '♥ 찜 해제' : '♡ 찜하기'; fav.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  const fav = mkEl('button', 'pd-btn fav icon'); fav.type = 'button';
+  const syncFav = () => { const on = isPlaceFav(info.id); fav.classList.toggle('on', on); fav.textContent = on ? '♥' : '♡'; fav.setAttribute('aria-label', on ? '찜 해제' : '찜하기'); fav.setAttribute('aria-pressed', on ? 'true' : 'false'); };
   syncFav();
   fav.addEventListener('click', () => {
     const on = togglePlaceFav(info); syncFav();
     sendGaEvent('place_fav_toggle', { kind: info.kind, on: on ? 1 : 0, title: (info.title || '').slice(0, 100) });
     showMapToast(on ? '찜했어요! 메인 홈의 ‘찜한 공구’ 탭에서 볼 수 있어요' : '찜을 해제했어요');
   });
-  row.appendChild(fav);
-  const share = mkEl('button', 'pd-btn share', '공유하기 🔗'); share.type = 'button';
+  const share = mkEl('button', 'pd-btn share icon', '🔗'); share.type = 'button'; share.setAttribute('aria-label', '공유하기');
   share.addEventListener('click', () => sharePlace(info));
-  row.appendChild(share);
   const link = (cls, text, href, target) => {
     const a = mkEl('a', cls, text); a.href = href; a.target = '_blank'; a.rel = 'noopener';
     a.addEventListener('click', () => sendGaEvent('place_outbound', { kind: info.kind, target, title: (info.title || '').slice(0, 100) }));
     return a;
   };
+  row.appendChild(link('pd-btn primary', '📍 길찾기', info.mapUrl, 'naver_map')); row.appendChild(share); row.appendChild(fav);
   wrap.appendChild(row);
-  if (info.reserveUrl) wrap.appendChild(link('pd-btn primary reserve', '🎟️ 예약하러 가기', info.reserveUrl, 'seoul_reserve'));
-  wrap.appendChild(link(info.reserveUrl ? 'pd-btn' : 'pd-btn primary', '📍 네이버 지도 길찾기', info.mapUrl, 'naver_map'));
-  if (!info.reserveUrl) wrap.appendChild(link('pd-btn', info.infoLabel, info.infoUrl || info.searchUrl, info.infoUrl ? 'official' : 'search'));
   cta.appendChild(wrap);
 
   sendGaEvent('place_detail_open', { kind: info.kind, title: (info.title || '').slice(0, 100), map_region: info.region });

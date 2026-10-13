@@ -767,6 +767,17 @@ def _collect_seoul_reserve() -> None:
         logger.error("서울 공공서비스예약 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
 
 
+def _annotate_ages() -> None:
+    """지도 상세 시트의 연령 뱃지용 age_groups 사전 계산(부가 산출물). tour_events/seoul_reserve/free_spots_seed 에 필드만 추가한다.
+    age_annotate.run()은 예외를 던지지 않고, import 오류까지 이중으로 방어한다(로그에 Traceback 이 남으면 야간 파이프라인이 배포를 건너뛴다)."""
+    try:
+        from generator import age_annotate
+
+        age_annotate.run()
+    except Exception as e:
+        logger.error("연령 뱃지 계산 단계 오류 - 무시하고 계속 진행 (%s)", type(e).__name__)
+
+
 def _build_search_index() -> None:
     """메인 통합 검색용 search_index.json 생성(부가 산출물). 지도 탭 JSON 3종(수집 직후)을 한 개로 모은다.
     search_index.run()은 예외를 던지지 않고 실패 시 기존 파일을 둔다. import 오류까지 이중으로 방어한다
@@ -867,6 +878,9 @@ def run(today: date | None = None, week_start: date | None = None, title: str | 
     _collect_seoul_reserve()
 
     # 메인 통합 검색 인덱스(부가 산출물) - 위 수집 결과 JSON 3종 기준, 같은 방식으로 격리
+    # 지도 상세 시트 연령 뱃지(age_groups) 사전 계산 - 수집 JSON 직후, 검색 인덱스 전에
+    _annotate_ages()
+
     _build_search_index()
 
     # 고객 키워드 알림 매칭(부가 산출물) - 오늘의 공구 목록 기준, 실패해도 배포는 계속
