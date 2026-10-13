@@ -42,7 +42,7 @@
 | `scraper/` | 인스타·인포크·릿링크 수집(Playwright), 셀러 발굴(`auto_discover_scheduler.py`) |
 | `parser/` | `extract_schedule.py`(Claude Haiku 일정 추출), `category_filter.py`(사전필터), `image_store.py`(Cloudinary) |
 | `collector/` | 외부 공공 API 수집기: `kopis_collector`, `tour_collector`, `seoul_reserve_collector`, 공용 `fee_utils`(요금 파서) |
-| `tools/` | 수동 실행 도구: `backup_snapshot.py`·`rollback_snapshot.py`(수정 전 자동 스냅샷/롤백), `rebuild_site_outputs.py`(DB로 홈/JSON 재생성), `discover_sellers.py`·`merge_candidates.py`·`flag_verified_sellers.py`, `spot_homepages.py`(시드 홈페이지 검증) 등 |
+| `tools/` | 수동 실행 도구(롤백 매뉴얼은 `docs/ROLLBACK_GUIDE.md`): `backup_snapshot.py`·`rollback_snapshot.py`(수정 전 자동 스냅샷/롤백), `rebuild_site_outputs.py`(DB로 홈/JSON 재생성), `discover_sellers.py`·`merge_candidates.py`·`flag_verified_sellers.py`, `spot_homepages.py`(시드 홈페이지 검증) 등 |
 | `tests/` | `python -m unittest tests.test_xxx` (현재 122개). `tests` 에 `__init__` 이 없어 `discover` 대신 모듈명을 나열해 실행 |
 | `gonggu_db.py`, `data/gonggu.db` | SQLite(gonggu, processed_blobs). 파싱 결과의 단일 원본 |
 | `config.py` | 경로·카테고리·키워드 상수(`CATEGORIES`, `EXPERIENCE_*`, `COMMENT_CTA_PATTERNS` 등), `.env` 로드 |
@@ -158,7 +158,7 @@
 - [ ] (10/12 비전) Track 2: 방문 인증 스탬프 투어 → 뱃지 → 공구 할인 쿠폰/제휴 티켓 리워드
 - [ ] (10/12 비전) 회원 프로필 온보딩: 카카오 간편로그인 시 자녀 수/연령대 수집 → 코스별 연령 추천 태그 축적 (개인정보 수집·보관 방침 선행)
 - [ ] 경기 상시 장소 시드 보강(보류): 경기관광공사 인증프로그램·체험관광지 등은 `free_spots_seed.json` 보강용으로 재검토
-- [ ] 야간 파이프라인 Claude API 크레딧 잔액 점검 루틴(10/12 크레딧 소진 → 호출 871건 실패·배포 스킵 사고)
+- [ ] (승인됨 10/13) 파이프라인 개선: 실행 전 Anthropic API 크레딧 잔액 부족 **사전 경고**(10/12 크레딧 소진 → 호출 871건 실패·배포 스킵 사고). 잔액 조회 API 지원 여부 확인 필요 - 없으면 호출 400 `credit balance` 오류 즉시 중단+알림으로 대체
 
 > 10장(대기 중인 과제)과 겹치는 항목은 완료 시 양쪽 모두 갱신한다.
 
