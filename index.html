@@ -1070,18 +1070,19 @@
   #sec-culture .section-head h2 { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.25; color: var(--text-main); word-break: keep-all; }
   #sec-culture .outing-all { white-space: nowrap; flex: 0 0 auto; font-size: 12px; color: var(--text-sub); text-decoration: none; font-weight: 700; }
   .cul-scroll { gap: 12px; padding: 0 16px 8px; }
-  .cul-card { flex: 0 0 150px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: inherit; cursor: pointer; }
-  .cul-photo { position: relative; width: 100%; aspect-ratio: 3 / 4; border-radius: 14px; overflow: hidden; background: linear-gradient(135deg, #f1ecf6, #e2d6ee); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+  .cul-card { flex: 0 0 150px; width: 150px; min-width: 0; max-width: 150px; box-sizing: border-box; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: inherit; cursor: pointer; }
+  .cul-photo { position: relative; flex: none; width: 100%; aspect-ratio: 3 / 4; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #f1ecf6, #e2d6ee); display: flex; align-items: center; justify-content: center; font-size: 40px; }
   .cul-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .cul-photo img.contain { object-fit: contain; background: #f1f3f7; }
-  .cul-rank { position: absolute; left: 8px; top: 8px; z-index: 1; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 13px; background: #1f2430; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
-  .cul-name { font-size: 14.5px; font-weight: 800; line-height: 1.3; word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .cul-line { font-size: 12px; color: #667085; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -4px; }
-  .cul-meta { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 11px; }
-  .cul-meta .rg { color: #98a2b3; font-weight: 700; margin-right: 2px; }
-  .cul-meta .ag { padding: 2px 7px; border-radius: 999px; background: #f6ecfa; color: #5f0080; font-weight: 700; }
+  .cul-photo img.contain { object-fit: contain; z-index: 1; }
+  .cul-photo .bgfill { position: absolute; inset: -12%; width: 124%; height: 124%; object-fit: cover; filter: blur(14px) saturate(1.1); opacity: .9; }   /* 가로형 이미지: 같은 사진을 흐리게 깔아 3:4 칸을 채운다(원본은 자르거나 늘리지 않고 그대로 보인다) */
+  .cul-rank { z-index: 2; position: absolute; left: 8px; top: 8px; z-index: 1; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 13px; background: #1f2430; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .cul-name { min-height: 2.6em; font-size: 14.5px; font-weight: 800; line-height: 1.3; word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .cul-line { min-height: 1.35em; max-width: 100%; font-size: 12px; color: #667085; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -4px; }
+  .cul-meta { display: flex; flex-wrap: nowrap; gap: 4px; align-items: center; height: 22px; max-width: 100%; overflow: hidden; white-space: nowrap; font-size: 11px; }
+  .cul-meta .rg { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: #98a2b3; font-weight: 700; margin-right: 2px; }
+  .cul-meta .ag { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 2px 7px; border-radius: 999px; background: #f6ecfa; color: #5f0080; font-weight: 700; }
   .cul-note { margin: 4px 16px 0; font-size: 12px; color: #98a2b3; line-height: 1.5; }
-  @media (min-width: 900px) { #sec-culture .section-head h2 { font-size: 24px; } .cul-card { flex-basis: 190px; } .cul-note { margin-left: 0; margin-right: 0; } }
+  @media (min-width: 900px) { #sec-culture .section-head h2 { font-size: 24px; } .cul-card { flex-basis: 190px; width: 190px; max-width: 190px; } .cul-note { margin-left: 0; margin-right: 0; } }
   /* 인기공구: 큰 썸네일 + 10px 곡률 */
   .rank-item { gap: 12px; padding: 10px 12px; }
   .rank-item .list-thumb { flex: 0 0 60px; width: 60px; height: 60px; border-radius: 10px; }
@@ -4024,7 +4025,7 @@ wcs_do();
     var a = el('a', 'cul-card'); a.setAttribute('aria-label', n + '번 ' + it.title);
     if (it.sheet) a.href = '#' + it.key; else { a.href = it.href; a.target = '_blank'; a.rel = 'noopener'; }
     var ph = el('div', 'cul-photo');
-    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; if (it.fit === 'contain') im.className = 'contain'; im.onerror = function () { im.remove(); ph.appendChild(el('span', '', '🎭')); }; ph.appendChild(im); } else ph.appendChild(el('span', '', '🎨'));
+    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; if (it.fit === 'contain') { im.className = 'contain'; var bg = document.createElement('img'); bg.className = 'bgfill'; bg.src = it.img; bg.alt = ''; bg.setAttribute('aria-hidden', 'true'); bg.referrerPolicy = 'no-referrer'; bg.loading = 'lazy'; ph.appendChild(bg); } im.onerror = function () { im.remove(); ph.appendChild(el('span', '', '🎭')); }; ph.appendChild(im); } else ph.appendChild(el('span', '', '🎨'));
     ph.appendChild(el('span', 'cul-rank', String(n))); a.appendChild(ph);
     a.appendChild(el('div', 'cul-name', it.title)); if (it.line) a.appendChild(el('div', 'cul-line', it.line));
     var m = el('div', 'cul-meta'); if (it.regionLabel) m.appendChild(el('span', 'rg', it.regionLabel)); if (it.age) m.appendChild(el('span', 'ag', it.age)); a.appendChild(m);
