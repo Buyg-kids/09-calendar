@@ -119,6 +119,20 @@ def validate_costs(pid: str, c) -> list[str]:
     return errs
 
 
+def validate_ref_menu(p: str, rm) -> list[str]:
+    """대표메뉴 1종 기준가(플래너 식비·카페비 자동 계산용). 운영자 확인 또는 출처 URL 필수, 가격은 1~200,000원 정수."""
+    if not isinstance(rm, dict):
+        return [f"{p}.ref_menu: 객체가 아님"]
+    errs = []
+    if not str(rm.get("name") or "").strip():
+        errs.append(f"{p}.ref_menu.name 없음")
+    if not (isinstance(rm.get("price"), int) and not isinstance(rm.get("price"), bool) and 1 <= rm["price"] <= 200000):
+        errs.append(f"{p}.ref_menu.price: 1~200,000 정수")
+    errs += _prov_errors(f"{p}.ref_menu", rm)
+    return errs
+
+
+
 LISTED_MODES = {"in_park", "straight"}
 
 
@@ -165,6 +179,8 @@ def validate_eats(pid: str, eats) -> list[str]:
             errs.append(f"{p}.name 없음")
         if not re.match(r"^(서울특별시|서울|경기도|경기|인천광역시|인천)\s", str(e.get("address") or "")):
             errs.append(f"{p}.address: 시·도로 시작하는 주소 필요")
+        if e.get("ref_menu") is not None:
+            errs += validate_ref_menu(p, e["ref_menu"])
         if e.get("level") == "listed":
             errs += validate_listed_eat(p, e)
             continue

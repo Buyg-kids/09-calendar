@@ -52,6 +52,18 @@
   .bt td { padding: 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; } .bt td:last-child { text-align: right; font-weight: 800; white-space: nowrap; padding-left: 10px; }
   .bt small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--mute); font-weight: 500; line-height: 1.4; }
   .bt tr.unk td:last-child { color: var(--warn); }
+  .badge { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: #eef2ff; color: #3b4cc0; font-size: 11px; font-weight: 700; vertical-align: 1px; }
+  .total .sub { display: block; margin-top: 4px; font-size: 12px; font-weight: 600; color: var(--sub); }
+  .tsplit { margin-top: 8px; display: grid; gap: 4px; padding: 0 2px; font-size: 12.5px; color: var(--sub); }
+  .tsplit div { display: flex; justify-content: space-between; }
+  details.fq { border-bottom: 1px solid var(--line); }
+  details.fq:last-child { border-bottom: 0; }
+  details.fq summary { list-style: none; cursor: pointer; padding: 13px 24px 13px 0; position: relative; font-size: 14.5px; font-weight: 700; line-height: 1.45; word-break: keep-all; }
+  details.fq summary::-webkit-details-marker { display: none; }
+  details.fq summary::after { content: '+'; position: absolute; right: 2px; top: 11px; font-size: 20px; font-weight: 400; color: var(--mute); }
+  details.fq[open] summary::after { content: '–'; }
+  details.fq .fa { padding: 0 0 14px; font-size: 13.5px; line-height: 1.65; color: var(--sub); word-break: keep-all; }
+  details.fq .fa p { margin: 0 0 6px; } details.fq .fa p:last-child { margin-bottom: 0; }
   .total { margin-top: 12px; padding: 14px; border-radius: 12px; background: #f6ecfa; display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; }
   .total strong { font-size: 20px; color: var(--brand); }
   .unkbox { margin-top: 10px; padding: 11px 12px; border-radius: 10px; background: var(--unk-bg); font-size: 12.5px; color: var(--sub); line-height: 1.5; }
@@ -99,7 +111,7 @@ function render() {
   if (!place) { const e = h('div', 'empty', '장소를 선택하면 일정이 만들어져요.'); app.appendChild(e); renderBar(null); return; }
 
   // 2) 우리 가족
-  { const s = section(2, '누구와 어떻게 가나요?', '요금 계산에 쓰여요. 공식 요금표의 연령 기준(만 나이)을 따라요.'); const pt = h('div', 'party');
+  { const s = section(2, '누구와 어떻게 가나요?'); const pt = h('div', 'party');
     AGE_ROWS.forEach(r => { const row = h('div', 'prow'); const nm = h('div', 'nm'); nm.appendChild(h('b', '', r[1])); nm.appendChild(h('span', '', r[2])); row.appendChild(nm);
       const bt = h('div', 'step-btns'); const out = h('output', '', String(STATE.party[r[0]])); const mk = (sym, d, label) => { const b = h('button', '', sym); b.type = 'button'; b.setAttribute('aria-label', r[1] + ' ' + label); b.addEventListener('click', () => set(st => { st.party[r[0]] = Math.max(0, Math.min(9, st.party[r[0]] + d)); })); return b; };
       bt.appendChild(mk('−', -1, '줄이기')); bt.appendChild(out); bt.appendChild(mk('+', 1, '늘리기')); row.appendChild(bt); pt.appendChild(row); });
@@ -112,7 +124,7 @@ function render() {
     app.appendChild(s); }
 
   // 3) 식당
-  { const s = section(3, '식사는 어디서 할까요?', '공식 출처나 운영자가 확인한 식당이에요. 확인하지 못한 항목은 "매장 확인 필요"로 표시해요. 건너뛰면 식사 없이 일정이 만들어져요.');
+  { const s = section(3, '식사는 어디서 할까요?');
     const eats = (place.eats || []).filter(e => e.kind === '식당');
     if (!eats.length) s.appendChild(h('p', 'note', '이 장소의 식당 정보를 준비하고 있어요.'));
     eats.forEach(e => { const b = h('button', 'eat' + (STATE.eat_id === e.id ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', STATE.eat_id === e.id ? 'true' : 'false');
@@ -124,7 +136,6 @@ function render() {
   // 4) 카페
   { const s = section(4, '카페는 어떨까요?'); const cafes = (place.eats || []).filter(e => e.kind === '카페');
     if (!cafes.length) s.appendChild(h('p', 'note', '이 장소의 카페 정보를 준비하고 있어요. 지금은 건너뛰기로 일정이 만들어져요.'));
-    else s.appendChild(h('p', 'hint', '공식 출처로 이름·주소만 확인한 곳은 "매장 확인 필요"로 표시해요.'));
     const skipC = h('div', 'choices'); skipC.appendChild(chip('카페 건너뛰기', !STATE.cafe_id, () => set(st => { st.cafe_id = null; })));
     cafes.forEach(e => { const b = h('button', 'eat' + (STATE.cafe_id === e.id ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', STATE.cafe_id === e.id ? 'true' : 'false'); b.appendChild(h('b', '', e.name)); b.appendChild(h('span', '', e.distance.v)); eatSub(b, e); b.addEventListener('click', () => set(st => { st.cafe_id = st.cafe_id === e.id ? null : e.id; })); s.appendChild(b); });
     if (cafes.length) s.appendChild(skipC);
@@ -139,26 +150,40 @@ function render() {
     r.timetable.forEach(x => { const li = h('li', x.kind); const tm = h('div', 'tm', x.kind === 'end' ? x.start : x.start + '~' + x.end); const tx = h('div', '', x.label); if (x.note) tx.appendChild(h('span', 'sm', x.note)); li.appendChild(tm); li.appendChild(tx); ul.appendChild(li); });
     s.appendChild(ul); r.warnings.forEach(w => s.appendChild(h('div', 'warn', w))); app.appendChild(s); }
   { const s = section(7, '예상 비용'); const tb = h('table', 'bt');
-    const row = (label, detail, amt, unk) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
+    const row = (label, detail, amt, unk, badge) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (badge) a.appendChild(h('span', 'badge', badge)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
     r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false));
     r.budget.manual.forEach(l => row(l.label, '', Planner.won(l.amount), false));
+    r.budget.estimates.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false, '대표메뉴 기준 예상치'));
     r.budget.unknown.forEach(u => row(u.label, u.note, '확인 필요', true));
     s.appendChild(tb);
-    const tot = h('div', 'total'); tot.appendChild(h('span', '', '확인된 항목 합계')); tot.appendChild(h('strong', '', Planner.won(r.budget.known_total))); s.appendChild(tot);
+    const tot = h('div', 'total'); const tl = h('span'); tl.appendChild(document.createTextNode('예상 합계')); if (r.budget.estimate_total) tl.appendChild(h('span', 'sub', '공식 요금 + 대표메뉴 기준 예상치'));
+    tot.appendChild(tl); tot.appendChild(h('strong', '', Planner.won(r.budget.total))); s.appendChild(tot);
+    if (r.budget.estimate_total) { const sp = h('div', 'tsplit'); [['공식 확인 요금(입장료·주차비 등)', r.budget.known_total], ['대표메뉴 기준 예상치(식비·카페비)', r.budget.estimate_total]].forEach(x => { const d = h('div'); d.appendChild(h('span', '', x[0])); d.appendChild(h('b', '', Planner.won(x[1]))); sp.appendChild(d); }); s.appendChild(sp); }
     if (r.budget.unknown.length) s.appendChild(h('div', 'unkbox', '확인 필요 ' + r.budget.unknown.length + '건(' + r.budget.unknown.map(u => u.label).join(', ') + ')은 합계에 넣지 않았어요. 실제 비용은 더 들 수 있어요.'));
-    // 직접 입력
-    if (STATE.eat_id || STATE.cafe_id) { const note = h('p', 'note', '식비·카페비는 검증된 가격 정보가 없어서 직접 입력한 금액만 합계에 더해요.'); s.appendChild(note);
-      [['meal', '식비(원)', !!STATE.eat_id], ['cafe', '카페비(원)', !!STATE.cafe_id]].forEach(m => { if (!m[2]) return; const w = h('label', 'money'); w.appendChild(h('span', '', m[1])); const inp = document.createElement('input'); inp.type = 'number'; inp.inputMode = 'numeric'; inp.min = '0'; inp.step = '1000'; inp.placeholder = '직접 입력'; inp.value = STATE.manual[m[0]] == null ? '' : STATE.manual[m[0]];
+    if (STATE.eat_id || STATE.cafe_id) {   // 직접 입력(입력하면 예상치 대신 적용)
+      [['meal', '식비 직접 입력(원)', !!STATE.eat_id], ['cafe', '카페비 직접 입력(원)', !!STATE.cafe_id]].forEach(m => { if (!m[2]) return; const w = h('label', 'money'); w.appendChild(h('span', '', m[1])); const inp = document.createElement('input'); inp.type = 'number'; inp.inputMode = 'numeric'; inp.min = '0'; inp.step = '1000';
+        const est = r.budget.estimates.find(x => x.key === m[0]); inp.placeholder = est ? '예상 ' + est.amount.toLocaleString('ko-KR') : '직접 입력'; inp.value = STATE.manual[m[0]] == null ? '' : STATE.manual[m[0]];
         inp.addEventListener('change', () => set(st => { const v = inp.value === '' ? null : Number(inp.value); st.manual[m[0]] = (v == null || !isFinite(v) || v < 0) ? null : Math.floor(v); })); w.appendChild(inp); s.appendChild(w); }); }
-    s.appendChild(h('p', 'note', '요금은 각 장소 공식 안내를 ' + (place.facts && place.facts.address && place.facts.address.checked || '') + ' 기준으로 확인한 값이에요. 변경될 수 있으니 방문 전 확인해 주세요.'));
     const reset = h('button', 'ghost', '처음부터 다시 만들기'); reset.type = 'button'; reset.addEventListener('click', () => { if (confirm('저장된 일정을 지우고 처음부터 시작할까요?')) { Planner.clearPlan(); STATE = Planner.loadPlan(); render(); window.scrollTo(0, 0); } }); s.appendChild(reset);
+    app.appendChild(s); }
+  { // 안내 · 자주 묻는 질문 (페이지 맨 아래, 기본은 접힘)
+    const s = h('section', 'step'); s.id = 'faqList'; const h2 = h('h2'); h2.appendChild(document.createTextNode('안내 · 자주 묻는 질문')); s.appendChild(h2);
+    const checked = (place.facts && place.facts.address && place.facts.address.checked) || '';
+    const Q = [
+      ['예상 합계는 어떻게 계산하나요?', ['입장료·주차비는 각 장소 공식 안내를 ' + checked + ' 기준으로 확인한 값이에요. 요금은 바뀔 수 있으니 방문 전에 확인해 주세요.', '식비·카페비는 운영자가 확인한 대표메뉴 1종의 기준가 × 어른 인원수로 계산한 "예상치"예요. 직접 입력하면 입력한 금액이 우선 적용돼요.', '가격을 확인하지 못한 항목은 "확인 필요"로 두고 합계에 넣지 않아요.']],
+      ['"매장 확인 필요"는 무슨 뜻이에요?', ['공식 출처로 이름·주소·판매품목만 확인한 곳이에요. 아기의자, 주차, 유모차 진입, 테이블 간격은 확인하지 못해서 방문 전에 매장에 문의해 주세요.']],
+      ['이동 시간은 정확한가요?', ['확인된 이동 시간은 그대로 쓰고, 없는 경우 거리로 추정해요(공원 안은 도보 10분, 직선거리는 1km당 약 3분·최소 10분). 추정한 구간에는 "추정 시간"이 표시돼요. 실제 경로는 지도 앱으로 확인해 주세요.']],
+      ['일정은 어디에 저장되나요?', ['로그인 없이 이 기기의 브라우저에만 저장돼요. 다른 기기에서는 보이지 않고, 위의 "처음부터 다시 만들기"로 지울 수 있어요.']],
+      ['숙소는 어떻게 되나요?', ['지금은 당일치기 일정만 만들 수 있어요. 키즈 펜션·리조트 같은 숙소 연계는 정보를 확인하는 대로 추가할 예정이에요.']]
+    ];
+    Q.forEach(q => { const d = h('details', 'fq'); d.appendChild(h('summary', '', q[0])); const a = h('div', 'fa'); q[1].forEach(x => a.appendChild(h('p', '', x))); d.appendChild(a); d.addEventListener('toggle', () => { if (d.open) ga('plan_faq_open', { q: q[0].slice(0, 30) }); }); s.appendChild(d); });
     app.appendChild(s); }
   renderBar(r);
   window.scrollTo(0, keepY);
 }
 function renderBar(r) {
   const old = $('.bar'); if (old) old.remove(); const bar = h('div', 'bar'), inn = h('div', 'bar-in'), sum = h('div', 'sum');
-  if (r) { sum.appendChild(document.createTextNode('확인된 항목 합계')); sum.appendChild(h('b', '', Planner.won(r.budget.known_total) + (r.budget.unknown.length ? ' + 확인 필요 ' + r.budget.unknown.length + '건' : ''))); }
+  if (r) { sum.appendChild(document.createTextNode('예상 합계')); sum.appendChild(h('b', '', Planner.won(r.budget.total) + (r.budget.unknown.length ? ' + 확인 필요 ' + r.budget.unknown.length + '건' : ''))); }
   else sum.appendChild(document.createTextNode('장소를 선택해 주세요'));
   inn.appendChild(sum); if (r) { const g = h('a', 'go', '일정 보기'); g.href = '#result'; g.addEventListener('click', e => { e.preventDefault(); $('#result').scrollIntoView({ behavior: 'smooth', block: 'start' }); ga('plan_view_result'); }); inn.appendChild(g); }
   bar.appendChild(inn); document.body.appendChild(bar);

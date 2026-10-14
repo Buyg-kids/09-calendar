@@ -59,7 +59,7 @@
     var eat = inp.eat_id ? findEat(place, inp.eat_id) : null;
     var start = toMin(inp.start || '10:30'), end = toMin(inp.end || '15:00');
     var visit = Math.max(30, int0(inp.visit_minutes) || 90);
-    var out = { timetable: [], budget: { lines: [], known_total: 0, unknown: [], manual: [] }, warnings: [], party_count: partyCount(party) };
+    var out = { timetable: [], budget: { lines: [], known_total: 0, unknown: [], manual: [], estimates: [], estimate_total: 0, total: 0 }, warnings: [], party_count: partyCount(party) };
     var t = start, mealMin = 60, cafeMin = 45;
 
     // ---- 타임테이블 ----
@@ -116,16 +116,20 @@
       out.budget.unknown.push({ key: 'parking', label: '주차비', note: (pkCost && pkCost.note) || '' });
     }
     var manual = inp.manual || {};
-    if (eat) {
-      var m = manual.meal;
-      if (typeof m === 'number' && m >= 0) { out.budget.manual.push({ key: 'meal', label: '식비(직접 입력)', amount: m }); out.budget.known_total += m; }
-      else out.budget.unknown.push({ key: 'meal', label: '식비', note: '검증된 가격 정보가 없어 직접 입력이 필요해요' });
+    // 식비·카페비: 직접 입력 > 대표메뉴 기준가(어른 인원수 × 1인 기준가, '예상치') > 확인 필요
+    function foodLine(key, label, item, val) {
+      if (typeof val === 'number' && val >= 0) { out.budget.manual.push({ key: key, label: label + '(직접 입력)', amount: val }); out.budget.known_total += val; return; }
+      var rm = item && item.ref_menu;
+      if (rm && typeof rm.price === 'number' && rm.price > 0) {
+        var amt = party.adult * rm.price;
+        out.budget.estimates.push({ key: key, label: label, amount: amt, detail: '대표메뉴 ' + rm.name + ' ' + (rm.note ? rm.note + ' ' : '') + won(rm.price) + ' × 어른 ' + party.adult + '명', basis: rm.basis || '' });
+        out.budget.estimate_total += amt; return;
+      }
+      out.budget.unknown.push({ key: key, label: label, note: '검증된 가격 정보가 없어 직접 입력이 필요해요' });
     }
-    if (inp.cafe_id) {
-      var c = manual.cafe;
-      if (typeof c === 'number' && c >= 0) { out.budget.manual.push({ key: 'cafe', label: '카페비(직접 입력)', amount: c }); out.budget.known_total += c; }
-      else out.budget.unknown.push({ key: 'cafe', label: '카페비', note: '검증된 가격 정보가 없어 직접 입력이 필요해요' });
-    }
+    if (eat) foodLine('meal', '식비', eat, manual.meal);
+    if (inp.cafe_id) { var cafeItem = findEat(place, inp.cafe_id); foodLine('cafe', '카페비', cafeItem, manual.cafe); }
+    out.budget.total = out.budget.known_total + out.budget.estimate_total;
     return out;
   }
 

@@ -222,5 +222,35 @@ class TestListedEats(unittest.TestCase):
         self.assertEqual(sorted((e["kind"], e["id"]) for e in places["spot_06"]["eats"]), [("식당", "eat_hwangje_jjamppong"), ("식당", "eat_samdae_dubu"), ("카페", "eat_gm_nineblock")])
 
 
+class TestRefMenu(unittest.TestCase):
+    def errs(self, rm, base=None):
+        e = good_eat() if base is None else base
+        e["ref_menu"] = rm
+        p = good_place(); p["eats"] = [e]
+        return pv.validate({"places": {"p1": p}})
+
+    def test_good_ref_menu(self):
+        self.assertEqual(self.errs(dict({"name": "순두부찌개", "price": 11000, "basis": "운영자 확인 기준가"}, **OP)), [])
+        self.assertEqual(self.errs({"name": "아메리카노", "price": 5000, "src": S, "checked": D}), [])           # 출처 URL 방식
+        self.assertEqual(self.errs(dict({"name": "돈가스", "price": 10000}, **OP), base=good_listed()), [])         # 목록형에도 허용
+
+    def test_bad_ref_menu(self):
+        for rm, key in ((dict({"name": "", "price": 5000}, **OP), "name"), (dict({"name": "x", "price": 0}, **OP), "price"),
+                        (dict({"name": "x", "price": 5000.5}, **OP), "price"), (dict({"name": "x", "price": 999999}, **OP), "price"),
+                        (dict({"name": "x", "price": True}, **OP), "price"), ({"name": "x", "price": 5000}, "운영자 확인"), ("문자열", "객체")):
+            self.assertTrue(any(key in x for x in self.errs(rm)), (rm, key))
+
+    def test_real_data_has_seven_reference_prices(self):
+        path = ROOT / "place_guides.json"
+        if not path.exists():
+            self.skipTest("place_guides.json 없음")
+        places = json.loads(path.read_text(encoding="utf-8"))["places"]
+        got = {e["id"]: (e["ref_menu"]["name"], e["ref_menu"]["price"]) for p in places.values() for e in p.get("eats", []) if e.get("ref_menu")}
+        self.assertEqual(got, {"eat_samdae_dubu": ("얼큰순두부찌개", 11000), "eat_hwangje_jjamppong": ("바지락짬뽕", 10000), "eat_gm_nineblock": ("아메리카노", 7000),
+                               "eat_sg_giraffe_foodcourt": ("돈가스", 10000), "eat_sg_wonder_cafe": ("아메리카노", 5000), "eat_kn_dongi_mandu": ("만두전골", 13000), "eat_kn_poook": ("아메리카노", 6500)})
+        every = [e["id"] for p in places.values() for e in p.get("eats", [])]
+        self.assertEqual(sorted(every), sorted(got))      # 모든 식당·카페에 기준가가 있다
+
+
 if __name__ == "__main__":
     unittest.main()

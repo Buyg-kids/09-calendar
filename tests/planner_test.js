@@ -56,14 +56,31 @@ t('차량 미이용이면 주차비 0원이고 확인 필요가 아니다', () =
   assert.equal(r.budget.lines.find(l => l.key === 'parking').amount, 0);
   assert.deepEqual(r.budget.unknown.map(u => u.key), ['admission']);
 });
-t('식비·카페비: 입력 전에는 확인 필요, 입력하면 직접 입력으로만 합산', () => {
-  let r = P.plan({ party: { adult: 2 }, car: false, visit_minutes: 60, eat_id: 'eat_hwangje_jjamppong' }, museum);
-  assert.ok(r.budget.unknown.some(u => u.key === 'meal'));
-  assert.equal(r.budget.known_total, 0);
-  r = P.plan({ party: { adult: 2 }, car: false, visit_minutes: 60, eat_id: 'eat_hwangje_jjamppong', manual: { meal: 32000 } }, museum);
+t('식비·카페비: 직접 입력 > 대표메뉴 기준가 예상치(어른 수 × 1인 기준가) > 확인 필요', () => {
+  const base = { party: { adult: 2 }, car: false, visit_minutes: 60, eat_id: 'eat_hwangje_jjamppong' };
+  let r = P.plan(base, museum);                                   // 입력 없음 -> 대표메뉴 바지락짬뽕 10,000원 × 어른 2명
+  assert.equal(r.budget.estimates.length, 1);
+  assert.equal(r.budget.estimates[0].amount, 20000);
+  assert.ok(r.budget.estimates[0].detail.indexOf('바지락짬뽕') >= 0 && r.budget.estimates[0].detail.indexOf('어른 2명') >= 0);
+  assert.equal(r.budget.known_total, 0);                          // 공식 요금 합계에는 섞이지 않는다
+  assert.equal(r.budget.estimate_total, 20000);
+  assert.equal(r.budget.total, 20000);
   assert.ok(!r.budget.unknown.some(u => u.key === 'meal'));
+  r = P.plan(Object.assign({}, base, { manual: { meal: 32000 } }), museum);   // 직접 입력이 우선
+  assert.equal(r.budget.estimates.length, 0);
   assert.equal(r.budget.manual[0].amount, 32000);
-  assert.equal(r.budget.known_total, 32000);
+  assert.equal(r.budget.known_total, 32000); assert.equal(r.budget.total, 32000);
+  const noRef = JSON.parse(JSON.stringify(museum)); delete noRef.eats.find(e => e.id === 'eat_hwangje_jjamppong').ref_menu;
+  r = P.plan(base, noRef);                                        // 기준가가 없으면 확인 필요
+  assert.ok(r.budget.unknown.some(u => u.key === 'meal')); assert.equal(r.budget.total, 0);
+});
+t('기준가 계산: 어른 0명이면 0원, 인원 변화 반영, 수목원 동이손만두는 1인 환산 표기', () => {
+  assert.equal(P.plan({ party: { adult: 0, toddler: 2 }, car: false, eat_id: 'eat_hwangje_jjamppong' }, museum).budget.estimate_total, 0);
+  assert.equal(P.plan({ party: { adult: 3 }, car: false, eat_id: 'eat_samdae_dubu' }, museum).budget.estimate_total, 33000);
+  const r = P.plan({ party: { adult: 2 }, car: false, eat_id: 'eat_kn_dongi_mandu', cafe_id: 'eat_kn_poook' }, arbo);
+  assert.equal(r.budget.estimates.find(x => x.key === 'meal').amount, 26000);
+  assert.ok(r.budget.estimates.find(x => x.key === 'meal').detail.indexOf('1인 환산 약') >= 0);
+  assert.equal(r.budget.estimates.find(x => x.key === 'cafe').amount, 13000);
 });
 t('걸어서 가는 식당이면 식사 시간만큼 박물관 주차장 시간이 늘어난다', () => {
   const base = { party: { adult: 2 }, car: true, visit_minutes: 60 };
@@ -133,7 +150,10 @@ t('서울대공원: 공원 안 식당·카페(목록형) - 이동은 추정, 차
   assert.ok(r.timetable[1].note.indexOf('추정') >= 0);
   assert.ok(r.warnings.some(w => w.indexOf('추정값') >= 0));
   assert.equal(r.budget.lines.find(l => l.key === 'parking').amount, 5000);       // 90+60+45 = 195분 -> 일 최대
-  assert.deepEqual(r.budget.unknown.map(u => u.key).sort(), ['cafe', 'meal']);    // 식비·카페비는 직접 입력 전까지 확인 필요
+  assert.equal(r.budget.unknown.length, 0);
+  assert.equal(r.budget.estimates.find(x => x.key === 'meal').amount, 20000);     // 돈가스 10,000원 × 어른 2명
+  assert.equal(r.budget.estimates.find(x => x.key === 'cafe').amount, 10000);     // 아메리카노 5,000원 × 어른 2명
+  assert.equal(r.budget.known_total, 15000); assert.equal(r.budget.total, 45000);   // 공식 요금 15,000원 + 대표메뉴 기준 예상 30,000원
 });
 t('국립수목원: 직선거리 식당·카페는 차로 이동(추정), 수목원 주차 시간은 늘지 않는다', () => {
   const r = P.plan({ party: { adult: 2 }, car: true, visit_minutes: 120, eat_id: 'eat_kn_dongi_mandu', cafe_id: 'eat_kn_poook' }, arbo);

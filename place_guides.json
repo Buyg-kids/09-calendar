@@ -257,7 +257,15 @@
       "note": "주소·영업 여부를 운영자가 직접 확인"
      },
      "provenance": "operator_verified",
-     "verified_at": "2026-10-14"
+     "verified_at": "2026-10-14",
+     "ref_menu": {
+      "name": "얼큰순두부찌개",
+      "price": 11000,
+      "note": "",
+      "basis": "운영자 확인 기준가",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
+     }
     },
     {
      "id": "eat_hwangje_jjamppong",
@@ -326,7 +334,15 @@
       "note": "주소·영업 여부를 운영자가 직접 확인"
      },
      "provenance": "operator_verified",
-     "verified_at": "2026-10-14"
+     "verified_at": "2026-10-14",
+     "ref_menu": {
+      "name": "바지락짬뽕",
+      "price": 10000,
+      "note": "",
+      "basis": "운영자 확인 기준가",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
+     }
     },
     {
      "id": "eat_gm_nineblock",
@@ -384,7 +400,15 @@
       "note": "정보를 운영자가 직접 확인"
      },
      "provenance": "operator_verified",
-     "verified_at": "2026-10-14"
+     "verified_at": "2026-10-14",
+     "ref_menu": {
+      "name": "아메리카노",
+      "price": 7000,
+      "note": "",
+      "basis": "운영자 확인 기준가",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
+     }
     }
    ]
   },
@@ -591,6 +615,14 @@
      "place_check": {
       "status": "unchecked",
       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+     },
+     "ref_menu": {
+      "name": "만두전골",
+      "price": 13000,
+      "note": "1인 환산 약",
+      "basis": "운영자 확인 기준가",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
      }
     },
     {
@@ -613,6 +645,14 @@
      "place_check": {
       "status": "unchecked",
       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+     },
+     "ref_menu": {
+      "name": "아메리카노",
+      "price": 6500,
+      "note": "",
+      "basis": "운영자 확인 기준가",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
      }
     }
    ]
@@ -868,6 +908,14 @@
       "v": "육개장, 볶음밥, 돈가스, 짜장밥, 짜장면, 우동, 잔치국수, 셀프라면 등",
       "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
       "checked": "2026-10-14"
+     },
+     "ref_menu": {
+      "name": "돈가스",
+      "price": 10000,
+      "note": "",
+      "basis": "운영자 확인 기준가",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
      }
     },
     {
@@ -895,6 +943,14 @@
       "v": "커피, 음료, 빵, 디저트 등",
       "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005004",
       "checked": "2026-10-14"
+     },
+     "ref_menu": {
+      "name": "아메리카노",
+      "price": 5000,
+      "note": "",
+      "basis": "운영자 확인 기준가",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
      }
     }
    ]
