@@ -3771,8 +3771,9 @@ wcs_do();
   function cls(cat) { return /박물관|전시/.test(cat) ? 'museum' : /동물|수족/.test(cat) ? 'zoo' : /공원|숲|수목|생태|산책/.test(cat) ? 'forest' : /놀이|체험/.test(cat) ? 'play' : ''; }
   var ICON = { museum: '🏛️', forest: '🌳', zoo: '🦁', park: '🌿', play: '🎈' };
   function norm(s) { return String(s || '').replace(/\(.*?\)/g, '').replace(/\s+/g, ''); }
-  function build(guides, seed) {
+  function build(guides, seed, photos) {
     var out = [];
+    var phOf = function (id) { return ((photos || {})[id] || {}).photo || {}; };
     Object.keys(guides).forEach(function (k) {
       var g = guides[k], ph = (g.photos || [])[0] || {}, addr = (g.facts && g.facts.address && g.facts.address.v) || '';
       out.push({ href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: '에디터 추천', guide: true });
@@ -3781,7 +3782,7 @@ wcs_do();
       var c = s.category || '', url = s.homepage_url || s.link || '';
       if (!/^https:\/\//.test(url)) return;
       var nk = norm(s.title); if (out.some(function (o) { var gk = norm(o.title); return o.guide && (gk === nk || (gk.length > 3 && nk.indexOf(gk) >= 0) || (nk.length > 3 && gk.indexOf(nk) >= 0)); })) return;   // 앵커와 같은 장소는 시드에서 제외
-      out.push({ href: url, ext: true, title: s.title, line: s.tag || '', region: regionOf(s.region, s.address), regionLabel: (s.address || s.region || '').split(' ').slice(0, 2).join(' '), tags: c.split('/').filter(Boolean).slice(0, 2), theme: cls(c), img: '', credit: '', badge: '', guide: false });
+      out.push({ href: url, ext: true, title: s.title, line: s.tag || '', region: regionOf(s.region, s.address), regionLabel: (s.address || s.region || '').split(' ').slice(0, 2).join(' '), tags: c.split('/').filter(Boolean).slice(0, 2), theme: cls(c), img: phOf(s.id).thumb || phOf(s.id).url || '', credit: phOf(s.id).credit ? '© ' + phOf(s.id).credit : '', badge: '', guide: false });
     });
     return out;
   }
@@ -3802,7 +3803,7 @@ wcs_do();
     var box = document.getElementById('outingList'); if (!box) return; box.innerHTML = '';
     var list = ITEMS.filter(function (i) { return tab === '전체' || i.region === tab; });
     if (tab === '전체') list = list.filter(function (i) { return i.guide || i.region !== '그 외 지역'; });   // 전체 탭은 에디터 추천 + 수도권 먼저(지방은 '그 외 지역' 탭)
-    list.sort(function (x, y) { return (y.guide ? 1 : 0) - (x.guide ? 1 : 0); });
+    list.sort(function (x, y) { return ((y.guide ? 2 : 0) + (y.img ? 1 : 0)) - ((x.guide ? 2 : 0) + (x.img ? 1 : 0)); });   // 에디터 추천 → 사진 있는 곳 → 나머지
     if (!list.length) { box.appendChild(el('div', 'out-empty', '이 지역의 나들이 장소를 준비하고 있어요.')); return; }
     list.slice(0, 24).forEach(function (i) { box.appendChild(card(i)); });
     box.scrollLeft = 0;
@@ -3814,8 +3815,8 @@ wcs_do();
   }
   function get(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
   tabs();
-  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json')]).then(function (r) {
-    ITEMS = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || []); draw();
+  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_photos.json')]).then(function (r) {
+    ITEMS = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {}); draw();
     if (typeof enableDragScroll === 'function') { var l = document.getElementById('outingList'); if (l) enableDragScroll(l); }
   });
 })();

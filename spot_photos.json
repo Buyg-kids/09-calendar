@@ -1,0 +1,632 @@
+{
+ "version": 1,
+ "generated": "2026-10-14",
+ "source": "한국관광공사 TourAPI KorService2 searchKeyword2",
+ "note": "장소명·시군구 일치 + cpyrhtDivCd=Type1 인 항목만. 시드 id 기준.",
+ "spots": {
+  "spot_01": {
+   "contentid": "1177980",
+   "matched_title": "국립중앙박물관 어린이박물관",
+   "address": "서울특별시 용산구 서빙고로 137",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/10/3505410_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/10/3505410_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "1177980",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_03": {
+   "contentid": "126490",
+   "matched_title": "서울어린이대공원",
+   "address": "서울특별시 광진구 능동로 216 (능동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/61/3355161_image2_1.JPG",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/61/3355161_image3_1.JPG",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126490",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_04": {
+   "contentid": "128611",
+   "matched_title": "서울숲",
+   "address": "서울특별시 성동구 뚝섬로 273",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/99/3580599_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/99/3580599_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "128611",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_06": {
+   "contentid": "130136",
+   "matched_title": "경기도박물관",
+   "address": "경기도 용인시 기흥구 상갈로 6 (상갈동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/25/4106425_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/25/4106425_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "130136",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_07": {
+   "contentid": "127197",
+   "matched_title": "일산호수공원",
+   "address": "경기도 고양시 일산동구 호수로 595 (장항동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/83/3553283_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/83/3553283_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127197",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_08": {
+   "contentid": "2662855",
+   "matched_title": "광교호수공원",
+   "address": "경기도 수원시 영통구 광교호수로 165 (하동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/60/3588560_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/60/3588560_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2662855",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_10": {
+   "contentid": "128027",
+   "matched_title": "인천대공원",
+   "address": "인천광역시 남동구 무네미로 236",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/53/4061653_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/53/4061653_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "128027",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_11": {
+   "contentid": "2465107",
+   "matched_title": "송도 센트럴파크",
+   "address": "인천광역시 연수구 컨벤시아대로 160",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/19/3512919_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/19/3512919_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2465107",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_12": {
+   "contentid": "3097744",
+   "matched_title": "국립세계문자박물관",
+   "address": "인천광역시 연수구 센트럴로 217",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/31/4090531_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/31/4090531_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "3097744",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_14": {
+   "contentid": "2513889",
+   "matched_title": "국립산악박물관",
+   "address": "강원특별자치도 속초시 미시령로 3054",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/42/3514742_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/42/3514742_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2513889",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_18": {
+   "contentid": "2714557",
+   "matched_title": "문암생태공원",
+   "address": "충청북도 청주시 흥덕구 문암동",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/37/3503837_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/37/3503837_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2714557",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_19": {
+   "contentid": "129790",
+   "matched_title": "독립기념관",
+   "address": "충청남도 천안시 동남구 목천읍 독립기념관로 1",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/21/3450021_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/21/3450021_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129790",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_20": {
+   "contentid": "129787",
+   "matched_title": "국립공주박물관",
+   "address": "충청남도 공주시 관광단지길 34 (웅진동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/33/3534933_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/33/3534933_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129787",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_21": {
+   "contentid": "130062",
+   "matched_title": "국립부여박물관",
+   "address": "충청남도 부여군 부여읍 금성로 5",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/67/4089167_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/67/4089167_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "130062",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_22": {
+   "contentid": "129785",
+   "matched_title": "국립중앙과학관",
+   "address": "대전광역시 유성구 대덕대로 481 (구성동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/52/4057052_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/52/4057052_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129785",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_23": {
+   "contentid": "741658",
+   "matched_title": "한밭수목원",
+   "address": "대전광역시 서구 둔산대로 169",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/72/4108472_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/72/4108472_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "741658",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_26": {
+   "contentid": "129786",
+   "matched_title": "국립전주박물관",
+   "address": "전북특별자치도 전주시 완산구 쑥고개로 249",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/67/4111167_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/67/4111167_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129786",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_27": {
+   "contentid": "126320",
+   "matched_title": "덕진공원",
+   "address": "전북특별자치도 전주시 덕진구 권삼득로 390",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/40/4095540_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/40/4095540_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126320",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_28": {
+   "contentid": "130254",
+   "matched_title": "국립익산박물관",
+   "address": "전북특별자치도 익산시 금마면 미륵사지로 362",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/62/4070262_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/62/4070262_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "130254",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_29": {
+   "contentid": "129782",
+   "matched_title": "국립광주박물관",
+   "address": "전남광주통합특별시 북구 하서로 110",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/01/4106501_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/01/4106501_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129782",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_30": {
+   "contentid": "129443",
+   "matched_title": "광주호 호수생태원",
+   "address": "전남광주통합특별시 북구 충효동",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/05/3515105_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/05/3515105_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129443",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_31": {
+   "contentid": "1906729",
+   "matched_title": "국립나주박물관",
+   "address": "전남광주통합특별시 나주시 반남면 고분로 747",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/70/4057870_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/70/4057870_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "1906729",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_32": {
+   "contentid": "129778",
+   "matched_title": "국립경주박물관",
+   "address": "경상북도 경주시 일정로 186",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/06/4097506_image2_1.JPG",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/06/4097506_image3_1.JPG",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129778",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_33": {
+   "contentid": "130132",
+   "matched_title": "국립대구박물관",
+   "address": "대구광역시 수성구 청호로 321",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/85/3008585_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/85/3008585_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "130132",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_35": {
+   "contentid": "1825843",
+   "matched_title": "국립해양박물관",
+   "address": "부산광역시 영도구 해양로301번길 45",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/50/4111450_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/50/4111450_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "1825843",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_36": {
+   "contentid": "2663341",
+   "matched_title": "부산시민공원",
+   "address": "부산광역시 부산진구 시민공원로 73 (범전동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/08/3497008_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/08/3497008_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2663341",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_38": {
+   "contentid": "130690",
+   "matched_title": "국립김해박물관",
+   "address": "경상남도 김해시 가야의길 190",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/36/4075236_image2_1.JPG",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/36/4075236_image3_1.JPG",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "130690",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_39": {
+   "contentid": "2656383",
+   "matched_title": "용지호수공원",
+   "address": "경상남도 창원시 의창구 용지로169번길 26",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/46/3533646_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/46/3533646_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2656383",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_40": {
+   "contentid": "130461",
+   "matched_title": "국립제주박물관",
+   "address": "제주특별자치도 제주시 일주동로 17 (건입동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/19/4110119_image2_1.jpeg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/19/4110119_image3_1.jpeg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "130461",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_41": {
+   "contentid": "127514",
+   "matched_title": "한라수목원",
+   "address": "제주특별자치도 제주시 수목원길 72 (연동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/00/3542000_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/00/3542000_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127514",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_44": {
+   "contentid": "126532",
+   "matched_title": "올림픽공원",
+   "address": "서울특별시 송파구 올림픽로 424 (방이동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/59/3527359_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/59/3527359_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126532",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_45": {
+   "contentid": "822384",
+   "matched_title": "북서울꿈의숲",
+   "address": "서울특별시 강북구 월계로 173 (번동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/44/3540144_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/44/3540144_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "822384",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_46": {
+   "contentid": "127940",
+   "matched_title": "보라매공원",
+   "address": "서울특별시 동작구 여의대방로20길 33 (신대방동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/47/3516647_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/47/3516647_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127940",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_47": {
+   "contentid": "2589349",
+   "matched_title": "서울식물원",
+   "address": "서울특별시 강서구 마곡동로 161 (마곡동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/23/4078223_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/23/4078223_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2589349",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_50": {
+   "contentid": "128021",
+   "matched_title": "월드컵공원",
+   "address": "서울특별시 마포구 월드컵로 243-60 (성산동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/91/3500991_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/91/3500991_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "128021",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_51": {
+   "contentid": "2661405",
+   "matched_title": "선유도공원",
+   "address": "서울특별시 영등포구 선유로 343 (당산동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/83/3512483_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/83/3512483_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2661405",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_52": {
+   "contentid": "129507",
+   "matched_title": "청계천",
+   "address": "서울특별시 종로구 창신동",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/34/3538134_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/34/3538134_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129507",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_64": {
+   "contentid": "129784",
+   "matched_title": "강릉 오죽헌·시립박물관",
+   "address": "강원특별자치도 강릉시 율곡로3139번길 24 (죽헌동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/38/3527138_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/38/3527138_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129784",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_68": {
+   "contentid": "127804",
+   "matched_title": "제천 의림지와 제림",
+   "address": "충청북도 제천시 의림지로 33",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/09/3309809_image2_1.JPG",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/09/3309809_image3_1.JPG",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127804",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_69": {
+   "contentid": "2804708",
+   "matched_title": "청주고인쇄박물관",
+   "address": "충청북도 청주시 흥덕구 직지대로 713 (운천동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/54/3503554_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/54/3503554_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2804708",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_75": {
+   "contentid": "129789",
+   "matched_title": "화폐박물관",
+   "address": "대전광역시 유성구 과학로 80-67",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/53/3459553_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/53/3459553_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129789",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_78": {
+   "contentid": "264284",
+   "matched_title": "전북 전주 한옥마을 [슬로시티]",
+   "address": "전북특별자치도 전주시 완산구 기린대로 99 (남노송동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/67/3516667_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/67/3516667_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "264284",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_79": {
+   "contentid": "231895",
+   "matched_title": "김제 벽골제",
+   "address": "전북특별자치도 김제시 부량면 벽골제로 442",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/96/4053496_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/96/4053496_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "231895",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_90": {
+   "contentid": "126078",
+   "matched_title": "광안리해수욕장",
+   "address": "부산광역시 수영구 광안해변로 219 (광안동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/45/3311245_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/45/3311245_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126078",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_91": {
+   "contentid": "126081",
+   "matched_title": "해운대해수욕장",
+   "address": "부산광역시 해운대구 해운대해변로 264",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/47/4105447_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/47/4105447_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126081",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_93": {
+   "contentid": "3110778",
+   "matched_title": "장생포고래박물관",
+   "address": "울산광역시 남구 장생포고래로 244",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/45/3454245_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/45/3454245_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "3110778",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_96": {
+   "contentid": "127490",
+   "matched_title": "협재해수욕장",
+   "address": "제주특별자치도 제주시 한림읍 한림로 329-10",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/66/3096066_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/66/3096066_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127490",
+    "checked": "2026-10-14"
+   }
+  },
+  "spot_99": {
+   "contentid": "572973",
+   "matched_title": "새별오름",
+   "address": "제주특별자치도 제주시 애월읍 봉성리 산 59-8",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/28/4088628_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/28/4088628_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "572973",
+    "checked": "2026-10-14"
+   }
+  }
+ }
+}
