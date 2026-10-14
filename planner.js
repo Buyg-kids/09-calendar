@@ -41,6 +41,15 @@
     return res;
   }
 
+  // 이동 구간: 확인된 분(min/max_minutes)이 있으면 그대로, 없으면 거리 정보로 '추정'한다(estimate=true).
+  //  - in_park(공원 안): 도보 10분 추정, 차는 그대로 둔다 / straight(직선거리): 직선 1km당 약 3분(우회 포함)을 5분 단위로 올림, 최소 10분
+  function legTravel(d) {
+    d = d || {};
+    if (typeof d.min_minutes === 'number' && typeof d.max_minutes === 'number') return { minutes: round5((d.min_minutes + d.max_minutes) / 2) || 5, estimate: false, walk: d.mode === 'walk', stays: d.mode === 'walk' };
+    if (d.mode === 'in_park') return { minutes: 10, estimate: true, walk: true, stays: true };
+    if (d.mode === 'straight' && typeof d.meters === 'number') return { minutes: Math.max(10, Math.ceil(d.meters / 1000 * 3 / 5) * 5), estimate: true, walk: false, stays: false };
+    return { minutes: 15, estimate: true, walk: false, stays: false };
+  }
   function findEat(place, id) { return (place.eats || []).filter(function (e) { return e.id === id; })[0] || null; }
 
   function plan(input, place) {
@@ -56,12 +65,12 @@
     // ---- 타임테이블 ----
     out.timetable.push({ start: toHHMM(t), end: toHHMM(t + visit), label: (place.name || '장소') + ' 관람', kind: 'place' });
     t += visit;
-    var walkEat = false;
+    var walkEat = false, cafeStays = false, anyEstimate = false;
     if (eat) {
       var d = eat.distance || {};
-      var travel = round5(((d.min_minutes || 0) + (d.max_minutes || 0)) / 2) || 5;
-      walkEat = d.mode === 'walk';
-      out.timetable.push({ start: toHHMM(t), end: toHHMM(t + travel), label: (walkEat ? '도보 이동' : '차로 이동') + ' → ' + eat.name, kind: 'move', note: d.v || '' });
+      var lg = legTravel(d), travel = lg.minutes;
+      walkEat = lg.stays; anyEstimate = anyEstimate || lg.estimate;
+      out.timetable.push({ start: toHHMM(t), end: toHHMM(t + travel), label: (lg.walk ? '도보 이동' : '차로 이동') + ' → ' + eat.name, kind: 'move', note: (d.v || '') + (lg.estimate ? ' · 추정 시간' : '') });
       t += travel;
       var pk = eat.peak;
       if (pk && toMin(pk.start) < t + mealMin && t < toMin(pk.end)) {
@@ -77,8 +86,16 @@
     }
     if (inp.cafe_id) {
       var cafe = findEat(place, inp.cafe_id);
-      if (cafe) { out.timetable.push({ start: toHHMM(t), end: toHHMM(t + cafeMin), label: cafe.name + ' 휴식', kind: 'cafe' }); t += cafeMin; }
+      if (cafe) {
+        var cl = legTravel(cafe.distance || {}); anyEstimate = anyEstimate || cl.estimate; cafeStays = cl.stays;
+        if (!eat || !(eat && eat.distance && cafe.distance && eat.distance.mode === cafe.distance.mode && cafe.distance.mode === 'in_park')) {
+          out.timetable.push({ start: toHHMM(t), end: toHHMM(t + cl.minutes), label: (cl.walk ? '도보 이동' : '차로 이동') + ' → ' + cafe.name, kind: 'move', note: ((cafe.distance && cafe.distance.v) || '') + (cl.estimate ? ' · 추정 시간' : '') });
+          t += cl.minutes;
+        }
+        out.timetable.push({ start: toHHMM(t), end: toHHMM(t + cafeMin), label: cafe.name + ' 휴식', kind: 'cafe' }); t += cafeMin;
+      }
     }
+    if (anyEstimate) out.warnings.push('이동 시간 중 일부는 거리로 계산한 추정값이에요. 실제 경로는 지도 앱으로 확인해 주세요.');
     out.timetable.push({ start: toHHMM(t), end: toHHMM(t), label: '귀가 준비', kind: 'end' });
     out.end_time = toHHMM(t);
     if (t > end) out.warnings.push('일정이 ' + toHHMM(end) + '을 ' + (t - end) + '분 넘겨요. 머무는 시간을 줄여 보세요.');
@@ -91,7 +108,7 @@
     if (!inp.car) {
       out.budget.lines.push({ key: 'parking', label: '주차비', amount: 0, detail: '차량을 이용하지 않아요' });
     } else if (pkCost && pkCost.model === 'tiered') {
-      var parkMin = visit + (walkEat ? mealMin + (inp.cafe_id ? cafeMin : 0) : 0);   // 걸어서 식당에 가면 차는 이 장소 주차장에 계속 있다
+      var parkMin = visit + (walkEat ? mealMin : 0) + (cafeStays ? cafeMin : 0);   // 걸어서(또는 공원 안에서) 식사·휴식하면 차는 이 장소 주차장에 계속 있다
       var fee = parkingFee(pkCost, parkMin);
       out.budget.lines.push({ key: 'parking', label: '주차비', amount: fee, detail: '약 ' + Math.floor(parkMin / 60) + '시간 ' + (parkMin % 60) + '분 주차 기준' + (pkCost.note ? ' · ' + pkCost.note : '') });
       out.budget.known_total += fee;
@@ -134,6 +151,6 @@
   function savePlan(o) { var n = normalizePlan(o); n.updated_at = Date.now(); try { globalThis.localStorage.setItem(api.STORE_KEY, JSON.stringify(n)); } catch (e) { /* 저장소 차단: 화면은 계속 동작 */ } return n; }
   function clearPlan() { try { globalThis.localStorage.removeItem(api.STORE_KEY); } catch (e) { /* 무시 */ } }
 
-  var api = { normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
+  var api = { legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Planner = api;
 })(typeof window !== 'undefined' ? window : this);

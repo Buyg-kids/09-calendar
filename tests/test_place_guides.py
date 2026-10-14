@@ -165,9 +165,61 @@ class TestEatsAndCosts(unittest.TestCase):
             for ph in p["photos"]:
                 self.assertTrue(ph["url"].startswith("https://tong.visitkorea.or.kr/"), ph["url"])
                 self.assertIn("공공누리 제1유형", ph["license"])
-        for e in places["spot_06"]["eats"]:
+        for e in [x for x in places["spot_06"]["eats"] if x.get("level") != "listed"]:
             self.assertEqual(e["place_check"]["status"], "confirmed")
             self.assertEqual(e["provenance"], "operator_verified")
+
+
+def good_listed():
+    return {
+        "id": "eatL1", "kind": "식당", "name": "목록형식당", "address": "경기도 포천시 소흘읍 광릉수목원로 700-5", "level": "listed",
+        "distance": {"v": "수목원에서 직선 약 1.8km", "mode": "straight", "meters": 1833},
+        "identity": {"src": S, "checked": D, "note": "TourAPI 확인"}, "menu": {"v": "칼국수 등", "src": S, "checked": D},
+        "place_check": {"status": "unchecked"},
+    }
+
+
+class TestListedEats(unittest.TestCase):
+    def errs(self, e):
+        p = good_place(); p["eats"] = [e]
+        return pv.validate({"places": {"p1": p}})
+
+    def test_good_listed_passes_without_reviews(self):
+        self.assertEqual(self.errs(good_listed()), [])
+        e = good_listed(); e["distance"] = {"v": "서울대공원 안", "mode": "in_park", "meters": 0}; del e["menu"]
+        self.assertEqual(self.errs(e), [])
+
+    def test_listed_cannot_carry_unverified_claims(self):
+        for key, val in (("pros", [{"text": "좋아요"}]), ("cons", [{"text": "웨이팅"}]), ("infra", {"high_chair": {"v": "구비"}}), ("recommend_for", {"v": "유아"}), ("peak", {"start": "12:00", "end": "13:00", "label": "x"})):
+            e = good_listed(); e[key] = val
+            self.assertTrue(any(key in x for x in self.errs(e)), key)
+
+    def test_listed_requires_official_identity_and_distance(self):
+        e = good_listed(); e["identity"] = {"src": "http://x", "checked": D, "note": "n"}
+        self.assertTrue(any("identity" in x for x in self.errs(e)))
+        e = good_listed(); del e["identity"]["checked"]
+        self.assertTrue(any("identity" in x for x in self.errs(e)))
+        e = good_listed(); e["distance"]["mode"] = "car"
+        self.assertTrue(any("distance" in x for x in self.errs(e)))
+        e = good_listed(); e["distance"] = {"v": "공원 안", "mode": "in_park", "meters": 50}
+        self.assertTrue(any("in_park" in x for x in self.errs(e)))
+        e = good_listed(); e["menu"] = {"v": "칼국수"}
+        self.assertTrue(any("menu" in x for x in self.errs(e)))
+        e = good_listed(); e["address"] = "어딘가"
+        self.assertTrue(any("address" in x for x in self.errs(e)))
+
+    def test_real_data_listed_entries(self):
+        path = ROOT / "place_guides.json"
+        if not path.exists():
+            self.skipTest("place_guides.json 없음")
+        places = json.loads(path.read_text(encoding="utf-8"))["places"]
+        for pid in ("guide_seoulgrandpark", "spot_57"):
+            kinds = sorted(e["kind"] for e in places[pid]["eats"])
+            self.assertEqual(kinds, ["식당", "카페"], pid)
+            for e in places[pid]["eats"]:
+                self.assertEqual(e["level"], "listed")
+        self.assertFalse(any(e.get("level") == "listed" for e in places["spot_06"]["eats"]))      # 경기도박물관은 운영자 확인 항목만
+        self.assertEqual(sorted((e["kind"], e["id"]) for e in places["spot_06"]["eats"]), [("식당", "eat_hwangje_jjamppong"), ("식당", "eat_samdae_dubu"), ("카페", "eat_gm_nineblock")])
 
 
 if __name__ == "__main__":

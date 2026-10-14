@@ -51,6 +51,8 @@
   .eatcard .blk.good { border-left-color: #2fa36b; } .eatcard .blk.bad { border-left-color: #e66f95; }
   .eatcard .blk h4 { margin: 0 0 4px; font-size: 12.5px; font-weight: 800; } .eatcard .blk.good h4 { color: #1b7a46; } .eatcard .blk.bad h4 { color: #c4375f; }
   .eatcard .blk ul { margin: 0; padding: 0 0 0 16px; } .eatcard .blk li { margin: 0 0 4px; font-size: 13.5px; line-height: 1.5; word-break: keep-all; }
+  .eatcard .unkrow { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; padding: 9px 11px; border: 1px dashed #d5dae3; border-radius: 10px; background: #f7f8fa; }
+  .eatcard .unkrow .ut { font-size: 12.5px; color: var(--sub); line-height: 1.45; }
   .eatcard .foot { margin: 12px 0 0; font-size: 11.5px; color: var(--mute); line-height: 1.5; }
   .eatcard .acts { display: flex; gap: 8px; margin-top: 12px; }
   .eatcard .acts a, .eatcard .acts button { flex: 1; min-height: 42px; border: 1.5px solid #dfe3ea; border-radius: 10px; background: #fff; font-size: 13px; font-weight: 800; color: var(--ink); text-decoration: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; }
@@ -211,20 +213,27 @@ function accordionList(items, openFirst) {   // 핵심 2개 먼저, 나머지는
 function mod(title, sub) { const s = h('section', 'mod'); s.appendChild(h('h2', '', title)); if (sub) s.appendChild(h('p', 'sub', sub)); return s; }
 
 function eatCard(e, p) {
-  const c = h('div', 'eatcard'); c.id = e.id;
+  const c = h('div', 'eatcard' + (e.level === 'listed' ? ' listed' : '')); c.id = e.id;
   c.appendChild(h('h3', '', e.name));
   const r1 = h('div', 'row1'); r1.appendChild(h('span', 'pill', e.kind)); r1.appendChild(h('span', 'pill brand', e.distance.v));
-  Object.keys(e.infra || {}).forEach(k => { const f = e.infra[k]; if (f && f.v) r1.appendChild(h('span', 'pill ok', f.v)); });
+  if (e.level !== 'listed') Object.keys(e.infra || {}).forEach(k => { const f = e.infra[k]; if (f && f.v) r1.appendChild(h('span', 'pill ok', f.v)); });
   c.appendChild(r1);
-  if (e.recommend_for && e.recommend_for.v) { const rc = h('p', 'rec'); rc.appendChild(h('b', '', '추천 대상  ')); rc.appendChild(document.createTextNode(e.recommend_for.v)); c.appendChild(rc); }
-  if (e.menu && e.menu.v) { const mn = h('p', 'rec'); mn.appendChild(h('b', '', '메뉴  ')); mn.appendChild(document.createTextNode(e.menu.v)); c.appendChild(mn); }
-  const blk = (cls, title, items) => { if (!items || !items.length) return; const b = h('div', 'blk ' + cls); b.appendChild(h('h4', '', title)); const ul = h('ul'); items.forEach(i => ul.appendChild(h('li', '', i.text))); b.appendChild(ul); c.appendChild(b); };
-  blk('good', '이런 게 좋아요', e.pros); blk('bad', '이건 아쉬워요', e.cons);
-  const prov = e.provenance === 'operator_verified' ? '운영자 확인 · ' + e.verified_at : '';
-  c.appendChild(h('p', 'foot', (prov ? prov + ' · ' : '') + e.address + ' · 영업 여부와 메뉴는 방문 전에 확인해 주세요.'));
+  const line = (label, text, srcUrl) => { const rc = h('p', 'rec'); rc.appendChild(h('b', '', label + '  ')); rc.appendChild(document.createTextNode(text)); if (srcUrl) src(rc, srcUrl); c.appendChild(rc); };
+  if (e.level === 'listed') {   // 공식 출처로 이름·주소·판매품목만 확인한 항목: 나머지는 '매장 확인 필요'
+    if (e.menu && e.menu.v) line('공식 판매품목', e.menu.v, e.menu.src);
+    const unk = h('div', 'unkrow'); unk.appendChild(h('span', 'pill', '매장 확인 필요')); unk.appendChild(h('span', 'ut', '아기의자 · 주차 · 유모차 진입 · 테이블 간격')); c.appendChild(unk);
+    c.appendChild(h('p', 'foot', (e.identity && e.identity.note ? e.identity.note + ' · ' : '') + '확인일 ' + (e.identity ? e.identity.checked : '') + ' · ' + e.address + ' · 영업 여부와 메뉴는 방문 전에 확인해 주세요.'));
+  } else {
+    if (e.recommend_for && e.recommend_for.v) line('추천 대상', e.recommend_for.v);
+    if (e.menu && e.menu.v) line('메뉴', e.menu.v);
+    const blk = (cls, title, items) => { if (!items || !items.length) return; const b = h('div', 'blk ' + cls); b.appendChild(h('h4', '', title)); const ul = h('ul'); items.forEach(i => ul.appendChild(h('li', '', i.text))); b.appendChild(ul); c.appendChild(b); };
+    blk('good', '이런 게 좋아요', e.pros); blk('bad', '이건 아쉬워요', e.cons);
+    const prov = e.provenance === 'operator_verified' ? '운영자 확인 · ' + e.verified_at : '';
+    c.appendChild(h('p', 'foot', (prov ? prov + ' · ' : '') + e.address + ' · 영업 여부와 메뉴는 방문 전에 확인해 주세요.'));
+  }
   const acts = h('div', 'acts');
   const map = h('a', '', '네이버 지도'); map.href = naverMap(e.name + ' ' + e.address); map.target = '_blank'; map.rel = 'noopener'; map.addEventListener('click', () => ga('eat_map_click', { id: e.id })); acts.appendChild(map);
-  if (g_costs(p)) { const b = h('button', '', ''); b.type = 'button'; const plan = Planner.loadPlan(); const sel = () => { const s = Planner.loadPlan(); return s.place_id === p.id && (e.kind === '카페' ? s.cafe_id : s.eat_id) === e.id; };
+  if (g_costs(p)) { const b = h('button', '', ''); b.type = 'button'; const sel = () => { const s = Planner.loadPlan(); return s.place_id === p.id && (e.kind === '카페' ? s.cafe_id : s.eat_id) === e.id; };
     const sync = () => { const on = sel(); b.className = on ? 'on' : ''; b.textContent = on ? '일정에 담음 ✓' : '일정에 담기'; b.setAttribute('aria-pressed', on ? 'true' : 'false'); }; sync();
     b.addEventListener('click', () => { const s = Planner.loadPlan(); if (s.place_id !== p.id) { s.place_id = p.id; s.eat_id = null; s.cafe_id = null; s.extras = { theme_garden: false }; } const key = e.kind === '카페' ? 'cafe_id' : 'eat_id'; s[key] = s[key] === e.id ? null : e.id; Planner.savePlan(s); sync(); ga('plan_add_eat', { id: e.id }); toast(s[key] ? '일정표에 담았어요' : '일정에서 뺐어요'); });
     acts.appendChild(b); }

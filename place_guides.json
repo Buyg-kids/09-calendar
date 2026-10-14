@@ -327,6 +327,64 @@
      },
      "provenance": "operator_verified",
      "verified_at": "2026-10-14"
+    },
+    {
+     "id": "eat_gm_nineblock",
+     "kind": "카페",
+     "name": "나인블럭 신갈점",
+     "address": "경기 용인시 기흥구 용구대로 2147번길 17",
+     "distance": {
+      "v": "경기도박물관에서 차로 약 5~7분",
+      "mode": "car",
+      "min_minutes": 5,
+      "max_minutes": 7,
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
+     },
+     "recommend_for": {
+      "v": "아이와 함께 방문할 수 있는 대형 정원형 카페",
+      "provenance": "operator_verified",
+      "verified_at": "2026-10-14"
+     },
+     "infra": {
+      "high_chair": {
+       "v": "아기의자 완비",
+       "provenance": "operator_verified",
+       "verified_at": "2026-10-14"
+      },
+      "parking": {
+       "v": "지상 전용 주차장 (여유 있음)",
+       "provenance": "operator_verified",
+       "verified_at": "2026-10-14"
+      }
+     },
+     "pros": [
+      {
+       "text": "대형 정원형 카페예요.",
+       "provenance": "operator_verified",
+       "verified_at": "2026-10-14"
+      },
+      {
+       "text": "아기의자가 완비돼 있어요.",
+       "provenance": "operator_verified",
+       "verified_at": "2026-10-14"
+      },
+      {
+       "text": "지상 전용 주차장에 여유가 있어요.",
+       "provenance": "operator_verified",
+       "verified_at": "2026-10-14"
+      }
+     ],
+     "cons": [],
+     "peak": null,
+     "place_check": {
+      "status": "confirmed",
+      "confirmed_by": "운영자",
+      "confirmed_at": "2026-10-14",
+      "note": "정보를 운영자가 직접 확인"
+     },
+     "provenance": "operator_verified",
+     "verified_at": "2026-10-14"
     }
    ]
   },
@@ -511,7 +569,53 @@
      "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
      "checked": "2026-10-14"
     }
-   }
+   },
+   "eats": [
+    {
+     "id": "eat_kn_dongi_mandu",
+     "kind": "식당",
+     "name": "동이손만두",
+     "address": "경기도 포천시 소흘읍 광릉수목원로 700-5",
+     "level": "listed",
+     "distance": {
+      "v": "수목원에서 직선 약 1.8km",
+      "mode": "straight",
+      "meters": 1833
+     },
+     "identity": {
+      "src": "https://api.visitkorea.or.kr/",
+      "checked": "2026-10-14",
+      "note": "한국관광공사 TourAPI 음식점 정보(contentid 134944)에서 확인",
+      "tourapi_contentid": "134944"
+     },
+     "place_check": {
+      "status": "unchecked",
+      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+     }
+    },
+    {
+     "id": "eat_kn_poook",
+     "kind": "카페",
+     "name": "포옥",
+     "address": "경기도 포천시 소흘읍 죽엽산로 685-20",
+     "level": "listed",
+     "distance": {
+      "v": "수목원에서 직선 약 1.7km",
+      "mode": "straight",
+      "meters": 1745
+     },
+     "identity": {
+      "src": "https://api.visitkorea.or.kr/",
+      "checked": "2026-10-14",
+      "note": "한국관광공사 TourAPI 음식점(카페) 정보(contentid 2853666)에서 확인",
+      "tourapi_contentid": "2853666"
+     },
+     "place_check": {
+      "status": "unchecked",
+      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+     }
+    }
+   ]
   },
   "guide_seoulgrandpark": {
    "id": "guide_seoulgrandpark",
@@ -737,7 +841,63 @@
      "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001007.do",
      "checked": "2026-10-14"
     }
-   }
+   },
+   "eats": [
+    {
+     "id": "eat_sg_giraffe_foodcourt",
+     "kind": "식당",
+     "name": "기린 푸드코트",
+     "address": "경기도 과천시 대공원광장로 102 (서울대공원 안)",
+     "level": "listed",
+     "distance": {
+      "v": "서울대공원 안",
+      "mode": "in_park",
+      "meters": 0
+     },
+     "identity": {
+      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
+      "checked": "2026-10-14",
+      "note": "서울대공원 공식 음식점 안내(수정일 2026-07-01)에서 확인",
+      "tourapi_contentid": null
+     },
+     "place_check": {
+      "status": "unchecked",
+      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+     },
+     "menu": {
+      "v": "육개장, 볶음밥, 돈가스, 짜장밥, 짜장면, 우동, 잔치국수, 셀프라면 등",
+      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
+      "checked": "2026-10-14"
+     }
+    },
+    {
+     "id": "eat_sg_wonder_cafe",
+     "kind": "카페",
+     "name": "원더카페",
+     "address": "경기도 과천시 대공원광장로 102 (서울대공원 안)",
+     "level": "listed",
+     "distance": {
+      "v": "서울대공원 안",
+      "mode": "in_park",
+      "meters": 0
+     },
+     "identity": {
+      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005004",
+      "checked": "2026-10-14",
+      "note": "서울대공원 공식 카페 안내(수정일 2026-07-01)에서 확인",
+      "tourapi_contentid": null
+     },
+     "place_check": {
+      "status": "unchecked",
+      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+     },
+     "menu": {
+      "v": "커피, 음료, 빵, 디저트 등",
+      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005004",
+      "checked": "2026-10-14"
+     }
+    }
+   ]
   }
  }
 }

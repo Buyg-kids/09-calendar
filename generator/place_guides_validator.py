@@ -119,6 +119,33 @@ def validate_costs(pid: str, c) -> list[str]:
     return errs
 
 
+LISTED_MODES = {"in_park", "straight"}
+
+
+def validate_listed_eat(p: str, e: dict) -> list[str]:
+    """공식 출처로 이름·주소(·판매품목)만 확인한 '목록형' 식당/카페. 확인하지 못한 아기의자·주차·장단점 등은 값이 없어야 한다(화면에서 '매장 확인 필요')."""
+    errs: list[str] = []
+    ident = e.get("identity")
+    if not (isinstance(ident, dict) and _src_ok(ident.get("src")) and isinstance(ident.get("checked"), str) and DATE_RE.match(ident["checked"]) and str(ident.get("note") or "").strip()):
+        errs.append(f"{p}.identity: 출처 URL(https)·확인일·설명 필요")
+    d = e.get("distance")
+    if not (isinstance(d, dict) and str(d.get("v") or "").strip() and d.get("mode") in LISTED_MODES and isinstance(d.get("meters"), int) and d["meters"] >= 0):
+        errs.append(f"{p}.distance: v·mode(in_park/straight)·meters(0 이상 정수) 필요")
+    elif d["mode"] == "in_park" and d["meters"] != 0:
+        errs.append(f"{p}.distance: in_park 는 meters 0")
+    m = e.get("menu")
+    if m is not None and not (isinstance(m, dict) and str(m.get("v") or "").strip() and _src_ok(m.get("src")) and isinstance(m.get("checked"), str) and DATE_RE.match(m["checked"])):
+        errs.append(f"{p}.menu: 값·출처 URL·확인일 필요")
+    for k in ("recommend_for", "infra", "pros", "cons", "peak"):
+        if e.get(k):
+            errs.append(f"{p}.{k}: 목록형은 확인하지 못한 정보를 담을 수 없음(운영자 확인 후 level 을 올리고 입력)")
+    pc = e.get("place_check")
+    if not (isinstance(pc, dict) and pc.get("status") in {"unchecked", "confirmed", "mismatch", "closed"}):
+        errs.append(f"{p}.place_check.status")
+    return errs
+
+
+
 def validate_eats(pid: str, eats) -> list[str]:
     """식당·카페 후기 카드. 사실 항목은 운영자 확인 또는 출처 URL, 호평/아쉬움은 각각 출처 표기가 있는 짧은 문장."""
     if not isinstance(eats, list):
@@ -136,8 +163,11 @@ def validate_eats(pid: str, eats) -> list[str]:
             errs.append(f"{p}.kind: 식당/카페 중 하나")
         if not str(e.get("name") or "").strip():
             errs.append(f"{p}.name 없음")
-        if not re.match(r"^(서울|경기|인천)\s", str(e.get("address") or "")):
+        if not re.match(r"^(서울특별시|서울|경기도|경기|인천광역시|인천)\s", str(e.get("address") or "")):
             errs.append(f"{p}.address: 시·도로 시작하는 주소 필요")
+        if e.get("level") == "listed":
+            errs += validate_listed_eat(p, e)
+            continue
         d = e.get("distance")
         errs += _prov_value_errors(f"{p}.distance", d)
         if isinstance(d, dict):

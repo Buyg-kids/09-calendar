@@ -117,4 +117,33 @@ t('LocalStorage 저장/불러오기/삭제(주입한 저장소)', () => {
   P2.clearPlan(); assert.equal(P2.STORE_KEY in store, false);
   delete globalThis.localStorage;
 });
+t('legTravel: 확인된 분 > 공원 안 추정 > 직선거리 추정', () => {
+  assert.deepEqual(P.legTravel({ mode: 'walk', min_minutes: 3, max_minutes: 3 }), { minutes: 5, estimate: false, walk: true, stays: true });
+  assert.deepEqual(P.legTravel({ mode: 'car', min_minutes: 3, max_minutes: 5 }), { minutes: 5, estimate: false, walk: false, stays: false });
+  assert.deepEqual(P.legTravel({ mode: 'in_park', meters: 0 }), { minutes: 10, estimate: true, walk: true, stays: true });
+  assert.equal(P.legTravel({ mode: 'straight', meters: 1833 }).minutes, 10);
+  assert.equal(P.legTravel({ mode: 'straight', meters: 5200 }).minutes, 20);      // 5.2km × 3분 = 15.6 -> 20
+  assert.equal(P.legTravel({ mode: 'straight', meters: 300 }).minutes, 10);       // 최소 10분
+  assert.equal(P.legTravel({}).estimate, true);
+});
+t('서울대공원: 공원 안 식당·카페(목록형) - 이동은 추정, 차는 공원 주차장에 계속 있다', () => {
+  const r = P.plan({ party: { adult: 2, toddler: 1 }, car: true, visit_minutes: 90, eat_id: 'eat_sg_giraffe_foodcourt', cafe_id: 'eat_sg_wonder_cafe' }, zoo);
+  const kinds = r.timetable.map(x => x.kind);
+  assert.deepEqual(kinds, ['place', 'move', 'meal', 'cafe', 'end']);          // 같은 공원 안이면 카페 이동 행을 따로 만들지 않는다
+  assert.ok(r.timetable[1].note.indexOf('추정') >= 0);
+  assert.ok(r.warnings.some(w => w.indexOf('추정값') >= 0));
+  assert.equal(r.budget.lines.find(l => l.key === 'parking').amount, 5000);       // 90+60+45 = 195분 -> 일 최대
+  assert.deepEqual(r.budget.unknown.map(u => u.key).sort(), ['cafe', 'meal']);    // 식비·카페비는 직접 입력 전까지 확인 필요
+});
+t('국립수목원: 직선거리 식당·카페는 차로 이동(추정), 수목원 주차 시간은 늘지 않는다', () => {
+  const r = P.plan({ party: { adult: 2 }, car: true, visit_minutes: 120, eat_id: 'eat_kn_dongi_mandu', cafe_id: 'eat_kn_poook' }, arbo);
+  assert.deepEqual(r.timetable.map(x => x.kind), ['place', 'move', 'meal', 'move', 'cafe', 'end']);
+  assert.equal(r.timetable[1].start, '12:30'); assert.equal(r.timetable[1].end, '12:40');
+  assert.ok(r.budget.unknown.some(u => u.key === 'parking'));
+});
+t('경기도박물관: 인근 카페(직선 2.5km)는 차로 이동 추정, 식당과 함께 선택 가능', () => {
+  const r = P.plan({ party: { adult: 2 }, car: true, visit_minutes: 60, eat_id: 'eat_hwangje_jjamppong', cafe_id: 'eat_gm_nineblock' }, museum);
+  assert.ok(r.timetable.some(x => x.kind === 'cafe' && x.label.indexOf('나인블럭') >= 0));
+  assert.equal(r.budget.lines.find(l => l.key === 'parking').amount, 1000 + Math.ceil(60 / 10) * 200);   // 식당만 걸어서 -> 60+60=120분
+});
 console.log('planner tests passed: ' + n);
