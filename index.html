@@ -996,11 +996,18 @@
   #popularSection { display: none !important; }
   #sec-outing { margin-top: 0; border-top: 0; border-radius: 0 0 14px 14px; }
   #sec-outing .outing-all { color: var(--text-sub); text-decoration: none; font-weight: 700; }
-  #sec-outing .section-head { gap: 8px; } #sec-outing .section-head h2 { font-size: 15px; word-break: keep-all; } #sec-outing .outing-all { white-space: nowrap; flex: 0 0 auto; }
-  .out-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  #sec-outing { padding-top: 28px; }
+  #sec-outing .section-head { gap: 8px; align-items: center; margin-bottom: 14px; }
+  #sec-outing .section-head h2 { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.25; color: var(--text-main); word-break: keep-all; }
+  #sec-outing .outing-all { white-space: nowrap; flex: 0 0 auto; font-size: 12px; }
+  .out-tabs { position: relative; display: flex; gap: 20px; overflow-x: auto; margin: 0 16px 14px; padding: 0; border-bottom: 1px solid #eceef3; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; overscroll-behavior-x: contain; }
   .out-tabs::-webkit-scrollbar { display: none; }
-  .out-tab { flex: 0 0 auto; padding: 8px 14px; border: 1.5px solid #dfe3ea; border-radius: 999px; background: #fff; font-size: 13px; font-weight: 700; color: #667085; cursor: pointer; font-family: inherit; }
-  .out-tab.on { border-color: #5f0080; background: #f6ecfa; color: #5f0080; }
+  .out-tab { position: relative; flex: 0 0 auto; scroll-snap-align: center; padding: 10px 2px 12px; border: 0; background: none; font-size: 15px; font-weight: 600; color: #98a2b3; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .out-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 3px 3px 0 0; background: transparent; }
+  .out-tab.on { color: #1f2430; font-weight: 800; }
+  .out-tab.on::after { background: #1f2430; }
+  .out-tab.dim { color: #c4c9d2; }
+  .out-note { flex: 0 0 100%; padding: 2px 2px 12px; font-size: 13px; color: #667085; line-height: 1.5; }
   .out-scroll { gap: 12px; padding: 0 16px 8px; }
   .out-card { flex: 0 0 206px; scroll-snap-align: start; display: flex; flex-direction: column; text-decoration: none; color: inherit; border-radius: 14px; background: #fff; border: 1px solid #eceef3; overflow: hidden; }
   .out-card:active { transform: translateY(-1px); }
@@ -1016,7 +1023,7 @@
   .out-meta .rg { color: #98a2b3; font-weight: 700; margin-right: 2px; }
   .out-meta .tg { padding: 2px 7px; border-radius: 999px; background: #f2f4f7; color: #475467; font-weight: 700; }
   .out-empty { padding: 28px 8px; color: #98a2b3; font-size: 13px; }
-  @media (min-width: 900px) { .out-tabs { padding-left: 0; padding-right: 0; } .out-card { flex-basis: 232px; } .out-photo { height: 144px; } }
+  @media (min-width: 900px) { #sec-outing .section-head h2 { font-size: 24px; } .out-tabs { margin-left: 0; margin-right: 0; gap: 26px; } .out-tab { font-size: 16px; } .out-card { flex-basis: 232px; } .out-photo { height: 144px; } }
 
   /* ---- 나들이 상세 바텀시트(시드 장소) ---- */
   body.os-lock { overflow: hidden; }
@@ -3783,15 +3790,28 @@ wcs_do();
 </script>
 <script>
 (function () {
-  var TABS = ['전체', '서울', '경기남부', '경기북부', '인천', '그 외 지역'];
+  var TABS = ['전체', '서울', '경기 남부', '경기 북부', '인천', '대구', '경북', '부산', '울산', '경남', '대전', '충청/세종', '광주', '전라', '강원', '제주'];
   var NORTH = /(고양|구리|남양주|동두천|양주|의정부|파주|포천|가평|연천)/;
   var ITEMS = [], tab = '전체';
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  function regionOf(region, addr) {
-    if (/^서울/.test(region || '') || /^서울/.test(addr || '')) return '서울';
-    if (/^인천/.test(region || '') || /^인천/.test(addr || '')) return '인천';
-    if (/^경기/.test(region || '') || /^경기/.test(addr || '')) return NORTH.test((addr || '').split(' ').slice(0, 2).join(' ')) ? '경기북부' : '경기남부';
-    return '그 외 지역';
+  function regionOf(region, addr) {   // 주소의 광역명(없으면 시드 region)으로 탭 이름을 정한다
+    var a = String(addr || ''), h = a.split(' ')[0], r = String(region || '');
+    if (/^서울/.test(h) || (!h && /^서울/.test(r))) return '서울';
+    if (/^인천/.test(h) || (!h && /^인천/.test(r))) return '인천';
+    if (/^경기/.test(h) || (!h && /^경기/.test(r))) return NORTH.test(a.split(' ').slice(0, 2).join(' ')) ? '경기 북부' : '경기 남부';
+    if (/^대구/.test(h)) return '대구';
+    if (/^(경북|경상북도)/.test(h)) return '경북';
+    if (/^부산/.test(h)) return '부산';
+    if (/^울산/.test(h)) return '울산';
+    if (/^(경남|경상남도)/.test(h)) return '경남';
+    if (/^대전/.test(h)) return '대전';
+    if (/^(충북|충남|충청|세종)/.test(h)) return '충청/세종';
+    if (/^광주/.test(h)) return '광주';
+    if (/^전남광주/.test(h)) return /^(동구|서구|남구|북구|광산구)$/.test(a.split(' ')[1] || '') ? '광주' : '전라';   // 전남광주통합특별시: 광주 5개 구만 '광주'
+    if (/^(전북|전남|전라)/.test(h)) return '전라';
+    if (/^강원/.test(h)) return '강원';
+    if (/^제주/.test(h)) return '제주';
+    return '';
   }
   var THEME_TAG = { museum: '박물관', forest: '자연나들이', zoo: '동물원' };
   var THEME_CLS = { museum: 'museum', forest: 'forest', zoo: 'zoo' };
@@ -3859,17 +3879,24 @@ wcs_do();
   }
   function draw() {
     var box = document.getElementById('outingList'); if (!box) return; box.innerHTML = '';
-    var list = ITEMS.filter(function (i) { return tab === '전체' || i.region === tab; });
-    if (tab === '전체') list = list.filter(function (i) { return i.guide || i.region !== '그 외 지역'; });   // 전체 탭은 에디터 추천 + 수도권 먼저(지방은 '그 외 지역' 탭)
-    list.sort(function (x, y) { return ((y.guide ? 2 : 0) + (y.img ? 1 : 0)) - ((x.guide ? 2 : 0) + (x.img ? 1 : 0)); });   // 에디터 추천 → 사진 있는 곳 → 나머지
-    if (!list.length) { box.appendChild(el('div', 'out-empty', '이 지역의 나들이 장소를 준비하고 있어요.')); return; }
+    var rank = function (x, y) { return ((y.guide ? 2 : 0) + (y.img ? 1 : 0)) - ((x.guide ? 2 : 0) + (x.img ? 1 : 0)); };   // 에디터 추천 → 사진 있는 곳 → 나머지
+    var list = ITEMS.filter(function (i) { return tab === '전체' || i.region === tab; }).sort(rank), note = '';
+    if (!list.length) {   // 아직 장소가 없는 지역: 빈 슬라이더 대신 안내 + 전국 추천을 보여 준다
+      note = tab + ' 지역 장소는 준비하고 있어요. 대신 가볼 만한 곳을 보여드려요.';
+      list = ITEMS.slice().sort(rank);
+    }
+    if (note) box.appendChild(el('div', 'out-note', note));
+    if (!list.length) { box.appendChild(el('div', 'out-empty', '나들이 장소를 불러오고 있어요.')); return; }
     list.slice(0, 24).forEach(function (i) { box.appendChild(card(i)); });
     box.scrollLeft = 0;
   }
-  function tabs() {
-    var t = document.getElementById('outTabs'); if (!t) return; t.innerHTML = '';
-    TABS.forEach(function (n) { var b = el('button', 'out-tab' + (n === tab ? ' on' : ''), n); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', n === tab ? 'true' : 'false');
-      b.addEventListener('click', function () { tab = n; tabs(); draw(); }); t.appendChild(b); });
+  function tabs(center) {
+    var t = document.getElementById('outTabs'); if (!t) return; var keep = t.scrollLeft; t.innerHTML = '';
+    var has = {}; ITEMS.forEach(function (i) { has[i.region] = 1; });
+    TABS.forEach(function (n) { var b = el('button', 'out-tab' + (n === tab ? ' on' : '') + (n !== '전체' && ITEMS.length && !has[n] ? ' dim' : ''), n); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', n === tab ? 'true' : 'false');
+      b.addEventListener('click', function () { tab = n; tabs(true); draw(); if (typeof gtag === 'function') { try { gtag('event', 'home_outing_tab', { tab: n }); } catch (e) {} } }); t.appendChild(b); });
+    t.scrollLeft = keep;
+    var on = t.querySelector('.out-tab.on'); if (on && center) { var c = on.offsetLeft - (t.clientWidth - on.offsetWidth) / 2; t.scrollTo({ left: Math.max(0, c), behavior: 'smooth' }); }   // 선택한 탭이 가운데 오도록(페이지 세로 스크롤은 건드리지 않는다)
   }
   function get(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
   tabs();
