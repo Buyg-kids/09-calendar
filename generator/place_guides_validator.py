@@ -56,6 +56,125 @@ def _sourced_list_errors(path: str, items, text_key: str) -> list[str]:
     return errs
 
 
+PROV = {"operator_verified"}
+AGE_PRICE_KEYS = ("adult", "teen", "child", "toddler")
+EAT_KINDS = {"식당", "카페"}
+TIER_NUM = ("free_minutes", "base_minutes", "base", "step_minutes", "step", "daily_max")
+
+
+def _prov_errors(path: str, o) -> list[str]:
+    """출처 URL(https)+확인일(checked) 이거나, 운영자 확인(provenance=operator_verified)+확인일(verified_at) 중 하나가 있어야 한다."""
+    if not isinstance(o, dict):
+        return [f"{path}: 객체가 아님"]
+    if _src_ok(o.get("src")) and isinstance(o.get("checked"), str) and DATE_RE.match(o["checked"]):
+        return []
+    if o.get("provenance") in PROV and isinstance(o.get("verified_at"), str) and DATE_RE.match(o["verified_at"]):
+        return []
+    return [f"{path}: 출처 URL+확인일 또는 운영자 확인(provenance·verified_at) 필요"]
+
+
+def _prov_value_errors(path: str, o) -> list[str]:
+    if not isinstance(o, dict) or not str(o.get("v") or "").strip():
+        return [f"{path}: v 없음"]
+    return _prov_errors(path, o)
+
+
+def validate_costs(pid: str, c) -> list[str]:
+    """요금 구조(합산용). 숫자는 공식 확인값이어야 하며(src+checked), 모르면 model=unknown + note."""
+    errs: list[str] = []
+    if not isinstance(c, dict):
+        return [f"{pid}.costs: 객체가 아님"]
+    a, pk = c.get("admission"), c.get("parking")
+    if not isinstance(a, dict) or a.get("model") not in {"free", "per_person", "unknown"}:
+        errs.append(f"{pid}.costs.admission.model: free/per_person/unknown 중 하나")
+    else:
+        if a["model"] == "unknown":
+            if not str(a.get("note") or "").strip():
+                errs.append(f"{pid}.costs.admission: unknown 이면 note 필요")
+        else:
+            errs += _prov_errors(f"{pid}.costs.admission", a)
+        if a["model"] == "per_person":
+            prices = a.get("prices") or {}
+            for k in AGE_PRICE_KEYS:
+                if not (isinstance(prices.get(k), int) and prices[k] >= 0):
+                    errs.append(f"{pid}.costs.admission.prices.{k}: 0 이상 정수 필요")
+            for ok, opt in (a.get("options") or {}).items():
+                for k in AGE_PRICE_KEYS:
+                    if not (isinstance((opt.get("prices") or {}).get(k), int) and opt["prices"][k] >= 0):
+                        errs.append(f"{pid}.costs.admission.options.{ok}.prices.{k}: 0 이상 정수 필요")
+    if not isinstance(pk, dict) or pk.get("model") not in {"tiered", "unknown"}:
+        errs.append(f"{pid}.costs.parking.model: tiered/unknown 중 하나")
+    elif pk["model"] == "unknown":
+        if not str(pk.get("note") or "").strip():
+            errs.append(f"{pid}.costs.parking: unknown 이면 note 필요")
+    else:
+        errs += _prov_errors(f"{pid}.costs.parking", pk)
+        for k in TIER_NUM:
+            if not (isinstance(pk.get(k), int) and pk[k] >= 0):
+                errs.append(f"{pid}.costs.parking.{k}: 0 이상 정수 필요")
+        if isinstance(pk.get("daily_max"), int) and isinstance(pk.get("base"), int) and pk["daily_max"] < pk["base"]:
+            errs.append(f"{pid}.costs.parking: daily_max 가 base 보다 작음")
+        if not pk.get("step_minutes"):
+            errs.append(f"{pid}.costs.parking.step_minutes: 0 보다 커야 함")
+    return errs
+
+
+def validate_eats(pid: str, eats) -> list[str]:
+    """식당·카페 후기 카드. 사실 항목은 운영자 확인 또는 출처 URL, 호평/아쉬움은 각각 출처 표기가 있는 짧은 문장."""
+    if not isinstance(eats, list):
+        return [f"{pid}.eats: 목록이 아님"]
+    errs: list[str] = []
+    seen = set()
+    for i, e in enumerate(eats):
+        p = f"{pid}.eats[{i}]"
+        if not isinstance(e, dict):
+            errs.append(f"{p}: 객체가 아님"); continue
+        if not str(e.get("id") or "").strip() or e["id"] in seen:
+            errs.append(f"{p}.id: 비어 있거나 중복")
+        seen.add(e.get("id"))
+        if e.get("kind") not in EAT_KINDS:
+            errs.append(f"{p}.kind: 식당/카페 중 하나")
+        if not str(e.get("name") or "").strip():
+            errs.append(f"{p}.name 없음")
+        if not re.match(r"^(서울|경기|인천)\s", str(e.get("address") or "")):
+            errs.append(f"{p}.address: 시·도로 시작하는 주소 필요")
+        d = e.get("distance")
+        errs += _prov_value_errors(f"{p}.distance", d)
+        if isinstance(d, dict):
+            if d.get("mode") not in {"car", "walk"}:
+                errs.append(f"{p}.distance.mode: car/walk")
+            mn, mx = d.get("min_minutes"), d.get("max_minutes")
+            if not (isinstance(mn, int) and isinstance(mx, int) and 0 <= mn <= mx <= 60):
+                errs.append(f"{p}.distance: min/max_minutes 는 0~60 정수, min<=max")
+        errs += _prov_value_errors(f"{p}.recommend_for", e.get("recommend_for"))
+        for k, f in (e.get("infra") or {}).items():
+            errs += _prov_value_errors(f"{p}.infra.{k}", f)
+        if e.get("menu") is not None:
+            errs += _prov_value_errors(f"{p}.menu", e["menu"])
+        for key in ("pros", "cons"):
+            lst = e.get(key)
+            if not isinstance(lst, list):
+                errs.append(f"{p}.{key}: 목록이 아님"); continue
+            for j, it in enumerate(lst):
+                if not str(it.get("text") or "").strip() if isinstance(it, dict) else True:
+                    errs.append(f"{p}.{key}[{j}]: text 없음")
+                else:
+                    errs += _prov_errors(f"{p}.{key}[{j}]", it)
+        if not (e.get("pros") or e.get("cons")):
+            errs.append(f"{p}: 호평 또는 아쉬운 점이 하나는 있어야 함")
+        pk = e.get("peak")
+        if pk is not None and not (isinstance(pk, dict) and re.match(r"^\d{2}:\d{2}$", str(pk.get("start"))) and re.match(r"^\d{2}:\d{2}$", str(pk.get("end"))) and str(pk.get("label") or "").strip()):
+            errs.append(f"{p}.peak: start/end(HH:MM)·label 필요")
+        errs += _prov_errors(p, e)
+        pc = e.get("place_check")
+        if not (isinstance(pc, dict) and pc.get("status") in {"unchecked", "confirmed", "mismatch", "closed"}):
+            errs.append(f"{p}.place_check.status: unchecked/confirmed/mismatch/closed")
+        elif pc["status"] == "confirmed" and not (str(pc.get("confirmed_by") or "").strip() and isinstance(pc.get("confirmed_at"), str) and DATE_RE.match(pc["confirmed_at"]) and str(pc.get("note") or "").strip()):
+            errs.append(f"{p}.place_check: confirmed 이면 confirmed_by·confirmed_at·note 필요")
+    return errs
+
+
+
 def validate_place(pid: str, p: dict) -> list[str]:
     errs: list[str] = []
     for k in REQUIRED:
@@ -91,6 +210,10 @@ def validate_place(pid: str, p: dict) -> list[str]:
     for i, ph in enumerate(p["photos"] if isinstance(p["photos"], list) else []):
         if not (_src_ok(ph.get("url")) and str(ph.get("credit") or "").strip() and str(ph.get("license") or "").strip()):
             errs.append(f"{pid}.photos[{i}]: url(https)·credit·license 필요(라이선스 확인 전에는 비워 둔다)")
+    if "costs" in p:
+        errs += validate_costs(pid, p["costs"])
+    if "eats" in p:
+        errs += validate_eats(pid, p["eats"])
     return errs
 
 

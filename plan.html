@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>나의 주말 일정표 | BUYG(바이그)</title>
+<meta name="description" content="장소·식당을 고르면 타임테이블과 예상 비용을 계산해 드려요. 로그인 없이 이 기기에 저장돼요.">
+<meta name="robots" content="noindex">
+<style>
+  :root { --brand: #5f0080; --ink: #1f2430; --sub: #667085; --mute: #98a2b3; --line: #eceef3; --bg: #f7f8fa; --ok: #1b7a46; --ok-bg: #e9f6ef; --warn: #a15c00; --warn-bg: #fff3e0; --blue: #1d4ed8; --blue-bg: #e8f0ff; --unk-bg: #f1f3f7; --bar-h: 64px; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; -webkit-text-size-adjust: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 720px; margin: 0 auto; padding-bottom: calc(var(--bar-h) + 24px + env(safe-area-inset-bottom, 0px)); }
+  .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 14px; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); }
+  .top .back { border: 0; background: none; font-size: 15px; font-weight: 700; padding: 8px 4px; cursor: pointer; font-family: inherit; color: var(--ink); }
+  .top .logo { margin-left: auto; font-size: 16px; font-weight: 800; color: var(--brand); text-decoration: none; }
+  .intro { padding: 20px 18px 6px; background: #fff; }
+  h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  .lead { margin: 6px 0 14px; font-size: 13.5px; color: var(--sub); line-height: 1.5; }
+  section.step { margin: 10px 0 0; padding: 18px; background: #fff; }
+  section.step > h2 { margin: 0 0 12px; font-size: 15.5px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .no { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 12px; font-weight: 800; }
+  .hint { margin: -4px 0 10px; font-size: 12px; color: var(--mute); line-height: 1.5; }
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 10px 14px; border: 1.5px solid #dfe3ea; border-radius: 999px; background: #fff; font-size: 14px; font-weight: 700; color: var(--sub); cursor: pointer; font-family: inherit; }
+  .chip.on { border-color: var(--brand); background: #f6ecfa; color: var(--brand); }
+  .chip[disabled] { opacity: .55; cursor: default; }
+  .party { display: grid; gap: 4px; }
+  .prow { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .prow:last-child { border-bottom: 0; }
+  .prow .nm b { display: block; font-size: 14.5px; } .prow .nm span { font-size: 12px; color: var(--mute); }
+  .step-btns { display: flex; align-items: center; gap: 12px; }
+  .step-btns button { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #dfe3ea; background: #fff; font-size: 18px; font-weight: 700; cursor: pointer; font-family: inherit; color: var(--ink); }
+  .step-btns output { min-width: 18px; text-align: center; font-size: 16px; font-weight: 800; }
+  .opt { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; }
+  .opt input { width: 18px; height: 18px; }
+  .eat { display: block; width: 100%; text-align: left; margin: 0 0 8px; padding: 12px; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; cursor: pointer; font-family: inherit; color: var(--ink); }
+  .eat.on { border-color: var(--brand); background: #fbf5fd; }
+  .eat b { display: block; font-size: 14.5px; } .eat span { display: block; margin-top: 3px; font-size: 12.5px; color: var(--sub); line-height: 1.45; }
+  .money { display: grid; grid-template-columns: 1fr 120px; gap: 8px; align-items: center; margin-top: 10px; font-size: 14px; }
+  .money input { width: 100%; height: 40px; padding: 0 10px; border: 1.5px solid #dfe3ea; border-radius: 10px; font-size: 15px; text-align: right; font-family: inherit; }
+  .note { margin: 10px 0 0; font-size: 12px; color: var(--mute); line-height: 1.5; }
+  .tt { list-style: none; margin: 0; padding: 0; }
+  .tt li { display: grid; grid-template-columns: 92px 1fr; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; line-height: 1.45; }
+  .tt li:last-child { border-bottom: 0; }
+  .tt .tm { font-weight: 800; font-variant-numeric: tabular-nums; color: var(--brand); } .tt .sm { display: block; margin-top: 2px; font-size: 12px; color: var(--mute); font-weight: 500; }
+  .tt li.move, .tt li.wait { color: var(--sub); font-size: 13.5px; } .tt li.move .tm, .tt li.wait .tm { color: var(--mute); }
+  .warn { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--warn-bg); color: var(--warn); font-size: 13px; line-height: 1.5; }
+  .bt { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .bt td { padding: 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; } .bt td:last-child { text-align: right; font-weight: 800; white-space: nowrap; padding-left: 10px; }
+  .bt small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--mute); font-weight: 500; line-height: 1.4; }
+  .bt tr.unk td:last-child { color: var(--warn); }
+  .total { margin-top: 12px; padding: 14px; border-radius: 12px; background: #f6ecfa; display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; }
+  .total strong { font-size: 20px; color: var(--brand); }
+  .unkbox { margin-top: 10px; padding: 11px 12px; border-radius: 10px; background: var(--unk-bg); font-size: 12.5px; color: var(--sub); line-height: 1.5; }
+  .ghost { display: block; width: 100%; margin-top: 14px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; font-size: 13.5px; font-weight: 700; color: var(--sub); cursor: pointer; font-family: inherit; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: #fff; border-top: 1px solid var(--line); }
+  .bar-in { max-width: 720px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .bar .sum { font-size: 12.5px; color: var(--sub); line-height: 1.35; } .bar .sum b { display: block; font-size: 17px; color: var(--ink); }
+  .bar a.go { flex: 0 0 auto; padding: 12px 18px; border-radius: 12px; background: var(--brand); color: #fff; font-size: 14px; font-weight: 800; text-decoration: none; }
+  .empty { padding: 50px 20px; text-align: center; color: var(--sub); line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><a class="logo" href="./">Buyg</a></div>
+<div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
+<script src="planner.js"></script>
+<script>
+const $ = (s, r) => (r || document).querySelector(s);
+function h(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function ga(n, p) { if (typeof window.gtag === 'function') { try { window.gtag('event', n, p); } catch (e) { /* 무시 */ } } }
+let GUIDES = {}, STATE = Planner.loadPlan();
+const AGE_ROWS = [['adult', '어른', '만 19~64세'], ['teen', '청소년', '만 13~18세'], ['child', '어린이', '만 6~12세'], ['toddler', '영유아', '만 5세 이하']];
+
+function save() { STATE = Planner.savePlan(STATE); }
+function placeList() { return Object.values(GUIDES).filter(p => p.costs); }
+
+function section(no, title, hint) { const s = h('section', 'step'); const t = h('h2'); t.appendChild(h('span', 'no', String(no))); t.appendChild(document.createTextNode(title)); s.appendChild(t); if (hint) s.appendChild(h('p', 'hint', hint)); return s; }
+function chip(label, on, fn, disabled) { const b = h('button', 'chip' + (on ? ' on' : ''), label); b.type = 'button'; if (disabled) b.disabled = true; else b.addEventListener('click', fn); b.setAttribute('aria-pressed', on ? 'true' : 'false'); return b; }
+function set(fn) { fn(STATE); save(); render(); }
+
+function render() {
+  const app = $('#app'); const keepY = window.scrollY; app.innerHTML = '';
+  const intro = h('div', 'intro'); intro.appendChild(h('h1', '', '나의 주말 일정표')); intro.appendChild(h('p', 'lead', '장소와 식당을 고르면 타임테이블과 예상 비용을 계산해 드려요. 로그인 없이 이 기기에만 저장돼요.')); app.appendChild(intro);
+  const place = GUIDES[STATE.place_id];
+
+  // 1) 장소
+  { const s = section(1, '어디로 갈까요?'); const box = h('div', 'choices');
+    placeList().forEach(p => box.appendChild(chip(p.name, p.id === STATE.place_id, () => set(st => { if (st.place_id !== p.id) { st.eat_id = null; st.cafe_id = null; st.extras.theme_garden = false; } st.place_id = p.id; }))));
+    s.appendChild(box); app.appendChild(s); }
+  if (!place) { const e = h('div', 'empty', '장소를 선택하면 일정이 만들어져요.'); app.appendChild(e); renderBar(null); return; }
+
+  // 2) 우리 가족
+  { const s = section(2, '누구와 어떻게 가나요?', '요금 계산에 쓰여요. 공식 요금표의 연령 기준(만 나이)을 따라요.'); const pt = h('div', 'party');
+    AGE_ROWS.forEach(r => { const row = h('div', 'prow'); const nm = h('div', 'nm'); nm.appendChild(h('b', '', r[1])); nm.appendChild(h('span', '', r[2])); row.appendChild(nm);
+      const bt = h('div', 'step-btns'); const out = h('output', '', String(STATE.party[r[0]])); const mk = (sym, d, label) => { const b = h('button', '', sym); b.type = 'button'; b.setAttribute('aria-label', r[1] + ' ' + label); b.addEventListener('click', () => set(st => { st.party[r[0]] = Math.max(0, Math.min(9, st.party[r[0]] + d)); })); return b; };
+      bt.appendChild(mk('−', -1, '줄이기')); bt.appendChild(out); bt.appendChild(mk('+', 1, '늘리기')); row.appendChild(bt); pt.appendChild(row); });
+    s.appendChild(pt);
+    const mv = h('div', 'choices'); mv.style.marginTop = '14px'; mv.appendChild(chip('자가용', STATE.car, () => set(st => { st.car = true; }))); mv.appendChild(chip('대중교통', !STATE.car, () => set(st => { st.car = false; }))); s.appendChild(mv);
+    const vt = h('div', 'choices'); vt.style.marginTop = '12px'; vt.appendChild(h('span', 'hint', '머무는 시간')); vt.firstChild.style.cssText = 'width:100%;margin:0 0 -2px';
+    Planner.VISIT_CHOICES.forEach(m => vt.appendChild(chip(m >= 60 ? (m % 60 ? Math.floor(m / 60) + '시간 ' + (m % 60) + '분' : (m / 60) + '시간') : m + '분', STATE.visit_minutes === m, () => set(st => { st.visit_minutes = m; })))); s.appendChild(vt);
+    const opts = place.costs.admission && place.costs.admission.options || {};
+    Object.keys(opts).forEach(k => { const l = h('label', 'opt'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!STATE.extras[k]; cb.addEventListener('change', () => set(st => { st.extras[k] = cb.checked; })); l.appendChild(cb); l.appendChild(document.createTextNode(opts[k].label + '도 함께 입장해요')); s.appendChild(l); });
+    app.appendChild(s); }
+
+  // 3) 식당
+  { const s = section(3, '식사는 어디서 할까요?', '운영자가 확인한 식당만 보여요. 건너뛰면 식사 없이 일정이 만들어져요.');
+    const eats = (place.eats || []).filter(e => e.kind === '식당');
+    if (!eats.length) s.appendChild(h('p', 'note', '이 장소의 식당 정보를 준비하고 있어요.'));
+    eats.forEach(e => { const b = h('button', 'eat' + (STATE.eat_id === e.id ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', STATE.eat_id === e.id ? 'true' : 'false');
+      b.appendChild(h('b', '', e.name)); b.appendChild(h('span', '', e.distance.v)); b.appendChild(h('span', '', e.recommend_for.v));
+      if (e.peak) b.appendChild(h('span', '', '붐비는 시간: ' + e.peak.label));
+      b.addEventListener('click', () => set(st => { st.eat_id = st.eat_id === e.id ? null : e.id; ga('plan_pick_eat', { id: e.id }); })); s.appendChild(b); });
+    const skip = h('div', 'choices'); skip.appendChild(chip('식사 건너뛰기', !STATE.eat_id, () => set(st => { st.eat_id = null; }))); s.appendChild(skip);
+    app.appendChild(s); }
+
+  // 4) 카페
+  { const s = section(4, '카페는 어떨까요?'); const cafes = (place.eats || []).filter(e => e.kind === '카페');
+    if (!cafes.length) s.appendChild(h('p', 'note', '이 장소의 카페 정보를 준비하고 있어요. 지금은 건너뛰기로 일정이 만들어져요.'));
+    cafes.forEach(e => { const b = h('button', 'eat' + (STATE.cafe_id === e.id ? ' on' : '')); b.type = 'button'; b.appendChild(h('b', '', e.name)); b.appendChild(h('span', '', e.distance.v)); b.addEventListener('click', () => set(st => { st.cafe_id = st.cafe_id === e.id ? null : e.id; })); s.appendChild(b); });
+    app.appendChild(s); }
+
+  // 5) 숙소
+  { const s = section(5, '숙소가 필요한가요?'); const c = h('div', 'choices'); c.appendChild(chip('당일치기', true, null, true)); s.appendChild(c); s.appendChild(h('p', 'note', '숙소 정보는 아직 준비하지 못했어요. 지금은 당일치기 일정만 만들 수 있어요.')); app.appendChild(s); }
+
+  // 결과
+  const r = Planner.plan(STATE, place); window.__lastPlan = r;
+  { const s = section(6, '이렇게 다녀오면 어때요?'); s.id = 'result'; const ul = h('ul', 'tt');
+    r.timetable.forEach(x => { const li = h('li', x.kind); const tm = h('div', 'tm', x.kind === 'end' ? x.start : x.start + '~' + x.end); const tx = h('div', '', x.label); if (x.note) tx.appendChild(h('span', 'sm', x.note)); li.appendChild(tm); li.appendChild(tx); ul.appendChild(li); });
+    s.appendChild(ul); r.warnings.forEach(w => s.appendChild(h('div', 'warn', w))); app.appendChild(s); }
+  { const s = section(7, '예상 비용'); const tb = h('table', 'bt');
+    const row = (label, detail, amt, unk) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
+    r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false));
+    r.budget.manual.forEach(l => row(l.label, '', Planner.won(l.amount), false));
+    r.budget.unknown.forEach(u => row(u.label, u.note, '확인 필요', true));
+    s.appendChild(tb);
+    const tot = h('div', 'total'); tot.appendChild(h('span', '', '확인된 항목 합계')); tot.appendChild(h('strong', '', Planner.won(r.budget.known_total))); s.appendChild(tot);
+    if (r.budget.unknown.length) s.appendChild(h('div', 'unkbox', '확인 필요 ' + r.budget.unknown.length + '건(' + r.budget.unknown.map(u => u.label).join(', ') + ')은 합계에 넣지 않았어요. 실제 비용은 더 들 수 있어요.'));
+    // 직접 입력
+    if (STATE.eat_id || STATE.cafe_id) { const note = h('p', 'note', '식비·카페비는 검증된 가격 정보가 없어서 직접 입력한 금액만 합계에 더해요.'); s.appendChild(note);
+      [['meal', '식비(원)', !!STATE.eat_id], ['cafe', '카페비(원)', !!STATE.cafe_id]].forEach(m => { if (!m[2]) return; const w = h('label', 'money'); w.appendChild(h('span', '', m[1])); const inp = document.createElement('input'); inp.type = 'number'; inp.inputMode = 'numeric'; inp.min = '0'; inp.step = '1000'; inp.placeholder = '직접 입력'; inp.value = STATE.manual[m[0]] == null ? '' : STATE.manual[m[0]];
+        inp.addEventListener('change', () => set(st => { const v = inp.value === '' ? null : Number(inp.value); st.manual[m[0]] = (v == null || !isFinite(v) || v < 0) ? null : Math.floor(v); })); w.appendChild(inp); s.appendChild(w); }); }
+    s.appendChild(h('p', 'note', '요금은 각 장소 공식 안내를 ' + (place.facts && place.facts.address && place.facts.address.checked || '') + ' 기준으로 확인한 값이에요. 변경될 수 있으니 방문 전 확인해 주세요.'));
+    const reset = h('button', 'ghost', '처음부터 다시 만들기'); reset.type = 'button'; reset.addEventListener('click', () => { if (confirm('저장된 일정을 지우고 처음부터 시작할까요?')) { Planner.clearPlan(); STATE = Planner.loadPlan(); render(); window.scrollTo(0, 0); } }); s.appendChild(reset);
+    app.appendChild(s); }
+  renderBar(r);
+  window.scrollTo(0, keepY);
+}
+function renderBar(r) {
+  const old = $('.bar'); if (old) old.remove(); const bar = h('div', 'bar'), inn = h('div', 'bar-in'), sum = h('div', 'sum');
+  if (r) { sum.appendChild(document.createTextNode('확인된 항목 합계')); sum.appendChild(h('b', '', Planner.won(r.budget.known_total) + (r.budget.unknown.length ? ' + 확인 필요 ' + r.budget.unknown.length + '건' : ''))); }
+  else sum.appendChild(document.createTextNode('장소를 선택해 주세요'));
+  inn.appendChild(sum); if (r) { const g = h('a', 'go', '일정 보기'); g.href = '#result'; g.addEventListener('click', e => { e.preventDefault(); $('#result').scrollIntoView({ behavior: 'smooth', block: 'start' }); ga('plan_view_result'); }); inn.appendChild(g); }
+  bar.appendChild(inn); document.body.appendChild(bar);
+}
+(async function () {
+  $('#back').addEventListener('click', () => { if (history.length > 1) history.back(); else location.href = 'outing.html'; });
+  try { const r = await fetch('./place_guides.json', { cache: 'no-store' }); GUIDES = (await r.json()).places || {}; } catch (e) { GUIDES = {}; }
+  const q = new URLSearchParams(location.search).get('place');
+  if (q && GUIDES[q] && GUIDES[q].costs && STATE.place_id !== q) { STATE.place_id = q; STATE.eat_id = null; STATE.cafe_id = null; STATE.extras.theme_garden = false; save(); }
+  if (STATE.place_id && !(GUIDES[STATE.place_id] && GUIDES[STATE.place_id].costs)) STATE.place_id = '';
+  render();
+})();
+</script>
+</body>
+</html>
