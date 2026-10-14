@@ -170,6 +170,14 @@ let GUIDES = {}, STATE = Planner.loadPlan();
 const AGE_ROWS = [['adult', '어른', '만 19~64세'], ['teen', '청소년', '만 13~18세'], ['child', '어린이', '만 6~12세'], ['toddler', '영유아', '만 5세 이하']];
 
 function save() { STATE = Planner.savePlan(STATE); }
+let SEEDS = {};
+function ensureSeedPlace(id) {   // 시드 장소는 검증된 요금·식당 정보가 없다: 입장료·주차비는 '확인 필요', 식당은 비워 둔다
+  if (!id || GUIDES[id] || !SEEDS[id]) return;
+  const s = SEEDS[id], c = s.category || '', theme = /박물관|전시/.test(c) ? 'museum' : /동물/.test(c) ? 'zoo' : /공원|숲|수목|생태|산책/.test(c) ? 'forest' : '';
+  const note = '요금은 아직 확인하지 못했어요(방문 전 공식 안내에서 확인)';
+  GUIDES[id] = { id: id, name: s.title, region: s.region, theme: theme, seed: true, eats: [], facts: { address: { v: s.address, checked: '2026-10-08' } }, costs: { admission: { model: 'unknown', note: note }, parking: { model: 'unknown', note: '주차 요금은 아직 확인하지 못했어요' } } };
+}
+
 function placeList() { return Object.values(GUIDES).filter(p => p.costs); }
 
 function section(no, title, hint) { const s = h('section', 'step'); const t = h('h2'); t.appendChild(h('span', 'no', String(no))); t.appendChild(document.createTextNode(title)); s.appendChild(t); if (hint) s.appendChild(h('p', 'hint', hint)); return s; }
@@ -376,6 +384,8 @@ function renderBar(r) {
 (async function () {
   $('#back').addEventListener('click', () => { if (history.length > 1) history.back(); else location.href = 'outing.html'; });
   try { const r = await fetch('./place_guides.json', { cache: 'no-store' }); GUIDES = (await r.json()).places || {}; } catch (e) { GUIDES = {}; }
+  try { const r = await fetch('./free_spots_seed.json'); ((await r.json()).spots || []).forEach(s => { SEEDS[s.id] = s; }); } catch (e) { SEEDS = {}; }
+  { const qq = new URLSearchParams(location.search).get('place'); ensureSeedPlace(qq); ensureSeedPlace(STATE.place_id); const sq = new URLSearchParams(location.search).get('s'); const dd = sq && Planner.decodePlan(sq); if (dd) ensureSeedPlace(dd.place_id); }
   const q = new URLSearchParams(location.search).get('place');
   if (q && GUIDES[q] && GUIDES[q].costs && STATE.place_id !== q) { STATE.place_id = q; STATE.eat_id = null; STATE.cafe_id = null; STATE.extras.theme_garden = false; save(); }
   const sp = new URLSearchParams(location.search).get('s');

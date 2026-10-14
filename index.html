@@ -1015,6 +1015,31 @@
   .out-meta .tg { padding: 2px 7px; border-radius: 999px; background: #f2f4f7; color: #475467; font-weight: 700; }
   .out-empty { padding: 28px 8px; color: #98a2b3; font-size: 13px; }
   @media (min-width: 900px) { .out-tabs { padding-left: 0; padding-right: 0; } .out-card { flex-basis: 232px; } .out-photo { height: 144px; } }
+
+  /* ---- 나들이 상세 바텀시트(시드 장소) ---- */
+  body.os-lock { overflow: hidden; }
+  .os-back { position: fixed; inset: 0; z-index: 500; background: rgba(15,23,42,.5); opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .os-back.open { opacity: 1; pointer-events: auto; }
+  .os-sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 501; max-width: 560px; margin: 0 auto; max-height: 88vh; overflow-y: auto; overscroll-behavior: contain; background: #fff; border-radius: 20px 20px 0 0; transform: translateY(105%); transition: transform .3s ease; padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
+  .os-sheet.open { transform: translateY(0); }
+  .os-hero { position: relative; height: 190px; background: linear-gradient(135deg, #f1ecf6, #e2d6ee); display: flex; align-items: center; justify-content: center; font-size: 52px; border-radius: 20px 20px 0 0; overflow: hidden; }
+  .os-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .os-hero .out-credit { font-size: 10.5px; }
+  .os-x { position: absolute; right: 10px; top: 10px; z-index: 2; width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255,255,255,.92); font-size: 18px; cursor: pointer; line-height: 1; }
+  .os-body { padding: 16px 18px 4px; }
+  .os-body h3 { margin: 0 0 6px; font-size: 20px; font-weight: 800; line-height: 1.3; word-break: keep-all; }
+  .os-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+  .os-tags span { padding: 3px 9px; border-radius: 999px; background: #f2f4f7; color: #475467; font-size: 12px; font-weight: 700; }
+  .os-tags span.rg { background: #f6ecfa; color: #5f0080; }
+  .os-row { display: grid; grid-template-columns: 74px 1fr; gap: 8px; padding: 10px 0; border-top: 1px solid #eceef3; font-size: 14px; line-height: 1.5; }
+  .os-row b { color: #667085; font-weight: 700; font-size: 13px; }
+  .os-row span { word-break: keep-all; }
+  .os-note { margin: 10px 0 0; padding: 10px 12px; border-radius: 10px; background: #f1f3f7; font-size: 12px; color: #667085; line-height: 1.55; }
+  .os-acts { display: grid; gap: 8px; padding: 14px 18px 0; }
+  .os-acts a { display: block; text-align: center; padding: 14px 10px; border-radius: 12px; font-size: 14.5px; font-weight: 800; text-decoration: none; border: 1.5px solid #dfe3ea; color: #1f2430; background: #fff; }
+  .os-acts a.pri { background: #5f0080; border-color: #5f0080; color: #fff; }
+  @media (min-width: 900px) { .os-sheet { bottom: 50%; border-radius: 20px; max-height: 80vh; transform: translateY(60%) scale(.97); opacity: 0; pointer-events: none; transition: transform .25s, opacity .25s; } .os-sheet.open { transform: translateY(50%); opacity: 1; pointer-events: auto; } .os-hero { border-radius: 20px 20px 0 0; } }
+  @media (prefers-reduced-motion: reduce) { .os-sheet, .os-back { transition: none; } }
   /* 인기공구: 큰 썸네일 + 10px 곡률 */
   .rank-item { gap: 12px; padding: 10px 12px; }
   .rank-item .list-thumb { flex: 0 0 60px; width: 60px; height: 60px; border-radius: 10px; }
@@ -3782,12 +3807,43 @@ wcs_do();
       var c = s.category || '', url = s.homepage_url || s.link || '';
       if (!/^https:\/\//.test(url)) return;
       var nk = norm(s.title); if (out.some(function (o) { var gk = norm(o.title); return o.guide && (gk === nk || (gk.length > 3 && nk.indexOf(gk) >= 0) || (nk.length > 3 && gk.indexOf(nk) >= 0)); })) return;   // 앵커와 같은 장소는 시드에서 제외
-      out.push({ href: url, ext: true, title: s.title, line: s.tag || '', region: regionOf(s.region, s.address), regionLabel: (s.address || s.region || '').split(' ').slice(0, 2).join(' '), tags: c.split('/').filter(Boolean).slice(0, 2), theme: cls(c), img: phOf(s.id).thumb || phOf(s.id).url || '', credit: phOf(s.id).credit ? '© ' + phOf(s.id).credit : '', badge: '', guide: false });
+      out.push({ href: url, ext: true, title: s.title, line: s.tag || '', region: regionOf(s.region, s.address), regionLabel: (s.address || s.region || '').split(' ').slice(0, 2).join(' '), tags: c.split('/').filter(Boolean).slice(0, 2), theme: cls(c), img: phOf(s.id).thumb || phOf(s.id).url || '', credit: phOf(s.id).credit ? '© ' + phOf(s.id).credit : '', badge: '', guide: false, seed: s, id: s.id, addr: ((photos || {})[s.id] || {}).address || s.address || '' });
     });
     return out;
   }
+  function safeUrl(u, hostRe) { try { var x = new URL(u); return x.protocol === 'https:' && (!hostRe || hostRe.test(x.hostname)) ? x.href : ''; } catch (e) { return ''; } }
+  function gaEv(n, p) { if (typeof gtag === 'function') { try { gtag('event', n, p); } catch (e) { /* 무시 */ } } }
+  var lastFocus = null;
+  function closeSheet() { var s = document.getElementById('osSheet'), b = document.getElementById('osBack'); if (s) { s.classList.remove('open'); b.classList.remove('open'); document.body.classList.remove('os-lock'); if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) { /* 무시 */ } } } }
+  function openSheet(it) {
+    var s = it.seed || {}, ph = (it.img ? { thumb: it.img } : {});
+    var back = document.getElementById('osBack');
+    if (!back) { back = el('div', 'os-back'); back.id = 'osBack'; back.addEventListener('click', closeSheet); document.body.appendChild(back); var sh = el('div', 'os-sheet'); sh.id = 'osSheet'; sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-modal', 'true'); document.body.appendChild(sh); document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSheet(); }); }
+    var sheet = document.getElementById('osSheet'); sheet.innerHTML = ''; sheet.setAttribute('aria-label', it.title + ' 상세');
+    var hero = el('div', 'os-hero ' + (it.theme || ''));
+    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.referrerPolicy = 'no-referrer'; im.onerror = function () { im.remove(); hero.appendChild(el('span', '', ICON[it.theme] || '🧸')); }; hero.appendChild(im); } else hero.appendChild(el('span', '', ICON[it.theme] || '🧸'));
+    if (it.credit) hero.appendChild(el('span', 'out-credit', it.credit));
+    var x = el('button', 'os-x', '✕'); x.type = 'button'; x.setAttribute('aria-label', '닫기'); x.addEventListener('click', closeSheet); hero.appendChild(x); sheet.appendChild(hero);
+    var body = el('div', 'os-body'); body.appendChild(el('h3', '', it.title));
+    var tg = el('div', 'os-tags'); tg.appendChild(el('span', 'rg', it.regionLabel || s.region || '')); it.tags.forEach(function (t) { tg.appendChild(el('span', '', t)); }); body.appendChild(tg);
+    var row = function (k, v) { if (!v) return; var r = el('div', 'os-row'); r.appendChild(el('b', '', k)); r.appendChild(el('span', '', v)); body.appendChild(r); };
+    row('주소', it.addr);
+    row('요금·예약', s.tag ? s.tag + ' (일반 정보)' : '방문 전 공식 안내에서 확인해 주세요');
+    var ov = []; if (s.space_type) ov.push(s.space_type + ' 중심'); if (s.parking) ov.push(/^주차/.test(s.parking) ? s.parking : '주차 ' + s.parking); if (s.stroller === true) ov.push('유모차 이동 가능'); if (s.baby_care === true) ov.push('육아 편의시설 있음');
+    row('운영 개요', ov.join(' · ') || '방문 전 공식 안내에서 확인해 주세요');
+    body.appendChild(el('p', 'os-note', '요금·주차·유모차·수유실 같은 정보는 일반 정보 기준이라 운영 사정에 따라 달라질 수 있어요. 방문 전에 공식 홈페이지에서 한 번 더 확인해 주세요.' + (it.credit ? ' 사진: 한국관광공사 TourAPI(공공누리 제1유형)' : '')));
+    sheet.appendChild(body);
+    var acts = el('div', 'os-acts');
+    var plan = el('a', 'pri', '이 장소로 주말 일정 만들기'); plan.href = 'plan.html?place=' + encodeURIComponent(it.id); plan.addEventListener('click', function () { gaEv('home_outing_plan', { id: it.id }); }); acts.appendChild(plan);
+    var mapUrl = safeUrl(s.link, /(^|\.)naver\.com$/) || ('https://map.naver.com/p/search/' + encodeURIComponent(it.title + ' ' + (it.addr || '')));
+    var map = el('a', '', '네이버 지도 열기'); map.href = mapUrl; map.target = '_blank'; map.rel = 'noopener'; map.addEventListener('click', function () { gaEv('home_outing_map', { id: it.id }); }); acts.appendChild(map);
+    var hp = safeUrl(s.homepage_url); if (hp) { var h2 = el('a', '', '공식 홈페이지 / 예약 바로가기'); h2.href = hp; h2.target = '_blank'; h2.rel = 'noopener'; h2.addEventListener('click', function () { gaEv('home_outing_site', { id: it.id }); }); acts.appendChild(h2); }
+    sheet.appendChild(acts);
+    lastFocus = document.activeElement; back.classList.add('open'); sheet.classList.add('open'); sheet.scrollTop = 0; document.body.classList.add('os-lock'); x.focus();
+    gaEv('home_outing_sheet', { id: it.id });
+  }
   function card(it) {
-    var a = el('a', 'out-card'); a.href = it.href; if (it.ext) { a.target = '_blank'; a.rel = 'noopener'; }
+    var a = el('a', 'out-card'); a.href = it.seed ? '#' + it.id : it.href; if (it.ext && !it.seed) { a.target = '_blank'; a.rel = 'noopener'; }
     var ph = el('div', 'out-photo ' + it.theme);
     if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.onerror = function () { im.remove(); ph.appendChild(el('span', '', ICON[it.theme] || '🧸')); }; ph.appendChild(im); }
     else ph.appendChild(el('span', '', ICON[it.theme] || '🧸'));
@@ -3796,7 +3852,7 @@ wcs_do();
     a.appendChild(ph);
     var b = el('div', 'out-body'); b.appendChild(el('div', 'out-name', it.title)); if (it.line) b.appendChild(el('div', 'out-line', it.line));
     var m = el('div', 'out-meta'); m.appendChild(el('span', 'rg', it.regionLabel)); it.tags.forEach(function (t) { m.appendChild(el('span', 'tg', t)); }); b.appendChild(m); a.appendChild(b);
-    a.addEventListener('click', function () { if (typeof gtag === 'function') { try { gtag('event', 'home_outing_click', { title: it.title, region: tab }); } catch (e) {} } });
+    a.addEventListener('click', function (ev) { if (it.seed) { ev.preventDefault(); openSheet(it); } if (typeof gtag === 'function') { try { gtag('event', 'home_outing_click', { title: it.title, region: tab }); } catch (e) {} } });
     return a;
   }
   function draw() {
