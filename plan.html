@@ -111,13 +111,55 @@
   .saved .sr { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 10px; background: #fff; border: 1px solid var(--paper-line); }
   .saved .sr button.ld { flex: 1; min-width: 0; text-align: left; border: 0; background: none; font-family: inherit; font-size: 13px; color: var(--ink); cursor: pointer; padding: 4px 0; }
   .saved .sr button.rm { border: 0; background: none; color: var(--mute); font-size: 12px; cursor: pointer; padding: 4px 6px; font-family: inherit; }
-  .toast { position: fixed; left: 50%; bottom: calc(var(--bar-h) + 22px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 20; max-width: 86vw; padding: 10px 16px; border-radius: 999px; background: rgba(31,36,48,.92); color: #fff; font-size: 13px; }
+  .toast { z-index: 40 !important; position: fixed; left: 50%; bottom: calc(var(--bar-h) + 22px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 20; max-width: 86vw; padding: 10px 16px; border-radius: 999px; background: rgba(31,36,48,.92); color: #fff; font-size: 13px; }
   .bt { background: transparent; }
+  .top .boxbtn { margin-left: auto; border: 1.5px solid #dfe3ea; background: #fff; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 800; color: var(--ink); cursor: pointer; font-family: inherit; }
+  .top .boxbtn .cnt { display: inline-block; min-width: 18px; margin-left: 4px; padding: 0 5px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 11px; text-align: center; }
+  .top .boxbtn .cnt:empty { display: none; }
+  .top .boxbtn + .logo { margin-left: 10px; }
+  .dr-back { position: fixed; inset: 0; z-index: 30; background: rgba(20,16,10,.45); opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .dr-back.open { opacity: 1; pointer-events: auto; }
+  .drawer { position: fixed; left: 0; right: 0; top: 0; z-index: 31; max-width: 720px; margin: 0 auto; max-height: 82vh; overflow-y: auto; background: var(--paper); border-radius: 0 0 20px 20px; box-shadow: 0 12px 30px rgba(0,0,0,.25); transform: translateY(-105%); transition: transform .3s ease; padding: 14px 14px 18px; overscroll-behavior: contain; }
+  .drawer.open { transform: translateY(0); }
+  .drawer .dh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .drawer .dh b { font-size: 16px; color: var(--ink-warm); }
+  .drawer .dh button { border: 0; background: none; font-size: 14px; font-weight: 800; color: var(--sub); cursor: pointer; padding: 6px; font-family: inherit; }
+  .drawer .none { padding: 26px 8px; text-align: center; font-size: 13.5px; color: #8a7561; line-height: 1.6; }
+  .sv-card { position: relative; margin-bottom: 10px; padding: 12px 12px 10px; border-radius: 14px; background: #fff; border: 1px solid var(--paper-line); }
+  .sv-card.fresh { animation: pop .45s ease; }
+  .sv-card .t1 { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .sv-card .t1 b { font-size: 14.5px; line-height: 1.35; word-break: keep-all; }
+  .sv-card .ok { flex: 0 0 auto; padding: 2px 8px; border-radius: 999px; background: #fde8e4; color: #c0392b; font-size: 11px; font-weight: 800; }
+  .sv-card ul { list-style: none; margin: 8px 0 0; padding: 0; font-size: 12.5px; color: var(--sub); line-height: 1.55; }
+  .sv-card ul li span { display: inline-block; min-width: 40px; font-weight: 800; color: var(--ink-warm); font-variant-numeric: tabular-nums; }
+  .sv-card .tot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--paper-line); font-size: 13px; font-weight: 800; }
+  .sv-card .tot strong { font-size: 16px; color: var(--brand); }
+  .sv-card .tot small { display: block; font-weight: 500; font-size: 11px; color: var(--mute); }
+  .sv-card .ab { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 10px; }
+  .sv-card .ab button { padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit; border: 1.5px solid var(--brand); background: var(--brand); color: #fff; }
+  .sv-card .ab button.rm { background: #fff; color: var(--sub); border-color: #dfe3ea; }
+  .dtotal { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: #fdf0d5; border: 1px solid #f0dba9; font-weight: 800; color: var(--ink-warm); font-size: 14px; }
+  .dtotal strong { font-size: 19px; color: var(--brand); } .dtotal small { display: block; font-size: 11.5px; font-weight: 600; color: #9a8a76; }
+  .dact.one { grid-template-columns: 1fr; margin-top: 8px; }
+  .dact .st { background: #fff7e6; border-color: #e0a43a; color: #8a5a00; }
+  .dact .st.done { background: #f1f3f7; border-color: #dfe3ea; color: var(--sub); cursor: default; }
+  .diary.stamped > h2, .diary.stamped > .dhead { padding-right: 92px; }
+  .stamp { position: absolute; right: 10px; top: 12px; z-index: 2; width: 84px; height: 84px; border-radius: 50%; border: 3px double #c0392b; color: #c0392b; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; line-height: 1.15; transform: rotate(-14deg); background: rgba(255,250,240,.55); pointer-events: none; animation: stampIn .55s cubic-bezier(.2,1.4,.4,1) both; }
+  .stamp small { font-size: 10.5px; font-weight: 700; margin-top: 2px; }
+  @keyframes stampIn { 0% { transform: rotate(-30deg) scale(2.4); opacity: 0; } 60% { opacity: 1; } 100% { transform: rotate(-14deg) scale(1); opacity: .92; } }
+  @keyframes pop { 0% { transform: scale(.96); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .stamp, .sv-card.fresh { animation: none; } .drawer, .dr-back { transition: none; } }
+  .vhead { padding: 20px 18px 4px; background: #fff; } .vhead .vb { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #f6ecfa; color: var(--brand); font-size: 12px; font-weight: 800; }
+  .vcta { margin: 10px 0 0; padding: 18px; background: #fff; text-align: center; }
+  .vcta button { width: 100%; padding: 15px; border: 0; border-radius: 14px; background: var(--brand); color: #fff; font-size: 15.5px; font-weight: 800; cursor: pointer; font-family: inherit; }
+  .vcta p { margin: 10px 0 0; font-size: 12px; color: var(--mute); line-height: 1.5; }
+  .drawer .none, .vcta p { white-space: pre-line; }
+  .vbud { margin: 10px 0 0; padding: 18px; background: #fff; } .vbud h2 { margin: 0 0 8px; font-size: 15.5px; font-weight: 800; }
   .empty { padding: 50px 20px; text-align: center; color: var(--sub); line-height: 1.7; }
 </style>
 </head>
 <body>
-<div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><a class="logo" href="./">Buyg</a></div>
+<div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><button class="boxbtn" id="boxBtn" type="button" aria-haspopup="dialog">📁 보관함<span class="cnt" id="boxCnt"></span></button><a class="logo" href="./">Buyg</a></div>
 <div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
 <script src="planner.js"></script>
 <script>
@@ -163,7 +205,7 @@ function loadWeather(place, iso, box) {
     .catch(() => { WX[key] = { error: 1 }; }).then(() => { if (box.isConnected) draw(WX[key]); });
 }
 function planTitle(place) { return place.name + (STATE.visit_date ? ' · ' + Planner.dateLabel(STATE.visit_date) : ''); }
-function shareUrl() { return location.origin + location.pathname + '?s=' + Planner.encodePlan(STATE); }
+function shareUrl() { return location.origin + location.pathname + '?shared=true&s=' + Planner.encodePlan(STATE); }
 function sharePlan(place) {
   const url = shareUrl(), title = '나의 주말 일정 · ' + planTitle(place), text = title + '\n(예상 합계는 링크에서 확인해요)';
   ga('plan_share', { id: place.id });
@@ -171,6 +213,69 @@ function sharePlan(place) {
   const done = () => toast('링크를 복사했어요. 카카오톡에 붙여넣어 보내 보세요');
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => prompt('아래 링크를 복사해 주세요', url));
   else prompt('아래 링크를 복사해 주세요', url);
+}
+
+const ICON = { place: '📍', meal: '🍽️', cafe: '☕', move: '🚗', wait: '⏱️', end: '🏠' };
+function planSummary(r) { return { total: r.budget.total, unknown: r.budget.unknown.length }; }
+function fmtDate(iso) { const d = iso ? new Date(iso) : null; return d && !isNaN(d) ? (d.getMonth() + 1) + '/' + d.getDate() : ''; }
+function totalRow(r) { const d = h('div', 'dtotal'); const l = h('span'); l.appendChild(document.createTextNode('예상 합계')); l.appendChild(h('small', '', r.budget.unknown.length ? '확인 필요 ' + r.budget.unknown.length + '건은 제외' : (r.budget.estimate_total ? '공식 요금 + 대표메뉴 기준 예상치' : '공식 확인 요금 기준'))); d.appendChild(l); d.appendChild(h('strong', '', Planner.won(r.budget.total))); return d; }
+function buildDiary(place, r, st, interactive) {   // 다이어리 일정표 + 예상 합계 (편집 화면·공유 보기 공용)
+  const s = h('section', 'diary'); if (interactive) s.id = 'result';
+  const h2 = h('h2'); h2.appendChild(document.createTextNode('우리 가족 하루 일기장')); s.appendChild(h2);
+  const when = st.visit_date ? ' · ' + Planner.dateLabel(st.visit_date) : '';
+  const dh = h('p', 'dhead'); dh.innerHTML = pinSvg(); dh.appendChild(document.createTextNode(place.name + when + ' · 어른 ' + st.party.adult + (st.party.teen ? ' · 청소년 ' + st.party.teen : '') + (st.party.child ? ' · 어린이 ' + st.party.child : '') + (st.party.toddler ? ' · 영유아 ' + st.party.toddler : '') + ' · ' + (st.car ? '자가용' : '대중교통'))); s.appendChild(dh);
+  const ul = h('ul', 'tl');
+  r.timetable.forEach(x => { const li = h('li', x.kind); const tm = h('div', 'tm'); tm.appendChild(document.createTextNode(x.start)); if (x.kind !== 'end') tm.appendChild(h('i', '', '~' + x.end)); const cd = h('div', 'cd'); cd.appendChild(h('span', 'ic', ICON[x.kind] || '•')); cd.appendChild(document.createTextNode(x.label)); if (x.note) cd.appendChild(h('span', 'sm', x.note)); li.appendChild(tm); li.appendChild(cd); ul.appendChild(li); });
+  s.appendChild(ul); r.warnings.forEach(w => s.appendChild(h('div', 'warn', w))); s.appendChild(totalRow(r));
+  const rec = interactive ? Planner.findSaved(st) : null;
+  if (rec && rec.completed) { const sp = h('div', 'stamp', '방문 완료'); sp.appendChild(h('small', '', fmtDate(rec.completed_at))); sp.setAttribute('aria-label', '방문 완료 스탬프'); s.appendChild(sp); s.classList.add('stamped'); }
+  if (!interactive) return s;
+  const title = planTitle(place), sum = planSummary(r);
+  const act = h('div', 'dact'); const sv = h('button', 'sv', '📌 내 일정 저장'); sv.type = 'button'; const sh = h('button', 'sh', '카카오톡/링크 공유하기'); sh.type = 'button';
+  sv.addEventListener('click', () => { const rc = Planner.addSaved(st, title, sum); ga('plan_save', { id: place.id }); toast('내 일정 보관함에 저장되었습니다'); openDrawer(rc.id); });
+  sh.addEventListener('click', () => sharePlan(place)); act.appendChild(sv); act.appendChild(sh); s.appendChild(act);
+  const done = !!(rec && rec.completed); const sa = h('div', 'dact one'); const stb = h('button', 'st' + (done ? ' done' : ''), done ? '✅ 방문 완료 · ' + fmtDate(rec.completed_at) : '🎉 다녀왔어요! 스탬프 찍기'); stb.type = 'button'; if (done) stb.disabled = true;
+  stb.addEventListener('click', () => { Planner.completeSaved(st, title, sum); ga('plan_stamp', { id: place.id }); render(); toast('방문 완료! 스탬프를 찍었어요'); }); sa.appendChild(stb); s.appendChild(sa);
+  return s;
+}
+
+// ---- 내 일정 보관함(상단 슬라이드 서랍) ----
+function updateBox() { const c = $('#boxCnt'); if (c) c.textContent = String(Planner.listSaved().length || ''); }
+function savedCard(rec, fresh) {
+  const st = rec.plan_data, place = GUIDES[st.place_id]; const card = h('div', 'sv-card' + (fresh ? ' fresh' : ''));
+  const t1 = h('div', 't1'); t1.appendChild(h('b', '', rec.title || (place ? place.name : '저장한 일정'))); if (rec.completed) t1.appendChild(h('span', 'ok', '방문 완료 ' + fmtDate(rec.completed_at))); card.appendChild(t1);
+  let total = rec.summary.total, unk = rec.summary.unknown;
+  if (place) { try { const r = Planner.plan(st, place); total = r.budget.total; unk = r.budget.unknown.length; const ul = h('ul'); r.timetable.filter(x => x.kind === 'place' || x.kind === 'meal' || x.kind === 'cafe').forEach(x => { const li = h('li'); li.appendChild(h('span', '', x.start)); li.appendChild(document.createTextNode(ICON[x.kind] + ' ' + x.label)); ul.appendChild(li); }); card.appendChild(ul); } catch (e) { /* 요약만 표시 */ } }
+  const tot = h('div', 'tot'); const l = h('span'); l.appendChild(document.createTextNode('예상 합계')); if (unk) l.appendChild(h('small', '', '확인 필요 ' + unk + '건 제외')); tot.appendChild(l); tot.appendChild(h('strong', '', Planner.won(total))); card.appendChild(tot);
+  const ab = h('div', 'ab'); const ld = h('button', '', '불러오기'); ld.type = 'button'; const rm = h('button', 'rm', '삭제'); rm.type = 'button'; rm.setAttribute('aria-label', (rec.title || '일정') + ' 삭제');
+  ld.addEventListener('click', () => { STATE = Planner.savePlan(st); closeDrawer(); ga('plan_load_saved'); render(); const r = $('#result'); if (r) r.scrollIntoView({ block: 'start' }); });
+  rm.addEventListener('click', () => { Planner.removeSaved(rec.id); updateBox(); renderDrawer(); render(); }); ab.appendChild(ld); ab.appendChild(rm); card.appendChild(ab);
+  return card;
+}
+function renderDrawer(freshId) {
+  let dr = $('#drawer'); if (!dr) { const bk = h('div', 'dr-back'); bk.id = 'drBack'; bk.addEventListener('click', closeDrawer); document.body.appendChild(bk); dr = h('aside', 'drawer'); dr.id = 'drawer'; dr.setAttribute('role', 'dialog'); dr.setAttribute('aria-label', '내 일정 보관함'); document.body.appendChild(dr); document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); }); }
+  dr.innerHTML = ''; const hd = h('div', 'dh'); hd.appendChild(h('b', '', '📁 내 일정 보관함')); const x = h('button', '', '닫기'); x.type = 'button'; x.addEventListener('click', closeDrawer); hd.appendChild(x); dr.appendChild(hd);
+  const list = Planner.listSaved(); updateBox();
+  if (!list.length) dr.appendChild(h('div', 'none', '아직 저장한 일정이 없어요.\n일정표 아래 "내 일정 저장"을 눌러 보세요.')); list.forEach(rec => dr.appendChild(savedCard(rec, rec.id === freshId)));
+  dr.appendChild(h('p', 'note', '이 기기에만 저장돼요(최대 10개). 로그인하지 않아도 쓸 수 있어요.'));
+}
+function openDrawer(freshId) { renderDrawer(freshId); $('#drBack').classList.add('open'); $('#drawer').classList.add('open'); $('#drawer').scrollTop = 0; ga('plan_box_open'); }
+function closeDrawer() { const d = $('#drawer'); if (d) { d.classList.remove('open'); $('#drBack').classList.remove('open'); } }
+
+// ---- 공유 링크 전용 보기(View-only) ----
+function renderShared(st, place) {
+  const app = $('#app'); app.innerHTML = ''; const old = $('.bar'); if (old) old.remove(); const bb = $('#boxBtn'); if (bb) bb.style.display = 'none';
+  document.title = '공유받은 가족 일정 | BUYG(바이그)';
+  const hd = h('div', 'vhead'); hd.appendChild(h('span', 'vb', '공유받은 일정')); hd.appendChild(h('h1', '', place.name + ' 나들이')); hd.appendChild(h('p', 'lead', '가족이 만든 하루 일정이에요. 아래 버튼으로 내 일정으로 복사해 바꿀 수 있어요.')); app.appendChild(hd);
+  const r = Planner.plan(st, place); app.appendChild(buildDiary(place, r, st, false));
+  const bud = h('section', 'vbud'); bud.appendChild(h('h2', '', '예상 비용')); const tb = h('table', 'bt');
+  const row = (label, detail, amt, unk, badge) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (badge) a.appendChild(h('span', 'badge', badge)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
+  r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false)); r.budget.manual.forEach(l => row(l.label, '', Planner.won(l.amount), false)); r.budget.estimates.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false, '대표메뉴 기준 예상치')); r.budget.unknown.forEach(u => row(u.label, u.note, '확인 필요', true));
+  bud.appendChild(tb); if (r.budget.unknown.length) bud.appendChild(h('div', 'unkbox', '확인 필요 항목은 합계에 넣지 않았어요. 실제 비용은 더 들 수 있어요.')); app.appendChild(bud);
+  const cta = h('section', 'vcta'); const b = h('button', '', '내 일정으로 복사해 수정하기'); b.type = 'button';
+  b.addEventListener('click', () => { Planner.savePlan(st); ga('plan_copy_shared', { id: place.id }); location.href = 'plan.html'; });
+  cta.appendChild(b); cta.appendChild(h('p', '', '내 기기에 복사되고, 받은 링크의 일정은 그대로 남아요.\n요금과 운영 정보는 방문 전에 공식 안내로 다시 확인해 주세요.')); app.appendChild(cta);
+  ga('plan_shared_view', { id: place.id });
 }
 
 function render() {
@@ -227,20 +332,7 @@ function render() {
 
   // 결과
   const r = Planner.plan(STATE, place); window.__lastPlan = r;
-  { const s = h('section', 'diary'); s.id = 'result'; const h2 = h('h2'); h2.appendChild(document.createTextNode('우리 가족 하루 일기장')); s.appendChild(h2);
-    const dh = h('p', 'dhead'); dh.innerHTML = pinSvg(); dh.appendChild(document.createTextNode(planTitle(place) + ' · 어른 ' + STATE.party.adult + (STATE.party.teen ? ' · 청소년 ' + STATE.party.teen : '') + (STATE.party.child ? ' · 어린이 ' + STATE.party.child : '') + (STATE.party.toddler ? ' · 영유아 ' + STATE.party.toddler : '') + ' · ' + (STATE.car ? '자가용' : '대중교통'))); s.appendChild(dh);
-    const ICON = { place: '📍', meal: '🍽️', cafe: '☕', move: '🚗', wait: '⏱️', end: '🏠' };
-    const ul = h('ul', 'tl');
-    r.timetable.forEach(x => { const li = h('li', x.kind); const tm = h('div', 'tm'); tm.appendChild(document.createTextNode(x.start)); if (x.kind !== 'end') tm.appendChild(h('i', '', '~' + x.end)); const cd = h('div', 'cd'); cd.appendChild(h('span', 'ic', ICON[x.kind] || '•')); cd.appendChild(document.createTextNode(x.label)); if (x.note) cd.appendChild(h('span', 'sm', x.note)); li.appendChild(tm); li.appendChild(cd); ul.appendChild(li); });
-    s.appendChild(ul); r.warnings.forEach(w => s.appendChild(h('div', 'warn', w)));
-    const act = h('div', 'dact'); const sv = h('button', 'sv', '📌 내 일정 저장'); sv.type = 'button'; const sh = h('button', 'sh', '카카오톡/링크 공유하기'); sh.type = 'button';
-    sv.addEventListener('click', () => { Planner.addSaved(STATE, planTitle(place)); ga('plan_save', { id: place.id }); toast('이 기기에 저장했어요'); render(); });
-    sh.addEventListener('click', () => sharePlan(place)); act.appendChild(sv); act.appendChild(sh); s.appendChild(act);
-    const sl = Planner.listSaved();
-    if (sl.length) { const box = h('div', 'saved'); box.appendChild(h('h3', '', '저장한 일정 ' + sl.length + '개'));
-      sl.forEach(x => { const row = h('div', 'sr'); const ld = h('button', 'ld', (x.title || '저장한 일정')); ld.type = 'button'; ld.addEventListener('click', () => { STATE = Planner.savePlan(x.state); ga('plan_load_saved'); render(); window.scrollTo(0, 0); });
-        const rm = h('button', 'rm', '삭제'); rm.type = 'button'; rm.setAttribute('aria-label', (x.title || '저장한 일정') + ' 삭제'); rm.addEventListener('click', () => { Planner.removeSaved(x.id); render(); }); row.appendChild(ld); row.appendChild(rm); box.appendChild(row); }); s.appendChild(box); }
-    app.appendChild(s); }
+  app.appendChild(buildDiary(place, r, STATE, true));
   { const s = section(8, '예상 비용'); const tb = h('table', 'bt');
     const row = (label, detail, amt, unk, badge) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (badge) a.appendChild(h('span', 'badge', badge)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
     r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false));
@@ -265,13 +357,13 @@ function render() {
       ['예상 합계는 어떻게 계산하나요?', ['입장료·주차비는 각 장소 공식 안내를 ' + checked + ' 기준으로 확인한 값이에요. 요금은 바뀔 수 있으니 방문 전에 확인해 주세요.', '식비·카페비는 운영자가 확인한 대표메뉴 1종의 기준가 × 어른 인원수로 계산한 "예상치"예요. 직접 입력하면 입력한 금액이 우선 적용돼요.', '가격을 확인하지 못한 항목은 "확인 필요"로 두고 합계에 넣지 않아요.']],
       ['"매장 확인 필요"는 무슨 뜻이에요?', ['공식 출처로 이름·주소·판매품목만 확인한 곳이에요. 아기의자, 주차, 유모차 진입, 테이블 간격은 확인하지 못해서 방문 전에 매장에 문의해 주세요.']],
       ['이동 시간은 정확한가요?', ['확인된 이동 시간은 그대로 쓰고, 없는 경우 거리로 추정해요(공원 안은 도보 10분, 직선거리는 1km당 약 3분·최소 10분). 추정한 구간에는 "추정 시간"이 표시돼요. 실제 경로는 지도 앱으로 확인해 주세요.']],
-      ['일정은 어디에 저장되나요?', ['로그인 없이 이 기기의 브라우저에만 저장돼요("내 일정 저장" 최대 10개). 다른 기기에서는 보이지 않고, "처음부터 다시 만들기"로 지울 수 있어요.', '공유하기 링크에는 장소·식당·인원·날짜 같은 일정 선택값만 담겨요. 받은 사람은 같은 일정을 열어 볼 수 있어요.']],
+      ['일정은 어디에 저장되나요?', ['로그인 없이 이 기기의 브라우저에만 저장돼요(상단 "보관함"에서 최대 10개). 다른 기기에서는 보이지 않고, "처음부터 다시 만들기"로 지울 수 있어요.', '공유하기 링크에는 장소·식당·인원·날짜 같은 일정 선택값만 담겨요. 받은 사람에게는 입력 화면 없이 일정표와 예상 금액만 보이고, "내 일정으로 복사해 수정하기"로 가져갈 수 있어요.']],
       ['날씨는 어디서 가져오나요?', ['Open-Meteo 예보를 방문 예정일 기준으로 보여드려요(오늘부터 16일 이내). 예보는 바뀔 수 있으니 출발 전에 다시 확인해 주세요.']],
       ['숙소는 어떻게 되나요?', ['지금은 당일치기 일정만 만들 수 있어요. 키즈 펜션·리조트 같은 숙소 연계는 정보를 확인하는 대로 추가할 예정이에요.']]
     ];
     Q.forEach(q => { const d = h('details', 'fq'); d.appendChild(h('summary', '', q[0])); const a = h('div', 'fa'); q[1].forEach(x => a.appendChild(h('p', '', x))); d.appendChild(a); d.addEventListener('toggle', () => { if (d.open) ga('plan_faq_open', { q: q[0].slice(0, 30) }); }); s.appendChild(d); });
     app.appendChild(s); }
-  renderBar(r);
+  renderBar(r); updateBox();
   window.scrollTo(0, keepY);
 }
 function renderBar(r) {
@@ -287,9 +379,11 @@ function renderBar(r) {
   const q = new URLSearchParams(location.search).get('place');
   if (q && GUIDES[q] && GUIDES[q].costs && STATE.place_id !== q) { STATE.place_id = q; STATE.eat_id = null; STATE.cafe_id = null; STATE.extras.theme_garden = false; save(); }
   const sp = new URLSearchParams(location.search).get('s');
-  if (sp) { const got = Planner.decodePlan(sp); if (got && GUIDES[got.place_id] && GUIDES[got.place_id].costs) { STATE = Planner.savePlan(got); setTimeout(() => toast('공유받은 일정을 불러왔어요'), 300); } try { history.replaceState(null, '', location.pathname); } catch (e) { /* 무시 */ } }
+  if (sp) { const got = Planner.decodePlan(sp); const gp = got && GUIDES[got.place_id]; if (gp && gp.costs) { renderShared(got, gp); return; } try { history.replaceState(null, '', location.pathname); } catch (e) { /* 무시 */ } toast('공유 링크를 열 수 없어 내 일정을 보여드려요'); }
   if (STATE.place_id && !(GUIDES[STATE.place_id] && GUIDES[STATE.place_id].costs)) STATE.place_id = '';
   if (!STATE.visit_date) { STATE.visit_date = Planner.nextSaturday(new Date()); save(); }
+  $('#boxBtn').addEventListener('click', () => openDrawer());
+  updateBox();
   render();
 })();
 </script>

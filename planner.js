@@ -206,13 +206,34 @@
       return normalizePlan({ place_id: o.p, eat_id: o.e, cafe_id: o.c, party: { adult: a[0], teen: a[1], child: a[2], toddler: a[3] }, car: o.k !== 0, visit_minutes: o.v, visit_date: o.d, manual: { meal: m[0], cafe: m[1] }, extras: { theme_garden: !!o.x } });
     } catch (e) { return null; }
   }
-  var SAVED_KEY = 'buyg_saved_plans_v1', SAVED_MAX = 10;
-  function listSaved() { try { var a = JSON.parse(globalThis.localStorage.getItem(SAVED_KEY) || '[]'); return Array.isArray(a) ? a.filter(function (x) { return x && typeof x.id === 'string' && x.state; }).map(function (x) { return { id: x.id, saved_at: x.saved_at || 0, title: String(x.title || '').slice(0, 80), state: normalizePlan(x.state) }; }) : []; } catch (e) { return []; } }
+  // ---- 내 일정 보관함: 서버 DB 이전을 대비한 규격 레코드 ----
+  // { schema_version, id, guest_id(UUID), created_at, updated_at, title, plan_data, summary{total,unknown}, completed, completed_at }
+  var SAVED_KEY = 'buyg_saved_plans_v1', GUEST_KEY = 'buyg_guest_id_v1', SAVED_MAX = 10, SCHEMA_VERSION = 1;
+  function uuid() {
+    try { if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return globalThis.crypto.randomUUID(); } catch (e) { /* 폴백 */ }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
+  }
+  function guestId() {
+    try { var g = globalThis.localStorage.getItem(GUEST_KEY); if (g && /^[0-9a-f-]{36}$/.test(g)) return g; g = uuid(); globalThis.localStorage.setItem(GUEST_KEY, g); return g; } catch (e) { return uuid(); }
+  }
+  function toRecord(x) {   // 저장소 값 -> 규격 레코드(이전 형식 {id,saved_at,title,state} 도 승격)
+    if (!x || typeof x.id !== 'string') return null;
+    var pd = x.plan_data || x.state; if (!pd || typeof pd !== 'object') return null;
+    var created = x.created_at || (x.saved_at ? new Date(x.saved_at).toISOString() : new Date(0).toISOString());
+    var sm = x.summary || {};
+    return { schema_version: SCHEMA_VERSION, id: x.id, guest_id: (typeof x.guest_id === 'string' && /^[0-9a-f-]{36}$/.test(x.guest_id)) ? x.guest_id : guestId(), created_at: created, updated_at: x.updated_at || created, title: String(x.title || '').slice(0, 80), plan_data: normalizePlan(pd), summary: { total: Math.max(0, Math.floor(Number(sm.total) || 0)), unknown: Math.max(0, Math.floor(Number(sm.unknown) || 0)) }, completed: x.completed === true, completed_at: x.completed === true ? (x.completed_at || null) : null };
+  }
+  function listSaved() { try { var a = JSON.parse(globalThis.localStorage.getItem(SAVED_KEY) || '[]'); return Array.isArray(a) ? a.map(toRecord).filter(Boolean) : []; } catch (e) { return []; } }
   function writeSaved(list) { try { globalThis.localStorage.setItem(SAVED_KEY, JSON.stringify(list)); } catch (e) { /* 저장소 차단 */ } }
-  function addSaved(st, title) {   // 같은 내용이면 덮어쓰고 맨 앞으로, 최대 10개
-    var n = normalizePlan(st), id = encodePlan(n), list = listSaved().filter(function (x) { return x.id !== id; });
-    list.unshift({ id: id, saved_at: Date.now(), title: String(title || '').slice(0, 80), state: n });
-    list = list.slice(0, SAVED_MAX); writeSaved(list); return list;
+  function findSaved(st) { var id = encodePlan(st); return listSaved().filter(function (x) { return x.id === id; })[0] || null; }
+  function addSaved(st, title, summary) {   // 같은 일정이면 덮어쓰되 만든 시각·방문 완료 상태는 유지, 최대 10개
+    var n = normalizePlan(st), id = encodePlan(n), old = findSaved(n), now = new Date().toISOString();
+    var rec = toRecord({ id: id, guest_id: old ? old.guest_id : guestId(), created_at: old ? old.created_at : now, updated_at: now, title: title, plan_data: n, summary: summary || (old && old.summary), completed: old ? old.completed : false, completed_at: old ? old.completed_at : null });
+    var list = listSaved().filter(function (x) { return x.id !== id; }); list.unshift(rec); writeSaved(list.slice(0, SAVED_MAX)); return rec;
+  }
+  function completeSaved(st, title, summary) {   // '다녀왔어요' 스탬프: 보관함에 없으면 먼저 저장
+    var rec = addSaved(st, title, summary); rec.completed = true; rec.completed_at = rec.completed_at || new Date().toISOString();
+    var list = listSaved().filter(function (x) { return x.id !== rec.id; }); list.unshift(rec); writeSaved(list.slice(0, SAVED_MAX)); return rec;
   }
   function removeSaved(id) { var list = listSaved().filter(function (x) { return x.id !== id; }); writeSaved(list); return list; }
 
@@ -220,6 +241,6 @@
   function savePlan(o) { var n = normalizePlan(o); n.updated_at = Date.now(); try { globalThis.localStorage.setItem(api.STORE_KEY, JSON.stringify(n)); } catch (e) { /* 저장소 차단: 화면은 계속 동작 */ } return n; }
   function clearPlan() { try { globalThis.localStorage.removeItem(api.STORE_KEY); } catch (e) { /* 무시 */ } }
 
-  var api = { isoDate: isoDate, parseIso: parseIso, nextSaturday: nextSaturday, dateLabel: dateLabel, daysFrom: daysFrom, wmo: wmo, weatherAdvice: weatherAdvice, encodePlan: encodePlan, decodePlan: decodePlan, listSaved: listSaved, addSaved: addSaved, removeSaved: removeSaved, SAVED_KEY: SAVED_KEY, legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
+  var api = { isoDate: isoDate, parseIso: parseIso, nextSaturday: nextSaturday, dateLabel: dateLabel, daysFrom: daysFrom, wmo: wmo, weatherAdvice: weatherAdvice, encodePlan: encodePlan, decodePlan: decodePlan, listSaved: listSaved, findSaved: findSaved, addSaved: addSaved, completeSaved: completeSaved, removeSaved: removeSaved, guestId: guestId, SAVED_KEY: SAVED_KEY, SCHEMA_VERSION: SCHEMA_VERSION, legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Planner = api;
 })(typeof window !== 'undefined' ? window : this);

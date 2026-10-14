@@ -190,13 +190,32 @@ t('공유 링크: 인코딩·디코딩 왕복, 깨진 입력은 null, 범위 밖
   assert.equal(P.decodePlan('###'), null); assert.equal(P.decodePlan(''), null);
   assert.equal(P.decodePlan('x'.repeat(700)), null);
 });
-t('저장 목록: 같은 일정은 덮어쓰고 최대 10개, 삭제 가능', () => {
+t('보관함: 규격 레코드(schema_version·guest_id·created_at·plan_data), 같은 일정은 덮어쓰고 최대 10개', () => {
   const store = {}; globalThis.localStorage = { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } };
-  P.addSaved({ place_id: 'spot_06', visit_date: '2026-10-17' }, '가'); P.addSaved({ place_id: 'spot_06', visit_date: '2026-10-17' }, '나');
-  assert.equal(P.listSaved().length, 1); assert.equal(P.listSaved()[0].title, '나');
+  const r1 = P.addSaved({ place_id: 'spot_06', visit_date: '2026-10-17' }, '가', { total: 39000, unknown: 1 });
+  assert.equal(r1.schema_version, 1); assert.match(r1.guest_id, /^[0-9a-f-]{36}$/); assert.ok(!isNaN(Date.parse(r1.created_at)));
+  assert.equal(r1.plan_data.place_id, 'spot_06'); assert.equal(r1.completed, false); assert.equal(r1.summary.total, 39000);
+  assert.equal(P.guestId(), r1.guest_id);                                   // 같은 기기는 같은 guest_id
+  const r2 = P.addSaved({ place_id: 'spot_06', visit_date: '2026-10-17' }, '나');
+  assert.equal(P.listSaved().length, 1); assert.equal(r2.title, '나'); assert.equal(r2.created_at, r1.created_at); assert.equal(r2.summary.total, 39000);
   for (let i = 0; i < 12; i++) P.addSaved({ place_id: 'spot_06', visit_minutes: 60, visit_date: '2026-11-' + String(10 + i) }, 'x' + i);
   assert.equal(P.listSaved().length, 10);
   const id = P.listSaved()[0].id; assert.equal(P.removeSaved(id).length, 9);
   store['buyg_saved_plans_v1'] = '깨짐'; assert.deepEqual(P.listSaved(), []);
+});
+t('방문 완료 스탬프: 보관함에 없으면 저장 후 완료 처리, 다시 저장해도 완료 상태 유지', () => {
+  const store = {}; globalThis.localStorage = { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } };
+  const st = { place_id: 'spot_57', visit_date: '2026-10-17' };
+  assert.equal(P.findSaved(st), null);
+  const rec = P.completeSaved(st, '수목원', { total: 1000, unknown: 0 });
+  assert.equal(rec.completed, true); assert.ok(!isNaN(Date.parse(rec.completed_at)));
+  assert.equal(P.listSaved().length, 1); assert.equal(P.findSaved(st).completed, true);
+  const again = P.addSaved(st, '수목원2'); assert.equal(again.completed, true); assert.equal(again.completed_at, rec.completed_at);
+  assert.equal(P.findSaved({ place_id: 'spot_57', visit_date: '2026-10-24' }), null);   // 다른 날짜는 다른 일정
+});
+t('보관함: 이전 형식({state, saved_at}) 레코드는 새 규격으로 승격', () => {
+  const store = { buyg_saved_plans_v1: JSON.stringify([{ id: 'abc', saved_at: 1700000000000, title: '옛', state: { place_id: 'spot_06' } }]) };
+  globalThis.localStorage = { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } };
+  const l = P.listSaved(); assert.equal(l.length, 1); assert.equal(l[0].schema_version, 1); assert.equal(l[0].plan_data.place_id, 'spot_06'); assert.equal(l[0].completed, false);
 });
 console.log('planner tests passed: ' + n);

@@ -989,6 +989,32 @@
   .list-card:hover, .feed-card:hover, .week-card:hover, .closing-card:hover, .upcoming-card:hover, .banner-card:hover, .rank-item:hover,
   .list-card:active, .feed-card:active, .week-card:active, .rank-item:active { transform: translateY(-2px); }
   .rank-item:hover, .rank-item:active { background: #fbf9fe; }
+
+  /* ================= 지역별 나들이·체험 슬라이더 (2026-10-14) ================= */
+  #popularSection { display: none !important; }
+  #sec-outing { margin-top: 0; border-top: 0; border-radius: 0 0 14px 14px; }
+  #sec-outing .outing-all { color: var(--text-sub); text-decoration: none; font-weight: 700; }
+  #sec-outing .section-head { gap: 8px; } #sec-outing .section-head h2 { font-size: 15px; word-break: keep-all; } #sec-outing .outing-all { white-space: nowrap; flex: 0 0 auto; }
+  .out-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .out-tabs::-webkit-scrollbar { display: none; }
+  .out-tab { flex: 0 0 auto; padding: 8px 14px; border: 1.5px solid #dfe3ea; border-radius: 999px; background: #fff; font-size: 13px; font-weight: 700; color: #667085; cursor: pointer; font-family: inherit; }
+  .out-tab.on { border-color: #5f0080; background: #f6ecfa; color: #5f0080; }
+  .out-scroll { gap: 12px; padding: 0 16px 8px; }
+  .out-card { flex: 0 0 206px; scroll-snap-align: start; display: flex; flex-direction: column; text-decoration: none; color: inherit; border-radius: 14px; background: #fff; border: 1px solid #eceef3; overflow: hidden; }
+  .out-card:active { transform: translateY(-1px); }
+  .out-photo { position: relative; height: 128px; background: linear-gradient(135deg, #f1ecf6, #e2d6ee); display: flex; align-items: center; justify-content: center; font-size: 38px; overflow: hidden; }
+  .out-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .out-photo.forest { background: linear-gradient(135deg, #e8f3ea, #cfe7d5); } .out-photo.museum { background: linear-gradient(135deg, #f3ecf8, #e5d8f0); } .out-photo.zoo { background: linear-gradient(135deg, #e6f1fb, #cfe5f6); } .out-photo.park { background: linear-gradient(135deg, #eaf5e4, #d3e9c6); } .out-photo.play { background: linear-gradient(135deg, #fff1db, #ffe0b0); }
+  .out-badge { position: absolute; left: 8px; top: 8px; z-index: 1; padding: 3px 8px; border-radius: 999px; background: #5f0080; color: #fff; font-size: 11px; font-weight: 800; }
+  .out-credit { position: absolute; right: 6px; bottom: 4px; z-index: 1; font-size: 9.5px; color: #fff; text-shadow: 0 0 3px rgba(0,0,0,.7); }
+  .out-body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .out-name { font-size: 14.5px; font-weight: 800; line-height: 1.3; word-break: keep-all; }
+  .out-line { font-size: 12px; color: #667085; line-height: 1.4; word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .out-meta { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 2px; font-size: 11px; }
+  .out-meta .rg { color: #98a2b3; font-weight: 700; margin-right: 2px; }
+  .out-meta .tg { padding: 2px 7px; border-radius: 999px; background: #f2f4f7; color: #475467; font-weight: 700; }
+  .out-empty { padding: 28px 8px; color: #98a2b3; font-size: 13px; }
+  @media (min-width: 900px) { .out-tabs { padding-left: 0; padding-right: 0; } .out-card { flex-basis: 232px; } .out-photo { height: 144px; } }
   /* 인기공구: 큰 썸네일 + 10px 곡률 */
   .rank-item { gap: 12px; padding: 10px 12px; }
   .rank-item .list-thumb { flex: 0 0 60px; width: 60px; height: 60px; border-radius: 10px; }
@@ -1255,7 +1281,7 @@
       </div>
       <nav class="dt-gnb" aria-label="주요 메뉴">
         <a href="#sec-category" data-target="sec-category">카테고리</a>
-        <a href="#popularSection" data-target="popularSection">인기공구</a>
+        <a href="#sec-outing" data-target="sec-outing">나들이·체험</a>
         <a href="#sec-closing" data-target="sec-closing">마감임박</a>
         <a href="#sec-soon" data-target="sec-soon">오픈예정</a>
         <a href="outing.html">아이와 나들이</a>
@@ -1317,14 +1343,16 @@
       </section>
 
       <div id="regularSections">
-      <section class="section" id="popularSection">
-        <div class="section-head"><h2>🏆 인기공구</h2><span class="sub">팔로워 · 동시진행 · 마감 기준</span></div>
+      <section class="section" id="sec-outing" aria-label="아이와 어디 갈까? 지역별 나들이·체험">
+        <div class="section-head"><h2>🧸 아이와 어디 갈까? 지역별 나들이·체험</h2><a class="sub outing-all" href="outing.html">전체 보기 ›</a></div>
+        <div class="out-tabs" id="outTabs" role="tablist" aria-label="지역 선택"></div>
         <div class="hscroll-wrap">
-          <button type="button" class="scroll-arrow arrow-left" data-target="popularList" aria-label="이전">‹</button>
-          <div class="hscroll pop-scroll" id="popularList"></div>
-          <button type="button" class="scroll-arrow arrow-right" data-target="popularList" aria-label="다음">›</button>
+          <button type="button" class="scroll-arrow arrow-left" data-target="outingList" aria-label="이전">‹</button>
+          <div class="hscroll out-scroll" id="outingList"><div class="out-empty">불러오는 중…</div></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="outingList" aria-label="다음">›</button>
         </div>
       </section>
+      <section id="popularSection" hidden aria-hidden="true"><div id="popularList"></div></section>
 
       <section class="section" id="sec-age" hidden>
         <div class="section-head"><h2>🧒 연령별 인기공구</h2><span class="sub">자동 분류 · 대상은 원문 확인</span></div>
@@ -3725,6 +3753,72 @@ wcs_add["wa"] = "1267e305db87350";
 if(window.wcs) {
 wcs_do();
 }
+</script>
+<script>
+(function () {
+  var TABS = ['전체', '서울', '경기남부', '경기북부', '인천', '그 외 지역'];
+  var NORTH = /(고양|구리|남양주|동두천|양주|의정부|파주|포천|가평|연천)/;
+  var ITEMS = [], tab = '전체';
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function regionOf(region, addr) {
+    if (/^서울/.test(region || '') || /^서울/.test(addr || '')) return '서울';
+    if (/^인천/.test(region || '') || /^인천/.test(addr || '')) return '인천';
+    if (/^경기/.test(region || '') || /^경기/.test(addr || '')) return NORTH.test((addr || '').split(' ').slice(0, 2).join(' ')) ? '경기북부' : '경기남부';
+    return '그 외 지역';
+  }
+  var THEME_TAG = { museum: '박물관', forest: '자연나들이', zoo: '동물원' };
+  var THEME_CLS = { museum: 'museum', forest: 'forest', zoo: 'zoo' };
+  function cls(cat) { return /박물관|전시/.test(cat) ? 'museum' : /동물|수족/.test(cat) ? 'zoo' : /공원|숲|수목|생태|산책/.test(cat) ? 'forest' : /놀이|체험/.test(cat) ? 'play' : ''; }
+  var ICON = { museum: '🏛️', forest: '🌳', zoo: '🦁', park: '🌿', play: '🎈' };
+  function norm(s) { return String(s || '').replace(/\(.*?\)/g, '').replace(/\s+/g, ''); }
+  function build(guides, seed) {
+    var out = [];
+    Object.keys(guides).forEach(function (k) {
+      var g = guides[k], ph = (g.photos || [])[0] || {}, addr = (g.facts && g.facts.address && g.facts.address.v) || '';
+      out.push({ href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: '에디터 추천', guide: true });
+    });
+    (seed || []).forEach(function (s) {
+      var c = s.category || '', url = s.homepage_url || s.link || '';
+      if (!/^https:\/\//.test(url)) return;
+      var nk = norm(s.title); if (out.some(function (o) { var gk = norm(o.title); return o.guide && (gk === nk || (gk.length > 3 && nk.indexOf(gk) >= 0) || (nk.length > 3 && gk.indexOf(nk) >= 0)); })) return;   // 앵커와 같은 장소는 시드에서 제외
+      out.push({ href: url, ext: true, title: s.title, line: s.tag || '', region: regionOf(s.region, s.address), regionLabel: (s.address || s.region || '').split(' ').slice(0, 2).join(' '), tags: c.split('/').filter(Boolean).slice(0, 2), theme: cls(c), img: '', credit: '', badge: '', guide: false });
+    });
+    return out;
+  }
+  function card(it) {
+    var a = el('a', 'out-card'); a.href = it.href; if (it.ext) { a.target = '_blank'; a.rel = 'noopener'; }
+    var ph = el('div', 'out-photo ' + it.theme);
+    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.onerror = function () { im.remove(); ph.appendChild(el('span', '', ICON[it.theme] || '🧸')); }; ph.appendChild(im); }
+    else ph.appendChild(el('span', '', ICON[it.theme] || '🧸'));
+    if (it.badge) ph.appendChild(el('span', 'out-badge', it.badge));
+    if (it.credit) ph.appendChild(el('span', 'out-credit', it.credit));
+    a.appendChild(ph);
+    var b = el('div', 'out-body'); b.appendChild(el('div', 'out-name', it.title)); if (it.line) b.appendChild(el('div', 'out-line', it.line));
+    var m = el('div', 'out-meta'); m.appendChild(el('span', 'rg', it.regionLabel)); it.tags.forEach(function (t) { m.appendChild(el('span', 'tg', t)); }); b.appendChild(m); a.appendChild(b);
+    a.addEventListener('click', function () { if (typeof gtag === 'function') { try { gtag('event', 'home_outing_click', { title: it.title, region: tab }); } catch (e) {} } });
+    return a;
+  }
+  function draw() {
+    var box = document.getElementById('outingList'); if (!box) return; box.innerHTML = '';
+    var list = ITEMS.filter(function (i) { return tab === '전체' || i.region === tab; });
+    if (tab === '전체') list = list.filter(function (i) { return i.guide || i.region !== '그 외 지역'; });   // 전체 탭은 에디터 추천 + 수도권 먼저(지방은 '그 외 지역' 탭)
+    list.sort(function (x, y) { return (y.guide ? 1 : 0) - (x.guide ? 1 : 0); });
+    if (!list.length) { box.appendChild(el('div', 'out-empty', '이 지역의 나들이 장소를 준비하고 있어요.')); return; }
+    list.slice(0, 24).forEach(function (i) { box.appendChild(card(i)); });
+    box.scrollLeft = 0;
+  }
+  function tabs() {
+    var t = document.getElementById('outTabs'); if (!t) return; t.innerHTML = '';
+    TABS.forEach(function (n) { var b = el('button', 'out-tab' + (n === tab ? ' on' : ''), n); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', n === tab ? 'true' : 'false');
+      b.addEventListener('click', function () { tab = n; tabs(); draw(); }); t.appendChild(b); });
+  }
+  function get(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
+  tabs();
+  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json')]).then(function (r) {
+    ITEMS = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || []); draw();
+    if (typeof enableDragScroll === 'function') { var l = document.getElementById('outingList'); if (l) enableDragScroll(l); }
+  });
+})();
 </script>
 </body>
 </html>
