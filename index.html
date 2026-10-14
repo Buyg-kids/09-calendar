@@ -52,9 +52,9 @@
      배포와도 호환됨. -->
 <link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#5f0080" />
-<link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+<link rel="icon" type="image/x-icon" href="icons/favicon.ico?v=2" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=2" />
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png?v=2" />
 <!-- iOS는 매니페스트의 display:standalone을 따르지 않아 이 메타태그들이 따로 필요하다. -->
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,7 +62,7 @@
      노란 배너와 겹쳤다 - default로 두면 iOS가 상태바 영역을 따로 확보한다. -->
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="BUYG" />
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
 
 <!-- Google tag (gtag.js) - GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6FK3NSWH2F"></script>
@@ -259,9 +259,10 @@
      (카피가 늘어난 만큼 sticky 영역까지 커지면 모바일 화면을 너무 잡아먹음). */
   .brand-hero { position: relative; padding: 18px 16px 4px; text-align: center; }
   .logo {
-    display: inline-block; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;
     color: var(--brand-purple); margin-bottom: 6px; text-decoration: none; cursor: pointer;
   }
+  .logo-face { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; flex: none; background: #f2f1ee; }
   .brand-main {
     font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--text-main);
     text-wrap: balance; word-break: keep-all;
@@ -852,7 +853,8 @@
       margin: 0 -24px; padding: 0 24px; border-bottom: 1px solid #eee;
       display: grid; grid-template-columns: 1fr minmax(0, 500px) 1fr; grid-template-rows: 76px 48px; align-items: center; column-gap: 24px;
     }
-    .dt-logo { display: block; grid-column: 1; grid-row: 1; justify-self: start; font-size: 31px; font-weight: 900; letter-spacing: 1.5px; color: var(--brand-purple); }
+    .dt-logo .logo-face { width: 36px; height: 36px; }
+    .dt-logo { display: flex; align-items: center; gap: 10px; grid-column: 1; grid-row: 1; justify-self: start; font-size: 31px; font-weight: 900; letter-spacing: 1.5px; color: var(--brand-purple); }
     .search-box { grid-column: 2; grid-row: 1; max-width: none; margin: 0; }
     #searchInput {
       height: 46px; font-size: 14.5px; padding: 0 80px 0 20px; border: 1.5px solid var(--brand-purple); border-radius: 6px;
@@ -1280,13 +1282,13 @@
     </div>
     <div class="brand-hero">
       <button class="refresh-btn" id="refreshBtn" type="button" aria-label="새로고침"><span>↻</span></button>
-      <a class="logo" href="./" id="homeLink" aria-label="Buyg 홈으로 이동">Buyg</a>
+      <a class="logo" href="./" id="homeLink" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="30" height="30" decoding="async">Buyg</a>
       <div class="brand-main">0~7세 아이 성장에 맞춘, 똑똑한 육아 공구 달력</div>
       <div class="brand-sub">매일 자정 업데이트되는 인스타 최저가 모아보기</div>
       <div class="today-badge" id="todayBadge" hidden></div>
     </div>
     <header class="app-header">
-      <a class="dt-logo" id="dtLogo" href="./" aria-label="BUYG 홈으로 이동">BUYG</a>
+      <a class="dt-logo" id="dtLogo" href="./" aria-label="BUYG 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="36" height="36" decoding="async">BUYG</a>
       <div class="search-box">
         <input
           type="search"
