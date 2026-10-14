@@ -148,13 +148,78 @@
       eat_id: typeof o.eat_id === 'string' && o.eat_id ? o.eat_id.replace(/[^\w-]/g, '').slice(0, 60) : null,
       cafe_id: typeof o.cafe_id === 'string' && o.cafe_id ? o.cafe_id.replace(/[^\w-]/g, '').slice(0, 60) : null,
       manual: { meal: money(man.meal), cafe: money(man.cafe) }, lodging: 'day', start: '10:30', end: '15:00',
+      visit_date: (typeof o.visit_date === 'string' && parseIso(o.visit_date)) ? o.visit_date : '',
       updated_at: typeof o.updated_at === 'number' ? o.updated_at : 0
     };
   }
+
+  // ---- 날짜 · 날씨 · 공유 · 저장 목록 ----
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function isoDate(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  function parseIso(s) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); if (!m) return null;
+    var d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    return (d.getFullYear() === Number(m[1]) && d.getMonth() === Number(m[2]) - 1 && d.getDate() === Number(m[3])) ? d : null;
+  }
+  function nextSaturday(from) {   // 오늘이 토요일이면 오늘, 아니면 다가오는 토요일
+    var d = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+    d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7));
+    return isoDate(d);
+  }
+  function dateLabel(iso) { var d = parseIso(iso); return d ? (d.getMonth() + 1) + '/' + d.getDate() + '(' + '일월화수목금토'.charAt(d.getDay()) + ')' : ''; }
+  function daysFrom(from, iso) { var d = parseIso(iso); if (!d) return NaN; var a = new Date(from.getFullYear(), from.getMonth(), from.getDate()); return Math.round((d - a) / 864e5); }
+  // WMO 날씨 코드(Open-Meteo) -> 한글 라벨 · 아이콘 · 종류
+  function wmo(code) {
+    code = Number(code);
+    if (code === 0) return { label: '맑음', icon: '☀️', kind: 'clear' };
+    if (code === 1 || code === 2) return { label: '구름 조금', icon: '🌤️', kind: 'cloud' };
+    if (code === 3) return { label: '흐림', icon: '☁️', kind: 'cloud' };
+    if (code === 45 || code === 48) return { label: '안개', icon: '🌫️', kind: 'fog' };
+    if (code >= 51 && code <= 67) return { label: '비', icon: '🌧️', kind: 'rain' };
+    if (code >= 80 && code <= 82) return { label: '소나기', icon: '🌦️', kind: 'rain' };
+    if ((code >= 71 && code <= 77) || code === 85 || code === 86) return { label: '눈', icon: '❄️', kind: 'snow' };
+    if (code >= 95 && code <= 99) return { label: '천둥번개', icon: '⛈️', kind: 'storm' };
+    return { label: '날씨 정보 없음', icon: '🌡️', kind: 'unknown' };
+  }
+  // 하루 예보 -> 안내 문구. w: { code, tmax, tmin, pop(강수확률 %) }, theme: 장소 테마(museum 은 실내 비중이 커서 비 올 때 문구가 다르다)
+  function weatherAdvice(w, theme) {
+    var k = wmo(w.code).kind, pop = typeof w.pop === 'number' ? w.pop : 0, tmax = Number(w.tmax);
+    if (k === 'storm') return { text: '천둥번개 예보 · 야외 활동은 피하는 게 좋아요', tone: 'warn' };
+    if (k === 'snow') return { text: '눈 예보 · 미끄러운 길을 조심하고 따뜻하게 입어요', tone: 'warn' };
+    if (k === 'rain' || pop >= 60) return { text: theme === 'museum' ? '비 소식 · 우산 챙기고 실내 관람 위주로 즐겨요' : '비 소식 · 우산을 챙기고 실내 활동을 함께 계획해요', tone: 'warn' };
+    if (tmax >= 30) return { text: '더위 주의 · 그늘과 물을 넉넉히 챙겨요', tone: 'warn' };
+    if (tmax <= 5) return { text: '추위 주의 · 아이를 따뜻하게 입혀요', tone: 'warn' };
+    return { text: '야외활동 추천', tone: 'good' };
+  }
+  function b64enc(s) { var b = (typeof btoa === 'function') ? btoa(unescape(encodeURIComponent(s))) : Buffer.from(s, 'utf8').toString('base64'); return b.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function b64dec(s) { s = String(s).replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return (typeof atob === 'function') ? decodeURIComponent(escape(atob(s))) : Buffer.from(s, 'base64').toString('utf8'); }
+  // 공유 링크용 압축 직렬화(짧은 키). 받는 쪽은 반드시 normalizePlan 을 거친다(외부 입력 - 길이·문자·범위 제한).
+  function encodePlan(st) {
+    var n = normalizePlan(st);
+    return b64enc(JSON.stringify({ p: n.place_id, e: n.eat_id, c: n.cafe_id, a: [n.party.adult, n.party.teen, n.party.child, n.party.toddler], k: n.car ? 1 : 0, v: n.visit_minutes, d: n.visit_date, m: [n.manual.meal, n.manual.cafe], x: n.extras.theme_garden ? 1 : 0 }));
+  }
+  function decodePlan(s) {
+    try {
+      if (!s || String(s).length > 600) return null;
+      var o = JSON.parse(b64dec(s)); if (!o || typeof o !== 'object') return null;
+      var a = Array.isArray(o.a) ? o.a : [], m = Array.isArray(o.m) ? o.m : [];
+      return normalizePlan({ place_id: o.p, eat_id: o.e, cafe_id: o.c, party: { adult: a[0], teen: a[1], child: a[2], toddler: a[3] }, car: o.k !== 0, visit_minutes: o.v, visit_date: o.d, manual: { meal: m[0], cafe: m[1] }, extras: { theme_garden: !!o.x } });
+    } catch (e) { return null; }
+  }
+  var SAVED_KEY = 'buyg_saved_plans_v1', SAVED_MAX = 10;
+  function listSaved() { try { var a = JSON.parse(globalThis.localStorage.getItem(SAVED_KEY) || '[]'); return Array.isArray(a) ? a.filter(function (x) { return x && typeof x.id === 'string' && x.state; }).map(function (x) { return { id: x.id, saved_at: x.saved_at || 0, title: String(x.title || '').slice(0, 80), state: normalizePlan(x.state) }; }) : []; } catch (e) { return []; } }
+  function writeSaved(list) { try { globalThis.localStorage.setItem(SAVED_KEY, JSON.stringify(list)); } catch (e) { /* 저장소 차단 */ } }
+  function addSaved(st, title) {   // 같은 내용이면 덮어쓰고 맨 앞으로, 최대 10개
+    var n = normalizePlan(st), id = encodePlan(n), list = listSaved().filter(function (x) { return x.id !== id; });
+    list.unshift({ id: id, saved_at: Date.now(), title: String(title || '').slice(0, 80), state: n });
+    list = list.slice(0, SAVED_MAX); writeSaved(list); return list;
+  }
+  function removeSaved(id) { var list = listSaved().filter(function (x) { return x.id !== id; }); writeSaved(list); return list; }
+
   function loadPlan() { try { return normalizePlan(JSON.parse(globalThis.localStorage.getItem(api.STORE_KEY) || 'null')); } catch (e) { return normalizePlan(null); } }
   function savePlan(o) { var n = normalizePlan(o); n.updated_at = Date.now(); try { globalThis.localStorage.setItem(api.STORE_KEY, JSON.stringify(n)); } catch (e) { /* 저장소 차단: 화면은 계속 동작 */ } return n; }
   function clearPlan() { try { globalThis.localStorage.removeItem(api.STORE_KEY); } catch (e) { /* 무시 */ } }
 
-  var api = { legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
+  var api = { isoDate: isoDate, parseIso: parseIso, nextSaturday: nextSaturday, dateLabel: dateLabel, daysFrom: daysFrom, wmo: wmo, weatherAdvice: weatherAdvice, encodePlan: encodePlan, decodePlan: decodePlan, listSaved: listSaved, addSaved: addSaved, removeSaved: removeSaved, SAVED_KEY: SAVED_KEY, legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Planner = api;
 })(typeof window !== 'undefined' ? window : this);

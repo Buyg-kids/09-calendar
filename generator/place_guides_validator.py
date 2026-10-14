@@ -256,6 +256,11 @@ def validate_place(pid: str, p: dict) -> list[str]:
     for i, ph in enumerate(p["photos"] if isinstance(p["photos"], list) else []):
         if not (_src_ok(ph.get("url")) and str(ph.get("credit") or "").strip() and str(ph.get("license") or "").strip()):
             errs.append(f"{pid}.photos[{i}]: url(https)·credit·license 필요(라이선스 확인 전에는 비워 둔다)")
+    if "geo" in p:
+        g = p["geo"]
+        if not (isinstance(g, dict) and isinstance(g.get("lat"), (int, float)) and isinstance(g.get("lon"), (int, float)) and 33 <= g["lat"] <= 39 and 124 <= g["lon"] <= 132
+                and str(g.get("source") or "").strip() and isinstance(g.get("checked"), str) and DATE_RE.match(g["checked"])):
+            errs.append(f"{pid}.geo: lat(33~39)·lon(124~132)·source·checked 필요")
     if "costs" in p:
         errs += validate_costs(pid, p["costs"])
     if "eats" in p:

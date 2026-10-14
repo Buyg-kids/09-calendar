@@ -53,7 +53,7 @@
   .eatcard .blk ul { margin: 0; padding: 0 0 0 16px; } .eatcard .blk li { margin: 0 0 4px; font-size: 13.5px; line-height: 1.5; word-break: keep-all; }
   .eatcard .unkrow { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; padding: 9px 11px; border: 1px dashed #d5dae3; border-radius: 10px; background: #f7f8fa; }
   .eatcard .unkrow .ut { font-size: 12.5px; color: var(--sub); line-height: 1.45; }
-  .eatcard .foot { margin: 12px 0 0; font-size: 11.5px; color: var(--mute); line-height: 1.5; }
+  .eatcard .foot { margin: 12px 0 0; font-size: 11.5px; color: #a3a9b4; line-height: 1.5; word-break: keep-all; }
   .eatcard .acts { display: flex; gap: 8px; margin-top: 12px; }
   .eatcard .acts a, .eatcard .acts button { flex: 1; min-height: 42px; border: 1.5px solid #dfe3ea; border-radius: 10px; background: #fff; font-size: 13px; font-weight: 800; color: var(--ink); text-decoration: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; }
   .eatcard .acts button.on { border-color: var(--brand); background: #f6ecfa; color: var(--brand); }
@@ -219,17 +219,17 @@ function eatCard(e, p) {
   if (e.level !== 'listed') Object.keys(e.infra || {}).forEach(k => { const f = e.infra[k]; if (f && f.v) r1.appendChild(h('span', 'pill ok', f.v)); });
   c.appendChild(r1);
   const line = (label, text, srcUrl) => { const rc = h('p', 'rec'); rc.appendChild(h('b', '', label + '  ')); rc.appendChild(document.createTextNode(text)); if (srcUrl) src(rc, srcUrl); c.appendChild(rc); };
-  if (e.level === 'listed') {   // 공식 출처로 이름·주소·판매품목만 확인한 항목: 나머지는 '매장 확인 필요'
-    if (e.menu && e.menu.v) line('공식 판매품목', e.menu.v, e.menu.src);
+  const srcName = (e.identity && /visitkorea/.test(e.identity.src || '')) ? '한국관광공사 TourAPI' : (e.identity && /grandpark/.test(e.identity.src || '') ? '서울대공원 공식 안내' : '');
+  if (e.level === 'listed') {   // 공식 출처로 이름·주소만 확인한 항목: 대표메뉴(운영자 확인 기준가) + '매장 확인 필요'
+    if (e.ref_menu) line('대표메뉴', e.ref_menu.name + ' 약 ' + e.ref_menu.price.toLocaleString('ko-KR') + '원');
     const unk = h('div', 'unkrow'); unk.appendChild(h('span', 'pill', '매장 확인 필요')); unk.appendChild(h('span', 'ut', '아기의자 · 주차 · 유모차 진입 · 테이블 간격')); c.appendChild(unk);
-    c.appendChild(h('p', 'foot', (e.identity && e.identity.note ? e.identity.note + ' · ' : '') + '확인일 ' + (e.identity ? e.identity.checked : '') + ' · ' + e.address + ' · 영업 여부와 메뉴는 방문 전에 확인해 주세요.'));
+    c.appendChild(h('p', 'foot', '출처: ' + (srcName || '공식 안내') + ' · ' + e.address));
   } else {
     if (e.recommend_for && e.recommend_for.v) line('추천 대상', e.recommend_for.v);
     if (e.menu && e.menu.v) line('메뉴', e.menu.v);
     const blk = (cls, title, items) => { if (!items || !items.length) return; const b = h('div', 'blk ' + cls); b.appendChild(h('h4', '', title)); const ul = h('ul'); items.forEach(i => ul.appendChild(h('li', '', i.text))); b.appendChild(ul); c.appendChild(b); };
     blk('good', '이런 게 좋아요', e.pros); blk('bad', '이건 아쉬워요', e.cons);
-    const prov = e.provenance === 'operator_verified' ? '운영자 확인 · ' + e.verified_at : '';
-    c.appendChild(h('p', 'foot', (prov ? prov + ' · ' : '') + e.address + ' · 영업 여부와 메뉴는 방문 전에 확인해 주세요.'));
+    c.appendChild(h('p', 'foot', '출처: ' + (e.provenance === 'operator_verified' ? '운영자 확인(' + e.verified_at + ')' : '공식 안내') + ' · ' + e.address));
   }
   const acts = h('div', 'acts');
   const map = h('a', '', '네이버 지도'); map.href = naverMap(e.name + ' ' + e.address); map.target = '_blank'; map.rel = 'noopener'; map.addEventListener('click', () => ga('eat_map_click', { id: e.id })); acts.appendChild(map);
@@ -351,12 +351,6 @@ function render(p) {
     m.appendChild(box); app.appendChild(m);
   }
 
-  if (g && g.faq.length) {   // 6. FAQ 아코디언
-    const m = mod('자주 묻는 질문'), box = h('div', 'faq');
-    g.faq.forEach(q => { const d = h('details'), s = h('summary', '', q.q), a = h('div', 'ans', q.a); src(a, q.src); d.appendChild(s); d.appendChild(a); d.addEventListener('toggle', () => { if (d.open) ga('place_faq_open', { q: q.q.slice(0, 40) }); }); box.appendChild(d); });
-    m.appendChild(box); app.appendChild(m);
-  }
-
   { // 연계 동선
     const m = mod('이어서 가기 좋은 곳');
     if (g && g.eats && g.eats.length) {   // 운영자 확인 식당·카페 카드
@@ -383,6 +377,12 @@ function render(p) {
     const d = h('p', 'disc', COUPANG_PARTNER_ID ? COUPANG_DISCLOSURE : '지금은 제휴 없이 네이버 쇼핑 검색으로 연결돼요.');
     d.id = 'disclosure'; m.appendChild(d);
     app.appendChild(m);
+  }
+
+  if (g && g.faq.length) {   // FAQ 아코디언(페이지 맨 아래, 모두 접힘)
+    const m = mod('자주 묻는 질문'), box = h('div', 'faq');
+    g.faq.forEach(q => { const d = h('details'), s = h('summary', '', q.q), a = h('div', 'ans', q.a); src(a, q.src); d.appendChild(s); d.appendChild(a); d.addEventListener('toggle', () => { if (d.open) ga('place_faq_open', { q: q.q.slice(0, 40) }); }); box.appendChild(d); });
+    m.appendChild(box); app.appendChild(m);
   }
 
   const upd = h('p', 'note'); upd.style.padding = '14px 18px 0'; upd.textContent = g ? '이 페이지의 사실 정보는 각 항목의 "출처" 링크(공식 안내)에서 ' + (g.facts.address.checked || '') + ' 기준으로 확인했어요. 운영 사정에 따라 달라질 수 있어요.' : '운영 정보는 방문 전 공식 안내에서 다시 확인해 주세요.';

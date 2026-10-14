@@ -72,6 +72,47 @@
   .bar-in { max-width: 720px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .bar .sum { font-size: 12.5px; color: var(--sub); line-height: 1.35; } .bar .sum b { display: block; font-size: 17px; color: var(--ink); }
   .bar a.go { flex: 0 0 auto; padding: 12px 18px; border-radius: 12px; background: var(--brand); color: #fff; font-size: 14px; font-weight: 800; text-decoration: none; }
+  /* 다이어리 감성 */
+  :root { --paper: #fffaf0; --paper-line: #f0e6d0; --ink-warm: #5b4636; --tape: #f3d9a4; }
+  .when { display: grid; gap: 10px; }
+  .when label.dt { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 14px; font-weight: 700; }
+  .when input[type=date] { height: 42px; padding: 0 10px; border: 1.5px solid #dfe3ea; border-radius: 10px; font-size: 15px; font-family: inherit; color: var(--ink); background: #fff; min-width: 0; }
+  .wxbox { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: #fff7e6; border: 1px solid #f4e1b8; }
+  .wxbox .wi { font-size: 34px; line-height: 1; flex: 0 0 auto; }
+  .wxbox .wt { min-width: 0; } .wxbox .wt b { display: block; font-size: 15px; color: var(--ink-warm); }
+  .wxbox .wt span { display: block; margin-top: 2px; font-size: 13px; color: var(--sub); line-height: 1.4; word-break: keep-all; }
+  .wxbox.warn { background: #eef4ff; border-color: #cfdcf7; } .wxbox.none { background: var(--unk-bg); border-color: var(--line); } .wxbox.none .wi { font-size: 26px; }
+  section.diary { margin: 10px 0 0; padding: 22px 16px 18px; background: var(--paper); position: relative; border-top: 1px solid var(--paper-line); border-bottom: 1px solid var(--paper-line); }
+  section.diary::before { content: ''; position: absolute; left: 50%; top: -9px; width: 86px; height: 20px; margin-left: -43px; background: var(--tape); opacity: .85; transform: rotate(-2deg); border-radius: 2px; }
+  section.diary > h2 { margin: 0 0 4px; font-size: 17px; font-weight: 800; color: var(--ink-warm); display: flex; align-items: center; gap: 8px; }
+  .dhead { margin: 0 0 14px; font-size: 13px; color: #8a7561; line-height: 1.5; }
+  .dhead .pin { vertical-align: -3px; margin-right: 4px; }
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl::before { content: ''; position: absolute; left: 61px; top: 8px; bottom: 8px; border-left: 2px dashed #e4d3b0; }
+  .tl li { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 28px; padding: 0 0 12px; }
+  .tl li:last-child { padding-bottom: 0; }
+  .tl .tm { padding-top: 11px; font-size: 12.5px; font-weight: 800; color: var(--ink-warm); font-variant-numeric: tabular-nums; text-align: right; line-height: 1.25; }
+  .tl .tm i { display: block; font-style: normal; font-weight: 600; color: #b3a28c; font-size: 11px; }
+  .tl .cd { position: relative; padding: 10px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--paper-line); box-shadow: 0 1px 0 rgba(120,90,40,.06); font-size: 14.5px; line-height: 1.45; color: var(--ink); word-break: keep-all; }
+  .tl .cd::before { content: ''; position: absolute; left: -20px; top: 15px; width: 10px; height: 10px; border-radius: 50%; background: var(--brand); border: 2px solid var(--paper); box-sizing: content-box; }
+  .tl .cd .sm { display: block; margin-top: 3px; font-size: 12px; color: #9a8a76; font-weight: 500; }
+  .tl .cd .ic { margin-right: 4px; }
+  .tl li.move .cd, .tl li.wait .cd { background: transparent; border-style: dashed; color: var(--sub); font-size: 13px; padding: 7px 12px; }
+  .tl li.move .cd::before, .tl li.wait .cd::before { background: #d7c7a6; width: 8px; height: 8px; left: -19px; top: 12px; }
+  .tl li.end .cd { background: #fdf0d5; border-color: #f0dba9; font-weight: 700; }
+  .tl li.end .cd::before { background: #e0a43a; }
+  section.diary .warn { background: #fff0d8; margin-top: 12px; }
+  .dact { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .dact button { padding: 13px 8px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: inherit; border: 1.5px solid var(--brand); }
+  .dact .sv { background: #fff; color: var(--brand); } .dact .sh { background: var(--brand); color: #fff; }
+  .dact .sv.done { background: #f6ecfa; }
+  .saved { margin-top: 12px; display: grid; gap: 6px; }
+  .saved h3 { margin: 4px 0 0; font-size: 12.5px; color: #8a7561; font-weight: 700; }
+  .saved .sr { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 10px; background: #fff; border: 1px solid var(--paper-line); }
+  .saved .sr button.ld { flex: 1; min-width: 0; text-align: left; border: 0; background: none; font-family: inherit; font-size: 13px; color: var(--ink); cursor: pointer; padding: 4px 0; }
+  .saved .sr button.rm { border: 0; background: none; color: var(--mute); font-size: 12px; cursor: pointer; padding: 4px 6px; font-family: inherit; }
+  .toast { position: fixed; left: 50%; bottom: calc(var(--bar-h) + 22px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 20; max-width: 86vw; padding: 10px 16px; border-radius: 999px; background: rgba(31,36,48,.92); color: #fff; font-size: 13px; }
+  .bt { background: transparent; }
   .empty { padding: 50px 20px; text-align: center; color: var(--sub); line-height: 1.7; }
 </style>
 </head>
@@ -99,6 +140,39 @@ function eatSub(b, e) {   // 식당·카페 선택 카드의 보조 문구: 목�
   if (e.peak) b.appendChild(h('span', '', '붐비는 시간: ' + e.peak.label));
 }
 
+
+function toast(msg) { let el = $('.toast'); if (!el) { el = h('div', 'toast'); el.setAttribute('role', 'status'); document.body.appendChild(el); } el.textContent = msg; el.style.display = 'block'; clearTimeout(toast._t); toast._t = setTimeout(() => { el.style.display = 'none'; }, 2200); }
+const WX = {};   // 'lat,lon,date' -> 예보(또는 {error})
+function pinSvg() { return '<svg class="pin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b5483a" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z" fill="#f6c9bf"/><circle cx="12" cy="10" r="2.4" fill="#fff"/></svg>'; }
+function loadWeather(place, iso, box) {
+  const geo = place.geo; const d = Planner.daysFrom(new Date(), iso);
+  const show = (cls, icon, title, sub) => { box.className = 'wxbox ' + cls; box.innerHTML = ''; box.appendChild(h('div', 'wi', icon)); const w = h('div', 'wt'); w.appendChild(h('b', '', title)); if (sub) w.appendChild(h('span', '', sub)); box.appendChild(w); };
+  if (!geo) return show('none', '🌡️', '날씨 정보를 불러올 수 없어요', '이 장소의 위치 정보가 아직 없어요.');
+  if (!(d >= 0)) return show('none', '🗓️', '지난 날짜예요', '오늘 이후 날짜를 골라 주세요.');
+  if (d > 15) return show('none', '🗓️', '아직 예보가 없어요', '날씨 예보는 오늘부터 16일 이내만 볼 수 있어요. 가까워지면 다시 확인해 주세요.');
+  const key = geo.lat + ',' + geo.lon + ',' + iso;
+  const draw = f => {
+    if (!f || f.error) return show('none', '🌡️', '날씨 정보를 불러오지 못했어요', '잠시 후 다시 시도해 주세요.');
+    const w = Planner.wmo(f.code), a = Planner.weatherAdvice(f, place.theme);
+    show(a.tone === 'warn' ? 'warn' : '', w.icon, w.label + ' ' + Math.round(f.tmax) + '℃' + (isFinite(f.tmin) ? ' (최저 ' + Math.round(f.tmin) + '℃)' : '') + ' · ' + a.text.split(' · ')[0], (a.text.indexOf(' · ') > 0 ? a.text.split(' · ')[1] + ' · ' : '') + (typeof f.pop === 'number' ? '강수확률 ' + f.pop + '% · ' : '') + '예보 출처 Open-Meteo');
+  };
+  if (WX[key]) return draw(WX[key]);
+  show('none', '⏳', '날씨를 확인하는 중…', '');
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=' + geo.lat + '&longitude=' + geo.lon + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FSeoul&start_date=' + iso + '&end_date=' + iso)
+    .then(r => r.json()).then(j => { const dd = j && j.daily; WX[key] = dd && dd.time && dd.time.length ? { code: dd.weather_code[0], tmax: dd.temperature_2m_max[0], tmin: dd.temperature_2m_min[0], pop: dd.precipitation_probability_max ? dd.precipitation_probability_max[0] : null } : { error: 1 }; })
+    .catch(() => { WX[key] = { error: 1 }; }).then(() => { if (box.isConnected) draw(WX[key]); });
+}
+function planTitle(place) { return place.name + (STATE.visit_date ? ' · ' + Planner.dateLabel(STATE.visit_date) : ''); }
+function shareUrl() { return location.origin + location.pathname + '?s=' + Planner.encodePlan(STATE); }
+function sharePlan(place) {
+  const url = shareUrl(), title = '나의 주말 일정 · ' + planTitle(place), text = title + '\n(예상 합계는 링크에서 확인해요)';
+  ga('plan_share', { id: place.id });
+  if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch(() => { /* 사용자가 닫음 */ }); return; }
+  const done = () => toast('링크를 복사했어요. 카카오톡에 붙여넣어 보내 보세요');
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => prompt('아래 링크를 복사해 주세요', url));
+  else prompt('아래 링크를 복사해 주세요', url);
+}
+
 function render() {
   const app = $('#app'); const keepY = window.scrollY; app.innerHTML = '';
   const intro = h('div', 'intro'); intro.appendChild(h('h1', '', '나의 주말 일정표')); intro.appendChild(h('p', 'lead', '장소와 식당을 고르면 타임테이블과 예상 비용을 계산해 드려요. 로그인 없이 이 기기에만 저장돼요.')); app.appendChild(intro);
@@ -110,8 +184,15 @@ function render() {
     s.appendChild(box); app.appendChild(s); }
   if (!place) { const e = h('div', 'empty', '장소를 선택하면 일정이 만들어져요.'); app.appendChild(e); renderBar(null); return; }
 
-  // 2) 우리 가족
-  { const s = section(2, '누구와 어떻게 가나요?'); const pt = h('div', 'party');
+  // 방문 예정일 · 날씨
+  { const s = section(2, '언제 가나요?'); const wrap = h('div', 'when');
+    const lb = h('label', 'dt'); lb.appendChild(h('span', '', '방문 예정일')); const di = document.createElement('input'); di.type = 'date'; di.value = STATE.visit_date || ''; di.min = Planner.isoDate(new Date());
+    di.addEventListener('change', () => set(st => { st.visit_date = Planner.parseIso(di.value) ? di.value : ''; })); lb.appendChild(di); wrap.appendChild(lb);
+    const wx = h('div', 'wxbox none'); wrap.appendChild(wx); s.appendChild(wrap); app.appendChild(s);
+    if (STATE.visit_date) loadWeather(place, STATE.visit_date, wx); else { wx.appendChild(h('div', 'wi', '🗓️')); const w = h('div', 'wt'); w.appendChild(h('b', '', '날짜를 고르면 날씨를 알려드려요')); wx.appendChild(w); } }
+
+  // 3) 우리 가족
+  { const s = section(3, '누구와 어떻게 가나요?'); const pt = h('div', 'party');
     AGE_ROWS.forEach(r => { const row = h('div', 'prow'); const nm = h('div', 'nm'); nm.appendChild(h('b', '', r[1])); nm.appendChild(h('span', '', r[2])); row.appendChild(nm);
       const bt = h('div', 'step-btns'); const out = h('output', '', String(STATE.party[r[0]])); const mk = (sym, d, label) => { const b = h('button', '', sym); b.type = 'button'; b.setAttribute('aria-label', r[1] + ' ' + label); b.addEventListener('click', () => set(st => { st.party[r[0]] = Math.max(0, Math.min(9, st.party[r[0]] + d)); })); return b; };
       bt.appendChild(mk('−', -1, '줄이기')); bt.appendChild(out); bt.appendChild(mk('+', 1, '늘리기')); row.appendChild(bt); pt.appendChild(row); });
@@ -124,7 +205,7 @@ function render() {
     app.appendChild(s); }
 
   // 3) 식당
-  { const s = section(3, '식사는 어디서 할까요?');
+  { const s = section(4, '식사는 어디서 할까요?');
     const eats = (place.eats || []).filter(e => e.kind === '식당');
     if (!eats.length) s.appendChild(h('p', 'note', '이 장소의 식당 정보를 준비하고 있어요.'));
     eats.forEach(e => { const b = h('button', 'eat' + (STATE.eat_id === e.id ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', STATE.eat_id === e.id ? 'true' : 'false');
@@ -134,7 +215,7 @@ function render() {
     app.appendChild(s); }
 
   // 4) 카페
-  { const s = section(4, '카페는 어떨까요?'); const cafes = (place.eats || []).filter(e => e.kind === '카페');
+  { const s = section(5, '카페는 어떨까요?'); const cafes = (place.eats || []).filter(e => e.kind === '카페');
     if (!cafes.length) s.appendChild(h('p', 'note', '이 장소의 카페 정보를 준비하고 있어요. 지금은 건너뛰기로 일정이 만들어져요.'));
     const skipC = h('div', 'choices'); skipC.appendChild(chip('카페 건너뛰기', !STATE.cafe_id, () => set(st => { st.cafe_id = null; })));
     cafes.forEach(e => { const b = h('button', 'eat' + (STATE.cafe_id === e.id ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', STATE.cafe_id === e.id ? 'true' : 'false'); b.appendChild(h('b', '', e.name)); b.appendChild(h('span', '', e.distance.v)); eatSub(b, e); b.addEventListener('click', () => set(st => { st.cafe_id = st.cafe_id === e.id ? null : e.id; })); s.appendChild(b); });
@@ -142,14 +223,25 @@ function render() {
     app.appendChild(s); }
 
   // 5) 숙소
-  { const s = section(5, '숙소가 필요한가요?'); const c = h('div', 'choices'); c.appendChild(chip('당일치기', true, null, true)); s.appendChild(c); s.appendChild(h('p', 'note', '지금은 당일치기 일정만 만들 수 있어요. 키즈 펜션·리조트 같은 숙소 연계는 정보를 확인하는 대로 추가할 예정이에요.')); app.appendChild(s); }
+  { const s = section(6, '숙소가 필요한가요?'); const c = h('div', 'choices'); c.appendChild(chip('당일치기', true, null, true)); s.appendChild(c); s.appendChild(h('p', 'note', '지금은 당일치기 일정만 만들 수 있어요. 키즈 펜션·리조트 같은 숙소 연계는 정보를 확인하는 대로 추가할 예정이에요.')); app.appendChild(s); }
 
   // 결과
   const r = Planner.plan(STATE, place); window.__lastPlan = r;
-  { const s = section(6, '이렇게 다녀오면 어때요?'); s.id = 'result'; const ul = h('ul', 'tt');
-    r.timetable.forEach(x => { const li = h('li', x.kind); const tm = h('div', 'tm', x.kind === 'end' ? x.start : x.start + '~' + x.end); const tx = h('div', '', x.label); if (x.note) tx.appendChild(h('span', 'sm', x.note)); li.appendChild(tm); li.appendChild(tx); ul.appendChild(li); });
-    s.appendChild(ul); r.warnings.forEach(w => s.appendChild(h('div', 'warn', w))); app.appendChild(s); }
-  { const s = section(7, '예상 비용'); const tb = h('table', 'bt');
+  { const s = h('section', 'diary'); s.id = 'result'; const h2 = h('h2'); h2.appendChild(document.createTextNode('우리 가족 하루 일기장')); s.appendChild(h2);
+    const dh = h('p', 'dhead'); dh.innerHTML = pinSvg(); dh.appendChild(document.createTextNode(planTitle(place) + ' · 어른 ' + STATE.party.adult + (STATE.party.teen ? ' · 청소년 ' + STATE.party.teen : '') + (STATE.party.child ? ' · 어린이 ' + STATE.party.child : '') + (STATE.party.toddler ? ' · 영유아 ' + STATE.party.toddler : '') + ' · ' + (STATE.car ? '자가용' : '대중교통'))); s.appendChild(dh);
+    const ICON = { place: '📍', meal: '🍽️', cafe: '☕', move: '🚗', wait: '⏱️', end: '🏠' };
+    const ul = h('ul', 'tl');
+    r.timetable.forEach(x => { const li = h('li', x.kind); const tm = h('div', 'tm'); tm.appendChild(document.createTextNode(x.start)); if (x.kind !== 'end') tm.appendChild(h('i', '', '~' + x.end)); const cd = h('div', 'cd'); cd.appendChild(h('span', 'ic', ICON[x.kind] || '•')); cd.appendChild(document.createTextNode(x.label)); if (x.note) cd.appendChild(h('span', 'sm', x.note)); li.appendChild(tm); li.appendChild(cd); ul.appendChild(li); });
+    s.appendChild(ul); r.warnings.forEach(w => s.appendChild(h('div', 'warn', w)));
+    const act = h('div', 'dact'); const sv = h('button', 'sv', '📌 내 일정 저장'); sv.type = 'button'; const sh = h('button', 'sh', '카카오톡/링크 공유하기'); sh.type = 'button';
+    sv.addEventListener('click', () => { Planner.addSaved(STATE, planTitle(place)); ga('plan_save', { id: place.id }); toast('이 기기에 저장했어요'); render(); });
+    sh.addEventListener('click', () => sharePlan(place)); act.appendChild(sv); act.appendChild(sh); s.appendChild(act);
+    const sl = Planner.listSaved();
+    if (sl.length) { const box = h('div', 'saved'); box.appendChild(h('h3', '', '저장한 일정 ' + sl.length + '개'));
+      sl.forEach(x => { const row = h('div', 'sr'); const ld = h('button', 'ld', (x.title || '저장한 일정')); ld.type = 'button'; ld.addEventListener('click', () => { STATE = Planner.savePlan(x.state); ga('plan_load_saved'); render(); window.scrollTo(0, 0); });
+        const rm = h('button', 'rm', '삭제'); rm.type = 'button'; rm.setAttribute('aria-label', (x.title || '저장한 일정') + ' 삭제'); rm.addEventListener('click', () => { Planner.removeSaved(x.id); render(); }); row.appendChild(ld); row.appendChild(rm); box.appendChild(row); }); s.appendChild(box); }
+    app.appendChild(s); }
+  { const s = section(8, '예상 비용'); const tb = h('table', 'bt');
     const row = (label, detail, amt, unk, badge) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (badge) a.appendChild(h('span', 'badge', badge)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
     r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false));
     r.budget.manual.forEach(l => row(l.label, '', Planner.won(l.amount), false));
@@ -173,7 +265,8 @@ function render() {
       ['예상 합계는 어떻게 계산하나요?', ['입장료·주차비는 각 장소 공식 안내를 ' + checked + ' 기준으로 확인한 값이에요. 요금은 바뀔 수 있으니 방문 전에 확인해 주세요.', '식비·카페비는 운영자가 확인한 대표메뉴 1종의 기준가 × 어른 인원수로 계산한 "예상치"예요. 직접 입력하면 입력한 금액이 우선 적용돼요.', '가격을 확인하지 못한 항목은 "확인 필요"로 두고 합계에 넣지 않아요.']],
       ['"매장 확인 필요"는 무슨 뜻이에요?', ['공식 출처로 이름·주소·판매품목만 확인한 곳이에요. 아기의자, 주차, 유모차 진입, 테이블 간격은 확인하지 못해서 방문 전에 매장에 문의해 주세요.']],
       ['이동 시간은 정확한가요?', ['확인된 이동 시간은 그대로 쓰고, 없는 경우 거리로 추정해요(공원 안은 도보 10분, 직선거리는 1km당 약 3분·최소 10분). 추정한 구간에는 "추정 시간"이 표시돼요. 실제 경로는 지도 앱으로 확인해 주세요.']],
-      ['일정은 어디에 저장되나요?', ['로그인 없이 이 기기의 브라우저에만 저장돼요. 다른 기기에서는 보이지 않고, 위의 "처음부터 다시 만들기"로 지울 수 있어요.']],
+      ['일정은 어디에 저장되나요?', ['로그인 없이 이 기기의 브라우저에만 저장돼요("내 일정 저장" 최대 10개). 다른 기기에서는 보이지 않고, "처음부터 다시 만들기"로 지울 수 있어요.', '공유하기 링크에는 장소·식당·인원·날짜 같은 일정 선택값만 담겨요. 받은 사람은 같은 일정을 열어 볼 수 있어요.']],
+      ['날씨는 어디서 가져오나요?', ['Open-Meteo 예보를 방문 예정일 기준으로 보여드려요(오늘부터 16일 이내). 예보는 바뀔 수 있으니 출발 전에 다시 확인해 주세요.']],
       ['숙소는 어떻게 되나요?', ['지금은 당일치기 일정만 만들 수 있어요. 키즈 펜션·리조트 같은 숙소 연계는 정보를 확인하는 대로 추가할 예정이에요.']]
     ];
     Q.forEach(q => { const d = h('details', 'fq'); d.appendChild(h('summary', '', q[0])); const a = h('div', 'fa'); q[1].forEach(x => a.appendChild(h('p', '', x))); d.appendChild(a); d.addEventListener('toggle', () => { if (d.open) ga('plan_faq_open', { q: q[0].slice(0, 30) }); }); s.appendChild(d); });
@@ -193,7 +286,10 @@ function renderBar(r) {
   try { const r = await fetch('./place_guides.json', { cache: 'no-store' }); GUIDES = (await r.json()).places || {}; } catch (e) { GUIDES = {}; }
   const q = new URLSearchParams(location.search).get('place');
   if (q && GUIDES[q] && GUIDES[q].costs && STATE.place_id !== q) { STATE.place_id = q; STATE.eat_id = null; STATE.cafe_id = null; STATE.extras.theme_garden = false; save(); }
+  const sp = new URLSearchParams(location.search).get('s');
+  if (sp) { const got = Planner.decodePlan(sp); if (got && GUIDES[got.place_id] && GUIDES[got.place_id].costs) { STATE = Planner.savePlan(got); setTimeout(() => toast('공유받은 일정을 불러왔어요'), 300); } try { history.replaceState(null, '', location.pathname); } catch (e) { /* 무시 */ } }
   if (STATE.place_id && !(GUIDES[STATE.place_id] && GUIDES[STATE.place_id].costs)) STATE.place_id = '';
+  if (!STATE.visit_date) { STATE.visit_date = Planner.nextSaturday(new Date()); save(); }
   render();
 })();
 </script>

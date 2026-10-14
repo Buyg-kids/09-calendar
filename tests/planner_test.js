@@ -166,4 +166,37 @@ t('경기도박물관: 인근 카페(직선 2.5km)는 차로 이동 추정, 식�
   assert.ok(r.timetable.some(x => x.kind === 'cafe' && x.label.indexOf('나인블럭') >= 0));
   assert.equal(r.budget.lines.find(l => l.key === 'parking').amount, 1000 + Math.ceil(60 / 10) * 200);   // 식당만 걸어서 -> 60+60=120분
 });
+t('방문 예정일: 기본은 다가오는 토요일(토요일이면 당일), 잘못된 날짜는 비운다', () => {
+  assert.equal(P.nextSaturday(new Date(2026, 9, 14)), '2026-10-17');   // 수
+  assert.equal(P.nextSaturday(new Date(2026, 9, 17)), '2026-10-17');   // 토
+  assert.equal(P.nextSaturday(new Date(2026, 9, 18)), '2026-10-24');   // 일
+  assert.equal(P.dateLabel('2026-10-17'), '10/17(토)');
+  assert.equal(P.daysFrom(new Date(2026, 9, 14), '2026-10-17'), 3);
+  assert.equal(P.normalizePlan({ visit_date: '2026-02-30' }).visit_date, '');
+  assert.equal(P.normalizePlan({ visit_date: '2026-10-17' }).visit_date, '2026-10-17');
+});
+t('날씨 안내: 코드별 라벨, 비·더위·추위 경고, 맑으면 야외활동 추천', () => {
+  assert.equal(P.wmo(0).label, '맑음'); assert.equal(P.wmo(61).kind, 'rain'); assert.equal(P.wmo(999).kind, 'unknown');
+  assert.equal(P.weatherAdvice({ code: 0, tmax: 21, pop: 0 }).text, '야외활동 추천');
+  assert.equal(P.weatherAdvice({ code: 61, tmax: 18, pop: 80 }, 'museum').tone, 'warn');
+  assert.ok(P.weatherAdvice({ code: 1, tmax: 33, pop: 0 }).text.indexOf('더위') >= 0);
+  assert.ok(P.weatherAdvice({ code: 2, tmax: 2, pop: 0 }).text.indexOf('추위') >= 0);
+  assert.equal(P.weatherAdvice({ code: 3, tmax: 20, pop: 70 }).tone, 'warn');
+});
+t('공유 링크: 인코딩·디코딩 왕복, 깨진 입력은 null, 범위 밖 값은 정규화', () => {
+  const st = P.normalizePlan({ place_id: 'spot_06', eat_id: 'eat_hwangje_jjamppong', party: { adult: 2, toddler: 1 }, car: false, visit_minutes: 90, visit_date: '2026-10-17', manual: { meal: 12000 } });
+  const back = P.decodePlan(P.encodePlan(st));
+  assert.deepEqual(back, st);
+  assert.equal(P.decodePlan('###'), null); assert.equal(P.decodePlan(''), null);
+  assert.equal(P.decodePlan('x'.repeat(700)), null);
+});
+t('저장 목록: 같은 일정은 덮어쓰고 최대 10개, 삭제 가능', () => {
+  const store = {}; globalThis.localStorage = { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } };
+  P.addSaved({ place_id: 'spot_06', visit_date: '2026-10-17' }, '가'); P.addSaved({ place_id: 'spot_06', visit_date: '2026-10-17' }, '나');
+  assert.equal(P.listSaved().length, 1); assert.equal(P.listSaved()[0].title, '나');
+  for (let i = 0; i < 12; i++) P.addSaved({ place_id: 'spot_06', visit_minutes: 60, visit_date: '2026-11-' + String(10 + i) }, 'x' + i);
+  assert.equal(P.listSaved().length, 10);
+  const id = P.listSaved()[0].id; assert.equal(P.removeSaved(id).length, 9);
+  store['buyg_saved_plans_v1'] = '깨짐'; assert.deepEqual(P.listSaved(), []);
+});
 console.log('planner tests passed: ' + n);
