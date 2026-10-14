@@ -3871,7 +3871,7 @@ wcs_do();
   }
   function get(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
   tabs();
-  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_photos.json')]).then(function (r) {
+  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_enriched.json')]).then(function (r) {
     ITEMS = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {}); draw();
     if (typeof enableDragScroll === 'function') { var l = document.getElementById('outingList'); if (l) enableDragScroll(l); }
   });
