@@ -1315,6 +1315,7 @@ function pdModules(scroll, info) {
 }
 
 function openPlaceDetail(info) {
+  if (info && info.id && /^(spot_|tour_|seoul_|guide_)/.test(info.id)) { try { sendGaEvent('place_open_page', { kind: info.kind }); } catch (e) {} location.href = 'place.html?id=' + encodeURIComponent(info.id); return; }   // 바텀시트 -> 단독 상세 페이지 place.html
   const wasOpen = !!dealOpenRow; dealOpenRow = info;
   const scroll = document.getElementById('dealScroll'); scroll.innerHTML = ''; scroll.scrollTop = 0;
   if (info.image || info.imageThumb) {   // 공식 대표 이미지가 있는 항목만 노출(없으면 영역 자체를 만들지 않음). 로드 실패 시 썸네일 -> 제거
@@ -1566,11 +1567,13 @@ window.addEventListener('popstate', () => closeSheet(true));
   if (qf === 'outdoor' || qf === 'indoor') { theme = qf; sendGaEvent('theme_chip_click', { theme: qf, theme_key: qf, from: 'home_weather' }); }
   // 2026-10-07: 홈 배너 딥링크 ?tab=free(주말나들이) / ?tab=show(공연·전시, culture 별칭) 로 해당 탭을 선택한 채 진입
   const qplace = new URLSearchParams(location.search).get('place');
+  if (qplace && /^(spot_|tour_|seoul_|guide_)/.test(qplace)) { location.replace('place.html?id=' + encodeURIComponent(qplace)); return; }   // 구형 ?place= 딥링크 -> place.html (공연 id 는 지도 공연 시트 유지)
   let qtab = { culture: 'show', events: 'festival' }[new URLSearchParams(location.search).get('tab')] || new URLSearchParams(location.search).get('tab');
   if (!qtab && qplace) qtab = qplace.indexOf('tour_') === 0 ? 'festival' : /^PF/.test(qplace) ? 'show' : 'free';
   const qtabBtn = qtab && document.querySelector('.tab[data-sub="' + qtab.replace(/[^a-z]/g, '') + '"]');
   if (qtabBtn) qtabBtn.click();
   render(); renderThemeChips();
+  { const qreg = new URLSearchParams(location.search).get('region'); if (qreg && Object.values(REGION_GROUP).indexOf(qreg) >= 0) { openSheet(qreg); } }   // place.html '지도로 위치보기'
   // 데스크톱 Split View: 왼쪽 패널이 비어 보이지 않게 데이터가 가장 많은 지역을 먼저 열어 둔다
   if (isDesktop()) {
     const counts = countsFor(activeSub);

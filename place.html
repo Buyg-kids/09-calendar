@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>아이와 가볼 만한 곳 | BUYG(바이그)</title>
+<meta name="description" content="아이와 함께 가기 전에 확인할 요금·운영시간·예약·유모차·주차 정보를 출처와 함께 정리했어요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BUYG(바이그)">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="아이와 함께 가볼 만한 곳, BUYG(바이그)">
+<meta property="og:description" content="요금·운영시간·예약·육아 안심 정보를 출처와 함께 확인하세요.">
+<meta property="og:image" content="https://buyg.kr/icons/og-image.png?v=20261005">
+<meta name="robots" content="noindex">
+<style>
+  :root { --brand: #5f0080; --ink: #1f2430; --sub: #667085; --mute: #98a2b3; --line: #eceef3; --bg: #f7f8fa; --card: #fff;
+          --ok-bg: #e9f6ef; --ok: #1b7a46; --warn-bg: #fff3e0; --warn: #a15c00; --unk-bg: #f1f3f7; --unk: #667085; --blue-bg: #e8f0ff; --blue: #1d4ed8; --bar-h: 76px; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; -webkit-text-size-adjust: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 720px; margin: 0 auto; padding-bottom: calc(var(--bar-h) + 28px + env(safe-area-inset-bottom, 0px)); }
+  .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 14px; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); }
+  .top .back { border: 0; background: none; font-size: 15px; font-weight: 700; color: var(--ink); padding: 8px 4px; cursor: pointer; font-family: inherit; }
+  .top .logo { margin-left: auto; font-size: 16px; font-weight: 800; color: var(--brand); text-decoration: none; }
+  .hero { margin: 0; background: #e9ebf0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; color: var(--mute); font-size: 12.5px; font-weight: 600; letter-spacing: -.01em; }
+  .head { padding: 18px 18px 6px; background: var(--card); }
+  .kicker { font-size: 12px; font-weight: 700; color: var(--brand); }
+  h1 { margin: 4px 0 0; font-size: 23px; line-height: 1.3; letter-spacing: -.02em; font-weight: 800; word-break: keep-all; }
+  .copy { margin: 8px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--sub); word-break: keep-all; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 4px; }
+  .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: var(--unk-bg); color: var(--unk); white-space: nowrap; }
+  .pill.ok { background: var(--ok-bg); color: var(--ok); } .pill.warn { background: var(--warn-bg); color: var(--warn); } .pill.blue { background: var(--blue-bg); color: var(--blue); } .pill.brand { background: #f1e8f6; color: var(--brand); }
+  .facts { margin: 0; padding: 6px 18px 18px; background: var(--card); }
+  .fact { display: grid; grid-template-columns: 74px 1fr; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+  .fact:last-child { border-bottom: 0; }
+  .fact dt { color: var(--mute); font-weight: 600; font-size: 13px; }
+  .fact dd { margin: 0; word-break: keep-all; }
+  .fact dd.unk { color: var(--mute); }
+  .rbtn { display: block; margin: 12px 0 8px; padding: 13px; border-radius: 12px; background: var(--blue); color: #fff; font-size: 15px; font-weight: 800; text-align: center; text-decoration: none; }
+  .tlink { display: inline-block; margin: 10px 0 4px; font-size: 13px; font-weight: 700; color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
+  .src { display: inline-block; margin-left: 6px; font-size: 11px; font-weight: 600; color: var(--mute); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+  section.mod { margin: 10px 0 0; padding: 18px; background: var(--card); }
+  section.mod > h2 { margin: 0 0 12px; font-size: 16px; font-weight: 800; letter-spacing: -.01em; padding-left: 9px; border-left: 3px solid var(--brand); line-height: 1.2; }
+  .sub { margin: -6px 0 12px; font-size: 12px; color: var(--mute); }
+  ul.bul { margin: 0; padding: 0 0 0 18px; }
+  ul.bul li { margin: 0 0 9px; font-size: 14.5px; line-height: 1.55; word-break: keep-all; }
+  ul.bul li:last-child { margin-bottom: 0; }
+  .more { display: block; width: 100%; margin-top: 10px; padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: #fff; font-size: 13.5px; font-weight: 700; color: var(--ink); cursor: pointer; font-family: inherit; }
+  .fold { display: none; } .fold.open { display: block; }
+  .agebar { display: grid; grid-template-columns: 112px 1fr 56px; align-items: center; gap: 8px; padding: 7px 0; font-size: 13.5px; }
+  .agebar .nm b { display: block; font-weight: 700; } .agebar .nm span { font-size: 11.5px; color: var(--mute); }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; height: 8px; }
+  .seg i { background: #e6e8ee; border-radius: 3px; } .seg i.on { background: var(--brand); } .seg.top i.on { background: #3d0057; }
+  .agebar .lv { font-size: 12px; font-weight: 700; color: var(--sub); text-align: right; }
+  .agenote { margin: 10px 0 0; padding: 10px 12px; border-radius: 10px; background: #f6f0fa; font-size: 12.5px; line-height: 1.5; color: #4a2b5c; }
+  .agecap { margin: 8px 0 0; font-size: 11.5px; color: var(--mute); }
+  .infra .row { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+  .infra .row:last-child { border-bottom: 0; }
+  .infra .row .pill { margin-top: 1px; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq details:last-child { border-bottom: 0; }
+  .faq summary { list-style: none; cursor: pointer; padding: 13px 24px 13px 0; position: relative; font-size: 14.5px; font-weight: 700; line-height: 1.45; word-break: keep-all; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 2px; top: 11px; font-size: 20px; font-weight: 400; color: var(--mute); }
+  .faq details[open] summary::after { content: '–'; }
+  .faq .ans { padding: 0 0 14px; font-size: 14px; line-height: 1.6; color: var(--sub); word-break: keep-all; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lk { display: inline-block; padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .near { margin: 0 0 12px; padding: 0; list-style: none; }
+  .near li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+  .near li b { font-weight: 800; } .near li small { display: block; margin-top: 2px; font-size: 12.5px; color: var(--sub); }
+  .note { margin: 10px 0 0; font-size: 11.5px; color: var(--mute); line-height: 1.5; }
+  .disc { margin: 10px 0 0; padding: 9px 11px; border-radius: 8px; background: var(--unk-bg); font-size: 11.5px; color: var(--sub); line-height: 1.5; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: #fff; border-top: 1px solid var(--line); }
+  .bar-in { max-width: 720px; margin: 0 auto; display: flex; gap: 8px; }
+  .btn { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 10px; border: 1.5px solid #dfe3ea; border-radius: 12px; background: #fff; color: var(--ink); font-size: 14px; font-weight: 800; text-decoration: none; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .btn .s { display: none; } .btn .l { display: inline; }
+  .btn.primary { flex: 1 1 auto; min-width: 0; background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn.mid { flex: 0 0 auto; padding: 0 12px; font-size: 13px; }
+  .btn.fav { flex: 0 0 auto; padding: 0 13px; } .btn.fav.on { background: #fff1f4; border-color: #f4a6b8; color: #d6204c; }
+  .empty { padding: 60px 20px; text-align: center; color: var(--sub); line-height: 1.7; }
+  .toast { position: fixed; left: 50%; bottom: calc(var(--bar-h) + 18px); transform: translateX(-50%); background: rgba(31,36,48,.92); color: #fff; padding: 10px 16px; border-radius: 999px; font-size: 13px; z-index: 20; display: none; }
+  .toast.show { display: block; }
+  @media (max-width: 430px) { .btn .l { display: none; } .btn .s { display: inline; } .btn { padding: 0 10px; font-size: 13.5px; } .btn.mid, .btn.fav { flex: 1 1 0; padding: 0 6px; } .btn.primary { flex: 1.25 1 0; } }
+  @media (max-width: 360px) { .btn.mid { padding: 0 9px; font-size: 12px; } .agebar { grid-template-columns: 96px 1fr 50px; } }
+  @media (min-width: 768px) { .hero { border-radius: 0 0 16px 16px; } .wrap { background: transparent; } }
+</style>
+</head>
+<body>
+<div class="top"><button class="back" id="back" type="button" aria-label="뒤로">‹ 뒤로</button><a class="logo" href="./">Buyg</a></div>
+<div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// ===== 설정 =====
+const COUPANG_PARTNER_ID = '';   // 쿠팡 파트너스 계정 연동 전: 비어 있으면 일반 검색 링크 + 고지 문구는 숨김. 값이 생기면 준비물 링크를 제휴 링크로 바꾸고 고지 문구를 표시한다.
+const COUPANG_DISCLOSURE = '쿠팡 파트너스 활동의 일환으로 수수료를 제공받을 수 있습니다.';
+const FAV_KEY = 'buyg_place_favs_v1';
+const AGE = [['baby', '0~1세 베이비', '~12개월'], ['toddler', '2~3세 토들러', '12~36개월'], ['kid', '4~5세 키즈', '3~5세'], ['preschool', '6~7세 프리스쿨', '6~7세']];
+const LEVEL = ['정보 없음', '보통', '좋아요', '특히 추천'];
+const PREP = {
+  museum: [['여벌 양말', '유아 미끄럼방지 양말'], ['휴대용 물티슈', '아기 물티슈 휴대용'], ['아기띠', '아기띠 신생아']],
+  forest: [['아기 선크림·모자', '아기 선크림 모자'], ['모기 기피 패치', '아기 모기패치'], ['휴대용 돗자리', '피크닉 돗자리'], ['물티슈', '아기 물티슈 휴대용']],
+  zoo: [['유모차 선풍기', '유모차 선풍기 클립'], ['아기 선크림·모자', '아기 선크림 모자'], ['휴대용 물티슈', '아기 물티슈 휴대용'], ['여벌 옷 파우치', '아기 여벌 옷 파우치']],
+  outdoor: [['아기 선크림·모자', '아기 선크림 모자'], ['휴대용 돗자리', '피크닉 돗자리']],
+  indoor: [['여벌 양말', '유아 미끄럼방지 양말'], ['휴대용 물티슈', '아기 물티슈 휴대용']],
+  water: [['유아 래시가드', '유아 래시가드'], ['수영장 기저귀', '아기 수영 기저귀']],
+};
+
+// ===== 유틸 =====
+const $ = (s, r) => (r || document).querySelector(s);
+function h(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function ga(name, p) { if (typeof window.gtag === 'function') { try { window.gtag('event', name, p); } catch (e) { /* 무시 */ } } }
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2200); }
+function favs() { try { const a = JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
+function isFav(id) { return favs().some(f => f && f.id === id); }
+function toggleFav(rec) {
+  const l = favs(), i = l.findIndex(f => f && f.id === rec.id);
+  if (i >= 0) l.splice(i, 1); else l.push(Object.assign({}, rec, { saved_at: Date.now() }));
+  try { localStorage.setItem(FAV_KEY, JSON.stringify(l)); } catch (e) { /* 저장소 차단 */ }
+  return isFav(rec.id);
+}
+function naverMap(q) { return 'https://map.naver.com/p/search/' + encodeURIComponent(String(q || '').replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim()); }
+function shop(q) { return 'https://search.shopping.naver.com/search/all?query=' + encodeURIComponent(q); }
+function src(el, url) { if (!url) return; const a = h('a', 'src', '출처'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; el.appendChild(a); }
+async function getJson(url, key) { try { const r = await fetch(url, { cache: 'no-store' }); if (!r.ok) return null; const d = await r.json(); return key ? (d[key] || []) : d; } catch (e) { return null; } }
+
+// ===== 데이터: 가이드(공식 확인 내용) + 기본 데이터(행사/예약/시드) 병합 =====
+async function loadPlace(id) {
+  const [guides, spots, events, reserve] = await Promise.all([
+    getJson('./place_guides.json'), getJson('./free_spots_seed.json', 'spots'), getJson('./tour_events.json', 'events'), getJson('./seoul_reserve.json', 'items')]);
+  const guide = guides && guides.places && guides.places[id] || null;
+  const base = (spots || []).find(x => x.id === id) || (events || []).find(x => x.id === id) || (reserve || []).find(x => x.id === id) || null;
+  if (!guide && !base) return null;
+  const kind = guide ? 'guide' : (id.indexOf('tour_') === 0 ? 'event' : id.indexOf('seoul_') === 0 ? 'reserve' : 'spot');
+  return { id, guide, base, kind, spots: spots || [] };
+}
+
+// ===== 렌더 =====
+function pillsFor(p) {
+  const box = h('div', 'pills'), g = p.guide, b = p.base || {};
+  const fee = g ? g.facts.fee.v : null;
+  if (g) {
+    if (/^무료/.test(fee || '')) box.appendChild(h('span', 'pill ok', '무료입장'));
+    else if (fee && /만 5세 이하 무료/.test(fee)) box.appendChild(h('span', 'pill ok', '영유아 무료'));
+    else if (!fee) box.appendChild(h('span', 'pill', '요금 확인 필요'));
+    const rs = g.facts.reservation.v;
+    if (rs && /사전 예약/.test(rs)) box.appendChild(h('span', 'pill blue', '차량 사전예약'));
+  } else {
+    if (b.is_free === true || b.fee_type === 'free') box.appendChild(h('span', 'pill ok', '무료입장'));
+    else if (b.fee_min > 0) box.appendChild(h('span', 'pill', b.fee_min.toLocaleString('ko-KR') + '원~'));
+    else if (b.tag) box.appendChild(h('span', 'pill ' + (/^무료/.test(b.tag) ? 'ok' : ''), b.tag));
+    else box.appendChild(h('span', 'pill', '요금 확인 필요'));
+    if (p.kind === 'reserve') box.appendChild(h('span', 'pill blue', '사전예약'));
+  }
+  const ages = (b.age_groups && b.age_groups.length) ? b.age_groups : g ? AGE.filter(a => g.age_fit[a[0]] >= 3).map(a => a[0]) : [];
+  ages.forEach(k => { const a = AGE.find(x => x[0] === k); if (a) box.appendChild(h('span', 'pill brand', a[1])); });
+  return box;
+}
+function factRow(dl, label, f) {
+  const row = h('div', 'fact'), dt = h('dt', '', label), dd = h('dd');
+  if (f && f.v) { dd.textContent = f.v; src(dd, f.src); } else { dd.className = 'unk'; dd.textContent = '확인 필요'; }
+  row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
+}
+function baseFacts(p) {
+  const b = p.base || {}, f = (v) => (v ? { v, src: null } : null);
+  const period = b.start_date ? (b.end_date && b.end_date !== b.start_date ? b.start_date + ' ~ ' + b.end_date : b.start_date) : '';
+  return { address: f(b.address || b.place), tel: f(b.tel), hours: f(period ? '행사 기간 ' + period : ''), fee: f(b.fee_text || b.tag), reservation: f(b.reserve_url ? '사전 예약 필요(접수 마감 ' + (b.rcpt_end || '확인') + ')' : '') };
+}
+function accordionList(items, openFirst) {   // 핵심 2개 먼저, 나머지는 더보기
+  const box = h('div'), ul = h('ul', 'bul'), rest = h('ul', 'bul fold');
+  items.forEach((it, i) => { const li = h('li', '', it.text); src(li, it.src); (i < (openFirst || 2) ? ul : rest).appendChild(li); });
+  box.appendChild(ul);
+  if (items.length > (openFirst || 2)) {
+    box.appendChild(rest);
+    const btn = h('button', 'more', '더보기 ∨'); btn.type = 'button';
+    btn.addEventListener('click', () => { const o = rest.classList.toggle('open'); btn.textContent = o ? '접기 ∧' : '더보기 ∨'; ga('place_more_toggle', { open: o ? 1 : 0 }); });
+    box.appendChild(btn);
+  }
+  return box;
+}
+function mod(title, sub) { const s = h('section', 'mod'); s.appendChild(h('h2', '', title)); if (sub) s.appendChild(h('p', 'sub', sub)); return s; }
+
+function render(p) {
+  const g = p.guide, b = p.base || {};
+  const name = g ? g.name : (b.title || '장소');
+  const region = g ? g.region : (b.region || '');
+  document.title = name + ' | 아이와 가볼 만한 곳 · BUYG(바이그)';
+  const app = $('#app'); app.innerHTML = '';
+  const hero = h('div', 'hero', '사진 준비 중'); hero.setAttribute('role', 'img'); hero.setAttribute('aria-label', '대표 사진 자리'); app.appendChild(hero);
+
+  const head = h('div', 'head');
+  head.appendChild(h('div', 'kicker', (region ? region + ' · ' : '') + (g ? '에디터 추천 나들이' : p.kind === 'reserve' ? '예약 체험' : p.kind === 'event' ? '행사·축제' : '나들이 장소')));
+  head.appendChild(h('h1', '', name));
+  if (g && g.copy) head.appendChild(h('p', 'copy', g.copy));
+  head.appendChild(pillsFor(p));
+  if (!g && b.reserve_url && /^https:\/\//.test(b.reserve_url)) { const r = h('a', 'rbtn', '예약하러 가기 ›'); r.href = b.reserve_url; r.target = '_blank'; r.rel = 'noopener'; r.addEventListener('click', () => ga('place_outbound', { target: 'reserve', id: p.id })); head.appendChild(r); }
+  else if (!g && b.info_url && /^https:\/\//.test(b.info_url)) { const r = h('a', 'tlink', '공식 안내 페이지'); r.href = b.info_url; r.target = '_blank'; r.rel = 'noopener'; head.appendChild(r); }
+  else if (!g && /^https:\/\//.test(b.homepage_url || '')) { const r = h('a', 'tlink', '공식 홈페이지'); r.href = b.homepage_url; r.target = '_blank'; r.rel = 'noopener'; head.appendChild(r); }
+  app.appendChild(head);
+
+  const facts = g ? g.facts : baseFacts(p);
+  const dl = h('dl', 'facts');
+  [['주소', 'address'], ['전화', 'tel'], [g ? '운영시간' : '일정', 'hours'], ['휴관일', 'closed'], ['요금', 'fee'], ['예약', 'reservation']].forEach(r => {
+    if (!g && (r[1] === 'closed')) return;
+    factRow(dl, r[0], facts[r[1]]);
+  });
+  app.appendChild(dl);
+
+  if (g) {   // 2. 연령 적합도 (에디터 추천도 - 통계 아님)
+    const m = mod('우리 아이에게 맞을까요?', '에디터 추천도');
+    AGE.forEach(a => {
+      const lv = g.age_fit[a[0]] || 0, row = h('div', 'agebar'), nm = h('div', 'nm');
+      nm.appendChild(h('b', '', a[1])); nm.appendChild(h('span', '', a[2]));
+      const seg = h('div', 'seg' + (lv >= 3 ? ' top' : ''));
+      for (let i = 1; i <= 3; i++) seg.appendChild(h('i', i <= lv ? 'on' : ''));
+      row.appendChild(nm); row.appendChild(seg); row.appendChild(h('div', 'lv', LEVEL[lv]));
+      m.appendChild(row);
+    });
+    if (g.age_fit.note) m.appendChild(h('p', 'agenote', g.age_fit.note));
+    m.appendChild(h('p', 'agecap', '조회·클릭 통계가 아니라 에디터가 공식 안내를 바탕으로 매긴 추천도예요' + (g.age_fit.reviewed ? '.' : ' (검수 전 초안).')));
+    app.appendChild(m);
+  }
+
+  if (g && g.tips.length) { const m = mod('부모 꿀팁'); m.appendChild(accordionList(g.tips, 2)); app.appendChild(m); }
+  if (g && g.highlights.length) { const m = mod('이런 점이 좋아요'); m.appendChild(accordionList(g.highlights, 2)); app.appendChild(m); }
+
+  { // 5. 방문 전 알아두면 좋아요 (육아 안심 인프라)
+    const m = mod('방문 전 알아두면 좋아요', '확인되지 않은 항목은 "확인 필요"로 표시해요');
+    const box = h('div', 'infra'), inf = g ? g.infra : {};
+    const rows = [['유모차', inf.stroller, '입장 가능', 'ok'], ['수유실', inf.nursing, '있음', 'ok'], ['기저귀 교환대', inf.diaper, '있음', 'ok'], ['주차', inf.parking, '정보 있음', ''], ['대중교통', inf.transit, '정보 있음', '']];
+    const unknown = [];
+    rows.forEach(r => {
+      const f = r[1];
+      if (!(f && f.v)) { if (r[0] !== '주차' && r[0] !== '대중교통') unknown.push(r[0]); return; }   // 주차·교통은 없으면 줄을 만들지 않는다
+      const row = h('div', 'row'); row.appendChild(h('span', 'pill ' + r[3], r[0]));
+      const txt = h('div'); txt.textContent = f.v; src(txt, f.src); row.appendChild(txt); box.appendChild(row);
+    });
+    if (unknown.length) {   // 확인하지 못한 항목은 한 줄로 묶어 안내(없다고 단정하지 않는다)
+      const row = h('div', 'row'); row.appendChild(h('span', 'pill', unknown.join('·') + ' · 확인 필요'));
+      const tel = (facts.tel && facts.tel.v) ? ' (' + facts.tel.v.split(' ')[0] + ')' : '';
+      const txt = h('div', '', '공식 안내에서 확인하지 못했어요. 방문 전 전화로 확인해 주세요.' + tel); txt.style.color = 'var(--mute)'; row.appendChild(txt); box.appendChild(row);
+    }
+    m.appendChild(box); app.appendChild(m);
+  }
+
+  if (g && g.faq.length) {   // 6. FAQ 아코디언
+    const m = mod('자주 묻는 질문'), box = h('div', 'faq');
+    g.faq.forEach(q => { const d = h('details'), s = h('summary', '', q.q), a = h('div', 'ans', q.a); src(a, q.src); d.appendChild(s); d.appendChild(a); d.addEventListener('toggle', () => { if (d.open) ga('place_faq_open', { q: q.q.slice(0, 40) }); }); box.appendChild(d); });
+    m.appendChild(box); app.appendChild(m);
+  }
+
+  { // 연계 동선
+    const m = mod('이어서 가기 좋은 곳');
+    if (g && g.nearby.length) {
+      const ul = h('ul', 'near');
+      g.nearby.forEach(n => { const li = h('li'); li.appendChild(h('b', '', n.name)); const sm = h('small', '', n.note); src(sm, n.src); li.appendChild(sm); ul.appendChild(li); });
+      m.appendChild(ul);
+    }
+    const addr = (facts.address && facts.address.v) || name;
+    const links = h('div', 'links');
+    [['아기의자 식당 찾기', '아기의자 식당'], ['아이랑 카페 찾기', '아이랑 카페'], ['키즈카페 찾기', '키즈카페']].forEach(x => { const a = h('a', 'lk', x[0]); a.href = naverMap(addr.replace(/\s*\(.*$/, '') + ' ' + x[1]); a.target = '_blank'; a.rel = 'noopener'; a.addEventListener('click', () => ga('place_course_click', { target: x[1] })); links.appendChild(a); });
+    m.appendChild(links);
+    m.appendChild(h('p', 'note', '주소 기반 네이버 지도 검색으로 연결돼요. 영업시간·메뉴는 방문 전 확인해 주세요.'));
+    app.appendChild(m);
+  }
+
+  { // 준비물
+    const theme = g ? g.theme : (/수목원|공원|숲|축제/.test(name) ? 'outdoor' : 'indoor');
+    const m = mod('이번 주말 준비물'), links = h('div', 'links');
+    (PREP[theme] || PREP.indoor).forEach(x => { const a = h('a', 'lk', x[0]); a.href = shop(x[1]); a.target = '_blank'; a.rel = 'noopener nofollow sponsored'; a.addEventListener('click', () => ga('place_prep_click', { item: x[1] })); links.appendChild(a); });
+    m.appendChild(links);
+    const d = h('p', 'disc', COUPANG_PARTNER_ID ? COUPANG_DISCLOSURE : '지금은 제휴 없이 네이버 쇼핑 검색으로 연결돼요.');
+    d.id = 'disclosure'; m.appendChild(d);
+    app.appendChild(m);
+  }
+
+  const upd = h('p', 'note'); upd.style.padding = '14px 18px 0'; upd.textContent = g ? '이 페이지의 사실 정보는 각 항목의 "출처" 링크(공식 안내)에서 ' + (g.facts.address.checked || '') + ' 기준으로 확인했어요. 운영 사정에 따라 달라질 수 있어요.' : '운영 정보는 방문 전 공식 안내에서 다시 확인해 주세요.';
+  app.appendChild(upd);
+
+  // 8. 하단 고정 바
+  const old = $('.bar'); if (old) old.remove();
+  const bar = h('div', 'bar'), inn = h('div', 'bar-in');
+  const lab = (a, l, s) => { const x = h('span', 'l', l), y = h('span', 's', s); a.appendChild(x); a.appendChild(y); return a; };
+  const nav = lab(h('a', 'btn primary'), '📍 네이버 지도 길찾기', '길찾기'); nav.href = naverMap((facts.address && facts.address.v) || name); nav.target = '_blank'; nav.rel = 'noopener'; nav.addEventListener('click', () => ga('place_outbound', { target: 'naver_map', id: p.id }));
+  const mp = lab(h('a', 'btn mid'), '지도로 위치보기', '지도로 보기'); mp.href = 'map.html?tab=free' + (region ? '&region=' + encodeURIComponent(region) : '');
+  const fav = h('button', 'btn fav'); fav.type = 'button';
+  const rec = { id: p.id, kind: g ? 'spot' : p.kind, tab: p.kind === 'event' ? 'festival' : 'free', title: name, region, address: (facts.address && facts.address.v) || '', start_date: b.start_date || '', end_date: b.end_date || '', fee: (facts.fee && facts.fee.v) || '' };
+  const sync = () => { const on = isFav(p.id); fav.classList.toggle('on', on); fav.textContent = ''; fav.appendChild(h('span', 'l', on ? '♥ 찜함' : '♡ 가볼곳 찜')); fav.appendChild(h('span', 's', on ? '♥ 찜함' : '♡ 찜')); fav.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  sync(); fav.addEventListener('click', () => { const on = toggleFav(rec); sync(); ga('place_fav_toggle', { id: p.id, on: on ? 1 : 0 }); toast(on ? '가볼곳에 담았어요' : '찜을 해제했어요'); });
+  inn.appendChild(nav); inn.appendChild(mp); inn.appendChild(fav); bar.appendChild(inn); document.body.appendChild(bar);
+  ga('place_page_view', { id: p.id, kind: p.kind });
+}
+
+(async function init() {
+  const id = new URLSearchParams(location.search).get('id') || '';
+  $('#back').addEventListener('click', () => { if (history.length > 1) history.back(); else location.href = 'outing.html'; });
+  if (!id) { $('#app').innerHTML = '<div class="empty">장소를 찾을 수 없어요.<br><a href="outing.html">나들이 목록으로 가기</a></div>'; return; }
+  const p = await loadPlace(id.replace(/[^\w-]/g, ''));
+  if (!p) { $('#app').innerHTML = '<div class="empty">장소를 찾을 수 없어요.<br><a href="outing.html">나들이 목록으로 가기</a></div>'; return; }
+  render(p);
+})();
+</script>
+</body>
+</html>

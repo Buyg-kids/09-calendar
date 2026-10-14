@@ -6,7 +6,7 @@ import json
 import os
 import sys
 import unittest
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -246,7 +246,8 @@ class TestPipelineIsolation(unittest.TestCase):
 
     def _raw(self, i):
         return {"contentid": str(i), "title": f"어린이 축제 {i}", "addr1": "서울특별시 종로구 세종대로 1", "lDongRegnCd": "11", "mapx": "127.0", "mapy": "37.5",
-                "eventstartdate": "20261012", "eventenddate": "20261013", "modifiedtime": "1", "cpyrhtDivCd": "Type3"}
+                "eventstartdate": date.today().strftime("%Y%m%d"), "eventenddate": (date.today() + timedelta(days=30)).strftime("%Y%m%d"),   # 실행 날짜 기준(고정 날짜면 시간이 지나 종료 행사로 걸러져 테스트가 깨진다)
+                "modifiedtime": "1", "cpyrhtDivCd": "Type3"}
 
     def _write_old(self, n):
         self.out.write_text(self.old % (n, ""), encoding="utf-8")

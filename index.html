@@ -1251,14 +1251,14 @@
       </div>
       <div class="count" id="resultCount"></div>
       <div class="dt-utils">
-        <a href="map.html">🗺️ 아이와 나들이</a>
+        <a href="outing.html">아이와 나들이</a>
       </div>
       <nav class="dt-gnb" aria-label="주요 메뉴">
         <a href="#sec-category" data-target="sec-category">카테고리</a>
         <a href="#popularSection" data-target="popularSection">인기공구</a>
         <a href="#sec-closing" data-target="sec-closing">마감임박</a>
         <a href="#sec-soon" data-target="sec-soon">오픈예정</a>
-        <a href="map.html">아이와 나들이</a>
+        <a href="outing.html">아이와 나들이</a>
         <a class="dt-weather" id="dtWeather" href="map.html" aria-label="이번 주말 나들이 날씨 큐레이션"><span class="dtw-item on"><b class="dtw-tag">나들이TIP</b><span class="dtw-text">🎈 이번 주말 어디 갈까? 지도 보기</span><i class="dtw-arrow">›</i></span></a>
       </nav>
     </header>
@@ -1279,10 +1279,10 @@
             <span class="hc-count" id="hcCount" hidden>오늘 수집 <b id="hcCountNum">0</b>개 실시간 반영</span>
             <span class="hc-img" style="--pos: 50% 35%"><img src="icons/banners/banner_exp.jpg" alt="" width="800" height="597" decoding="async"></span>
           </a>
-          <a class="hc-slide s2" href="map.html?tab=free" data-slide="2">
+          <a class="hc-slide s2" href="outing.html" data-slide="2">
             <span class="hc-top">이번 주말 아이 손잡고</span>
-            <b class="hc-head">주말나들이 명소 지도</b>
-            <span class="hc-cta">전국 나들이 명소 확인 ›</span>
+            <b class="hc-head">주말나들이 추천 명소</b>
+            <span class="hc-cta">나들이 목록 보러 가기 ›</span>
             <span class="hc-img" style="--pos: 30% 60%"><img src="icons/banners/banner_picnic.jpg" alt="" width="800" height="521" decoding="async"></span>
           </a>
           <a class="hc-slide s3" href="map.html?tab=culture" data-slide="3">
@@ -1405,6 +1405,7 @@
           <div class="footer-info">
             <h3>고객 안내</h3>
             <ul>
+              <li><a href="outing.html">아이와 주말나들이</a></li>
               <li><a href="map.html">아이와 나들이 지도</a></li>
               <li class="footer-contact">서비스 문의 / 제휴 제안 <a class="mail" href="mailto:ayhkk1@gmail.com">ayhkk1@gmail.com</a></li>
             </ul>
@@ -3076,7 +3077,7 @@ function renderFavPlaces(box, places) {
   places.forEach(function (f) {
     const a = document.createElement('a');
     a.className = 'fav-place';
-    a.href = 'map.html?tab=' + (f.tab === 'free' ? 'free' : 'festival') + '&place=' + encodeURIComponent(f.id);
+    a.href = 'place.html?id=' + encodeURIComponent(f.id);
     const t = document.createElement('b'); t.textContent = f.title; a.appendChild(t);
     const dates = f.start_date ? (f.end_date && f.end_date !== f.start_date ? md(f.start_date) + ' ~ ' + md(f.end_date) : md(f.start_date)) : '';
     const s = document.createElement('span');
@@ -3188,7 +3189,7 @@ function outingMatches(tokens) {
 function outShortDate(iso) { const m = /^\d{4}-(\d{2})-(\d{2})$/.exec(iso || ''); return m ? Number(m[1]) + '/' + Number(m[2]) : ''; }
 function outingCard(o, tab) {
   const a = el2('a', 'out-card');
-  a.href = 'map.html?tab=' + tab + '&place=' + encodeURIComponent(o.id);
+  a.href = /^PF/.test(o.id) ? 'map.html?tab=' + tab + '&place=' + encodeURIComponent(o.id) : 'place.html?id=' + encodeURIComponent(o.id);   // 공연은 지도 공연 시트, 그 밖은 단독 상세 페이지
   a.appendChild(el2('span', 'out-title', o.title));
   const meta = el2('span', 'out-meta');
   if (o.sub) meta.appendChild(el2('span', '', '📍 ' + o.sub));
