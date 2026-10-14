@@ -1049,6 +1049,39 @@
   .os-acts a.pri { background: #5f0080; border-color: #5f0080; color: #fff; }
   @media (min-width: 900px) { .os-sheet { bottom: 50%; border-radius: 20px; max-height: 80vh; transform: translateY(60%) scale(.97); opacity: 0; pointer-events: none; transition: transform .25s, opacity .25s; } .os-sheet.open { transform: translateY(50%); opacity: 1; pointer-events: auto; } .os-hero { border-radius: 20px 20px 0 0; } }
   @media (prefers-reduced-motion: reduce) { .os-sheet, .os-back { transition: none; } }
+
+  /* ---- 이번 주 공구: 더보기 / 펼침 (2026-10-14) ---- */
+  .week-more { padding: 12px 16px 4px; }
+  .week-more-btn { width: 100%; padding: 13px; border: 1.5px solid #dfe3ea; border-radius: 12px; background: #fff; font-size: 14px; font-weight: 800; color: #1f2430; cursor: pointer; font-family: inherit; }
+  .week-more-btn span { margin-left: 6px; font-size: 12.5px; font-weight: 600; color: #98a2b3; }
+  .card-in { animation: cardIn .35s ease both; }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .card-in { animation: none; } }
+  @media (max-width: 767.98px) {
+    #weekGrid.expanded { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow: visible; scroll-snap-type: none; padding: 0 16px 8px; }
+    #weekGrid.expanded .feed-card { flex: none; width: auto; }
+    #weekGrid.expanded .feed-card .feed-thumb { height: auto; aspect-ratio: 1 / 1; }
+    #weekGrid.expanded .feed-card .feed-thumb img { position: absolute; inset: 0; }
+    .week-carousel-wrap:has(#weekGrid.expanded) .scroll-arrow { display: none !important; }
+  }
+  /* ---- 아이와 함께하는 공연·전시 슬라이더 ---- */
+  #sec-culture { padding-top: 28px; }
+  #sec-culture .section-head { gap: 8px; align-items: center; margin-bottom: 14px; }
+  #sec-culture .section-head h2 { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.25; color: var(--text-main); word-break: keep-all; }
+  #sec-culture .outing-all { white-space: nowrap; flex: 0 0 auto; font-size: 12px; color: var(--text-sub); text-decoration: none; font-weight: 700; }
+  .cul-scroll { gap: 12px; padding: 0 16px 8px; }
+  .cul-card { flex: 0 0 150px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: inherit; cursor: pointer; }
+  .cul-photo { position: relative; width: 100%; aspect-ratio: 3 / 4; border-radius: 14px; overflow: hidden; background: linear-gradient(135deg, #f1ecf6, #e2d6ee); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+  .cul-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cul-photo img.contain { object-fit: contain; background: #f1f3f7; }
+  .cul-rank { position: absolute; left: 8px; top: 8px; z-index: 1; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 13px; background: #1f2430; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .cul-name { font-size: 14.5px; font-weight: 800; line-height: 1.3; word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .cul-line { font-size: 12px; color: #667085; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -4px; }
+  .cul-meta { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 11px; }
+  .cul-meta .rg { color: #98a2b3; font-weight: 700; margin-right: 2px; }
+  .cul-meta .ag { padding: 2px 7px; border-radius: 999px; background: #f6ecfa; color: #5f0080; font-weight: 700; }
+  .cul-note { margin: 4px 16px 0; font-size: 12px; color: #98a2b3; line-height: 1.5; }
+  @media (min-width: 900px) { #sec-culture .section-head h2 { font-size: 24px; } .cul-card { flex-basis: 190px; } .cul-note { margin-left: 0; margin-right: 0; } }
   /* 인기공구: 큰 썸네일 + 10px 곡률 */
   .rank-item { gap: 12px; padding: 10px 12px; }
   .rank-item .list-thumb { flex: 0 0 60px; width: 60px; height: 60px; border-radius: 10px; }
@@ -1435,15 +1468,16 @@
           </div>
         </div>
       </section>
-      <!-- 2026-10-07 공구 리스트 하단 브릿지: 공연·전시 유도 -->
-      <a class="trip-banner culture-bridge" href="./map.html?tab=show" id="cultureBridge">
-        <span class="trip-banner-icon">🎭</span>
-        <span class="trip-banner-text">
-          <span class="trip-banner-title">아이와 함께 볼만한 이번 달 공연·전시 🎭</span>
-          <span class="trip-banner-sub">어린이 뮤지컬·체험전 일정 지도에서 확인하기</span>
-        </span>
-        <span class="trip-banner-arrow">›</span>
-      </a>
+      <section class="section" id="sec-culture" aria-label="아이와 함께하는 공연·전시">
+        <div class="section-head"><h2>아이와 함께하는 공연·전시</h2><a class="sub outing-all" href="./map.html?tab=show" id="cultureMapLink">지도로 보기 ›</a></div>
+        <div class="out-tabs" id="culTabs" role="tablist" aria-label="지역 선택"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="cultureList" aria-label="이전">‹</button>
+          <div class="hscroll cul-scroll" id="cultureList"><div class="out-empty">불러오는 중…</div></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="cultureList" aria-label="다음">›</button>
+        </div>
+        <p class="cul-note">곧 시작하는 순서로 보여드려요. 일정·예매는 각 안내 페이지에서 확인해 주세요.</p>
+      </section>
       </div>
     </div>
     <footer class="site-footer">
@@ -3088,23 +3122,41 @@ function renderWeekGrid(rows, excludeIds) {
     return;
   }
 
-  // 하루 수백 건이 될 수 있어 20장씩 넣고, 끝의 '더보기' 타일로 다음 20장을 이어 붙인다.
+  // 하루 수백 건이 될 수 있어 처음엔 12장만 보여주고, [공구 일정 더보기]로 나머지(최대 60장)를 펼친다.
+  const INITIAL = 12, CAP = 60;
   el.scrollLeft = 0; // 날짜를 바꾸면 처음부터
-  let shown = 0;
-  function appendPage() {
-    const more = el.querySelector('.feed-more');
-    if (more) more.remove();
-    list.slice(shown, shown + WEEK_CAROUSEL_PAGE).forEach(function (row) { el.appendChild(renderFeedCard(row)); });
-    shown = Math.min(shown + WEEK_CAROUSEL_PAGE, list.length);
-    if (shown < list.length) {
-      const btn = el2('button', 'feed-more', '+ 더보기');
-      btn.type = 'button';
-      btn.appendChild(el2('span', '', (list.length - shown) + '건 더'));
-      btn.addEventListener('click', appendPage);
-      el.appendChild(btn);
+  el.classList.remove('expanded');
+  const pane = el.closest('.feed-pane');
+  const oldMore = pane.querySelector('.week-more'); if (oldMore) oldMore.remove();
+  list.slice(0, INITIAL).forEach(function (row) { el.appendChild(renderFeedCard(row)); });
+  if (list.length > INITIAL) {
+    const wrap = el2('div', 'week-more'), btn = el2('button', 'week-more-btn');
+    btn.type = 'button';
+    let open = false;
+    const extra = Math.min(list.length, CAP) - INITIAL;
+    function label() {
+      btn.textContent = open ? '접기 ∧' : '공구 일정 더보기 ∨';
+      if (!open) btn.appendChild(el2('span', '', extra + '건 더'));
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
+    btn.addEventListener('click', function () {
+      if (!open) {
+        list.slice(INITIAL, CAP).forEach(function (row, i) {
+          const c = renderFeedCard(row); c.classList.add('card-in'); c.style.animationDelay = (Math.min(i, 12) * 30) + 'ms'; el.appendChild(c);
+        });
+        el.classList.add('expanded'); open = true;
+        try { sendGaEvent('week_more_open', { day: selectedDayIso }); } catch (e) { /* 무시 */ }
+      } else {
+        while (el.children.length > INITIAL) el.lastChild.remove();
+        el.classList.remove('expanded'); open = false; el.scrollLeft = 0;
+        pane.scrollIntoView({ block: 'nearest' });
+      }
+      label();
+    });
+    label();
+    wrap.appendChild(btn);
+    el.closest('.week-carousel-wrap').after(wrap);
   }
-  appendPage();
 }
 
 function currentFilteredRows() {
@@ -3902,7 +3954,113 @@ wcs_do();
   tabs();
   Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_enriched.json')]).then(function (r) {
     ITEMS = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {}); draw();
+    window.__outingItems = ITEMS; window.__openSheet = openSheet; document.dispatchEvent(new Event('outing-ready'));
     if (typeof enableDragScroll === 'function') { var l = document.getElementById('outingList'); if (l) enableDragScroll(l); }
+  });
+})();
+</script>
+<script>
+(function () {
+  var TABS = ['전체', '서울', '경기 남부', '경기 북부', '인천', '대구', '경북', '부산', '울산', '경남', '대전', '충청/세종', '광주', '전라', '강원', '제주'];
+  var NORTH = /(고양|구리|남양주|동두천|양주|의정부|파주|포천|가평|연천)/;
+  var DAYS_AHEAD = 45, MAX = 20, SEED_RE = /박물관|미술관|전시|체험관|과학관/;
+  var items = [], tab = '전체', today = new Date(), todayIso = iso(today), limitIso = iso(new Date(today.getTime() + DAYS_AHEAD * 864e5));
+  function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function https(u) { u = String(u || ''); return /^http:\/\//.test(u) ? 'https://' + u.slice(7) : (/^https:\/\//.test(u) ? u : ''); }
+  function tabsOfRegion(r) {   // KOPIS 광역명 -> 탭(경기는 남·북 구분 정보가 없어 두 탭 모두)
+    if (r === '경기') return ['경기 남부', '경기 북부'];
+    if (r === '충북' || r === '충남' || r === '세종') return ['충청/세종'];
+    if (r === '전북' || r === '전남') return ['전라'];
+    return TABS.indexOf(r) > 0 ? [r] : [];
+  }
+  function tabsOfAddr(a) {
+    var h = String(a || '').split(' ')[0];
+    if (/^서울/.test(h)) return ['서울'];
+    if (/^인천/.test(h)) return ['인천'];
+    if (/^경기/.test(h)) return [NORTH.test(a.split(' ').slice(0, 2).join(' ')) ? '경기 북부' : '경기 남부'];
+    if (/^대구/.test(h)) return ['대구'];
+    if (/^(경북|경상북도)/.test(h)) return ['경북'];
+    if (/^부산/.test(h)) return ['부산'];
+    if (/^울산/.test(h)) return ['울산'];
+    if (/^(경남|경상남도)/.test(h)) return ['경남'];
+    if (/^대전/.test(h)) return ['대전'];
+    if (/^(충북|충남|충청|세종)/.test(h)) return ['충청/세종'];
+    if (/^광주/.test(h)) return ['광주'];
+    if (/^전남광주/.test(h)) return [/^(동구|서구|남구|북구|광산구)$/.test(a.split(' ')[1] || '') ? '광주' : '전라'];
+    if (/^(전북|전남|전라)/.test(h)) return ['전라'];
+    if (/^강원/.test(h)) return ['강원'];
+    if (/^제주/.test(h)) return ['제주'];
+    return [];
+  }
+  function addrLabel(a) { var p = String(a || '').split(' '); var h = (p[0] || '').replace(/(특별자치시|특별자치도|특별시|광역시|도)$/, ''); return (h + ' ' + (p[1] || '')).trim(); }
+  function build(perf, events) {
+    var out = [];
+    perf.forEach(function (x) {
+      var run = x.state === '공연중';
+      if (!x.poster || (x.end_date || '') < todayIso || (!run && (x.start_date || '') > limitIso) || !https(x.link)) return;
+      out.push({ grp: 0, run: run, start: x.start_date || '', title: x.title, line: [x.genre, x.venue].filter(Boolean).join(' · '), regionLabel: x.region, tabs: tabsOfRegion(x.region), age: x.age || '', img: https(x.poster), fit: 'cover', href: https(x.link), key: 'p' + x.id });
+    });
+    events.forEach(function (x) {
+      if (!(x.kid_score >= 1) || !x.image || (x.end_date || '') < todayIso || (x.start_date || '') > limitIso || !https(x.link)) return;
+      out.push({ grp: 0, run: (x.start_date || '') <= todayIso, start: x.start_date || '', title: x.title, line: x.place || '', regionLabel: addrLabel(x.address || x.place), tabs: tabsOfAddr(x.address || x.place), age: '아이 동반', img: https(x.image_thumb || x.image), fit: 'contain', href: https(x.link), key: 'e' + x.id });
+    });
+    out.sort(function (a, b) { return (b.run ? 1 : 0) - (a.run ? 1 : 0) || a.start.localeCompare(b.start); });
+    return out;
+  }
+  var AGE_NAME = { baby: '0~1세', toddler: '2~3세', kid: '4~5세', preschool: '6~7세' };
+  function seedItems() {   // 전시·체험 장소: 박물관/미술관/전시/체험관 카테고리 시드(나들이 모듈과 같은 카드 객체, 클릭하면 내부 상세 시트)
+    return (window.__outingItems || []).filter(function (i) { return i.seed && SEED_RE.test(i.seed.category || ''); }).map(function (i) {
+      return { grp: 1, title: i.title, line: i.line || '', regionLabel: i.regionLabel, tabs: [i.region], age: (i.seed.age_groups || []).slice(0, 2).map(function (k) { return AGE_NAME[k] || k; }).join('·'), img: i.img, fit: 'cover', sheet: i, key: 's' + i.id };
+    }).sort(function (a, b) { return (b.img ? 1 : 0) - (a.img ? 1 : 0); });
+  }
+  function pick() {
+    var seeds = seedItems(), all = items.filter(function (i) { return tab === '전체' || i.tabs.indexOf(tab) >= 0; });
+    var sd = seeds.filter(function (i) { return tab === '전체' || i.tabs.indexOf(tab) >= 0; });
+    var take = Math.min(sd.length, all.length >= MAX ? 4 : MAX);   // 공연이 충분하면 전시 장소는 4곳만 뒤에 덧붙인다
+    return all.slice(0, MAX - Math.min(take, 4)).concat(sd.slice(0, take)).slice(0, MAX);
+  }
+  function card(it, n) {
+    var a = el('a', 'cul-card'); a.setAttribute('aria-label', n + '번 ' + it.title);
+    if (it.sheet) a.href = '#' + it.key; else { a.href = it.href; a.target = '_blank'; a.rel = 'noopener'; }
+    var ph = el('div', 'cul-photo');
+    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; if (it.fit === 'contain') im.className = 'contain'; im.onerror = function () { im.remove(); ph.appendChild(el('span', '', '🎭')); }; ph.appendChild(im); } else ph.appendChild(el('span', '', '🎨'));
+    ph.appendChild(el('span', 'cul-rank', String(n))); a.appendChild(ph);
+    a.appendChild(el('div', 'cul-name', it.title)); if (it.line) a.appendChild(el('div', 'cul-line', it.line));
+    var m = el('div', 'cul-meta'); if (it.regionLabel) m.appendChild(el('span', 'rg', it.regionLabel)); if (it.age) m.appendChild(el('span', 'ag', it.age)); a.appendChild(m);
+    a.addEventListener('click', function (ev) { if (it.sheet && window.__openSheet) { ev.preventDefault(); window.__openSheet(it.sheet); } if (typeof gtag === 'function') { try { gtag('event', 'home_culture_click', { title: it.title, rank: n }); } catch (e) { /* 무시 */ } } });
+    return a;
+  }
+  function draw() {
+    var box = document.getElementById('cultureList'); if (!box) return; box.innerHTML = '';
+    var list = pick(), note = '';
+    if (!list.length) {   // 아직 일정이 없는 지역: 빈 슬라이더 대신 안내 + 전국 일정
+      note = tab + ' 지역 일정은 준비하고 있어요. 대신 전국 공연·전시를 보여드려요.';
+      var keep = tab; tab = '전체'; list = pick(); tab = keep;
+    }
+    if (note) box.appendChild(el('div', 'out-note', note));
+    if (!list.length) { box.appendChild(el('div', 'out-empty', '공연·전시 일정을 불러오고 있어요.')); return; }
+    list.forEach(function (it, i) { box.appendChild(card(it, i + 1)); });
+    box.scrollLeft = 0;
+  }
+  function tabsUi(center) {
+    var t = document.getElementById('culTabs'); if (!t) return; var keep = t.scrollLeft; t.innerHTML = '';
+    var has = {}; items.forEach(function (i) { i.tabs.forEach(function (k) { has[k] = 1; }); }); seedItems().forEach(function (i) { i.tabs.forEach(function (k) { has[k] = 1; }); });
+    TABS.forEach(function (n) {
+      var b = el('button', 'out-tab' + (n === tab ? ' on' : '') + (n !== '전체' && items.length && !has[n] ? ' dim' : ''), n); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', n === tab ? 'true' : 'false');
+      b.addEventListener('click', function () { tab = n; tabsUi(true); draw(); if (typeof gtag === 'function') { try { gtag('event', 'home_culture_tab', { tab: n }); } catch (e) { /* 무시 */ } } }); t.appendChild(b);
+    });
+    t.scrollLeft = keep;
+    var on = t.querySelector('.out-tab.on'); if (on && center) { t.scrollTo({ left: Math.max(0, on.offsetLeft - (t.clientWidth - on.offsetWidth) / 2), behavior: 'smooth' }); }
+  }
+  function get(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
+  tabsUi();
+  var ready = new Promise(function (res) { if (window.__outingItems) res(); else document.addEventListener('outing-ready', function () { res(); }, { once: true }); });
+  Promise.all([get('./kids_performances.json'), get('./tour_events.json')]).then(function (r) {
+    items = build((r[0] && r[0].performances) || [], (r[1] && (r[1].events || (Array.isArray(r[1]) ? r[1] : []))) || []);
+    tabsUi(); draw();
+    ready.then(function () { tabsUi(); draw(); });
+    if (typeof enableDragScroll === 'function') { var l = document.getElementById('cultureList'); if (l) enableDragScroll(l); }
   });
 })();
 </script>
