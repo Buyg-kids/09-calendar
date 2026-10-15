@@ -14,7 +14,7 @@ import time
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
-PROJECT = Path(__file__).resolve().parent.parent
+PROJECT = Path(os.environ.get("BUYG_ROOT") or Path(__file__).resolve().parent.parent)
 sys.path.insert(0, str(PROJECT))
 from dotenv import load_dotenv  # noqa: E402
 
@@ -25,6 +25,8 @@ log = logging.getLogger("enrich_spots")
 DELAY = 0.5
 RADIUS_M = 2000
 CAFE_CAT3 = "A05020900"
+CAT3_LABEL = {"A05020100": "한식", "A05020200": "양식", "A05020300": "일식", "A05020400": "중식", "A05020700": "이색 음식점", "A05020900": "카페"}   # TourAPI 음식점 중분류 코드
+KID_MENU_RE = ["돈가스", "돈까스", "우동", "국수", "칼국수", "순두부", "볶음밥", "짜장", "만두", "카레", "오므라이스", "파스타", "스테이크", "떡볶이", "불고기", "비빔밥", "수제비"]   # 메뉴 이름 기준(아이가 먹기 쉬운 편)
 NEARBY_KEEP = 5                    # 식당·카페 각각 가까운 순 N곳
 RETRY_NO_MATCH_DAYS = 7            # 못 찾은 곳은 키워드 변형을 바꿔 가며 일주일 뒤 재시도
 REFRESH_DAYS = 30                  # 매핑된 곳은 한 달마다 사진·좌표·주변 식당을 다시 확인
@@ -128,6 +130,21 @@ def map_place(budget, key, s, attempt, today):
     return None, order[0], 0
 
 
+def menu_of(budget, key, cid, today):
+    """detailIntro2(음식점)의 대표메뉴·취급메뉴(공식). 없으면 None."""
+    items = budget.call(key, "detailIntro2", {"contentId": cid, "contentTypeId": 39}) or []
+    if not items:
+        return None
+    it = items[0]
+    first = re.sub(r"\s+", " ", (it.get("firstmenu") or "")).strip()
+    treat = re.sub(r"\s+", " ", (it.get("treatmenu") or "")).strip()
+    text = (first or (treat.split("/")[0].strip() if treat else ""))[:40]
+    if not text.strip():
+        return None
+    kid = [w for w in KID_MENU_RE if w in (first + " " + treat)][:3]
+    return {"v": text, "src": SRC, "checked": today, "kid_menu_hint": kid}
+
+
 def nearby_for(budget, key, lat, lon, today):
     items = budget.call(key, "locationBasedList2", {"mapX": lon, "mapY": lat, "radius": RADIUS_M, "contentTypeId": 39, "arrange": "E", "numOfRows": 100, "pageNo": 1}) or []
     eats, cafes = [], []
@@ -144,8 +161,20 @@ def nearby_for(budget, key, lat, lon, today):
              "distance": {"v": dist_label(m), "mode": "straight", "meters": m},
              "identity": {"src": SRC, "checked": today, "note": f"한국관광공사 TourAPI 음식점 정보(contentid {cid})에서 확인", "tourapi_contentid": cid},
              "place_check": {"status": "unchecked", "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"}}
+        e["category"] = CAT3_LABEL.get(it.get("cat3") or "", "음식점")
+        img, th = tc._safe_https(it.get("firstimage")), tc._safe_https(it.get("firstimage2"))
+        if img and it.get("cpyrhtDivCd") == "Type1":
+            e["photo"] = {"url": img, "thumb": th or img, "credit": "한국관광공사 TourAPI", "license": "공공누리 제1유형(출처표시)", "contentid": cid, "checked": today}
         (cafes if is_cafe else eats).append(e)
-    return eats[:NEARBY_KEEP], cafes[:NEARBY_KEEP]
+    eats, cafes = eats[:NEARBY_KEEP], cafes[:NEARBY_KEEP]
+    for e in eats + cafes:      # 가까운 순 상위만 상세(대표메뉴) 조회: 호출 절약
+        mn = menu_of(budget, key, e["identity"]["tourapi_contentid"], today)
+        if mn:
+            hint = mn.pop("kid_menu_hint")
+            e["menu"] = mn
+            if hint and e["kind"] == "식당":
+                e["kid_menu_hint"] = hint
+    return eats, cafes
 
 
 def due(st, today):
@@ -173,6 +202,7 @@ def main():
     ap.add_argument("--state", default=str(PROJECT / "data" / "spot_queue_state.json"))
     ap.add_argument("--spots", type=int, default=100)
     ap.add_argument("--max-calls", type=int, default=400)
+    ap.add_argument("--only", default="", help="쉼표로 구분한 시드 id 만 강제 처리(샌드박스 시험용)")
     a = ap.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     key = os.getenv("TOURAPI_SERVICE_KEY", "").strip()
@@ -188,7 +218,7 @@ def main():
     st_p.parent.mkdir(parents=True, exist_ok=True)
     data = json.loads(data_p.read_text(encoding="utf-8")) if data_p.exists() else {"version": 1, "spots": {}}
     state = json.loads(st_p.read_text(encoding="utf-8")) if st_p.exists() else {}
-    queue = sorted([s for s in seed if due(state.get(s["id"]), today_d)], key=lambda s: priority(s["id"], data["spots"].get(s["id"]), state.get(s["id"])))[: a.spots]
+    queue = [s for s in seed if s["id"] in a.only.split(",")] if a.only else sorted([s for s in seed if due(state.get(s["id"]), today_d)], key=lambda s: priority(s["id"], data["spots"].get(s["id"]), state.get(s["id"])))[: a.spots]
     log.info("대기 %d곳 중 오늘 처리 %d곳 (호출 한도 %d)", sum(1 for s in seed if due(state.get(s["id"]), today_d)), len(queue), a.max_calls)
     budget = Budget(a.max_calls)
     stats = {"mapped": 0, "review": 0, "no_match": 0, "photo": 0, "nearby": 0, "error": 0}

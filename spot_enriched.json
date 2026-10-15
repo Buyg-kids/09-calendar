@@ -5,12 +5,12 @@
    "contentid": "1177980",
    "matched_title": "국립중앙박물관 어린이박물관",
    "address": "서울특별시 용산구 서빙고로 137",
-   "updated": "2026-10-14",
+   "updated": "2026-10-15",
    "geo": {
     "lat": 37.524013,
     "lon": 126.980345,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo": {
     "url": "https://tong.visitkorea.or.kr/cms/resource/10/3505410_image2_1.jpg",
@@ -18,13 +18,13 @@
     "credit": "한국관광공사 TourAPI",
     "license": "공공누리 제1유형(출처표시)",
     "contentid": "1177980",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo_status": "ok",
    "nearby": {
     "radius_m": 2000,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14",
+    "checked": "2026-10-15",
     "eats": [
      {
       "id": "eat_t2856474",
@@ -39,14 +39,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2856474)에서 확인",
        "tourapi_contentid": "2856474"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "일식",
+      "menu": {
+       "v": "일본가정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "돈가스"
+      ]
      },
      {
       "id": "eat_t2859999",
@@ -61,13 +70,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2859999)에서 확인",
        "tourapi_contentid": "2859999"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "꿀등심",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -83,14 +98,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 132832)에서 확인",
        "tourapi_contentid": "132832"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "한식",
+      "menu": {
+       "v": "유진막국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
      },
      {
       "id": "eat_t2837921",
@@ -105,14 +129,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2837921)에서 확인",
        "tourapi_contentid": "2837921"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "한식",
+      "menu": {
+       "v": "갈비탕 / 이촌동국밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "만두"
+      ]
      },
      {
       "id": "eat_t2823949",
@@ -127,14 +160,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2823949)에서 확인",
        "tourapi_contentid": "2823949"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "한식",
+      "menu": {
+       "v": "버섯두부전골",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "순두부"
+      ]
      }
     ],
     "cafes": [
@@ -151,13 +193,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2849404)에서 확인",
        "tourapi_contentid": "2849404"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "팥빙수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -173,13 +221,27 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 3443017)에서 확인",
        "tourapi_contentid": "3443017"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/40/3443040_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/40/3443040_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3443017",
+       "checked": "2026-10-15"
+      },
+      "menu": {
+       "v": "시그니처 음료: 몬스애플슈페너",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -195,13 +257,27 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 3446770)에서 확인",
        "tourapi_contentid": "3446770"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/60/3446560_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/60/3446560_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3446770",
+       "checked": "2026-10-15"
+      },
+      "menu": {
+       "v": "뉴욕롤, 고스윗라떼, 시크릿라떼, 바질크런치",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -217,13 +293,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2763751)에서 확인",
        "tourapi_contentid": "2763751"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "한강라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      }
     ]
@@ -497,12 +579,12 @@
    "contentid": "128611",
    "matched_title": "서울숲",
    "address": "서울특별시 성동구 뚝섬로 273",
-   "updated": "2026-10-14",
+   "updated": "2026-10-15",
    "geo": {
     "lat": 37.543072,
     "lon": 127.041798,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo": {
     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/99/3580599_image2_1.jpg",
@@ -510,13 +592,13 @@
     "credit": "한국관광공사 TourAPI",
     "license": "공공누리 제1유형(출처표시)",
     "contentid": "128611",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo_status": "ok",
    "nearby": {
     "radius_m": 2000,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14",
+    "checked": "2026-10-15",
     "eats": [
      {
       "id": "eat_t2845610",
@@ -531,13 +613,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2845610)에서 확인",
        "tourapi_contentid": "2845610"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "칠리쉬림프샌드위치",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -553,14 +641,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2898953)에서 확인",
        "tourapi_contentid": "2898953"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "이색 음식점",
+      "menu": {
+       "v": "소고기 쌀국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
      },
      {
       "id": "eat_t2900179",
@@ -575,14 +672,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2900179)에서 확인",
        "tourapi_contentid": "2900179"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "양식",
+      "menu": {
+       "v": "시그니쳐 제주 카프레제",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "스테이크"
+      ]
      },
      {
       "id": "eat_t2895145",
@@ -597,14 +703,24 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2895145)에서 확인",
        "tourapi_contentid": "2895145"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "한식",
+      "menu": {
+       "v": "쌈밥정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "불고기",
+       "비빔밥"
+      ]
      },
      {
       "id": "eat_t2894761",
@@ -619,13 +735,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2894761)에서 확인",
        "tourapi_contentid": "2894761"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "엘더클래식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      }
     ],
@@ -643,13 +765,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2899312)에서 확인",
        "tourapi_contentid": "2899312"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "우유 크림 스콘 / 크루키 / 생망고 요거크림 케이크 조각",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -665,13 +793,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2894747)에서 확인",
        "tourapi_contentid": "2894747"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -687,13 +821,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2895025)에서 확인",
        "tourapi_contentid": "2895025"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "펄 크림브륄레 수플레",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -709,13 +849,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2894319)에서 확인",
        "tourapi_contentid": "2894319"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "프랑스바게트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -731,13 +877,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2895010)에서 확인",
        "tourapi_contentid": "2895010"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "딸기1호케이크",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      }
     ]
@@ -900,12 +1052,12 @@
    "contentid": "127197",
    "matched_title": "일산호수공원",
    "address": "경기도 고양시 일산동구 호수로 595 (장항동)",
-   "updated": "2026-10-14",
+   "updated": "2026-10-15",
    "geo": {
     "lat": 37.657058,
     "lon": 126.763855,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo": {
     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/83/3553283_image2_1.jpg",
@@ -913,13 +1065,13 @@
     "credit": "한국관광공사 TourAPI",
     "license": "공공누리 제1유형(출처표시)",
     "contentid": "127197",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo_status": "ok",
    "nearby": {
     "radius_m": 2000,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14",
+    "checked": "2026-10-15",
     "eats": [
      {
       "id": "eat_t2868349",
@@ -934,14 +1086,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2868349)에서 확인",
        "tourapi_contentid": "2868349"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "중식",
+      "menu": {
+       "v": "매운 철판짜장",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "짜장"
+      ]
      },
      {
       "id": "eat_t2873219",
@@ -956,13 +1117,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2873219)에서 확인",
        "tourapi_contentid": "2873219"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "고스이 정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -978,13 +1145,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2891383)에서 확인",
        "tourapi_contentid": "2891383"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "우럭 회무침 코스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1000,13 +1173,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2781477)에서 확인",
        "tourapi_contentid": "2781477"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "생선구이(고등어 / 갈치 / 법성포굴비 등)",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1022,13 +1201,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2831041)에서 확인",
        "tourapi_contentid": "2831041"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "오로시 히레카츠",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      }
     ],
@@ -1046,13 +1231,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892029)에서 확인",
        "tourapi_contentid": "2892029"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "브런치플레이트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1068,13 +1259,27 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 3449948)에서 확인",
        "tourapi_contentid": "3449948"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/25/3449825_image2_1.JPG",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/25/3449825_image3_1.JPG",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3449948",
+       "checked": "2026-10-15"
+      },
+      "menu": {
+       "v": "두바이 초콜릿",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1090,13 +1295,22 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 3356049)에서 확인",
        "tourapi_contentid": "3356049"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/90/3422190_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/90/3422190_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3356049",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1112,13 +1326,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892152)에서 확인",
        "tourapi_contentid": "2892152"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "카페 제제 & 바게트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      }
     ]
@@ -1135,12 +1355,12 @@
    "contentid": "2662855",
    "matched_title": "광교호수공원",
    "address": "경기도 수원시 영통구 광교호수로 165 (하동)",
-   "updated": "2026-10-14",
+   "updated": "2026-10-15",
    "geo": {
     "lat": 37.283268,
     "lon": 127.070057,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo": {
     "url": "https://tong.visitkorea.or.kr/cms/resource/60/3588560_image2_1.jpg",
@@ -1148,13 +1368,13 @@
     "credit": "한국관광공사 TourAPI",
     "license": "공공누리 제1유형(출처표시)",
     "contentid": "2662855",
-    "checked": "2026-10-14"
+    "checked": "2026-10-15"
    },
    "photo_status": "ok",
    "nearby": {
     "radius_m": 2000,
     "source": "https://api.visitkorea.or.kr/",
-    "checked": "2026-10-14",
+    "checked": "2026-10-15",
     "eats": [
      {
       "id": "eat_t2848015",
@@ -1169,14 +1389,23 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2848015)에서 확인",
        "tourapi_contentid": "2848015"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "한식",
+      "menu": {
+       "v": "행궁진찬",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "불고기"
+      ]
      },
      {
       "id": "eat_t2855712",
@@ -1191,14 +1420,24 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2855712)에서 확인",
        "tourapi_contentid": "2855712"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-      }
+      },
+      "category": "한식",
+      "menu": {
+       "v": "불고기뚝배기",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
+      },
+      "kid_menu_hint": [
+       "불고기",
+       "비빔밥"
+      ]
      },
      {
       "id": "eat_t2835351",
@@ -1213,13 +1452,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2835351)에서 확인",
        "tourapi_contentid": "2835351"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "제주흑돼지 양념갈비",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1235,13 +1480,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2851901)에서 확인",
        "tourapi_contentid": "2851901"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "생등심",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1257,13 +1508,27 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 3444598)에서 확인",
        "tourapi_contentid": "3444598"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/23/3444223_image2_1.JPG",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/23/3444223_image3_1.JPG",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3444598",
+       "checked": "2026-10-15"
+      },
+      "menu": {
+       "v": "미소텐동, 아나고텐동",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      }
     ],
@@ -1281,13 +1546,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892706)에서 확인",
        "tourapi_contentid": "2892706"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "라테피크",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1303,13 +1574,22 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 3443259)에서 확인",
        "tourapi_contentid": "3443259"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/10/3442910_image2_1.jpeg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/10/3442910_image3_1.jpeg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3443259",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1325,13 +1605,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892653)에서 확인",
        "tourapi_contentid": "2892653"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1347,13 +1633,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2893540)에서 확인",
        "tourapi_contentid": "2893540"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "토피커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      },
      {
@@ -1369,13 +1661,19 @@
       },
       "identity": {
        "src": "https://api.visitkorea.or.kr/",
-       "checked": "2026-10-14",
+       "checked": "2026-10-15",
        "note": "한국관광공사 TourAPI 음식점 정보(contentid 2848107)에서 확인",
        "tourapi_contentid": "2848107"
       },
       "place_check": {
        "status": "unchecked",
        "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-15"
       }
      }
     ]

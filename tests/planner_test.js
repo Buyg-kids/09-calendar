@@ -71,8 +71,22 @@ t('식비·카페비: 직접 입력 > 대표메뉴 기준가 예상치(어른 �
   assert.equal(r.budget.manual[0].amount, 32000);
   assert.equal(r.budget.known_total, 32000); assert.equal(r.budget.total, 32000);
   const noRef = JSON.parse(JSON.stringify(museum)); delete noRef.eats.find(e => e.id === 'eat_hwangje_jjamppong').ref_menu;
-  r = P.plan(base, noRef);                                        // 기준가가 없으면 확인 필요
-  assert.ok(r.budget.unknown.some(u => u.key === 'meal')); assert.equal(r.budget.total, 0);
+  r = P.plan(base, noRef);                                        // 기준가가 없으면 일반 외식 기본값(1인 12,000원)으로 추정
+  assert.ok(!r.budget.unknown.some(u => u.key === 'meal'));
+  assert.equal(r.budget.estimates[0].amount, 24000); assert.equal(r.budget.estimates[0].basis, 'default'); assert.equal(r.budget.total, 24000);
+});
+t('기본 추정치: 식당 1인 12,000원·카페 1인 6,000원(어른+청소년), 직접 입력이 우선, 주차 무료 모델', () => {
+  const place = { id: 'x', name: '시험 장소', costs: { admission: { model: 'free', note: '무료입장(일반 정보)' }, parking: { model: 'free', note: '무료주차(일반 정보)' } },
+    eats: [{ id: 'e1', kind: '식당', name: 'a', level: 'listed', distance: { v: 'v', mode: 'straight', meters: 800 } }, { id: 'c1', kind: '카페', name: 'b', level: 'listed', distance: { v: 'v', mode: 'straight', meters: 900 } }] };
+  let r = P.plan({ party: { adult: 2, teen: 1, child: 1 }, car: true, eat_id: 'e1', cafe_id: 'c1' }, place);
+  assert.equal(r.budget.estimates.find(x => x.key === 'meal').amount, 36000);    // (어른 2 + 청소년 1) × 12,000
+  assert.equal(r.budget.estimates.find(x => x.key === 'cafe').amount, 18000);    // 3 × 6,000
+  assert.equal(r.budget.unknown.length, 0); assert.equal(r.budget.known_total, 0); assert.equal(r.budget.total, 54000);
+  assert.ok(r.budget.lines.some(l => l.key === 'parking' && l.amount === 0 && l.detail.indexOf('무료주차') >= 0));
+  r = P.plan({ party: { adult: 2 }, car: true, eat_id: 'e1', cafe_id: 'c1', manual: { meal: 20000 } }, place);
+  assert.equal(r.budget.manual[0].amount, 20000); assert.equal(r.budget.estimates.length, 1); assert.equal(r.budget.total, 20000 + 12000);
+  r = P.plan({ party: { adult: 0, toddler: 2 }, car: false, eat_id: 'e1' }, place);   // 어른이 없어도 최소 1명 기준
+  assert.equal(r.budget.estimates[0].amount, 12000);
 });
 t('기준가 계산: 어른 0명이면 0원, 인원 변화 반영, 수목원 동이손만두는 1인 환산 표기', () => {
   assert.equal(P.plan({ party: { adult: 0, toddler: 2 }, car: false, eat_id: 'eat_hwangje_jjamppong' }, museum).budget.estimate_total, 0);
@@ -217,5 +231,14 @@ t('보관함: 이전 형식({state, saved_at}) 레코드는 새 규격으로 승
   const store = { buyg_saved_plans_v1: JSON.stringify([{ id: 'abc', saved_at: 1700000000000, title: '옛', state: { place_id: 'spot_06' } }]) };
   globalThis.localStorage = { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } };
   const l = P.listSaved(); assert.equal(l.length, 1); assert.equal(l[0].schema_version, 1); assert.equal(l[0].plan_data.place_id, 'spot_06'); assert.equal(l[0].completed, false);
+});
+t('건너뛰기 표시: 새 상태는 건너뛰지 않음, 이전 저장본은 선택이 비면 건너뜀, 공유 링크에 보존', () => {
+  assert.equal(P.normalizePlan({}).meal_skip, false);
+  assert.equal(P.normalizePlan({ place_id: 'spot_06' }).meal_skip, true);                      // 이전 저장본(선택 없음) -> 건너뛴 것으로
+  assert.equal(P.normalizePlan({ place_id: 'spot_06', eat_id: 'e1' }).meal_skip, false);
+  assert.equal(P.normalizePlan({ place_id: 'spot_06', meal_skip: false }).meal_skip, false);
+  const st = P.normalizePlan({ place_id: 'spot_06', eat_id: 'e1', meal_skip: false, cafe_skip: true });
+  const back = P.decodePlan(P.encodePlan(st));
+  assert.equal(back.meal_skip, false); assert.equal(back.cafe_skip, true); assert.deepEqual(back, st);
 });
 console.log('planner tests passed: ' + n);

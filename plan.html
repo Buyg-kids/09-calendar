@@ -15,6 +15,8 @@
   .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 14px; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); }
   .top .back { border: 0; background: none; font-size: 15px; font-weight: 700; padding: 8px 4px; cursor: pointer; font-family: inherit; color: var(--ink); }
   .top .logo { margin-left: auto; font-size: 16px; font-weight: 800; color: var(--brand); text-decoration: none; }
+  .top .logo { display: inline-flex; align-items: center; gap: 6px; flex: none; white-space: nowrap; }
+  .logo-face { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex: none; background: #f2f1ee; }
   .intro { padding: 20px 18px 6px; background: #fff; }
   h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
   .lead { margin: 6px 0 14px; font-size: 13.5px; color: var(--sub); line-height: 1.5; }
@@ -155,11 +157,32 @@
   .vcta p { margin: 10px 0 0; font-size: 12px; color: var(--mute); line-height: 1.5; }
   .drawer .none, .vcta p { white-space: pre-line; }
   .vbud { margin: 10px 0 0; padding: 18px; background: #fff; } .vbud h2 { margin: 0 0 8px; font-size: 15.5px; font-weight: 800; }
+  /* 식당·카페 가로 슬라이더 */
+  .ecar { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 10px; margin: 0 -2px; scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .ecar::-webkit-scrollbar { display: none; }
+  .ecard { flex: 0 0 156px; width: 156px; min-width: 0; scroll-snap-align: start; display: flex; flex-direction: column; text-align: left; padding: 0; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; overflow: hidden; cursor: pointer; font-family: inherit; color: var(--ink); }
+  .ecard.on { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand) inset; }
+  .ecard .eph { position: relative; flex: none; height: 92px; background: linear-gradient(135deg, #f6efe3, #efe3cf); display: flex; align-items: center; justify-content: center; font-size: 34px; overflow: hidden; }
+  .ecard .eph.cafe { background: linear-gradient(135deg, #f1ecf6, #e2d6ee); } .ecard .eph.jp { background: linear-gradient(135deg, #fbeaea, #f6d6d6); } .ecard .eph.kr { background: linear-gradient(135deg, #f6efe3, #efe3cf); } .ecard .eph.cn { background: linear-gradient(135deg, #fff1db, #ffe0b0); } .ecard .eph.we { background: linear-gradient(135deg, #e8f3ea, #cfe7d5); }
+  .ecard .eph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ecard .edist { position: absolute; left: 6px; bottom: 6px; z-index: 1; padding: 2px 8px; border-radius: 999px; background: rgba(31,36,48,.82); color: #fff; font-size: 11px; font-weight: 700; }
+  .ecard .echk { position: absolute; right: 6px; top: 6px; z-index: 1; width: 22px; height: 22px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 13px; font-weight: 800; display: none; align-items: center; justify-content: center; }
+  .ecard.on .echk { display: flex; }
+  .ecard .ecr { position: absolute; right: 5px; bottom: 4px; z-index: 1; font-size: 9.5px; color: #fff; text-shadow: 0 0 3px rgba(0,0,0,.7); }
+  .ecard .ebd { display: flex; flex-direction: column; gap: 3px; padding: 9px 10px 10px; min-width: 0; }
+  .ecard .enm { font-size: 14px; font-weight: 800; line-height: 1.3; word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+  .ecard .ecat { font-size: 11.5px; font-weight: 700; color: var(--brand); }
+  .ecard .emn { min-height: 2.6em; font-size: 12px; color: var(--sub); line-height: 1.3; word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .ecard .ekid { font-size: 11.5px; font-weight: 700; color: #1b7a46; }
+  .ecard .ebdg { display: flex; flex-wrap: wrap; gap: 4px; min-height: 20px; margin-top: 2px; }
+  .ebdg .bdg { padding: 2px 7px; border-radius: 999px; background: var(--ok-bg); color: var(--ok); font-size: 11px; font-weight: 800; }
+  .ebdg .unk { font-size: 11px; color: var(--mute); }
+  .ehint { margin: 2px 0 8px; font-size: 12px; color: var(--mute); }
   .empty { padding: 50px 20px; text-align: center; color: var(--sub); line-height: 1.7; }
 </style>
 </head>
 <body>
-<div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><button class="boxbtn" id="boxBtn" type="button" aria-haspopup="dialog">📁 보관함<span class="cnt" id="boxCnt"></span></button><a class="logo" href="./">Buyg</a></div>
+<div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><button class="boxbtn" id="boxBtn" type="button" aria-haspopup="dialog">📁 보관함<span class="cnt" id="boxCnt"></span></button><a class="logo" href="./" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="24" height="24" decoding="async">Buyg</a></div>
 <div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
 <script src="planner.js"></script>
 <script>
@@ -176,8 +199,13 @@ function enrEats(id) { const n = (ENR[id] || {}).nearby || {}; return [].concat(
 function ensureSeedPlace(id) {   // 시드 장소는 검증된 요금·식당 정보가 없다: 입장료·주차비는 '확인 필요', 식당은 비워 둔다
   if (!id || GUIDES[id] || !SEEDS[id]) return;
   const s = SEEDS[id], c = s.category || '', theme = /박물관|전시/.test(c) ? 'museum' : /동물/.test(c) ? 'zoo' : /공원|숲|수목|생태|산책/.test(c) ? 'forest' : '';
-  const note = '요금은 아직 확인하지 못했어요(방문 전 공식 안내에서 확인)';
-  GUIDES[id] = { id: id, name: s.title, region: s.region, theme: theme, seed: true, geo: enrGeo(id), eats: enrEats(id), facts: { address: { v: s.address, checked: '2026-10-08' } }, costs: { admission: { model: 'unknown', note: note }, parking: { model: 'unknown', note: '주차 요금은 아직 확인하지 못했어요' } } };
+  const fee = String(s.tag || ''), pk = String(s.parking || '');   // 시드의 일반 정보(요금·주차). 공식 확인 전이므로 '일반 정보'로 표기하고 방문 전 확인을 안내한다
+  const admission = /무료입장/.test(fee) ? { model: 'free', note: '무료입장(일반 정보 · 방문 전 공식 확인)' + (/예약/.test(fee) ? ' · 사전예약 필요' : '') } : { model: 'unknown', note: '요금은 아직 확인하지 못했어요(방문 전 공식 안내에서 확인)' };
+  const parking = pk === '무료주차' ? { model: 'free', note: '무료주차(일반 정보 · 방문 전 확인)' } : { model: 'unknown', note: pk === '주차불가/대중교통' ? '주차가 어려운 곳이에요(대중교통 권장, 일반 정보)' : '주차는 유료예요(요금 미확인, 일반 정보)' };
+  const SEED_COSTS = {   // 시드 장소 중 요금을 직접 확인한 곳(운영자 확인). 1일 최대 요금은 확인하지 못해 상한을 두지 않는다.
+    spot_01: { admission: { model: 'free', note: '무료 관람 · 사전예약제(운영자 확인 2026-10-15)' }, parking: { model: 'tiered', free_minutes: 0, base_minutes: 120, base: 2000, step_minutes: 30, step: 500, daily_max: 1000000, note: '기본 2시간 2,000원 · 초과 30분당 500원(운영자 확인 2026-10-15, 1일 최대 요금은 미확인)' } }
+  };
+  GUIDES[id] = { id: id, name: s.title, region: s.region, theme: theme, seed: true, geo: enrGeo(id), eats: enrEats(id), facts: { address: { v: s.address, checked: '2026-10-08' } }, costs: SEED_COSTS[id] || { admission: admission, parking: parking } };
 }
 
 function placeList() { return Object.values(GUIDES).filter(p => p.costs); }
@@ -185,6 +213,47 @@ function placeList() { return Object.values(GUIDES).filter(p => p.costs); }
 function section(no, title, hint) { const s = h('section', 'step'); const t = h('h2'); t.appendChild(h('span', 'no', String(no))); t.appendChild(document.createTextNode(title)); s.appendChild(t); if (hint) s.appendChild(h('p', 'hint', hint)); return s; }
 function chip(label, on, fn, disabled) { const b = h('button', 'chip' + (on ? ' on' : ''), label); b.type = 'button'; if (disabled) b.disabled = true; else b.addEventListener('click', fn); b.setAttribute('aria-pressed', on ? 'true' : 'false'); return b; }
 function set(fn) { fn(STATE); save(); render(); }
+
+function nearestEat(place, kind) {   // 숫자 거리(meters)가 있으면 가장 가까운 곳, 없으면 목록의 첫 곳
+  const list = (place.eats || []).filter(e => e.kind === kind); if (!list.length) return null;
+  if (list.every(e => e.distance && typeof e.distance.meters === 'number')) return list.slice().sort((a, b) => a.distance.meters - b.distance.meters)[0];
+  return list[0];
+}
+function autoPick(place) {   // 건너뛰기를 누르지 않았다면 식당·카페를 가장 가까운 곳으로 미리 골라 둔다(완성된 일정과 예산을 바로 보여주기 위해)
+  let changed = false;
+  if (!STATE.eat_id && !STATE.meal_skip) { const n = nearestEat(place, '식당'); if (n) { STATE.eat_id = n.id; changed = true; } }
+  if (!STATE.cafe_id && !STATE.cafe_skip) { const n = nearestEat(place, '카페'); if (n) { STATE.cafe_id = n.id; changed = true; } }
+  if (changed) save();
+}
+
+const CAT_CLS = { '한식': 'kr', '일식': 'jp', '중식': 'cn', '양식': 'we', '카페': 'cafe' };
+const CAT_ICON = { '한식': '🍚', '일식': '🍣', '중식': '🥟', '양식': '🍝', '카페': '☕', '이색 음식점': '🍽️' };
+function distShort(e) { const d = e.distance || {}; return d.mode === 'in_park' ? '공원 안' : (typeof d.meters === 'number' ? (d.meters < 1000 ? d.meters + 'm' : (d.meters / 1000).toFixed(1) + 'km') : ''); }
+function infraBadges(e) {   // 아기의자·유모차: 운영자 확인 항목(reviewed 카드) 또는 자동 수집 꿀팁(curation, reviewed:true & found:true)만 뱃지로 보인다
+  const out = [], cu = e.curation || {}, inf = e.infra || {};
+  if ((cu.high_chair && cu.high_chair.reviewed === true && cu.high_chair.found === true) || (inf.high_chair && inf.high_chair.v)) out.push('아기의자');
+  if ((cu.stroller && cu.stroller.reviewed === true && cu.stroller.found === true) || (inf.stroller_access && inf.stroller_access.v)) out.push('유모차');
+  return out;
+}
+function eatCard(e, on, onClick) {
+  const b = h('button', 'ecard' + (on ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  const cat = e.category || (e.kind === '카페' ? '카페' : '음식점');
+  const ph = h('div', 'eph ' + (CAT_CLS[cat] || (e.kind === '카페' ? 'cafe' : '')));
+  const url = e.photo && /^https:\/\//.test(e.photo.thumb || e.photo.url || '') ? (e.photo.thumb || e.photo.url) : '';
+  if (url) { const im = document.createElement('img'); im.src = url; im.alt = ''; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.onerror = () => { im.remove(); ph.appendChild(h('span', '', CAT_ICON[cat] || '🍽️')); }; ph.appendChild(im); ph.appendChild(h('span', 'ecr', '© 한국관광공사')); }
+  else ph.appendChild(h('span', '', CAT_ICON[cat] || (e.kind === '카페' ? '☕' : '🍽️')));
+  const ds = distShort(e); if (ds) ph.appendChild(h('span', 'edist', ds)); ph.appendChild(h('span', 'echk', '✓')); b.appendChild(ph);
+  const bd = h('div', 'ebd'); bd.appendChild(h('div', 'enm', e.name)); bd.appendChild(h('div', 'ecat', cat));
+  const menu = (e.menu && e.menu.v) || (e.recommend_for && e.recommend_for.v) || ''; bd.appendChild(h('div', 'emn', menu ? '대표메뉴 ' + menu : '메뉴 정보 준비 중'));
+  const kid = e.kid_menu_hint && e.kid_menu_hint.length ? e.kid_menu_hint.join('·') : ''; if (kid) bd.appendChild(h('div', 'ekid', '아이 메뉴 · ' + kid));
+  const bg = h('div', 'ebdg'); const bs = infraBadges(e); bs.forEach(x => bg.appendChild(h('span', 'bdg', x))); if (!bs.length) bg.appendChild(h('span', 'unk', '아기의자·유모차 매장 확인 필요')); bd.appendChild(bg);
+  b.appendChild(bd); b.addEventListener('click', onClick); return b;
+}
+function eatCarousel(list, selected, pick) {
+  const wrap = h('div', 'ecar'); wrap.setAttribute('role', 'listbox');
+  list.forEach(e => wrap.appendChild(eatCard(e, selected === e.id, () => pick(e))));
+  return wrap;
+}
 
 function eatSub(b, e) {   // 식당·카페 선택 카드의 보조 문구: 목록형은 확인된 판매품목 + '매장 확인 필요', 후기형은 추천 대상·피크
   if (e.level === 'listed') { if (e.menu && e.menu.v) b.appendChild(h('span', '', e.menu.v)); b.appendChild(h('span', 'unk', '아기의자 · 주차 · 유모차 진입은 매장 확인 필요')); return; }
@@ -228,7 +297,7 @@ function sharePlan(place) {
 const ICON = { place: '📍', meal: '🍽️', cafe: '☕', move: '🚗', wait: '⏱️', end: '🏠' };
 function planSummary(r) { return { total: r.budget.total, unknown: r.budget.unknown.length }; }
 function fmtDate(iso) { const d = iso ? new Date(iso) : null; return d && !isNaN(d) ? (d.getMonth() + 1) + '/' + d.getDate() : ''; }
-function totalRow(r) { const d = h('div', 'dtotal'); const l = h('span'); l.appendChild(document.createTextNode('예상 합계')); l.appendChild(h('small', '', r.budget.unknown.length ? '확인 필요 ' + r.budget.unknown.length + '건은 제외' : (r.budget.estimate_total ? '공식 요금 + 대표메뉴 기준 예상치' : '공식 확인 요금 기준'))); d.appendChild(l); d.appendChild(h('strong', '', Planner.won(r.budget.total))); return d; }
+function totalRow(r) { const d = h('div', 'dtotal'); const l = h('span'); l.appendChild(document.createTextNode('예상 합계')); l.appendChild(h('small', '', r.budget.unknown.length ? '확인 필요 ' + r.budget.unknown.length + '건은 제외' : (r.budget.estimate_total ? '요금 + 식비·카페비 추정치' : '확인된 요금 기준'))); d.appendChild(l); d.appendChild(h('strong', '', Planner.won(r.budget.total))); return d; }
 function buildDiary(place, r, st, interactive) {   // 다이어리 일정표 + 예상 합계 (편집 화면·공유 보기 공용)
   const s = h('section', 'diary'); if (interactive) s.id = 'result';
   const h2 = h('h2'); h2.appendChild(document.createTextNode('우리 가족 하루 일기장')); s.appendChild(h2);
@@ -280,7 +349,7 @@ function renderShared(st, place) {
   const r = Planner.plan(st, place); app.appendChild(buildDiary(place, r, st, false));
   const bud = h('section', 'vbud'); bud.appendChild(h('h2', '', '예상 비용')); const tb = h('table', 'bt');
   const row = (label, detail, amt, unk, badge) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (badge) a.appendChild(h('span', 'badge', badge)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
-  r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false)); r.budget.manual.forEach(l => row(l.label, '', Planner.won(l.amount), false)); r.budget.estimates.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false, '대표메뉴 기준 예상치')); r.budget.unknown.forEach(u => row(u.label, u.note, '확인 필요', true));
+  r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false)); r.budget.manual.forEach(l => row(l.label, '', Planner.won(l.amount), false)); r.budget.estimates.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false, (l.basis === 'default' ? '일반 외식 기준 추정치' : '대표메뉴 기준 예상치'))); r.budget.unknown.forEach(u => row(u.label, u.note, '확인 필요', true));
   bud.appendChild(tb); if (r.budget.unknown.length) bud.appendChild(h('div', 'unkbox', '확인 필요 항목은 합계에 넣지 않았어요. 실제 비용은 더 들 수 있어요.')); app.appendChild(bud);
   const cta = h('section', 'vcta'); const b = h('button', '', '내 일정으로 복사해 수정하기'); b.type = 'button';
   b.addEventListener('click', () => { Planner.savePlan(st); ga('plan_copy_shared', { id: place.id }); location.href = 'plan.html'; });
@@ -295,8 +364,9 @@ function render() {
 
   // 1) 장소
   { const s = section(1, '어디로 갈까요?'); const box = h('div', 'choices');
-    placeList().forEach(p => box.appendChild(chip(p.name, p.id === STATE.place_id, () => set(st => { if (st.place_id !== p.id) { st.eat_id = null; st.cafe_id = null; st.extras.theme_garden = false; } st.place_id = p.id; }))));
+    placeList().forEach(p => box.appendChild(chip(p.name, p.id === STATE.place_id, () => set(st => { if (st.place_id !== p.id) { st.eat_id = null; st.cafe_id = null; st.meal_skip = false; st.cafe_skip = false; st.extras.theme_garden = false; } st.place_id = p.id; }))));
     s.appendChild(box); app.appendChild(s); }
+  if (place) autoPick(place);
   if (!place) { const e = h('div', 'empty', '장소를 선택하면 일정이 만들어져요.'); app.appendChild(e); renderBar(null); return; }
 
   // 방문 예정일 · 날씨
@@ -323,17 +393,15 @@ function render() {
   { const s = section(4, '식사는 어디서 할까요?');
     const eats = (place.eats || []).filter(e => e.kind === '식당');
     if (!eats.length) s.appendChild(h('p', 'note', '이 장소의 식당 정보를 준비하고 있어요.'));
-    eats.forEach(e => { const b = h('button', 'eat' + (STATE.eat_id === e.id ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', STATE.eat_id === e.id ? 'true' : 'false');
-      b.appendChild(h('b', '', e.name)); b.appendChild(h('span', '', e.distance.v)); eatSub(b, e);
-      b.addEventListener('click', () => set(st => { st.eat_id = st.eat_id === e.id ? null : e.id; ga('plan_pick_eat', { id: e.id }); })); s.appendChild(b); });
-    const skip = h('div', 'choices'); skip.appendChild(chip('식사 건너뛰기', !STATE.eat_id, () => set(st => { st.eat_id = null; }))); s.appendChild(skip);
+    if (eats.length) { s.appendChild(h('p', 'ehint', '옆으로 밀어 보고 골라 주세요(공식 목록 · 메뉴는 대표메뉴 기준)')); s.appendChild(eatCarousel(eats, STATE.eat_id, e => set(st => { st.eat_id = st.eat_id === e.id ? null : e.id; st.meal_skip = !st.eat_id; ga('plan_pick_eat', { id: e.id }); }))); }
+    const skip = h('div', 'choices'); skip.appendChild(chip('식사 건너뛰기', !STATE.eat_id, () => set(st => { st.eat_id = null; st.meal_skip = true; }))); s.appendChild(skip);
     app.appendChild(s); }
 
   // 4) 카페
   { const s = section(5, '카페는 어떨까요?'); const cafes = (place.eats || []).filter(e => e.kind === '카페');
     if (!cafes.length) s.appendChild(h('p', 'note', '이 장소의 카페 정보를 준비하고 있어요. 지금은 건너뛰기로 일정이 만들어져요.'));
-    const skipC = h('div', 'choices'); skipC.appendChild(chip('카페 건너뛰기', !STATE.cafe_id, () => set(st => { st.cafe_id = null; })));
-    cafes.forEach(e => { const b = h('button', 'eat' + (STATE.cafe_id === e.id ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', STATE.cafe_id === e.id ? 'true' : 'false'); b.appendChild(h('b', '', e.name)); b.appendChild(h('span', '', e.distance.v)); eatSub(b, e); b.addEventListener('click', () => set(st => { st.cafe_id = st.cafe_id === e.id ? null : e.id; })); s.appendChild(b); });
+    const skipC = h('div', 'choices'); skipC.appendChild(chip('카페 건너뛰기', !STATE.cafe_id, () => set(st => { st.cafe_id = null; st.cafe_skip = true; })));
+    if (cafes.length) s.appendChild(eatCarousel(cafes, STATE.cafe_id, e => set(st => { st.cafe_id = st.cafe_id === e.id ? null : e.id; st.cafe_skip = !st.cafe_id; })));
     if (cafes.length) s.appendChild(skipC);
     app.appendChild(s); }
 
@@ -347,12 +415,12 @@ function render() {
     const row = (label, detail, amt, unk, badge) => { const tr = h('tr', unk ? 'unk' : ''); const a = h('td'); a.appendChild(document.createTextNode(label)); if (badge) a.appendChild(h('span', 'badge', badge)); if (detail) a.appendChild(h('small', '', detail)); tr.appendChild(a); tr.appendChild(h('td', '', amt)); tb.appendChild(tr); };
     r.budget.lines.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false));
     r.budget.manual.forEach(l => row(l.label, '', Planner.won(l.amount), false));
-    r.budget.estimates.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false, '대표메뉴 기준 예상치'));
+    r.budget.estimates.forEach(l => row(l.label, l.detail, Planner.won(l.amount), false, (l.basis === 'default' ? '일반 외식 기준 추정치' : '대표메뉴 기준 예상치')));
     r.budget.unknown.forEach(u => row(u.label, u.note, '확인 필요', true));
     s.appendChild(tb);
-    const tot = h('div', 'total'); const tl = h('span'); tl.appendChild(document.createTextNode('예상 합계')); if (r.budget.estimate_total) tl.appendChild(h('span', 'sub', '공식 요금 + 대표메뉴 기준 예상치'));
+    const tot = h('div', 'total'); const tl = h('span'); tl.appendChild(document.createTextNode('예상 합계')); if (r.budget.estimate_total) tl.appendChild(h('span', 'sub', '요금 + 식비·카페비 추정치'));
     tot.appendChild(tl); tot.appendChild(h('strong', '', Planner.won(r.budget.total))); s.appendChild(tot);
-    if (r.budget.estimate_total) { const sp = h('div', 'tsplit'); [['공식 확인 요금(입장료·주차비 등)', r.budget.known_total], ['대표메뉴 기준 예상치(식비·카페비)', r.budget.estimate_total]].forEach(x => { const d = h('div'); d.appendChild(h('span', '', x[0])); d.appendChild(h('b', '', Planner.won(x[1]))); sp.appendChild(d); }); s.appendChild(sp); }
+    if (r.budget.estimate_total) { const sp = h('div', 'tsplit'); [['공식 확인 요금(입장료·주차비 등)', r.budget.known_total], ['추정치(식비·카페비)', r.budget.estimate_total]].forEach(x => { const d = h('div'); d.appendChild(h('span', '', x[0])); d.appendChild(h('b', '', Planner.won(x[1]))); sp.appendChild(d); }); s.appendChild(sp); }
     if (r.budget.unknown.length) s.appendChild(h('div', 'unkbox', '확인 필요 ' + r.budget.unknown.length + '건(' + r.budget.unknown.map(u => u.label).join(', ') + ')은 합계에 넣지 않았어요. 실제 비용은 더 들 수 있어요.'));
     if (STATE.eat_id || STATE.cafe_id) {   // 직접 입력(입력하면 예상치 대신 적용)
       [['meal', '식비 직접 입력(원)', !!STATE.eat_id], ['cafe', '카페비 직접 입력(원)', !!STATE.cafe_id]].forEach(m => { if (!m[2]) return; const w = h('label', 'money'); w.appendChild(h('span', '', m[1])); const inp = document.createElement('input'); inp.type = 'number'; inp.inputMode = 'numeric'; inp.min = '0'; inp.step = '1000';
@@ -390,7 +458,7 @@ function renderBar(r) {
   try { const r = await fetch('./spot_enriched.json'); ENR = (await r.json()).spots || {}; } catch (e) { ENR = {}; }
   { const qq = new URLSearchParams(location.search).get('place'); ensureSeedPlace(qq); ensureSeedPlace(STATE.place_id); const sq = new URLSearchParams(location.search).get('s'); const dd = sq && Planner.decodePlan(sq); if (dd) ensureSeedPlace(dd.place_id); }
   const q = new URLSearchParams(location.search).get('place');
-  if (q && GUIDES[q] && GUIDES[q].costs && STATE.place_id !== q) { STATE.place_id = q; STATE.eat_id = null; STATE.cafe_id = null; STATE.extras.theme_garden = false; save(); }
+  if (q && GUIDES[q] && GUIDES[q].costs && STATE.place_id !== q) { STATE.place_id = q; STATE.eat_id = null; STATE.cafe_id = null; STATE.meal_skip = false; STATE.cafe_skip = false; STATE.extras.theme_garden = false; save(); }
   const sp = new URLSearchParams(location.search).get('s');
   if (sp) { const got = Planner.decodePlan(sp); const gp = got && GUIDES[got.place_id]; if (gp && gp.costs) { renderShared(got, gp); return; } try { history.replaceState(null, '', location.pathname); } catch (e) { /* 무시 */ } toast('공유 링크를 열 수 없어 내 일정을 보여드려요'); }
   if (STATE.place_id && !(GUIDES[STATE.place_id] && GUIDES[STATE.place_id].costs)) STATE.place_id = '';
