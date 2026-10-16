@@ -115,6 +115,14 @@ def empty_curation():
     return {"status": "empty", "parent_tips": [], "parking_tip": None, "stroller_difficulty": None, "recommended_ages": None}
 
 
+def map_override(budget, key, ov):
+    """사람이 확정한 매핑(spot_overrides.json): 확정한 제목으로 검색해 contentid 가 같은 항목을 그대로 쓴다."""
+    for it in budget.call(key, "searchKeyword2", {"keyword": ov["title"], "numOfRows": 15, "pageNo": 1, "arrange": "A"}) or []:
+        if str(it.get("contentid")) == str(ov["contentid"]):
+            return it
+    return None
+
+
 def map_place(budget, key, s, attempt, today):
     """searchKeyword2 로 장소 매핑. 시도 횟수에 따라 키워드 변형을 바꿔 가며 쓴다. 반환: (record 또는 None, 사용한 키워드)."""
     vs = variants(s["title"])
@@ -202,6 +210,7 @@ def main():
     ap.add_argument("--state", default=str(PROJECT / "data" / "spot_queue_state.json"))
     ap.add_argument("--spots", type=int, default=100)
     ap.add_argument("--max-calls", type=int, default=400)
+    ap.add_argument("--overrides", default=str(PROJECT / "spot_overrides.json"))
     ap.add_argument("--only", default="", help="쉼표로 구분한 시드 id 만 강제 처리(샌드박스 시험용)")
     a = ap.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -214,12 +223,15 @@ def main():
     today_d = date.today()
     today = today_d.isoformat()
     seed = json.loads(Path(a.seed).read_text(encoding="utf-8"))["spots"]
+    OV = json.loads(Path(a.overrides).read_text(encoding="utf-8")).get("map", {}) if Path(a.overrides).exists() else {}   # 사람이 확정한 매핑
     data_p, st_p = out / "spot_enriched.json", Path(a.state)
     st_p.parent.mkdir(parents=True, exist_ok=True)
     data = json.loads(data_p.read_text(encoding="utf-8")) if data_p.exists() else {"version": 1, "spots": {}}
     state = json.loads(st_p.read_text(encoding="utf-8")) if st_p.exists() else {}
-    queue = [s for s in seed if s["id"] in a.only.split(",")] if a.only else sorted([s for s in seed if due(state.get(s["id"]), today_d)], key=lambda s: priority(s["id"], data["spots"].get(s["id"]), state.get(s["id"])))[: a.spots]
-    log.info("대기 %d곳 중 오늘 처리 %d곳 (호출 한도 %d)", sum(1 for s in seed if due(state.get(s["id"]), today_d)), len(queue), a.max_calls)
+    def is_due(s):   # 확정 매핑이 있는데 아직 성공하지 못한 시드는 바로 처리 대상
+        return due(state.get(s["id"]), today_d) or (s["id"] in OV and (state.get(s["id"]) or {}).get("status") != "ok")
+    queue = [s for s in seed if s["id"] in a.only.split(",")] if a.only else sorted([s for s in seed if is_due(s)], key=lambda s: priority(s["id"], data["spots"].get(s["id"]), state.get(s["id"])))[: a.spots]
+    log.info("대기 %d곳 중 오늘 처리 %d곳 (호출 한도 %d)", sum(1 for s in seed if is_due(s)), len(queue), a.max_calls)
     budget = Budget(a.max_calls)
     stats = {"mapped": 0, "review": 0, "no_match": 0, "photo": 0, "nearby": 0, "error": 0}
     stopped = ""
@@ -227,7 +239,22 @@ def main():
         sid = s["id"]
         st = state.get(sid) or {"attempts": 0}
         try:
-            it, kw, kind = map_place(budget, key, s, st.get("attempts", 0), today)
+            if sid in OV and OV[sid].get("manual"):    # TourAPI 에 없는 곳: 운영자가 준 주소·좌표로 직접 등록하고 반경 2km 식당·카페만 수집한다
+                m = OV[sid]["manual"]; lat, lon = float(m["lat"]), float(m["lon"])
+                rec = data["spots"].get(sid) or {}
+                rec.update(contentid=None, matched_title=OV[sid]["title"], address=m["address"], updated=today, source="operator_verified", photo=None, photo_status="no_photo",
+                           geo={"lat": round(lat, 6), "lon": round(lon, 6), "source": "operator_verified", "checked": today})
+                eats, cafes = nearby_for(budget, key, lat, lon, today)
+                rec["nearby"] = {"radius_m": RADIUS_M, "source": SRC, "checked": today, "eats": eats, "cafes": cafes}
+                rec.setdefault("curation", empty_curation())
+                data["spots"][sid] = rec
+                st.update(attempts=st.get("attempts", 0) + 1, last_attempt=today, status="ok", last_keyword="manual")
+                stats["mapped"] += 1; stats["nearby"] += 1 if (eats or cafes) else 0; state[sid] = st
+                continue
+            if sid in OV:
+                it, kw, kind = map_override(budget, key, OV[sid]), "override", 3
+            else:
+                it, kw, kind = map_place(budget, key, s, st.get("attempts", 0), today)
             st.update(attempts=st.get("attempts", 0) + 1, last_attempt=today)
             if it and kind == 1 and s["title"] not in ACCEPT_CONTAINS:
                 st.update(status="review", last_keyword=kw, candidate={"title": it.get("title"), "contentid": str(it.get("contentid")), "address": (it.get("addr1") or "").strip()})

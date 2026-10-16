@@ -241,4 +241,21 @@ t('건너뛰기 표시: 새 상태는 건너뛰지 않음, 이전 저장본은 �
   const back = P.decodePlan(P.encodePlan(st));
   assert.equal(back.meal_skip, false); assert.equal(back.cafe_skip, true); assert.deepEqual(back, st);
 });
+t('함께 갈 곳(공연·전시): 이동·관람이 타임테이블에 들어가고 무료면 0원, 아니면 확인 필요, 입력은 정리된다', () => {
+  const place = { name: '서울숲', costs: { admission: { model: 'free' }, parking: { model: 'free' } }, eats: [] };
+  const st = P.normalizePlan({ place_id: 'spot_04', extra_stop: { key: 'tour_1', name: '어린이 <b>축제</b>', kind: '행사', meters: 3200, free: true } });
+  assert.equal(st.extra_stop.name, '어린이 b축제/b');                                         // < > 제거
+  let r = P.plan(st, place);
+  assert.deepEqual(r.timetable.map(x => x.kind), ['place', 'move', 'stop', 'end']);
+  assert.equal(r.timetable[1].start, '12:00'); assert.equal(r.timetable[1].end, '12:10');   // 3.2km -> 10분(최소)
+  assert.equal(r.timetable[2].start, '12:10'); assert.equal(r.timetable[2].end, '13:40');   // 기본 90분 관람
+  assert.ok(r.warnings.some(w => w.indexOf('추정값') >= 0));
+  assert.ok(r.budget.lines.some(l => l.key === 'stop' && l.amount === 0)); assert.equal(r.budget.unknown.length, 0);
+  const paid = P.normalizePlan({ place_id: 'spot_04', extra_stop: { name: '유료 전시', meters: 9000, free: false, visit_minutes: 60 } });
+  r = P.plan(paid, place); assert.ok(r.budget.unknown.some(u => u.key === 'stop'));
+  assert.equal(r.timetable[1].end, '12:30');                                                  // 9km -> 27분 -> 5분 단위 올림 30분
+  assert.equal(P.normalizePlan({ extra_stop: { name: '' } }).extra_stop, null);
+  assert.equal(P.normalizePlan({ extra_stop: { name: 'a', meters: 999999999 } }).extra_stop.meters, 5000);
+  const back = P.decodePlan(P.encodePlan(st)); assert.deepEqual(back.extra_stop, st.extra_stop);
+});
 console.log('planner tests passed: ' + n);

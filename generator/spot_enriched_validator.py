@@ -20,6 +20,11 @@ LEVELS = {"easy", "moderate", "hard", "unknown"}
 AGES = {"baby", "toddler", "kid", "preschool"}
 STATUS = {"empty", "ai_draft", "reviewed"}
 TIP_MAX = 120
+TOPICS = {"parking", "stroller", "nursing", "tip"}
+LABEL_RE = re.compile(r"\s*\((네이버 블로그|유튜브 실방문) 후기\)\s*$")          # 후기 요약 끝의 출처 표기
+OK_HOSTS = {"youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "blog.naver.com", "m.blog.naver.com"}
+AD_RE = re.compile(r"협찬|원고료|체험단|유료\s*광고|제공\s*받|지원\s*받|소정의|식사권|#ad|#광고", re.I)
+PII_RE = re.compile(r"01[016789][-\s.]?\d{3,4}[-\s.]?\d{4}|\d{2,3}[-\s]\d{3,4}[-\s]\d{4}|[\w.+-]+@[\w-]+\.[\w.]+")
 
 
 def _https(u):
@@ -34,7 +39,8 @@ def _item(p, x, errs):
         errs.append(f"{p}: 객체가 아님")
         return
     text = str(x.get("text") or "").strip()
-    if not text or len(text) > TIP_MAX:
+    body = LABEL_RE.sub("", text).strip()
+    if not body or len(body) > TIP_MAX:
         errs.append(f"{p}.text: 1~{TIP_MAX}자(원문 복사 금지, 요약만)")
     urls = x.get("src_urls")
     if not (isinstance(urls, list) and urls and all(_https(u) for u in urls)):
@@ -47,6 +53,28 @@ def _item(p, x, errs):
         errs.append(f"{p}.reviewed(bool) 필요")
     if "quote" in x or "raw" in x:
         errs.append(f"{p}: 원문 인용 필드 금지")
+    rv = x.get("review")
+    if x.get("reviewed") is True and not isinstance(rv, dict):
+        errs.append(f"{p}.review: reviewed:true 항목은 review{{mode,...}} 표기가 필요")
+    if isinstance(rv, dict):
+        if rv.get("mode") not in {"auto", "manual"}:
+            errs.append(f"{p}.review.mode: auto|manual")
+        if rv.get("mode") == "auto":
+            if not str(rv.get("rules_version") or "").strip() or not DATE_RE.match(str(rv.get("checked") or "")):
+                errs.append(f"{p}.review: auto 는 rules_version·checked 필요")
+            if not (isinstance(x.get("source_count"), int) and x["source_count"] >= 2):
+                errs.append(f"{p}.source_count: 자동 승인은 서로 다른 출처 2건 이상")
+            if x.get("sponsor_risk") is not False:
+                errs.append(f"{p}.sponsor_risk: 자동 승인은 false 여야 함")
+            if not LABEL_RE.search(text):
+                errs.append(f"{p}.text: 후기 요약 끝에 (네이버 블로그 후기)/(유튜브 실방문 후기) 출처 표기 필요")
+            if x.get("topic") not in TOPICS:
+                errs.append(f"{p}.topic: {sorted(TOPICS)}")
+            if AD_RE.search(text) or PII_RE.search(text):
+                errs.append(f"{p}.text: 광고 표현·개인정보 포함")
+            hosts = {(urlparse(u).hostname or "") for u in (x.get("src_urls") or [])}
+            if not hosts or not hosts <= OK_HOSTS:
+                errs.append(f"{p}.src_urls: 허용 출처(유튜브·네이버 블로그)만")
 
 
 def validate_curation(sid, c):
@@ -86,9 +114,10 @@ def validate(data, seed_ids):
         if sid not in seed_ids:
             errs.append(f"{sid}: 시드에 없는 id")
         g = v.get("geo")
-        if not (isinstance(g, dict) and isinstance(g.get("lat"), (int, float)) and isinstance(g.get("lon"), (int, float)) and 33 <= g["lat"] <= 39 and 124 <= g["lon"] <= 132 and _https(g.get("source")) and DATE_RE.match(str(g.get("checked") or ""))):
+        if not (isinstance(g, dict) and isinstance(g.get("lat"), (int, float)) and isinstance(g.get("lon"), (int, float)) and 33 <= g["lat"] <= 39 and 124 <= g["lon"] <= 132 and (_https(g.get("source")) or (v.get("source") == "operator_verified" and g.get("source") == "operator_verified")) and DATE_RE.match(str(g.get("checked") or ""))):
             errs.append(f"{sid}.geo: lat(33~39)·lon(124~132)·source·checked 필요")
-        if not re.fullmatch(r"\d{3,9}", str(v.get("contentid", ""))) or not str(v.get("matched_title") or "").strip() or not str(v.get("address") or "").strip():
+        manual = v.get("source") == "operator_verified"
+        if (not manual and not re.fullmatch(r"\d{3,9}", str(v.get("contentid", "")))) or not str(v.get("matched_title") or "").strip() or not str(v.get("address") or "").strip():
             errs.append(f"{sid}: contentid·matched_title·address 필요")
         ph = v.get("photo")
         if ph is not None:

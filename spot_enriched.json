@@ -10985,6 +10985,6602 @@
     "stroller_difficulty": null,
     "recommended_ages": null
    }
+  },
+  "spot_02": {
+   "contentid": "2608977",
+   "matched_title": "국립민속박물관과 국립민속박물관 어린이박물관",
+   "address": "서울특별시 종로구 삼청로 37 (세종로)",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.581675,
+    "lon": 126.97889,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "license_not_type1",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t1947036",
+      "kind": "식당",
+      "name": "스미스가 좋아하는 한옥",
+      "address": "서울특별시 종로구 삼청로 22-7",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 417m",
+       "mode": "straight",
+       "meters": 417
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 1947036)에서 확인",
+       "tourapi_contentid": "1947036"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "봉골레",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t562425",
+      "kind": "식당",
+      "name": "두가헌 레스토랑",
+      "address": "서울특별시 종로구 삼청로 14",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 492m",
+       "mode": "straight",
+       "meters": 492
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 562425)에서 확인",
+       "tourapi_contentid": "562425"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "코스요리 (런치, 디너)",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t402996",
+      "kind": "식당",
+      "name": "소선재",
+      "address": "서울특별시 종로구 삼청로 113-1 (삼청동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 506m",
+       "mode": "straight",
+       "meters": 506
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 402996)에서 확인",
+       "tourapi_contentid": "402996"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "이색 음식점",
+      "menu": {
+       "v": "한우떡갈비와 식사",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t398346",
+      "kind": "식당",
+      "name": "다락정",
+      "address": "서울특별시 종로구 삼청로 131-1 (삼청동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 667m",
+       "mode": "straight",
+       "meters": 667
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 398346)에서 확인",
+       "tourapi_contentid": "398346"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "김치만두전골",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "만두",
+       "불고기"
+      ]
+     },
+     {
+      "id": "eat_t403407",
+      "kind": "식당",
+      "name": "까델루뽀",
+      "address": "서울특별시 종로구 자하문로16길 5-5",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 670m",
+       "mode": "straight",
+       "meters": 670
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 403407)에서 확인",
+       "tourapi_contentid": "403407"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "런치코스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t3446417",
+      "kind": "카페",
+      "name": "오설록 티하우스 북촌점",
+      "address": "서울특별시 종로구 북촌로 45 (가회동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 510m",
+       "mode": "straight",
+       "meters": 510
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3446417)에서 확인",
+       "tourapi_contentid": "3446417"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/84/3446384_image2_1.JPG",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/84/3446384_image3_1.JPG",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3446417",
+       "checked": "2026-10-16"
+      },
+      "menu": {
+       "v": "북촌의 기와, 북촌의 색",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2848050",
+      "kind": "카페",
+      "name": "아키비스트 서촌",
+      "address": "서울특별시 종로구 효자로13길 52 (효자동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 554m",
+       "mode": "straight",
+       "meters": 554
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2848050)에서 확인",
+       "tourapi_contentid": "2848050"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아인슈패너",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2717547",
+      "kind": "카페",
+      "name": "내자상회",
+      "address": "서울특별시 종로구 사직로10길 3",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 985m",
+       "mode": "straight",
+       "meters": 985
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2717547)에서 확인",
+       "tourapi_contentid": "2717547"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "쑥절미 카스테라",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t1063403",
+      "kind": "카페",
+      "name": "인사동찻집",
+      "address": "서울특별시 종로구 인사동길 33-1 (관훈동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1068
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 1063403)에서 확인",
+       "tourapi_contentid": "1063403"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "단팥죽",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2622715",
+      "kind": "카페",
+      "name": "감꽃당",
+      "address": "서울특별시 종로구 돈화문로11다길 38",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1320
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2622715)에서 확인",
+       "tourapi_contentid": "2622715"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "에그타르트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_05": {
+   "contentid": "129764",
+   "matched_title": "국립현대미술관 과천",
+   "address": "경기도 과천시 광명로 313 (막계동)",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.430975,
+    "lon": 127.019974,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "license_not_type1",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2836604",
+      "kind": "식당",
+      "name": "쌈이맛",
+      "address": "경기도 과천시 광명로 181 (막계동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 614m",
+       "mode": "straight",
+       "meters": 614
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2836604)에서 확인",
+       "tourapi_contentid": "2836604"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "우리한돈 제육볶음",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "만두",
+       "불고기"
+      ]
+     },
+     {
+      "id": "eat_t2748882",
+      "kind": "식당",
+      "name": "봉덕칼국수",
+      "address": "경기도 과천시 궁말로 6",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1347
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2748882)에서 확인",
+       "tourapi_contentid": "2748882"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "샤브버섯칼국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수",
+       "볶음밥"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2767428",
+      "kind": "카페",
+      "name": "만나카페",
+      "address": "경기도 과천시 문원청계2길 50",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1342
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2767428)에서 확인",
+       "tourapi_contentid": "2767428"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_100": {
+   "contentid": "129894",
+   "matched_title": "제주특별자치도 민속자연사박물관",
+   "address": "제주특별자치도 제주시 삼성로 40",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 33.50639,
+    "lon": 126.531337,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/32/4110132_image2_1.jpeg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/32/4110132_image3_1.jpeg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "129894",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2854271",
+      "kind": "식당",
+      "name": "제주미담",
+      "address": "제주특별자치도 제주시 가령로 19 (이도이동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 691m",
+       "mode": "straight",
+       "meters": 691
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2854271)에서 확인",
+       "tourapi_contentid": "2854271"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "고기국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2870910",
+      "kind": "식당",
+      "name": "사랑분식",
+      "address": "제주특별자치도 제주시 동문로4길 12 (일도일동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 744m",
+       "mode": "straight",
+       "meters": 744
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2870910)에서 확인",
+       "tourapi_contentid": "2870910"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "사랑식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "떡볶이"
+      ]
+     },
+     {
+      "id": "eat_t2840668",
+      "kind": "식당",
+      "name": "자연몸국",
+      "address": "제주특별자치도 제주시 중앙로 63-11",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 816m",
+       "mode": "straight",
+       "meters": 816
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2840668)에서 확인",
+       "tourapi_contentid": "2840668"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "자연몸국",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2857289",
+      "kind": "식당",
+      "name": "골목식당",
+      "address": "제주특별자치도 제주시 중앙로 63-9 (이도일동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 825m",
+       "mode": "straight",
+       "meters": 825
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2857289)에서 확인",
+       "tourapi_contentid": "2857289"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "꿩메밀칼국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수"
+      ]
+     },
+     {
+      "id": "eat_t1404293",
+      "kind": "식당",
+      "name": "바그다드",
+      "address": "제주특별자치도 제주시 관덕로8길 34",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 840m",
+       "mode": "straight",
+       "meters": 840
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 1404293)에서 확인",
+       "tourapi_contentid": "1404293"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "이색 음식점",
+      "menu": {
+       "v": "탄두리치킨",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2899545",
+      "kind": "카페",
+      "name": "아베베베이커리",
+      "address": "제주특별자치도 제주시 동문로6길 4",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 734m",
+       "mode": "straight",
+       "meters": 734
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2899545)에서 확인",
+       "tourapi_contentid": "2899545"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "시그니쳐 땅콩크림라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2853982",
+      "kind": "카페",
+      "name": "라토커피제주",
+      "address": "제주특별자치도 제주시 광양10길 20 (이도이동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 895m",
+       "mode": "straight",
+       "meters": 895
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2853982)에서 확인",
+       "tourapi_contentid": "2853982"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "넛츠끄레마",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2840505",
+      "kind": "카페",
+      "name": "순아커피",
+      "address": "제주특별자치도 제주시 관덕로 32-1 (삼도이동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1067
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2840505)에서 확인",
+       "tourapi_contentid": "2840505"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "제주 유기농 녹차",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2824043",
+      "kind": "카페",
+      "name": "행복밀",
+      "address": "제주특별자치도 제주시 서광로 239 (삼도일동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1082
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2824043)에서 확인",
+       "tourapi_contentid": "2824043"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "제주녹차크림빵",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2899568",
+      "kind": "카페",
+      "name": "블루메베이글",
+      "address": "제주특별자치도 제주시 가령로4길 3",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1082
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2899568)에서 확인",
+       "tourapi_contentid": "2899568"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "소금 베이글",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_101": {
+   "contentid": "127479",
+   "matched_title": "제주절물자연휴양림",
+   "address": "제주특별자치도 제주시 명림로 584",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 33.440077,
+    "lon": 126.625216,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "no_photo",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_15": {
+   "contentid": "127975",
+   "matched_title": "경포호(철새도래지)",
+   "address": "강원특별자치도 강릉시 저동",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.7967,
+    "lon": 128.9021,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "no_photo",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t3536521",
+      "kind": "식당",
+      "name": "명경막국수",
+      "address": "강원특별자치도 강릉시 저동골길 5 (저동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 521m",
+       "mode": "straight",
+       "meters": 521
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3536521)에서 확인",
+       "tourapi_contentid": "3536521"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "청양들기름물막국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2874075",
+      "kind": "식당",
+      "name": "태백산맥식당",
+      "address": "강원특별자치도 강릉시 해안로 517",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 888m",
+       "mode": "straight",
+       "meters": 888
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2874075)에서 확인",
+       "tourapi_contentid": "2874075"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "짬뽕순두부",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "순두부",
+       "불고기"
+      ]
+     },
+     {
+      "id": "eat_t2874011",
+      "kind": "식당",
+      "name": "짬뽕 순두부 초당애",
+      "address": "강원특별자치도 강릉시 해안로 388",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 920m",
+       "mode": "straight",
+       "meters": 920
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2874011)에서 확인",
+       "tourapi_contentid": "2874011"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "순두부짬뽕",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수",
+       "순두부"
+      ]
+     },
+     {
+      "id": "eat_t3536945",
+      "kind": "식당",
+      "name": "경기해변횟집",
+      "address": "강원특별자치도 강릉시 창해로 473 (강문동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 979m",
+       "mode": "straight",
+       "meters": 979
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3536945)에서 확인",
+       "tourapi_contentid": "3536945"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "물회스페셜",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t3547941",
+      "kind": "식당",
+      "name": "빛고을식당",
+      "address": "강원특별자치도 강릉시 창해로 473 (강문동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 979m",
+       "mode": "straight",
+       "meters": 979
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3547941)에서 확인",
+       "tourapi_contentid": "3547941"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "빛고을 정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "순두부"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t3535116",
+      "kind": "카페",
+      "name": "테라로사 경포호수점",
+      "address": "강원특별자치도 강릉시 난설헌로 145 (포남동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1088
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3535116)에서 확인",
+       "tourapi_contentid": "3535116"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2891704",
+      "kind": "카페",
+      "name": "AURA Cafe&Lounge",
+      "address": "강원특별자치도 강릉시 창해로 423",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1089
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2891704)에서 확인",
+       "tourapi_contentid": "2891704"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "칵테일 바다",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t3355175",
+      "kind": "카페",
+      "name": "허스크밀",
+      "address": "강원특별자치도 강릉시 난설헌로219번길 20-8 (강문동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1141
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3355175)에서 확인",
+       "tourapi_contentid": "3355175"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/05/3421605_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/05/3421605_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3355175",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2844107",
+      "kind": "카페",
+      "name": "툇마루",
+      "address": "강원특별자치도 강릉시 난설헌로 232",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.2km",
+       "mode": "straight",
+       "meters": 1178
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2844107)에서 확인",
+       "tourapi_contentid": "2844107"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "툇마루커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t3532862",
+      "kind": "카페",
+      "name": "카페툇마루",
+      "address": "강원특별자치도 강릉시 난설헌로 232 (초당동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.2km",
+       "mode": "straight",
+       "meters": 1178
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3532862)에서 확인",
+       "tourapi_contentid": "3532862"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "툇마루커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_17": {
+   "contentid": "125964",
+   "matched_title": "청주 상당산성",
+   "address": "충청북도 청주시 상당구 성내로 70",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 36.661897,
+    "lon": 127.538437,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/57/3504257_image2_1.JPG",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/57/3504257_image3_1.JPG",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "125964",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2789806",
+      "kind": "식당",
+      "name": "상당산성사슴집",
+      "address": "충청북도 청주시 상당구 성내로 128",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 373m",
+       "mode": "straight",
+       "meters": 373
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2789806)에서 확인",
+       "tourapi_contentid": "2789806"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "닭볶음탕",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2860546",
+      "kind": "식당",
+      "name": "상당집",
+      "address": "충청북도 청주시 상당구 성내로118번길 1",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 386m",
+       "mode": "straight",
+       "meters": 386
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2860546)에서 확인",
+       "tourapi_contentid": "2860546"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "두부전골",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_24": {
+   "contentid": null,
+   "matched_title": "대통령기록관",
+   "address": "세종특별자치시 다솜로 250",
+   "updated": "2026-10-16",
+   "source": "operator_verified",
+   "photo": null,
+   "photo_status": "no_photo",
+   "geo": {
+    "lat": 36.5028,
+    "lon": 127.2625,
+    "source": "operator_verified",
+    "checked": "2026-10-16"
+   },
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2738656",
+      "kind": "식당",
+      "name": "밥상차려주는집(세종)",
+      "address": "세종특별자치시 가름로 232 (어진동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 819m",
+       "mode": "straight",
+       "meters": 819
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2738656)에서 확인",
+       "tourapi_contentid": "2738656"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "한상차림 특선",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2734922",
+      "kind": "식당",
+      "name": "중부회수산시장",
+      "address": "세종특별자치시 도움1로 106 (종촌동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1276
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2734922)에서 확인",
+       "tourapi_contentid": "2734922"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "완도 광어회",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2871532",
+      "kind": "식당",
+      "name": "식원반점",
+      "address": "세종특별자치시 한누리대로 583 (도담동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1435
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2871532)에서 확인",
+       "tourapi_contentid": "2871532"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "코스요리",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2869702",
+      "kind": "식당",
+      "name": "에이트",
+      "address": "세종특별자치시  한누리대로 288 갤러리밸류시티",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1501
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2869702)에서 확인",
+       "tourapi_contentid": "2869702"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "리코타치즈 샐러드",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "파스타"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t3559214",
+      "kind": "카페",
+      "name": "꿈앤카페 세종호수공원점 (송담만리)",
+      "address": "세종특별자치시 다솜로 216 (세종동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 804m",
+       "mode": "straight",
+       "meters": 804
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3559214)에서 확인",
+       "tourapi_contentid": "3559214"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_34": {
+   "contentid": "1115613",
+   "matched_title": "수성못 유원지",
+   "address": "대구광역시 수성구 두산동",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 35.8276,
+    "lon": 128.6177,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/08/4105808_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/08/4105808_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "1115613",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2866152",
+      "kind": "식당",
+      "name": "하롱베이",
+      "address": "대구광역시 수성구 무학로 97 (두산동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 327m",
+       "mode": "straight",
+       "meters": 327
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2866152)에서 확인",
+       "tourapi_contentid": "2866152"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "이색 음식점",
+      "menu": {
+       "v": "월남쌈",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2850495",
+      "kind": "식당",
+      "name": "앙뜨레누보",
+      "address": "대구광역시 수성구 수성못6길 20 (두산동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 576m",
+       "mode": "straight",
+       "meters": 576
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2850495)에서 확인",
+       "tourapi_contentid": "2850495"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "디너 코스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2856337",
+      "kind": "식당",
+      "name": "아라한참치",
+      "address": "대구광역시 수성구 들안로 41 (상동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 663m",
+       "mode": "straight",
+       "meters": 663
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2856337)에서 확인",
+       "tourapi_contentid": "2856337"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "아라한참치",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2629752",
+      "kind": "식당",
+      "name": "[백년가게]참깨국수",
+      "address": "대구광역시 수성구 무학로31길 55",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 995m",
+       "mode": "straight",
+       "meters": 995
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2629752)에서 확인",
+       "tourapi_contentid": "2629752"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "참깨콩국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수"
+      ]
+     },
+     {
+      "id": "eat_t2766477",
+      "kind": "식당",
+      "name": "후꾸스시",
+      "address": "대구광역시 수성구 동대구로20길 66 (지산동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1479
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2766477)에서 확인",
+       "tourapi_contentid": "2766477"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "후꾸스페셜 스시",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2766510",
+      "kind": "카페",
+      "name": "데우스커피",
+      "address": "대구광역시 수성구 동대구로14길 15-6",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1268
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2766510)에서 확인",
+       "tourapi_contentid": "2766510"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아인슈페너",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_42": {
+   "contentid": "2414827",
+   "matched_title": "사려니숲길",
+   "address": "제주특별자치도 서귀포시 표선면 가시리",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 33.398939,
+    "lon": 126.679275,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/18/4072718_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/18/4072718_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2414827",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_43": {
+   "contentid": null,
+   "matched_title": "국립한글박물관",
+   "address": "서울특별시 용산구 서빙고로 139",
+   "updated": "2026-10-16",
+   "source": "operator_verified",
+   "photo": null,
+   "photo_status": "no_photo",
+   "geo": {
+    "lat": 37.5204,
+    "lon": 126.9806,
+    "source": "operator_verified",
+    "checked": "2026-10-16"
+   },
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2856474",
+      "kind": "식당",
+      "name": "스즈란테이",
+      "address": "서울특별시 용산구 이촌로 245 (이촌동, 로얄상가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 549m",
+       "mode": "straight",
+       "meters": 549
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2856474)에서 확인",
+       "tourapi_contentid": "2856474"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "일본가정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "돈가스"
+      ]
+     },
+     {
+      "id": "eat_t2837921",
+      "kind": "식당",
+      "name": "이촌동면옥",
+      "address": "서울특별시 용산구 이촌로54길 17",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.2km",
+       "mode": "straight",
+       "meters": 1156
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2837921)에서 확인",
+       "tourapi_contentid": "2837921"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "갈비탕 / 이촌동국밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "만두"
+      ]
+     },
+     {
+      "id": "eat_t132832",
+      "kind": "식당",
+      "name": "유진막국수",
+      "address": "서울특별시 용산구 장문로 18",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1374
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 132832)에서 확인",
+       "tourapi_contentid": "132832"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "유진막국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2837902",
+      "kind": "식당",
+      "name": "돈까스잔치 동빙고점",
+      "address": "서울특별시 용산구 서빙고로 297",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1410
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2837902)에서 확인",
+       "tourapi_contentid": "2837902"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "옛날돈까스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "돈까스",
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2859999",
+      "kind": "식당",
+      "name": "양인환대",
+      "address": "서울특별시 용산구 한강대로40길 14 (한강로2가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1439
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2859999)에서 확인",
+       "tourapi_contentid": "2859999"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "꿀등심",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2849404",
+      "kind": "카페",
+      "name": "동빙고 본점",
+      "address": "서울특별시 용산구 이촌로 319 현대아파트",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 306m",
+       "mode": "straight",
+       "meters": 306
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2849404)에서 확인",
+       "tourapi_contentid": "2849404"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "팥빙수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2763751",
+      "kind": "카페",
+      "name": "동작노을카페",
+      "address": "서울특별시 동작구 동작대로 335 (동작동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1589
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2763751)에서 확인",
+       "tourapi_contentid": "2763751"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "한강라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2784696",
+      "kind": "카페",
+      "name": "동작구름카페",
+      "address": "서울특별시 서초구 동작대로 350",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1619
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2784696)에서 확인",
+       "tourapi_contentid": "2784696"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "크런치맵슐랭치킨",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t3443017",
+      "kind": "카페",
+      "name": "식물학 아이파크몰점",
+      "address": "서울특별시 용산구 한강대로23길 55 (한강로3가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1754
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3443017)에서 확인",
+       "tourapi_contentid": "3443017"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/40/3443040_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/40/3443040_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3443017",
+       "checked": "2026-10-16"
+      },
+      "menu": {
+       "v": "시그니처 음료: 몬스애플슈페너",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t3446770",
+      "kind": "카페",
+      "name": "고카페 용산아이파크몰점",
+      "address": "서울특별시 용산구 한강대로23길 55 (한강로3가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1754
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3446770)에서 확인",
+       "tourapi_contentid": "3446770"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/60/3446560_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/60/3446560_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3446770",
+       "checked": "2026-10-16"
+      },
+      "menu": {
+       "v": "뉴욕롤, 고스윗라떼, 시크릿라떼, 바질크런치",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_55": {
+   "contentid": "127548",
+   "matched_title": "파주 임진각(평화누리공원)",
+   "address": "경기도 파주시 문산읍 임진각로 177",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.889536,
+    "lon": 126.740186,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/31/3497231_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/31/3497231_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127548",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2765108",
+      "kind": "식당",
+      "name": "임진각샘뜰두부집",
+      "address": "경기도 파주시 문산읍 사목로 227",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1817
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2765108)에서 확인",
+       "tourapi_contentid": "2765108"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "더덕두부보쌈",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2865458",
+      "kind": "카페",
+      "name": "포비 DMZ",
+      "address": "경기도 파주시 문산읍 임진각로 177",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 6m",
+       "mode": "straight",
+       "meters": 6
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2865458)에서 확인",
+       "tourapi_contentid": "2865458"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "광화문 라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_56": {
+   "contentid": null,
+   "matched_title": "의왕 왕송호수공원",
+   "address": "경기도 의왕시 왕송못동로 307",
+   "updated": "2026-10-16",
+   "source": "operator_verified",
+   "photo": null,
+   "photo_status": "no_photo",
+   "geo": {
+    "lat": 37.3113,
+    "lon": 126.9535,
+    "source": "operator_verified",
+    "checked": "2026-10-16"
+   },
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2872394",
+      "kind": "식당",
+      "name": "정통밥집",
+      "address": "경기도 의왕시 왕송못동로 207-13 (월암동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 303m",
+       "mode": "straight",
+       "meters": 303
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2872394)에서 확인",
+       "tourapi_contentid": "2872394"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "보리밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2852891",
+      "kind": "식당",
+      "name": "정가네숯불갈비",
+      "address": "경기도 의왕시 부곡공원길 7 (월암동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 618m",
+       "mode": "straight",
+       "meters": 618
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2852891)에서 확인",
+       "tourapi_contentid": "2852891"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "수제소양념갈비",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2849707",
+      "kind": "식당",
+      "name": "파라디조",
+      "address": "경기도 의왕시 왕송못서길 38 (초평동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.0km",
+       "mode": "straight",
+       "meters": 1002
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2849707)에서 확인",
+       "tourapi_contentid": "2849707"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "이태리식 홍합찜",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2849528",
+      "kind": "식당",
+      "name": "에스타시온",
+      "address": "경기도 의왕시 초평로 201",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1142
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2849528)에서 확인",
+       "tourapi_contentid": "2849528"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "수란명란오일파스타",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "파스타"
+      ]
+     },
+     {
+      "id": "eat_t2852072",
+      "kind": "식당",
+      "name": "가온길",
+      "address": "경기도 의왕시 왕송못서길 149 (초평동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1258
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2852072)에서 확인",
+       "tourapi_contentid": "2852072"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "두부전골 정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "순두부"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2875263",
+      "kind": "카페",
+      "name": "카페막시 왕송호수점",
+      "address": "경기도 의왕시 왕송못동로 280 (월암동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 806m",
+       "mode": "straight",
+       "meters": 806
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2875263)에서 확인",
+       "tourapi_contentid": "2875263"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2865800",
+      "kind": "카페",
+      "name": "카페인더뷰",
+      "address": "경기도 의왕시 왕송못서길 72 (초평동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 878m",
+       "mode": "straight",
+       "meters": 878
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2865800)에서 확인",
+       "tourapi_contentid": "2865800"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "초커라테",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2873161",
+      "kind": "카페",
+      "name": "로터스(Caffe lotus)",
+      "address": "경기도 의왕시 왕송못서길 80 (초평동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 915m",
+       "mode": "straight",
+       "meters": 915
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2873161)에서 확인",
+       "tourapi_contentid": "2873161"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2782712",
+      "kind": "카페",
+      "name": "커피트레인",
+      "address": "경기도 의왕시 왕송못서길 32",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 950m",
+       "mode": "straight",
+       "meters": 950
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2782712)에서 확인",
+       "tourapi_contentid": "2782712"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_57": {
+   "contentid": "127497",
+   "matched_title": "국립수목원",
+   "address": "경기도 포천시 소흘읍 광릉수목원로 509",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.759538,
+    "lon": 127.168922,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/63/3493563_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/63/3493563_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127497",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2854557",
+      "kind": "식당",
+      "name": "고모리 남도한상",
+      "address": "경기도 포천시 소흘읍 죽엽산로 685-4",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1657
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2854557)에서 확인",
+       "tourapi_contentid": "2854557"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "남도한상 한정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "불고기"
+      ]
+     },
+     {
+      "id": "eat_t134944",
+      "kind": "식당",
+      "name": "동이손만두",
+      "address": "경기도 포천시 소흘읍 광릉수목원로 700-5",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1833
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 134944)에서 확인",
+       "tourapi_contentid": "134944"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "만두전골",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수",
+       "만두"
+      ]
+     },
+     {
+      "id": "eat_t2853483",
+      "kind": "식당",
+      "name": "고모리 뜰안에밥상",
+      "address": "경기도 포천시 소흘읍 광릉수목원로 724-23",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.9km",
+       "mode": "straight",
+       "meters": 1946
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2853483)에서 확인",
+       "tourapi_contentid": "2853483"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "한상차림정식 세트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2854767",
+      "kind": "식당",
+      "name": "기와골",
+      "address": "경기도 포천시 소흘읍 광릉수목원로779번길 11",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 2.0km",
+       "mode": "straight",
+       "meters": 1984
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2854767)에서 확인",
+       "tourapi_contentid": "2854767"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "돼지갈비",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2853666",
+      "kind": "카페",
+      "name": "포옥",
+      "address": "경기도 포천시 소흘읍 죽엽산로 685-20",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1744
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2853666)에서 확인",
+       "tourapi_contentid": "2853666"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "포옥크림라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2854556",
+      "kind": "카페",
+      "name": "들무새",
+      "address": "경기도 포천시 소흘읍 광릉수목원로 700-33",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.9km",
+       "mode": "straight",
+       "meters": 1861
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2854556)에서 확인",
+       "tourapi_contentid": "2854556"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "일품돈까스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_58": {
+   "contentid": "128168",
+   "matched_title": "헤이리 예술마을",
+   "address": "경기도 파주시 탄현면 헤이리마을길 70-21",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.788009,
+    "lon": 126.699298,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/81/4057581_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/81/4057581_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "128168",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2830064",
+      "kind": "식당",
+      "name": "식물감각",
+      "address": "경기도 파주시 탄현면 헤이리마을길 48-8",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 66m",
+       "mode": "straight",
+       "meters": 66
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2830064)에서 확인",
+       "tourapi_contentid": "2830064"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "뚝배기 파스타",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "파스타"
+      ]
+     },
+     {
+      "id": "eat_t2848051",
+      "kind": "식당",
+      "name": "크레타",
+      "address": "경기도 파주시 탄현면 헤이리마을길 82-91",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 440m",
+       "mode": "straight",
+       "meters": 440
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2848051)에서 확인",
+       "tourapi_contentid": "2848051"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "돈까스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "돈까스"
+      ]
+     },
+     {
+      "id": "eat_t2839671",
+      "kind": "식당",
+      "name": "전국목장연합",
+      "address": "경기도 파주시 탄현면 사슴벌레로73번길 51",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 842m",
+       "mode": "straight",
+       "meters": 842
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2839671)에서 확인",
+       "tourapi_contentid": "2839671"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "한우불고기전골",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "불고기"
+      ]
+     },
+     {
+      "id": "eat_t2855817",
+      "kind": "식당",
+      "name": "DMZ장단콩두부마을",
+      "address": "경기도 파주시 탄현면 평화로 902",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 880m",
+       "mode": "straight",
+       "meters": 880
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2855817)에서 확인",
+       "tourapi_contentid": "2855817"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "소고기두부전골",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "순두부"
+      ]
+     },
+     {
+      "id": "eat_t403215",
+      "kind": "식당",
+      "name": "궈세이",
+      "address": "경기도 파주시 탄현면 필승로 506 (로드빌)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 895m",
+       "mode": "straight",
+       "meters": 895
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 403215)에서 확인",
+       "tourapi_contentid": "403215"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "짜장면",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "짜장"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2831089",
+      "kind": "카페",
+      "name": "르시랑스",
+      "address": "경기도 파주시 헤이리마을길 66",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 106m",
+       "mode": "straight",
+       "meters": 106
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2831089)에서 확인",
+       "tourapi_contentid": "2831089"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "올리브뺑드미",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2846052",
+      "kind": "카페",
+      "name": "가드너스",
+      "address": "경기도 파주시 탄현면 헤이리마을길 59-52",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 338m",
+       "mode": "straight",
+       "meters": 338
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2846052)에서 확인",
+       "tourapi_contentid": "2846052"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "쪽파와 크림치즈빵",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2846098",
+      "kind": "카페",
+      "name": "석죽재물고기나무",
+      "address": "경기도 파주시 탄현면 헤이리마을길 18-61",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 403m",
+       "mode": "straight",
+       "meters": 403
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2846098)에서 확인",
+       "tourapi_contentid": "2846098"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2841885",
+      "kind": "카페",
+      "name": "커피공장103 헤이리점",
+      "address": "경기도 파주시 탄현면 헤이리마을길 93-119",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 436m",
+       "mode": "straight",
+       "meters": 436
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2841885)에서 확인",
+       "tourapi_contentid": "2841885"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "드립 커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2782827",
+      "kind": "카페",
+      "name": "벙커힐",
+      "address": "경기도 파주시 탄현면 성동로 60",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1251
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2782827)에서 확인",
+       "tourapi_contentid": "2782827"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "부채살큐브찹스테이크",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_59": {
+   "contentid": "125449",
+   "matched_title": "남한산성도립공원 [유네스코 세계유산]",
+   "address": "경기도 광주시 남한산성면 남한산성로 731",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.476614,
+    "lon": 127.188367,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "license_not_type1",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2747315",
+      "kind": "식당",
+      "name": "오복손두부",
+      "address": "경기도 광주시 남한산성면 남한산성로 745-10",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 179m",
+       "mode": "straight",
+       "meters": 179
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2747315)에서 확인",
+       "tourapi_contentid": "2747315"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "두부전골",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "순두부",
+       "비빔밥"
+      ]
+     },
+     {
+      "id": "eat_t133429",
+      "kind": "식당",
+      "name": "산성별장",
+      "address": "경기도 광주시 남한산성면 남한산성로 803-6",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 360m",
+       "mode": "straight",
+       "meters": 360
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 133429)에서 확인",
+       "tourapi_contentid": "133429"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "산채정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "만두"
+      ]
+     },
+     {
+      "id": "eat_t2855105",
+      "kind": "식당",
+      "name": "산성대가",
+      "address": "경기도 광주시 남한산성면 남한산성로792번길 11-12",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 569m",
+       "mode": "straight",
+       "meters": 569
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2855105)에서 확인",
+       "tourapi_contentid": "2855105"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "엄나무백숙",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2855134",
+      "kind": "식당",
+      "name": "용마루",
+      "address": "경기도 광주시 남한산성면 남한산성로780번길 35",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 667m",
+       "mode": "straight",
+       "meters": 667
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2855134)에서 확인",
+       "tourapi_contentid": "2855134"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "능이토종닭백숙",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2861406",
+      "kind": "식당",
+      "name": "현촌",
+      "address": "경기도 광주시 남한산성면 남한산성로 555",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1592
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2861406)에서 확인",
+       "tourapi_contentid": "2861406"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "한방백숙",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2893054",
+      "kind": "카페",
+      "name": "카페작은숲",
+      "address": "경기도 광주시 남한산성면 남한산성로780번길 45",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 766m",
+       "mode": "straight",
+       "meters": 766
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2893054)에서 확인",
+       "tourapi_contentid": "2893054"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "바닐라빈 라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2855010",
+      "kind": "카페",
+      "name": "카페 산",
+      "address": "경기도 광주시 남한산성면 검복길 82",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 991m",
+       "mode": "straight",
+       "meters": 991
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2855010)에서 확인",
+       "tourapi_contentid": "2855010"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "바닐라빈라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2893128",
+      "kind": "카페",
+      "name": "아라비카",
+      "address": "경기도 광주시 남한산성면 남한산성로 536-27",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1591
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2893128)에서 확인",
+       "tourapi_contentid": "2893128"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "파운드케이크",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2894377",
+      "kind": "카페",
+      "name": "카페 르방",
+      "address": "경기도 광주시 남한산성면 남한산성로 556",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1601
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2894377)에서 확인",
+       "tourapi_contentid": "2894377"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2895131",
+      "kind": "카페",
+      "name": "남한산성빵명장",
+      "address": "경기도 광주시 남한산성면 남한산성로 522",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1795
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2895131)에서 확인",
+       "tourapi_contentid": "2895131"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "함초소금크림라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_60": {
+   "contentid": "879086",
+   "matched_title": "월미공원",
+   "address": "인천광역시 제물포구 월미로 131-31 (북성동1가)",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.47575,
+    "lon": 126.604155,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/69/3532869_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/69/3532869_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "879086",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2846860",
+      "kind": "식당",
+      "name": "전라도대왕조개구이",
+      "address": "인천광역시 제물포구 월미문화로 27 (북성동1가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 552m",
+       "mode": "straight",
+       "meters": 552
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2846860)에서 확인",
+       "tourapi_contentid": "2846860"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "모듬조개구이",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2824211",
+      "kind": "식당",
+      "name": "만다복",
+      "address": "인천광역시 제물포구 차이나타운로 36 만다복",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1346
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2824211)에서 확인",
+       "tourapi_contentid": "2824211"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "짜장면",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "짜장"
+      ]
+     },
+     {
+      "id": "eat_t2765489",
+      "kind": "식당",
+      "name": "공화춘",
+      "address": "인천광역시 제물포구 차이나타운로 43",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1372
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2765489)에서 확인",
+       "tourapi_contentid": "2765489"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "자장면",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "짜장"
+      ]
+     },
+     {
+      "id": "eat_t724059",
+      "kind": "식당",
+      "name": "태림봉",
+      "address": "인천광역시 제물포구 차이나타운로59번길 23",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1375
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 724059)에서 확인",
+       "tourapi_contentid": "724059"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "회오리중새우",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2847059",
+      "kind": "식당",
+      "name": "혜빈장",
+      "address": "인천광역시 제물포구 참외전로13번길 21 (송월동2가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1543
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2847059)에서 확인",
+       "tourapi_contentid": "2847059"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "짜장면",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "볶음밥",
+       "짜장"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t3443985",
+      "kind": "카페",
+      "name": "스토리지 인천",
+      "address": "인천광역시 제물포구 월미로 33 (북성동1가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 935m",
+       "mode": "straight",
+       "meters": 935
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3443985)에서 확인",
+       "tourapi_contentid": "3443985"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/49/3443949_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/49/3443949_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3443985",
+       "checked": "2026-10-16"
+      },
+      "menu": {
+       "v": "오곡아튀밥해",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2848938",
+      "kind": "카페",
+      "name": "아키라커피 본점",
+      "address": "인천광역시 제물포구 차이나타운로44번길 16-24",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1307
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2848938)에서 확인",
+       "tourapi_contentid": "2848938"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아키라그린",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2847082",
+      "kind": "카페",
+      "name": "위크엔드 라운지(wknd Lounge)",
+      "address": "인천광역시 제물포구 송학로 63 (송학동2가)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1837
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2847082)에서 확인",
+       "tourapi_contentid": "2847082"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "크림라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_61": {
+   "contentid": "2465152",
+   "matched_title": "청라호수공원",
+   "address": "인천광역시 서해구 크리스탈로 59",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.530542,
+    "lon": 126.636267,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/15/4123315_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/15/4123315_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2465152",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2781454",
+      "kind": "식당",
+      "name": "비스트로페르레이",
+      "address": "인천광역시 서해구 크리스탈로 100",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 381m",
+       "mode": "straight",
+       "meters": 381
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2781454)에서 확인",
+       "tourapi_contentid": "2781454"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "살치살 스테이크",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "스테이크"
+      ]
+     },
+     {
+      "id": "eat_t2873851",
+      "kind": "식당",
+      "name": "고복샤브샤브",
+      "address": "인천광역시 서해구 청라루비로42번길 6-4 (청라동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 471m",
+       "mode": "straight",
+       "meters": 471
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2873851)에서 확인",
+       "tourapi_contentid": "2873851"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "점심특선세트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2891632",
+      "kind": "식당",
+      "name": "남산돈까스",
+      "address": "인천광역시 서해구 청라루비로42번길 5-15 (청라동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 507m",
+       "mode": "straight",
+       "meters": 507
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2891632)에서 확인",
+       "tourapi_contentid": "2891632"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "등심돈까스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "돈까스",
+       "우동"
+      ]
+     },
+     {
+      "id": "eat_t2843501",
+      "kind": "식당",
+      "name": "내땅",
+      "address": "인천광역시 서해구 청라루비로42번길 6-14 (청라동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 549m",
+       "mode": "straight",
+       "meters": 549
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2843501)에서 확인",
+       "tourapi_contentid": "2843501"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "한우 안창살",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2838539",
+      "kind": "식당",
+      "name": "레이중화요리",
+      "address": "인천광역시 서해구 청라루비로42번길 5-21",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 551m",
+       "mode": "straight",
+       "meters": 551
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2838539)에서 확인",
+       "tourapi_contentid": "2838539"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "유니짜장면",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "짜장"
+      ]
+     }
+    ],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_63": {
+   "contentid": "127565",
+   "matched_title": "영랑호",
+   "address": "강원특별자치도 속초시 영랑호반길 140",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 38.215279,
+    "lon": 128.581258,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/73/4120673_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/73/4120673_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127565",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2892151",
+      "kind": "식당",
+      "name": "정든식당",
+      "address": "강원특별자치도 속초시 번영로105번길 39",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 702m",
+       "mode": "straight",
+       "meters": 702
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892151)에서 확인",
+       "tourapi_contentid": "2892151"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "장칼국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수",
+       "만두"
+      ]
+     },
+     {
+      "id": "eat_t2891900",
+      "kind": "식당",
+      "name": "매자식당",
+      "address": "강원특별자치도 속초시 번영로105번길 17",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 726m",
+       "mode": "straight",
+       "meters": 726
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2891900)에서 확인",
+       "tourapi_contentid": "2891900"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "이색 음식점",
+      "menu": {
+       "v": "한우쌀국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "볶음밥"
+      ]
+     },
+     {
+      "id": "eat_t2892193",
+      "kind": "식당",
+      "name": "조개상회 본점",
+      "address": "강원특별자치도 속초시 영랑해안길 255",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1104
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892193)에서 확인",
+       "tourapi_contentid": "2892193"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "조개구이",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수"
+      ]
+     },
+     {
+      "id": "eat_t2892339",
+      "kind": "식당",
+      "name": "그리운보리밥",
+      "address": "강원특별자치도 속초시 법대로 34",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1118
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892339)에서 확인",
+       "tourapi_contentid": "2892339"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "강원나물 된장 한상",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2892088",
+      "kind": "식당",
+      "name": "영식이네순대국밥",
+      "address": "강원특별자치도 속초시 중앙로 280-1",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1305
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892088)에서 확인",
+       "tourapi_contentid": "2892088"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "순대국밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t3041179",
+      "kind": "카페",
+      "name": "완벽한 날들",
+      "address": "강원특별자치도 속초시 수복로259번길 7 (동명동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.0km",
+       "mode": "straight",
+       "meters": 1016
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3041179)에서 확인",
+       "tourapi_contentid": "3041179"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페"
+     },
+     {
+      "id": "eat_t2609150",
+      "kind": "카페",
+      "name": "[백년가게]뉴욕제과",
+      "address": "강원특별자치도 속초시 교동로 19",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1582
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2609150)에서 확인",
+       "tourapi_contentid": "2609150"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "오징어쌀빵",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2839817",
+      "kind": "카페",
+      "name": "봉브레드",
+      "address": "강원특별자치도 속초시 동해대로 4344-1",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1782
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2839817)에서 확인",
+       "tourapi_contentid": "2839817"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "연인의빵",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_65": {
+   "contentid": "2710586",
+   "matched_title": "공지천유원지",
+   "address": "강원특별자치도 춘천시 이디오피아길 25",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.874634,
+    "lon": 127.70958,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/46/4006746_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/46/4006746_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "2710586",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t3355184",
+      "kind": "식당",
+      "name": "륭도객잔",
+      "address": "강원특별자치도 춘천시 이디오피아길 7 (근화동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 193m",
+       "mode": "straight",
+       "meters": 193
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 3355184)에서 확인",
+       "tourapi_contentid": "3355184"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "photo": {
+       "url": "https://tong.visitkorea.or.kr/cms/resource/36/3421636_image2_1.jpg",
+       "thumb": "https://tong.visitkorea.or.kr/cms/resource/36/3421636_image3_1.jpg",
+       "credit": "한국관광공사 TourAPI",
+       "license": "공공누리 제1유형(출처표시)",
+       "contentid": "3355184",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2892822",
+      "kind": "식당",
+      "name": "남부막국수본관",
+      "address": "강원특별자치도 춘천시 춘천로81번길 16",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1339
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2892822)에서 확인",
+       "tourapi_contentid": "2892822"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "막국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2504527",
+      "kind": "식당",
+      "name": "곰배령",
+      "address": "강원특별자치도 춘천시 춘천로 19",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1346
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2504527)에서 확인",
+       "tourapi_contentid": "2504527"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "곰배령 한정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2628979",
+      "kind": "식당",
+      "name": "[백년가게]보문각",
+      "address": "강원특별자치도 춘천시 약사고개길 42 (약사동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1498
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2628979)에서 확인",
+       "tourapi_contentid": "2628979"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "짜장면",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "짜장"
+      ]
+     },
+     {
+      "id": "eat_t699497",
+      "kind": "식당",
+      "name": "명동산골닭갈비",
+      "address": "강원특별자치도 춘천시 금강로62번길 7",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1718
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 699497)에서 확인",
+       "tourapi_contentid": "699497"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "철판닭갈비",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     }
+    ],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_66": {
+   "contentid": "125772",
+   "matched_title": "월정사·월정사 전나무숲",
+   "address": "강원특별자치도 평창군 진부면 오대산로 374-8",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.731571,
+    "lon": 128.592524,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "license_not_type1",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2795200",
+      "kind": "식당",
+      "name": "육칼밥 산아래",
+      "address": "강원특별자치도 평창군 진부면 오대산로 152",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1848
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2795200)에서 확인",
+       "tourapi_contentid": "2795200"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "한우사골 육칼밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수"
+      ]
+     },
+     {
+      "id": "eat_t2783322",
+      "kind": "식당",
+      "name": "오대산 산촌",
+      "address": "강원특별자치도 평창군 진부면 오대산로 152",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.9km",
+       "mode": "straight",
+       "meters": 1887
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2783322)에서 확인",
+       "tourapi_contentid": "2783322"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "능이솥밥 산채정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "비빔밥"
+      ]
+     }
+    ],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_67": {
+   "contentid": "125913",
+   "matched_title": "도담삼봉",
+   "address": "충청북도 단양군 매포읍 삼봉로 644",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 37.000295,
+    "lon": 128.344801,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/29/4085729_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/29/4085729_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "125913",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_70": {
+   "contentid": "125945",
+   "matched_title": "현충사",
+   "address": "충청남도 아산시 염치읍 현충사길 126",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 36.806547,
+    "lon": 127.031199,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/40/3473040_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/40/3473040_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "125945",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [],
+    "cafes": [
+     {
+      "id": "eat_t2858843",
+      "kind": "카페",
+      "name": "언더힐",
+      "address": "충청남도 아산시 송곡남길 90",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1708
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2858843)에서 확인",
+       "tourapi_contentid": "2858843"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "힐라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_71": {
+   "contentid": "125984",
+   "matched_title": "서동공원과 궁남지",
+   "address": "충청남도 부여군 부여읍 궁남로 52",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 36.269703,
+    "lon": 126.912311,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/24/4063424_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/24/4063424_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "125984",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t1839165",
+      "kind": "식당",
+      "name": "연꽃이야기",
+      "address": "충청남도 부여군 부여읍 성왕로 22",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 522m",
+       "mode": "straight",
+       "meters": 522
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 1839165)에서 확인",
+       "tourapi_contentid": "1839165"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "이색 음식점",
+      "menu": {
+       "v": "연잎밥 정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "돈까스"
+      ]
+     },
+     {
+      "id": "eat_t1797807",
+      "kind": "식당",
+      "name": "백제고을 누룽지백숙",
+      "address": "충청남도 부여군 부여읍 정림로 96",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.0km",
+       "mode": "straight",
+       "meters": 1006
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 1797807)에서 확인",
+       "tourapi_contentid": "1797807"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "백제고을누룽지백숙",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2800528",
+      "kind": "식당",
+      "name": "하늘채 황금수라",
+      "address": "충청남도 부여군 부여읍 계백로 373",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1279
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2800528)에서 확인",
+       "tourapi_contentid": "2800528"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "솥밥정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "비빔밥"
+      ]
+     },
+     {
+      "id": "eat_t801334",
+      "kind": "식당",
+      "name": "백제의집",
+      "address": "충청남도 부여군 부여읍 성왕로 248",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1496
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 801334)에서 확인",
+       "tourapi_contentid": "801334"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "백제연밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2877390",
+      "kind": "식당",
+      "name": "엄가네곰탕",
+      "address": "충청남도 부여군 나루터로 21-4",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1663
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2877390)에서 확인",
+       "tourapi_contentid": "2877390"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "갈비곰탕",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_73": {
+   "contentid": "127866",
+   "matched_title": "대천해수욕장",
+   "address": "충청남도 보령시 머드로 123",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 36.3103,
+    "lon": 126.5136,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/66/3513866_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/66/3513866_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127866",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2807630",
+      "kind": "식당",
+      "name": "해물상회",
+      "address": "충청남도 보령시 해수욕장6길 118",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 102m",
+       "mode": "straight",
+       "meters": 102
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2807630)에서 확인",
+       "tourapi_contentid": "2807630"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "해물삼합구이",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수"
+      ]
+     },
+     {
+      "id": "eat_t2766832",
+      "kind": "식당",
+      "name": "대천키조개삼합",
+      "address": "충청남도 보령시 해수욕장8길 51 (신흑동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 313m",
+       "mode": "straight",
+       "meters": 313
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2766832)에서 확인",
+       "tourapi_contentid": "2766832"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "키조개 해물 삼합 구이",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수"
+      ]
+     }
+    ],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_76": {
+   "contentid": "130550",
+   "matched_title": "지질박물관",
+   "address": "대전광역시 유성구 과학로 124",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 36.379881,
+    "lon": 127.360507,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "license_not_type1",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2735301",
+      "kind": "식당",
+      "name": "숯골원냉면 본점",
+      "address": "대전광역시 유성구 신성로84번길 18 (신성동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1461
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2735301)에서 확인",
+       "tourapi_contentid": "2735301"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "꿩냉면",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "만두"
+      ]
+     },
+     {
+      "id": "eat_t2867102",
+      "kind": "식당",
+      "name": "음식이있는풍경",
+      "address": "대전광역시 유성구 신성로 69 (신성동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1534
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2867102)에서 확인",
+       "tourapi_contentid": "2867102"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "허브 토마토",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "스테이크"
+      ]
+     },
+     {
+      "id": "eat_t2914114",
+      "kind": "식당",
+      "name": "시장스시",
+      "address": "대전광역시 서구 만년로18번길 9 (만년동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.9km",
+       "mode": "straight",
+       "meters": 1931
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2914114)에서 확인",
+       "tourapi_contentid": "2914114"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "특상초밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2899393",
+      "kind": "카페",
+      "name": "코너스톤에이치(cornerstone H)",
+      "address": "대전광역시 유성구 가정로 310-14 (도룡동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1574
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2899393)에서 확인",
+       "tourapi_contentid": "2899393"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "비엔나커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2866943",
+      "kind": "카페",
+      "name": "밀라드커피로스터즈",
+      "address": "대전광역시 유성구 유성대로1184번길 11-16 (신성동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1739
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2866943)에서 확인",
+       "tourapi_contentid": "2866943"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "너트커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_80": {
+   "contentid": "126322",
+   "matched_title": "은파호수공원",
+   "address": "전북특별자치도 군산시 은파순환길 9",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 35.955356,
+    "lon": 126.689054,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/83/4087583_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/83/4087583_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126322",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2866942",
+      "kind": "식당",
+      "name": "오죽",
+      "address": "전북특별자치도 군산시 한밭로 17 (나운동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 562m",
+       "mode": "straight",
+       "meters": 562
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2866942)에서 확인",
+       "tourapi_contentid": "2866942"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "특굴비정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2568658",
+      "kind": "식당",
+      "name": "두메골",
+      "address": "전북특별자치도 군산시 백토로 284-20",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1131
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2568658)에서 확인",
+       "tourapi_contentid": "2568658"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "묵은지목살김치찜",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2568965",
+      "kind": "식당",
+      "name": "온새미로",
+      "address": "전북특별자치도 군산시 신설2길 5-6",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.5km",
+       "mode": "straight",
+       "meters": 1470
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2568965)에서 확인",
+       "tourapi_contentid": "2568965"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "온 정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2568281",
+      "kind": "식당",
+      "name": "갈비스토리",
+      "address": "전북특별자치도 군산시 하나운1길 15",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1615
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2568281)에서 확인",
+       "tourapi_contentid": "2568281"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "해물갈비찜",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2867023",
+      "kind": "식당",
+      "name": "토실배기",
+      "address": "전북특별자치도 군산시 상지곡안4길 7-1 토실배기",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.9km",
+       "mode": "straight",
+       "meters": 1923
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2867023)에서 확인",
+       "tourapi_contentid": "2867023"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "차돌배기, 생삼겹",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "불고기"
+      ]
+     }
+    ],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_81": {
+   "contentid": "128834",
+   "matched_title": "죽녹원",
+   "address": "전남광주통합특별시 담양군 담양읍 죽녹원로 119",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 35.327758,
+    "lon": 126.985559,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/36/4017136_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/36/4017136_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "128834",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2833099",
+      "kind": "식당",
+      "name": "대사랑 운수대통밥",
+      "address": "전남광주통합특별시 담양군 객사4길 38-11",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 441m",
+       "mode": "straight",
+       "meters": 441
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2833099)에서 확인",
+       "tourapi_contentid": "2833099"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "운수대통밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2846610",
+      "kind": "식당",
+      "name": "죽순닭국수",
+      "address": "전남광주통합특별시 담양군 객사3길 15",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 490m",
+       "mode": "straight",
+       "meters": 490
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2846610)에서 확인",
+       "tourapi_contentid": "2846610"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "우리밀 죽순닭국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2833168",
+      "kind": "식당",
+      "name": "소바집 본점",
+      "address": "전남광주통합특별시 담양군 객사2길 11-24",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 513m",
+       "mode": "straight",
+       "meters": 513
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2833168)에서 확인",
+       "tourapi_contentid": "2833168"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "마른모밀",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2852796",
+      "kind": "식당",
+      "name": "베트남식당&마트",
+      "address": "전남광주통합특별시 담양군 담양읍 중앙로 92-1",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 758m",
+       "mode": "straight",
+       "meters": 758
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2852796)에서 확인",
+       "tourapi_contentid": "2852796"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "이색 음식점",
+      "menu": {
+       "v": "소고기쌀국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "볶음밥"
+      ]
+     },
+     {
+      "id": "eat_t2866466",
+      "kind": "식당",
+      "name": "행복한임금님",
+      "address": "전남광주통합특별시 담양군 지침6길 78-9",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1136
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2866466)에서 확인",
+       "tourapi_contentid": "2866466"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "임금님 수라상",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2846660",
+      "kind": "카페",
+      "name": "칠링스카페",
+      "address": "전남광주통합특별시 담양군 객사2길 14",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 609m",
+       "mode": "straight",
+       "meters": 609
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2846660)에서 확인",
+       "tourapi_contentid": "2846660"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "칠링스 코코넛 스무디 커피",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2833131",
+      "kind": "카페",
+      "name": "담양밤부리",
+      "address": "전남광주통합특별시 담양군 죽향문화로 403",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 677m",
+       "mode": "straight",
+       "meters": 677
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2833131)에서 확인",
+       "tourapi_contentid": "2833131"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "죽녹원 죽염라떼",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2843316",
+      "kind": "카페",
+      "name": "담양제과",
+      "address": "전남광주통합특별시 담양군 추성로 1318",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 937m",
+       "mode": "straight",
+       "meters": 937
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2843316)에서 확인",
+       "tourapi_contentid": "2843316"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "대나무케이크",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2847968",
+      "kind": "카페",
+      "name": "양각리키친",
+      "address": "전남광주통합특별시 담양군 추성로 1239",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1435
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2847968)에서 확인",
+       "tourapi_contentid": "2847968"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "콥샐러드",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2783323",
+      "kind": "카페",
+      "name": "카페밀크레페",
+      "address": "전남광주통합특별시 담양군 월산면 담장로 67",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.6km",
+       "mode": "straight",
+       "meters": 1596
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2783323)에서 확인",
+       "tourapi_contentid": "2783323"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "복숭아요거트크레페",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_82": {
+   "contentid": "128025",
+   "matched_title": "한려해상국립공원 (오동도)",
+   "address": "전남광주통합특별시 여수시 오동도로 222",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 34.744324,
+    "lon": 127.764112,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "license_not_type1",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2866830",
+      "kind": "식당",
+      "name": "낭만24포차",
+      "address": "전남광주통합특별시 여수시 하멜로 78",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1684
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2866830)에서 확인",
+       "tourapi_contentid": "2866830"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "돌문어 차돌삼합",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2782804",
+      "kind": "식당",
+      "name": "삼학집",
+      "address": "전남광주통합특별시 여수시 이순신광장로 200-3",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1770
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2782804)에서 확인",
+       "tourapi_contentid": "2782804"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "서대회무침",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2508905",
+      "kind": "식당",
+      "name": "오성회관",
+      "address": "전남광주통합특별시 여수시 이순신광장로 206",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1775
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2508905)에서 확인",
+       "tourapi_contentid": "2508905"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "해물불고기 게장정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "불고기",
+       "비빔밥"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2022607",
+      "kind": "카페",
+      "name": "싱글벙글빵집",
+      "address": "전남광주통합특별시 여수시 관문1길 13-1",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 2.0km",
+       "mode": "straight",
+       "meters": 1970
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2022607)에서 확인",
+       "tourapi_contentid": "2022607"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "샐러드빵",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_83": {
+   "contentid": null,
+   "matched_title": "광주 5·18민주공원",
+   "address": "광주광역시 서구 상무민주로 61",
+   "updated": "2026-10-16",
+   "source": "operator_verified",
+   "photo": null,
+   "photo_status": "no_photo",
+   "geo": {
+    "lat": 35.1481,
+    "lon": 126.8375,
+    "source": "operator_verified",
+    "checked": "2026-10-16"
+   },
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2858992",
+      "kind": "식당",
+      "name": "등촌",
+      "address": "전남광주통합특별시 서구 마륵로 23",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 571m",
+       "mode": "straight",
+       "meters": 571
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2858992)에서 확인",
+       "tourapi_contentid": "2858992"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "버섯 매운탕 샤브세트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수",
+       "볶음밥"
+      ]
+     },
+     {
+      "id": "eat_t2863149",
+      "kind": "식당",
+      "name": "르시엘블루",
+      "address": "전남광주통합특별시 서구 상무대로 718",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 699m",
+       "mode": "straight",
+       "meters": 699
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2863149)에서 확인",
+       "tourapi_contentid": "2863149"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "양식",
+      "menu": {
+       "v": "파스타",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "파스타",
+       "스테이크"
+      ]
+     },
+     {
+      "id": "eat_t2863165",
+      "kind": "식당",
+      "name": "다도해물나라",
+      "address": "전남광주통합특별시 서구 마륵복개로 57",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 841m",
+       "mode": "straight",
+       "meters": 841
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2863165)에서 확인",
+       "tourapi_contentid": "2863165"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "해물찜",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t817409",
+      "kind": "식당",
+      "name": "송학한정식",
+      "address": "전남광주통합특별시 서구 상무중앙로 101",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.3km",
+       "mode": "straight",
+       "meters": 1265
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 817409)에서 확인",
+       "tourapi_contentid": "817409"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "송학정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t135533",
+      "kind": "식당",
+      "name": "금다연한정식",
+      "address": "전남광주통합특별시 서구 상무연하로 72",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1364
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 135533)에서 확인",
+       "tourapi_contentid": "135533"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "굴비정식",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2863092",
+      "kind": "카페",
+      "name": "서플라이",
+      "address": "전남광주통합특별시 서구 상무자유로 32",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 371m",
+       "mode": "straight",
+       "meters": 371
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2863092)에서 확인",
+       "tourapi_contentid": "2863092"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "더치 아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2837876",
+      "kind": "카페",
+      "name": "맥문동",
+      "address": "전남광주통합특별시 서구 마륵로 24",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 634m",
+       "mode": "straight",
+       "meters": 634
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2837876)에서 확인",
+       "tourapi_contentid": "2837876"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "키조개관자 파스타",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_86": {
+   "contentid": "127698",
+   "matched_title": "영일대해수욕장",
+   "address": "경상북도 포항시 북구 두호동",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 36.055,
+    "lon": 129.3779,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/79/4078979_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/79/4078979_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "127698",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2842512",
+      "kind": "식당",
+      "name": "차이홍",
+      "address": "경상북도 포항시 북구 해안로 119",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 490m",
+       "mode": "straight",
+       "meters": 490
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2842512)에서 확인",
+       "tourapi_contentid": "2842512"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "홍게짬뽕",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "짜장"
+      ]
+     },
+     {
+      "id": "eat_t2842662",
+      "kind": "식당",
+      "name": "포항특미물회",
+      "address": "경상북도 포항시 북구 동빈로 106",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.2km",
+       "mode": "straight",
+       "meters": 1171
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2842662)에서 확인",
+       "tourapi_contentid": "2842662"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "특미물회",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t1832056",
+      "kind": "식당",
+      "name": "마라도회식당",
+      "address": "경상북도 포항시 북구 해안로 217-1",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1365
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 1832056)에서 확인",
+       "tourapi_contentid": "1832056"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "물회",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2834353",
+      "kind": "카페",
+      "name": "헤이안",
+      "address": "경상북도 포항시 북구 해안로 219",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.4km",
+       "mode": "straight",
+       "meters": 1356
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2834353)에서 확인",
+       "tourapi_contentid": "2834353"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "헤이안 스무디",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_87": {
+   "contentid": "126119",
+   "matched_title": "부산 어린이대공원",
+   "address": "부산광역시 부산진구 새싹로 295",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 35.187217,
+    "lon": 129.04265,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "license_not_type1",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2865403",
+      "kind": "식당",
+      "name": "초함",
+      "address": "부산광역시 부산진구 성지로 101 (초읍동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.2km",
+       "mode": "straight",
+       "meters": 1237
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2865403)에서 확인",
+       "tourapi_contentid": "2865403"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "유황오리백숙",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2838820",
+      "kind": "식당",
+      "name": "주문진 막국수",
+      "address": "부산광역시 동래구 사직로58번길 8 (사직동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.8km",
+       "mode": "straight",
+       "meters": 1794
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2838820)에서 확인",
+       "tourapi_contentid": "2838820"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "막국수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수"
+      ]
+     },
+     {
+      "id": "eat_t2852685",
+      "kind": "식당",
+      "name": "금강만두",
+      "address": "부산광역시 동래구 사직북로5번길 11",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.9km",
+       "mode": "straight",
+       "meters": 1854
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2852685)에서 확인",
+       "tourapi_contentid": "2852685"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "충무세트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "만두"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2865384",
+      "kind": "카페",
+      "name": "아시오",
+      "address": "부산광역시 부산진구 초읍동",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 806m",
+       "mode": "straight",
+       "meters": 806
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2865384)에서 확인",
+       "tourapi_contentid": "2865384"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "초코몽키",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_88": {
+   "contentid": "126195",
+   "matched_title": "유엔기념공원",
+   "address": "부산광역시 남구 유엔평화로 93 유엔기념공원",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 35.127731,
+    "lon": 129.095283,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/39/4055739_image2_1.png",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/39/4055739_image3_1.png",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126195",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2870277",
+      "kind": "식당",
+      "name": "공원칼국수",
+      "address": "부산광역시 남구 유엔평화로 110 (대연동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 163m",
+       "mode": "straight",
+       "meters": 163
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2870277)에서 확인",
+       "tourapi_contentid": "2870277"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "물총조개탕",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "국수",
+       "칼국수",
+       "만두"
+      ]
+     },
+     {
+      "id": "eat_t2852312",
+      "kind": "식당",
+      "name": "덕산명가 참소국밥",
+      "address": "부산광역시 남구 유엔로 187 (대연동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 328m",
+       "mode": "straight",
+       "meters": 328
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2852312)에서 확인",
+       "tourapi_contentid": "2852312"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "참소국밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "불고기",
+       "비빔밥"
+      ]
+     },
+     {
+      "id": "eat_t2759609",
+      "kind": "식당",
+      "name": "쌍둥이돼지국밥 본점",
+      "address": "부산광역시 남구 유엔평화로 35-1 (대연동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 523m",
+       "mode": "straight",
+       "meters": 523
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2759609)에서 확인",
+       "tourapi_contentid": "2759609"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "돼지국밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2805377",
+      "kind": "식당",
+      "name": "광명집",
+      "address": "부산광역시 남구 신선로 458 (대연동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 554m",
+       "mode": "straight",
+       "meters": 554
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2805377)에서 확인",
+       "tourapi_contentid": "2805377"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "아귀찜",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2867215",
+      "kind": "식당",
+      "name": "거창맷돌순두부",
+      "address": "부산광역시 남구 유엔로 221 (대연동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 567m",
+       "mode": "straight",
+       "meters": 567
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2867215)에서 확인",
+       "tourapi_contentid": "2867215"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "맷돌순두부",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "순두부"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2818714",
+      "kind": "카페",
+      "name": "남천녹차팥빙수",
+      "address": "부산광역시 수영구 수영로394번길 28",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.9km",
+       "mode": "straight",
+       "meters": 1870
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2818714)에서 확인",
+       "tourapi_contentid": "2818714"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "팥빙수",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_89": {
+   "contentid": "126079",
+   "matched_title": "다대포해수욕장",
+   "address": "부산광역시 사하구 몰운대1길 14",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 35.046247,
+    "lon": 128.963151,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/15/3497115_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/15/3497115_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126079",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [],
+    "cafes": []
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_94": {
+   "contentid": "126117",
+   "matched_title": "주남저수지 철새도래지",
+   "address": "경상남도 창원시 의창구 동읍 월잠리",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 35.31381,
+    "lon": 128.675317,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/16/4059616_image2_1.jpg",
+    "thumb": "https://tong.visitkorea.or.kr/cms/resource/16/4059616_image3_1.jpg",
+    "credit": "한국관광공사 TourAPI",
+    "license": "공공누리 제1유형(출처표시)",
+    "contentid": "126117",
+    "checked": "2026-10-16"
+   },
+   "photo_status": "ok",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2576668",
+      "kind": "식당",
+      "name": "주남오리알",
+      "address": "경상남도 창원시 의창구 동읍 주남로 93-21",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 965m",
+       "mode": "straight",
+       "meters": 965
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2576668)에서 확인",
+       "tourapi_contentid": "2576668"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "오리숯붉구이",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2838595",
+      "kind": "식당",
+      "name": "가월돈까스",
+      "address": "경상남도 창원시 의창구 주남로71번길 7-8",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 976m",
+       "mode": "straight",
+       "meters": 976
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2838595)에서 확인",
+       "tourapi_contentid": "2838595"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "일식",
+      "menu": {
+       "v": "매운옛날돈까스",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "돈까스"
+      ]
+     },
+     {
+      "id": "eat_t2795821",
+      "kind": "식당",
+      "name": "주남저수지돌짜장",
+      "address": "경상남도 창원시 의창구 동읍 동읍로 309",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.7km",
+       "mode": "straight",
+       "meters": 1671
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2795821)에서 확인",
+       "tourapi_contentid": "2795821"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "중식",
+      "menu": {
+       "v": "돌짜장",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "짜장"
+      ]
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2838766",
+      "kind": "카페",
+      "name": "엘리브 주남",
+      "address": "경상남도 창원시 의창구 동읍 주남로71번길 3",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 1.1km",
+       "mode": "straight",
+       "meters": 1089
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2838766)에서 확인",
+       "tourapi_contentid": "2838766"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "콜롬비아 오팔 게이샤",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
+  },
+  "spot_95": {
+   "contentid": "753306",
+   "matched_title": "동피랑마을",
+   "address": "경상남도 통영시 동피랑1길 6-18",
+   "updated": "2026-10-16",
+   "geo": {
+    "lat": 34.845346,
+    "lon": 128.427647,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16"
+   },
+   "photo": null,
+   "photo_status": "no_photo",
+   "nearby": {
+    "radius_m": 2000,
+    "source": "https://api.visitkorea.or.kr/",
+    "checked": "2026-10-16",
+    "eats": [
+     {
+      "id": "eat_t2756592",
+      "kind": "식당",
+      "name": "동피랑쭈굴",
+      "address": "경상남도 통영시 통영해안로 363-1 (동호동)",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 89m",
+       "mode": "straight",
+       "meters": 89
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2756592)에서 확인",
+       "tourapi_contentid": "2756592"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "쭈굴세트",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t2574086",
+      "kind": "식당",
+      "name": "영성횟집",
+      "address": "경상남도 통영시 해송정4길 1",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 213m",
+       "mode": "straight",
+       "meters": 213
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2574086)에서 확인",
+       "tourapi_contentid": "2574086"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "모둠회",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "비빔밥"
+      ]
+     },
+     {
+      "id": "eat_t622088",
+      "kind": "식당",
+      "name": "원조 밀물식당",
+      "address": "경상남도 통영시 중앙시장1길 8-42",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 230m",
+       "mode": "straight",
+       "meters": 230
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 622088)에서 확인",
+       "tourapi_contentid": "622088"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "멍게비빔밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      },
+      "kid_menu_hint": [
+       "비빔밥"
+      ]
+     },
+     {
+      "id": "eat_t133281",
+      "kind": "식당",
+      "name": "뚱보할매김밥",
+      "address": "경상남도 통영시 통영해안로 325",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 387m",
+       "mode": "straight",
+       "meters": 387
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 133281)에서 확인",
+       "tourapi_contentid": "133281"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "충무김밥",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     },
+     {
+      "id": "eat_t621956",
+      "kind": "식당",
+      "name": "한려곰장어",
+      "address": "경상남도 통영시 정동4길 57",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 424m",
+       "mode": "straight",
+       "meters": 424
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 621956)에서 확인",
+       "tourapi_contentid": "621956"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "한식",
+      "menu": {
+       "v": "곰장어 두루치기",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ],
+    "cafes": [
+     {
+      "id": "eat_t2574721",
+      "kind": "카페",
+      "name": "삼문당커피로스터",
+      "address": "경상남도 통영시 중앙로 168",
+      "level": "listed",
+      "distance": {
+       "v": "장소에서 직선 약 332m",
+       "mode": "straight",
+       "meters": 332
+      },
+      "identity": {
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16",
+       "note": "한국관광공사 TourAPI 음식점 정보(contentid 2574721)에서 확인",
+       "tourapi_contentid": "2574721"
+      },
+      "place_check": {
+       "status": "unchecked",
+       "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+      },
+      "category": "카페",
+      "menu": {
+       "v": "아메리카노",
+       "src": "https://api.visitkorea.or.kr/",
+       "checked": "2026-10-16"
+      }
+     }
+    ]
+   },
+   "curation": {
+    "status": "empty",
+    "parent_tips": [],
+    "parking_tip": null,
+    "stroller_difficulty": null,
+    "recommended_ages": null
+   }
   }
  },
  "generated": "2026-10-14"

@@ -68,6 +68,14 @@
     out.timetable.push({ start: toHHMM(t), end: toHHMM(t + visit), label: (place.name || '장소') + ' 관람', kind: 'place' });
     t += visit;
     var walkEat = false, cafeStays = false, anyEstimate = false;
+    var xs = inp.extra_stop && inp.extra_stop.name ? inp.extra_stop : null;   // 함께 갈 곳(공연·전시·전시 장소): 직선거리로 이동 시간을 추정한다
+    if (xs) {
+      var xl = legTravel({ mode: 'straight', meters: xs.meters }), xv = xs.visit_minutes || 90; anyEstimate = true;
+      out.timetable.push({ start: toHHMM(t), end: toHHMM(t + xl.minutes), label: '차로 이동 → ' + xs.name, kind: 'move', note: '직선 ' + (xs.meters / 1000).toFixed(1) + 'km · 추정 시간' });
+      t += xl.minutes;
+      out.timetable.push({ start: toHHMM(t), end: toHHMM(t + xv), label: xs.name + ' 관람', kind: 'stop', note: xs.kind || '' });
+      t += xv;
+    }
     if (eat) {
       var d = eat.distance || {};
       var lg = legTravel(d), travel = lg.minutes;
@@ -106,6 +114,10 @@
     var adm = admission(costs.admission, party, inp.extras);
     adm.lines.forEach(function (l) { out.budget.lines.push(l); out.budget.known_total += l.amount; });
     adm.unknown.forEach(function (u) { out.budget.unknown.push(u); });
+    if (xs) {
+      if (xs.free === true) out.budget.lines.push({ key: 'stop', label: '공연·전시 관람료', amount: 0, detail: xs.name + ' · 무료(일반 정보 · 방문 전 확인)' });
+      else out.budget.unknown.push({ key: 'stop', label: '공연·전시 관람료', note: xs.name + ' 관람료는 아직 확인하지 못했어요' });
+    }
     var pkCost = costs.parking;
     if (!inp.car) {
       out.budget.lines.push({ key: 'parking', label: '주차비', amount: 0, detail: '차량을 이용하지 않아요' });
@@ -143,6 +155,13 @@
 
   // ---- 저장 상태 정규화(순수 함수) + 브라우저 LocalStorage 래퍼 ----
   var VISIT_CHOICES = [60, 90, 120, 150];
+  function normStop(s) {   // 외부 입력(공유 링크·저장소)이므로 길이·문자·범위를 제한한다
+    if (!s || typeof s !== 'object') return null;
+    var name = String(s.name || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 60); if (!name) return null;
+    var m = Math.floor(Number(s.meters)); if (!isFinite(m) || m < 0 || m > 60000) m = 5000;
+    var v = Math.floor(Number(s.visit_minutes)); if ([60, 90, 120].indexOf(v) < 0) v = 90;
+    return { key: String(s.key || '').replace(/[^\w-]/g, '').slice(0, 60), name: name, kind: String(s.kind || '').replace(/[\u0000-\u001f<>]/g, '').slice(0, 12), meters: m, free: s.free === true ? true : (s.free === false ? false : null), visit_minutes: v };
+  }
   function normalizePlan(o) {
     o = (o && typeof o === 'object') ? o : {};
     var party = {}; AGE_KEYS.forEach(function (k) { party[k] = Math.min(9, int0((o.party || DEFAULT_PARTY)[k])); });
@@ -155,6 +174,7 @@
       eat_id: typeof o.eat_id === 'string' && o.eat_id ? o.eat_id.replace(/[^\w-]/g, '').slice(0, 60) : null,
       cafe_id: typeof o.cafe_id === 'string' && o.cafe_id ? o.cafe_id.replace(/[^\w-]/g, '').slice(0, 60) : null,
       // 식사·카페 '건너뛰기' 표시: true 면 기본 선택(가장 가까운 곳)을 자동으로 채우지 않는다. 이 값이 없던 이전 저장본은 선택이 비어 있으면 건너뛴 것으로 본다.
+      extra_stop: normStop(o.extra_stop),
       meal_skip: typeof o.meal_skip === 'boolean' ? o.meal_skip : !!(o.place_id && !o.eat_id),
       cafe_skip: typeof o.cafe_skip === 'boolean' ? o.cafe_skip : !!(o.place_id && !o.cafe_id),
       manual: { meal: money(man.meal), cafe: money(man.cafe) }, lodging: 'day', start: '10:30', end: '15:00',
@@ -206,14 +226,14 @@
   // 공유 링크용 압축 직렬화(짧은 키). 받는 쪽은 반드시 normalizePlan 을 거친다(외부 입력 - 길이·문자·범위 제한).
   function encodePlan(st) {
     var n = normalizePlan(st);
-    return b64enc(JSON.stringify({ p: n.place_id, e: n.eat_id, c: n.cafe_id, a: [n.party.adult, n.party.teen, n.party.child, n.party.toddler], k: n.car ? 1 : 0, v: n.visit_minutes, d: n.visit_date, m: [n.manual.meal, n.manual.cafe], s: [n.meal_skip ? 1 : 0, n.cafe_skip ? 1 : 0], x: n.extras.theme_garden ? 1 : 0 }));
+    return b64enc(JSON.stringify({ p: n.place_id, e: n.eat_id, c: n.cafe_id, a: [n.party.adult, n.party.teen, n.party.child, n.party.toddler], k: n.car ? 1 : 0, v: n.visit_minutes, d: n.visit_date, m: [n.manual.meal, n.manual.cafe], s: [n.meal_skip ? 1 : 0, n.cafe_skip ? 1 : 0], z: n.extra_stop ? [n.extra_stop.key, n.extra_stop.name, n.extra_stop.kind, n.extra_stop.meters, n.extra_stop.free === true ? 1 : (n.extra_stop.free === false ? 0 : 2), n.extra_stop.visit_minutes] : 0, x: n.extras.theme_garden ? 1 : 0 }));
   }
   function decodePlan(s) {
     try {
       if (!s || String(s).length > 600) return null;
       var o = JSON.parse(b64dec(s)); if (!o || typeof o !== 'object') return null;
       var a = Array.isArray(o.a) ? o.a : [], m = Array.isArray(o.m) ? o.m : [];
-      return normalizePlan({ place_id: o.p, eat_id: o.e, cafe_id: o.c, meal_skip: Array.isArray(o.s) ? o.s[0] === 1 : undefined, cafe_skip: Array.isArray(o.s) ? o.s[1] === 1 : undefined, party: { adult: a[0], teen: a[1], child: a[2], toddler: a[3] }, car: o.k !== 0, visit_minutes: o.v, visit_date: o.d, manual: { meal: m[0], cafe: m[1] }, extras: { theme_garden: !!o.x } });
+      return normalizePlan({ place_id: o.p, eat_id: o.e, cafe_id: o.c, extra_stop: Array.isArray(o.z) ? { key: o.z[0], name: o.z[1], kind: o.z[2], meters: o.z[3], free: o.z[4] === 1 ? true : (o.z[4] === 0 ? false : null), visit_minutes: o.z[5] } : null, meal_skip: Array.isArray(o.s) ? o.s[0] === 1 : undefined, cafe_skip: Array.isArray(o.s) ? o.s[1] === 1 : undefined, party: { adult: a[0], teen: a[1], child: a[2], toddler: a[3] }, car: o.k !== 0, visit_minutes: o.v, visit_date: o.d, manual: { meal: m[0], cafe: m[1] }, extras: { theme_garden: !!o.x } });
     } catch (e) { return null; }
   }
   // ---- 내 일정 보관함: 서버 DB 이전을 대비한 규격 레코드 ----

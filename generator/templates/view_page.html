@@ -1084,6 +1084,64 @@
   .cul-meta .ag { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 2px 7px; border-radius: 999px; background: #f6ecfa; color: #5f0080; font-weight: 700; }
   .cul-note { margin: 4px 16px 0; font-size: 12px; color: #98a2b3; line-height: 1.5; }
   @media (min-width: 900px) { #sec-culture .section-head h2 { font-size: 24px; } .cul-card { flex-basis: 190px; width: 190px; max-width: 190px; } .cul-note { margin-left: 0; margin-right: 0; } }
+
+  /* ================= 메인 대분류 탭(에이블리형) + 디자인 토큰 (2026-10-16) ================= */
+  :root { --surface: #FBF9F5; --tab-h: 46px; --chip-radius: 999px; --purple: #5f0080; }
+  body { background: var(--surface); }
+  .main-tabs { position: sticky; top: calc(var(--hdr-h) + env(safe-area-inset-top, 0px)); z-index: 17; display: flex; height: var(--tab-h); background: #fff; border-bottom: 1px solid #eceef3; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .main-tabs::-webkit-scrollbar { display: none; }
+  .main-tab { position: relative; flex: 1 1 0; min-width: 0; padding: 0 10px; border: 0; background: none; font-family: inherit; font-size: 15px; font-weight: 700; color: #98a2b3; cursor: pointer; white-space: nowrap; }
+  .main-tab[aria-selected="true"] { color: #1f2430; font-weight: 800; }
+  .main-tab[aria-selected="true"]::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--purple); }
+  #sec-category { top: calc(var(--hdr-h) + var(--tab-h) + env(safe-area-inset-top, 0px)); border-radius: 0; }
+  .dt-gnb .gnb-go { display: none; }
+  #homeSections:not([data-tab="gonggu"]) :is(#heroCarousel, #sharedSection, #sec-category, #favSection, #sec-age, #sec-closing, #sec-feed) { display: none !important; }
+  #homeSections:not([data-tab="outing"]) :is(#sec-outing) { display: none !important; }
+  #homeSections:not([data-tab="culture"]) :is(#sec-culture, #sec-free, #sec-week) { display: none !important; }
+  #homeSections:not([data-tab="tips"]) :is(#sec-tips) { display: none !important; }
+  #sec-outing, #sec-culture, #sec-free, #sec-week, #sec-tips { margin-top: 0; }
+  #homeSections[data-tab="outing"] #sec-outing, #homeSections[data-tab="culture"] #sec-culture { padding-top: 22px; }
+  #homeSections[data-tab="culture"] #sec-free, #homeSections[data-tab="culture"] #sec-week { margin-top: 10px; }
+  .sub-title { margin: 18px 16px 10px; font-size: 16px; font-weight: 800; color: var(--text-main); }
+  /* 육아정보(준비중) */
+  .tips-card { margin: 18px 16px 8px; padding: 34px 20px 30px; border-radius: 18px; background: var(--surface); border: 1px solid #efe9de; text-align: center; }
+  .tips-face { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; background: #f2f1ee; }
+  .tips-card h2 { margin: 14px 0 8px; font-size: 19px; font-weight: 800; }
+  .tips-card p { margin: 0 0 18px; font-size: 14px; color: #667085; line-height: 1.6; word-break: keep-all; }
+  .tips-go { padding: 12px 20px; border: 1.5px solid var(--purple); border-radius: var(--chip-radius); background: #fff; color: var(--purple); font-size: 14px; font-weight: 800; font-family: inherit; cursor: pointer; }
+  /* 관심사 테마 칩(손그림 아이콘 슬롯: 이미지가 없으면 이모지 자리표시자) */
+  .theme-row { display: flex; gap: 10px; overflow-x: auto; padding: 0 16px 14px; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+  .theme-row::-webkit-scrollbar { display: none; }
+  .theme-chip { flex: 0 0 auto; width: 74px; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 4px 9px; border: 1.5px solid #efe9de; border-radius: 16px; background: var(--surface); font-family: inherit; cursor: pointer; }
+  .theme-chip .ic { width: 46px; height: 46px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 25px; overflow: hidden; }
+  .theme-chip .ic img { width: 100%; height: 100%; object-fit: cover; }
+  .theme-chip .lb { font-size: 11px; font-weight: 700; color: #475467; line-height: 1.25; word-break: keep-all; text-align: center; }
+  .theme-chip[aria-pressed="true"] { border-color: var(--purple); background: #f6ecfa; }
+  .theme-chip[aria-pressed="true"] .lb { color: var(--purple); }
+  .season-row, .cul-filter { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .season-row::-webkit-scrollbar, .cul-filter::-webkit-scrollbar { display: none; }
+  .soft-chip { flex: 0 0 auto; padding: 8px 14px; border: 1.5px solid #efe9de; border-radius: var(--chip-radius); background: var(--surface); font-family: inherit; font-size: 13px; font-weight: 700; color: #667085; cursor: pointer; white-space: nowrap; }
+  .soft-chip[aria-pressed="true"] { border-color: var(--purple); background: #f6ecfa; color: var(--purple); }
+  .free-region { max-width: 46%; padding: 7px 10px; border: 1.5px solid #dfe3ea; border-radius: var(--chip-radius); background: #fff; font-family: inherit; font-size: 13px; font-weight: 700; color: #475467; }
+  /* 나들이 상세 시트: 주변 공연·전시 묶음 코스 */
+  .os-bundle { margin-top: 14px; padding-top: 12px; border-top: 1px solid #eceef3; }
+  .os-bundle h4 { margin: 0 0 8px; font-size: 14.5px; font-weight: 800; }
+  .os-bundle .bd-note { margin: 0 0 8px; font-size: 11.5px; color: #98a2b3; }
+  .bd-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px dashed #eceef3; }
+  .bd-item:last-child { border-bottom: 0; }
+  .bd-item .bd-tx { flex: 1; min-width: 0; }
+  .bd-item .bd-nm { font-size: 13.5px; font-weight: 800; line-height: 1.3; word-break: keep-all; }
+  .bd-item .bd-ds { margin-top: 2px; font-size: 11.5px; color: #667085; }
+  .bd-item a.bd-go { flex: 0 0 auto; padding: 8px 10px; border-radius: 10px; background: #f6ecfa; color: var(--purple); font-size: 12px; font-weight: 800; text-decoration: none; text-align: center; line-height: 1.25; }
+  @media (min-width: 768px) {
+    .main-tabs { padding: 0; }
+    .main-tab { flex: 0 0 auto; padding: 0 22px; font-size: 16px; }
+    .main-tab[aria-selected="true"]::after { left: 22px; right: 22px; }
+    .theme-row { padding-left: 0; padding-right: 0; } .theme-chip { width: 88px; } .season-row, .cul-filter { padding-left: 0; padding-right: 0; }
+    .sub-title { margin-left: 0; margin-right: 0; } .tips-card { margin-left: 0; margin-right: 0; }
+  }
+  .chip-icon img.chip-img { width: 76%; height: 76%; object-fit: contain; display: block; }
+  .chip-icon { overflow: hidden; }
   /* 인기공구: 큰 썸네일 + 10px 곡률 */
   .rank-item { gap: 12px; padding: 10px 12px; }
   .rank-item .list-thumb { flex: 0 0 60px; width: 60px; height: 60px; border-radius: 10px; }
@@ -1316,6 +1374,7 @@
 </style>
 </head>
 <body>
+<script>window.BUYG_ICONS = ['theme_princess', 'theme_art', 'theme_cooking', 'theme_picnic', 'theme_dinosaur', 'theme_transport', 'theme_animal', 'theme_nature', 'theme_science', 'gonggu_all', 'gonggu_fav', 'gonggu_trip', 'gonggu_feeding', 'gonggu_tableware', 'gonggu_clothes', 'gonggu_toy', 'gonggu_hygiene', 'gonggu_health', 'facility_highchair', 'facility_stroller'];   /* assets/img/icons/<id>.webp 가 있는 손그림 아이콘 */</script>
   <div class="app">
     <div class="notice-bar" id="noticeBar" hidden>
       <span class="notice-msg">🎯 원하는 공구만 콕!</span>
@@ -1349,11 +1408,10 @@
         <a href="outing.html">아이와 나들이</a>
       </div>
       <nav class="dt-gnb" aria-label="주요 메뉴">
-        <a href="#sec-category" data-target="sec-category">카테고리</a>
-        <a href="#sec-outing" data-target="sec-outing">나들이·체험</a>
-        <a href="#sec-closing" data-target="sec-closing">마감임박</a>
-        <a href="#sec-soon" data-target="sec-soon">오픈예정</a>
-        <a href="outing.html">아이와 나들이</a>
+        <a class="gnb-go" href="#gonggu">인스타 공구</a>
+        <a class="gnb-go" href="#outing">주말나들이</a>
+        <a class="gnb-go" href="#culture">공연·전시</a>
+        <a class="gnb-go" href="#tips">육아정보</a>
         <a class="dt-weather" id="dtWeather" href="map.html" aria-label="이번 주말 나들이 날씨 큐레이션"><span class="dtw-item on"><b class="dtw-tag">나들이TIP</b><span class="dtw-text">🎈 이번 주말 어디 갈까? 지도 보기</span><i class="dtw-arrow">›</i></span></a>
       </nav>
     </header>
@@ -1363,7 +1421,21 @@
     <div id="outingResults"></div>
     <div id="noResults">검색 결과가 없습니다.</div>
 
-    <div id="homeSections">
+    <div id="homeSections" data-tab="gonggu">
+      <nav class="main-tabs" id="mainTabs" role="tablist" aria-label="메인 분류">
+        <button type="button" class="main-tab" role="tab" id="tab-gonggu" data-tab="gonggu" aria-selected="true">인스타 공구</button>
+        <button type="button" class="main-tab" role="tab" id="tab-outing" data-tab="outing" aria-selected="false">주말나들이</button>
+        <button type="button" class="main-tab" role="tab" id="tab-culture" data-tab="culture" aria-selected="false">공연·전시</button>
+        <button type="button" class="main-tab" role="tab" id="tab-tips" data-tab="tips" aria-selected="false">육아정보</button>
+      </nav>
+      <section class="section" id="sec-tips" aria-label="육아정보 준비 중">
+        <div class="tips-card">
+          <img class="tips-face" src="assets/img/tein_logo.webp" alt="" width="88" height="88" decoding="async">
+          <h2>육아정보 준비 중이에요</h2>
+          <p>아이와 함께하는 유용한 육아 정보와 지자체 혜택을<br>꼼꼼히 정리 중이에요. 곧 찾아올게요!</p>
+          <button type="button" class="tips-go" data-go="outing">주말나들이 둘러보기</button>
+        </div>
+      </section>
       <!-- 2026-10-08 상단 배너 통합: 4장 자동 롤링 캐러셀(기존 dt-hero + 미니 배너 2개 대체) -->
       <section class="hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="BUYG 추천 배너">
         <div class="hc-viewport" id="hcViewport">
@@ -1414,15 +1486,24 @@
       <div id="regularSections">
       <section class="section" id="sec-outing" aria-label="아이와 어디 갈까?">
         <div class="section-head"><h2>아이와 어디 갈까?</h2><a class="sub outing-all" href="outing.html">전체 보기 ›</a></div>
+        <div class="theme-row" id="themeRow" role="group" aria-label="아이 관심사 테마"></div>
+        <div class="season-row" id="seasonRow" role="group" aria-label="계절·날씨 추천"></div>
         <div class="out-tabs" id="outTabs" role="tablist" aria-label="지역 선택"></div>
         <div class="hscroll-wrap">
           <button type="button" class="scroll-arrow arrow-left" data-target="outingList" aria-label="이전">‹</button>
           <div class="hscroll out-scroll" id="outingList"><div class="out-empty">불러오는 중…</div></div>
           <button type="button" class="scroll-arrow arrow-right" data-target="outingList" aria-label="다음">›</button>
         </div>
+        <div id="themeCulture" hidden>
+          <h3 class="sub-title" id="themeCultureTitle">이 테마의 공연·전시</h3>
+          <div class="hscroll-wrap">
+            <div class="hscroll cul-scroll" id="themeCultureList"></div>
+          </div>
+        </div>
       </section>
       <section class="section" id="sec-culture" aria-label="아이와 함께하는 공연·전시">
         <div class="section-head"><h2>아이와 함께하는 공연·전시</h2><a class="sub outing-all" href="./map.html?tab=show" id="cultureMapLink">지도로 보기 ›</a></div>
+        <div class="cul-filter" id="culFilter" role="group" aria-label="공연·전시 필터"></div>
         <div class="out-tabs" id="culTabs" role="tablist" aria-label="지역 선택"></div>
         <div class="hscroll-wrap">
           <button type="button" class="scroll-arrow arrow-left" data-target="cultureList" aria-label="이전">‹</button>
@@ -1430,6 +1511,19 @@
           <button type="button" class="scroll-arrow arrow-right" data-target="cultureList" aria-label="다음">›</button>
         </div>
         <p class="cul-note">곧 시작하는 순서로 보여드려요. 일정·예매는 각 안내 페이지에서 확인해 주세요.</p>
+      </section>
+      <section class="section" id="sec-free" aria-label="부담 없는 전국 무료 관람">
+        <div class="section-head"><h2>부담 없는 전국 무료 관람</h2><select class="free-region" id="freeRegion" aria-label="시·도 선택"></select></div>
+        <div class="hscroll-wrap">
+          <div class="hscroll cul-scroll" id="freeList"><div class="out-empty">불러오는 중…</div></div>
+        </div>
+      </section>
+      <section class="section" id="sec-week" aria-label="이번 주말 개막 · 마감 임박">
+        <div class="section-head"><h2>개막 · 마감 임박</h2></div>
+        <div class="cul-filter" id="weekChips" role="group" aria-label="개막·마감 구분"></div>
+        <div class="hscroll-wrap">
+          <div class="hscroll cul-scroll" id="weekCulList"><div class="out-empty">불러오는 중…</div></div>
+        </div>
       </section>
       <section id="popularSection" hidden aria-hidden="true"><div id="popularList"></div></section>
 
@@ -1628,6 +1722,12 @@ function capConsecutiveRuns(list, maxRun) {
   return result;
 }
 
+const GONGGU_ICON = { all: 'gonggu_all', fav: 'gonggu_fav', experience: 'gonggu_trip', feeding: 'gonggu_feeding', tableware: 'gonggu_tableware', clothes: 'gonggu_clothes', toys: 'gonggu_toy', hygiene: 'gonggu_hygiene', health: 'gonggu_health' };
+function chipIconHtml(chip) {   // 손그림 이미지가 있으면 이미지, 없거나 로딩 실패하면 기존 이모지
+  const id = GONGGU_ICON[chip.id];
+  if (id && (window.BUYG_ICONS || []).indexOf(id) >= 0) return '<img class="chip-img" src="assets/img/icons/' + id + '.webp" alt="" width="40" height="40" decoding="async" data-emoji="' + chip.icon + '" onerror="this.outerHTML=this.dataset.emoji">';
+  return chip.icon;
+}
 const CHIPS = [
   { id: 'all', label: '전체', icon: '🛍️', keywords: null },
   { id: 'fav', label: '찜한 공구', icon: '❤️', keywords: null, fav: true },
@@ -2998,7 +3098,7 @@ function renderChips() {
     div.className = 'chip' + (chip.id === activeChip ? ' active' : '');
     div.dataset.chipId = chip.id;
     const count = chip.fav ? favCount() : 0;
-    div.innerHTML = '<div class="chip-icon">' + chip.icon + '</div><div class="chip-label">' + chip.label
+    div.innerHTML = '<div class="chip-icon">' + chipIconHtml(chip) + '</div><div class="chip-label">' + chip.label
       + (count ? ' <span class="chip-count">' + count + '</span>' : '') + '</div>';
     div.addEventListener('click', function () {
       activeChip = chip.id;
@@ -3877,13 +3977,13 @@ wcs_do();
     var phOf = function (id) { return ((photos || {})[id] || {}).photo || {}; };
     Object.keys(guides).forEach(function (k) {
       var g = guides[k], ph = (g.photos || [])[0] || {}, addr = (g.facts && g.facts.address && g.facts.address.v) || '';
-      out.push({ href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: '에디터 추천', guide: true });
+      out.push({ geo: g.geo, href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: '에디터 추천', guide: true });
     });
     (seed || []).forEach(function (s) {
       var c = s.category || '', url = s.homepage_url || s.link || '';
       if (!/^https:\/\//.test(url)) return;
       var nk = norm(s.title); if (out.some(function (o) { var gk = norm(o.title); return o.guide && (gk === nk || (gk.length > 3 && nk.indexOf(gk) >= 0) || (nk.length > 3 && gk.indexOf(nk) >= 0)); })) return;   // 앵커와 같은 장소는 시드에서 제외
-      out.push({ href: url, ext: true, title: s.title, line: s.tag || '', region: regionOf(s.region, s.address), regionLabel: (s.address || s.region || '').split(' ').slice(0, 2).join(' '), tags: c.split('/').filter(Boolean).slice(0, 2), theme: cls(c), img: phOf(s.id).thumb || phOf(s.id).url || '', credit: phOf(s.id).credit ? '© ' + phOf(s.id).credit : '', badge: '', guide: false, seed: s, id: s.id, addr: ((photos || {})[s.id] || {}).address || s.address || '' });
+      out.push({ geo: ((photos || {})[s.id] || {}).geo, href: url, ext: true, title: s.title, line: s.tag || '', region: regionOf(s.region, s.address), regionLabel: (s.address || s.region || '').split(' ').slice(0, 2).join(' '), tags: c.split('/').filter(Boolean).slice(0, 2), theme: cls(c), img: phOf(s.id).thumb || phOf(s.id).url || '', credit: phOf(s.id).credit ? '© ' + phOf(s.id).credit : '', badge: '', guide: false, seed: s, id: s.id, addr: ((photos || {})[s.id] || {}).address || s.address || '' });
     });
     return out;
   }
@@ -3908,6 +4008,7 @@ wcs_do();
     var ov = []; if (s.space_type) ov.push(s.space_type + ' 중심'); if (s.parking) ov.push(/^주차/.test(s.parking) ? s.parking : '주차 ' + s.parking); if (s.stroller === true) ov.push('유모차 이동 가능'); if (s.baby_care === true) ov.push('육아 편의시설 있음');
     row('운영 개요', ov.join(' · ') || '방문 전 공식 안내에서 확인해 주세요');
     body.appendChild(el('p', 'os-note', '요금·주차·유모차·수유실 같은 정보는 일반 정보 기준이라 운영 사정에 따라 달라질 수 있어요. 방문 전에 공식 홈페이지에서 한 번 더 확인해 주세요.' + (it.credit ? ' 사진: 한국관광공사 TourAPI(공공누리 제1유형)' : '')));
+    if (window.BuygBundle) { var bn = window.BuygBundle.render(it); if (bn) body.appendChild(bn); }
     sheet.appendChild(body);
     var acts = el('div', 'os-acts');
     var plan = el('a', 'pri', '이 장소로 주말 일정 만들기'); plan.href = 'plan.html?place=' + encodeURIComponent(it.id); plan.addEventListener('click', function () { gaEv('home_outing_plan', { id: it.id }); }); acts.appendChild(plan);
@@ -3934,9 +4035,9 @@ wcs_do();
   function draw() {
     var box = document.getElementById('outingList'); if (!box) return; box.innerHTML = '';
     var rank = function (x, y) { return ((y.guide ? 2 : 0) + (y.img ? 1 : 0)) - ((x.guide ? 2 : 0) + (x.img ? 1 : 0)); };   // 에디터 추천 → 사진 있는 곳 → 나머지
-    var list = ITEMS.filter(function (i) { return tab === '전체' || i.region === tab; }).sort(rank), note = '';
+    var list = ITEMS.filter(function (i) { return (tab === '전체' || i.region === tab) && (!window.BuygFilter || window.BuygFilter.outing(i)); }).sort(rank), note = '';
     if (!list.length) {   // 아직 장소가 없는 지역: 빈 슬라이더 대신 안내 + 전국 추천을 보여 준다
-      note = tab + ' 지역 장소는 준비하고 있어요. 대신 가볼 만한 곳을 보여드려요.';
+      note = (window.BuygFilter && window.BuygFilter.active() ? '조건에 맞는 장소를 준비하고 있어요. 대신 가볼 만한 곳을 보여드려요.' : tab + ' 지역 장소는 준비하고 있어요. 대신 가볼 만한 곳을 보여드려요.');
       list = ITEMS.slice().sort(rank);
     }
     if (note) box.appendChild(el('div', 'out-note', note));
@@ -3956,7 +4057,7 @@ wcs_do();
   tabs();
   Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_enriched.json')]).then(function (r) {
     ITEMS = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {}); draw();
-    window.__outingItems = ITEMS; window.__openSheet = openSheet; document.dispatchEvent(new Event('outing-ready'));
+    window.__outingItems = ITEMS; window.__openSheet = openSheet; window.__redrawOuting = draw; document.dispatchEvent(new Event('outing-ready'));
     if (typeof enableDragScroll === 'function') { var l = document.getElementById('outingList'); if (l) enableDragScroll(l); }
   });
 })();
@@ -4001,11 +4102,11 @@ wcs_do();
     perf.forEach(function (x) {
       var run = x.state === '공연중';
       if (!x.poster || (x.end_date || '') < todayIso || (!run && (x.start_date || '') > limitIso) || !https(x.link)) return;
-      out.push({ grp: 0, run: run, start: x.start_date || '', title: x.title, line: [x.genre, x.venue].filter(Boolean).join(' · '), regionLabel: x.region, tabs: tabsOfRegion(x.region), age: x.age || '', img: https(x.poster), fit: 'cover', href: https(x.link), key: 'p' + x.id });
+      out.push({ kind: '공연', free: x.is_free === true, end: x.end_date || '', grp: 0, run: run, start: x.start_date || '', title: x.title, line: [x.genre, x.venue].filter(Boolean).join(' · '), regionLabel: x.region, tabs: tabsOfRegion(x.region), age: x.age || '', img: https(x.poster), fit: 'cover', href: https(x.link), key: 'p' + x.id });
     });
     events.forEach(function (x) {
       if (!(x.kid_score >= 1) || !x.image || (x.end_date || '') < todayIso || (x.start_date || '') > limitIso || !https(x.link)) return;
-      out.push({ grp: 0, run: (x.start_date || '') <= todayIso, start: x.start_date || '', title: x.title, line: x.place || '', regionLabel: addrLabel(x.address || x.place), tabs: tabsOfAddr(x.address || x.place), age: '아이 동반', img: https(x.image_thumb || x.image), fit: 'contain', href: https(x.link), key: 'e' + x.id });
+      out.push({ kind: '행사', free: x.is_free === true || x.fee_type === 'free', end: x.end_date || '', geo: (isFinite(x.mapy) && isFinite(x.mapx)) ? { lat: Number(x.mapy), lon: Number(x.mapx) } : null, grp: 0, run: (x.start_date || '') <= todayIso, start: x.start_date || '', title: x.title, line: x.place || '', regionLabel: addrLabel(x.address || x.place), tabs: tabsOfAddr(x.address || x.place), age: '아이 동반', img: https(x.image_thumb || x.image), fit: 'contain', href: https(x.link), key: 'e' + x.id });
     });
     out.sort(function (a, b) { return (b.run ? 1 : 0) - (a.run ? 1 : 0) || a.start.localeCompare(b.start); });
     return out;
@@ -4013,21 +4114,21 @@ wcs_do();
   var AGE_NAME = { baby: '0~1세', toddler: '2~3세', kid: '4~5세', preschool: '6~7세' };
   function seedItems() {   // 전시·체험 장소: 박물관/미술관/전시/체험관 카테고리 시드(나들이 모듈과 같은 카드 객체, 클릭하면 내부 상세 시트)
     return (window.__outingItems || []).filter(function (i) { return i.seed && SEED_RE.test(i.seed.category || ''); }).map(function (i) {
-      return { grp: 1, title: i.title, line: i.line || '', regionLabel: i.regionLabel, tabs: [i.region], age: (i.seed.age_groups || []).slice(0, 2).map(function (k) { return AGE_NAME[k] || k; }).join('·'), img: i.img, fit: 'cover', sheet: i, key: 's' + i.id };
+      return { kind: '전시 장소', free: /무료입장/.test((i.seed && i.seed.tag) || ''), geo: i.geo || null, grp: 1, title: i.title, line: i.line || '', regionLabel: i.regionLabel, tabs: [i.region], age: (i.seed.age_groups || []).slice(0, 2).map(function (k) { return AGE_NAME[k] || k; }).join('·'), img: i.img, fit: 'cover', sheet: i, key: 's' + i.id };
     }).sort(function (a, b) { return (b.img ? 1 : 0) - (a.img ? 1 : 0); });
   }
   function pick() {
-    var seeds = seedItems(), all = items.filter(function (i) { return tab === '전체' || i.tabs.indexOf(tab) >= 0; });
-    var sd = seeds.filter(function (i) { return tab === '전체' || i.tabs.indexOf(tab) >= 0; });
+    var seeds = seedItems(), all = items.filter(function (i) { return (tab === '전체' || i.tabs.indexOf(tab) >= 0) && (!window.BuygFilter || window.BuygFilter.near(i)); });
+    var sd = seeds.filter(function (i) { return (tab === '전체' || i.tabs.indexOf(tab) >= 0) && (!window.BuygFilter || window.BuygFilter.near(i)); });
     var take = Math.min(sd.length, all.length >= MAX ? 4 : MAX);   // 공연이 충분하면 전시 장소는 4곳만 뒤에 덧붙인다
     return all.slice(0, MAX - Math.min(take, 4)).concat(sd.slice(0, take)).slice(0, MAX);
   }
   function card(it, n) {
-    var a = el('a', 'cul-card'); a.setAttribute('aria-label', n + '번 ' + it.title);
+    var a = el('a', 'cul-card'); a.setAttribute('aria-label', (n ? n + '번 ' : '') + it.title);
     if (it.sheet) a.href = '#' + it.key; else { a.href = it.href; a.target = '_blank'; a.rel = 'noopener'; }
     var ph = el('div', 'cul-photo');
     if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; if (it.fit === 'contain') { im.className = 'contain'; var bg = document.createElement('img'); bg.className = 'bgfill'; bg.src = it.img; bg.alt = ''; bg.setAttribute('aria-hidden', 'true'); bg.referrerPolicy = 'no-referrer'; bg.loading = 'lazy'; ph.appendChild(bg); } im.onerror = function () { im.remove(); ph.appendChild(el('span', '', '🎭')); }; ph.appendChild(im); } else ph.appendChild(el('span', '', '🎨'));
-    ph.appendChild(el('span', 'cul-rank', String(n))); a.appendChild(ph);
+    if (n) ph.appendChild(el('span', 'cul-rank', String(n))); a.appendChild(ph);
     a.appendChild(el('div', 'cul-name', it.title)); if (it.line) a.appendChild(el('div', 'cul-line', it.line));
     var m = el('div', 'cul-meta'); if (it.regionLabel) m.appendChild(el('span', 'rg', it.regionLabel)); if (it.age) m.appendChild(el('span', 'ag', it.age)); a.appendChild(m);
     a.addEventListener('click', function (ev) { if (it.sheet && window.__openSheet) { ev.preventDefault(); window.__openSheet(it.sheet); } if (typeof gtag === 'function') { try { gtag('event', 'home_culture_click', { title: it.title, rank: n }); } catch (e) { /* 무시 */ } } });
@@ -4061,9 +4162,175 @@ wcs_do();
   Promise.all([get('./kids_performances.json'), get('./tour_events.json')]).then(function (r) {
     items = build((r[0] && r[0].performances) || [], (r[1] && (r[1].events || (Array.isArray(r[1]) ? r[1] : []))) || []);
     tabsUi(); draw();
-    ready.then(function () { tabsUi(); draw(); });
+    ready.then(function () { tabsUi(); draw(); window.__cultureItems = items; window.__cultureSeeds = seedItems; window.__cultureCard = card; window.__redrawCulture = function () { tabsUi(); draw(); }; document.dispatchEvent(new Event('culture-ready')); });
     if (typeof enableDragScroll === 'function') { var l = document.getElementById('cultureList'); if (l) enableDragScroll(l); }
   });
+})();
+</script>
+<script>
+(function () {
+  var D = document;
+  function $(id) { return D.getElementById(id); }
+  function el(tag, cls, text) { var e = D.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function ga(n, p) { if (typeof gtag === 'function') { try { gtag('event', n, p); } catch (e) { /* 무시 */ } } }
+  var REGIONS = ['서울', '경기 남부', '경기 북부', '인천', '대구', '경북', '부산', '울산', '경남', '대전', '충청/세종', '광주', '전라', '강원', '제주'];
+  var CENTER = { '서울': [37.57, 126.98], '경기 남부': [37.27, 127.01], '경기 북부': [37.74, 127.05], '인천': [37.46, 126.71], '대구': [35.87, 128.60], '경북': [36.57, 128.73], '부산': [35.18, 129.08], '울산': [35.54, 129.31], '경남': [35.24, 128.69], '대전': [36.35, 127.38], '충청/세종': [36.64, 127.49], '광주': [35.16, 126.85], '전라': [35.82, 127.15], '강원': [37.89, 127.73], '제주': [33.50, 126.53] };
+
+  /* ---------- 손그림 아이콘 슬롯: window.BUYG_ICONS 에 파일 id 를 추가하면 이모지 대신 이미지를 쓴다 ---------- */
+  var ICONS = window.BUYG_ICONS || [];   // 예: ['theme_dino', 'theme_art'] -> assets/img/icons/theme_dino.webp
+  function iconNode(id, emoji) {
+    var s = el('span', 'ic');
+    if (ICONS.indexOf(id) >= 0) { var im = D.createElement('img'); im.src = 'assets/img/icons/' + id + '.webp'; im.alt = ''; im.width = 46; im.height = 46; im.loading = 'lazy'; im.onerror = function () { im.remove(); s.textContent = emoji; }; s.appendChild(im); } else s.textContent = emoji;
+    return s;
+  }
+
+  /* ---------- 1) 메인 대분류 탭 + URL 해시 ---------- */
+  var HS = $('homeSections'), TAB_IDS = ['gonggu', 'outing', 'culture', 'tips'];
+  var LEGACY = { 'sec-outing': 'outing', 'sec-culture': 'culture', 'sec-free': 'culture', 'sec-week': 'culture', 'sec-tips': 'tips', 'sec-category': 'gonggu', 'sec-closing': 'gonggu', 'sec-soon': 'gonggu', 'sec-age': 'gonggu', 'sec-feed': 'gonggu', 'popularSection': 'gonggu' };
+  function tabFromHash() { var h = (location.hash || '').replace('#', ''); if (TAB_IDS.indexOf(h) >= 0) return h; return LEGACY[h] || 'gonggu'; }
+  function applyTab(id, userClick) {
+    if (!HS) return; HS.setAttribute('data-tab', id);
+    var sh = $('osSheet'); if (sh && sh.classList.contains('open')) { sh.classList.remove('open'); var bk = $('osBack'); if (bk) bk.classList.remove('open'); D.body.classList.remove('os-lock'); }   // 탭을 옮기면 열린 상세 시트는 닫는다
+    TAB_IDS.forEach(function (k) { var b = $('tab-' + k); if (b) { b.setAttribute('aria-selected', k === id ? 'true' : 'false'); b.tabIndex = k === id ? 0 : -1; } });
+    var cur = $('tab-' + id); if (cur && cur.scrollIntoView) { var bar = $('mainTabs'); if (bar && bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: Math.max(0, cur.offsetLeft - (bar.clientWidth - cur.offsetWidth) / 2), behavior: 'smooth' }); }
+    if (userClick) { var hdr = D.querySelector('.app-header'), top = HS.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0); if (window.scrollY > top) window.scrollTo({ top: Math.max(0, top), behavior: 'auto' }); }
+  }
+  function goTab(id) { if (location.hash.replace('#', '') === id) applyTab(id, true); else location.hash = '#' + id; }
+  D.querySelectorAll('#mainTabs .main-tab').forEach(function (b) { b.addEventListener('click', function () { ga('home_main_tab', { tab: b.getAttribute('data-tab') }); goTab(b.getAttribute('data-tab')); }); });
+  D.querySelectorAll('.gnb-go, .tips-go').forEach(function (a) { a.addEventListener('click', function (e) { var id = (a.getAttribute('href') || '').replace('#', '') || a.getAttribute('data-go'); if (TAB_IDS.indexOf(id) >= 0) { e.preventDefault(); goTab(id); } }); });
+  window.addEventListener('hashchange', function () { var h = (location.hash || '').replace('#', ''); applyTab(tabFromHash(), true); var t = LEGACY[h] && $(h); if (t && !t.hidden) setTimeout(function () { t.scrollIntoView({ block: 'start' }); }, 30); });
+  applyTab(tabFromHash(), false);
+
+  /* ---------- 2) 관심사 테마 9종 + 계절 칩 + 필터(규칙 기반 키워드 분류) ---------- */
+  var THEMES = [
+    { id: 'princess', label: '공주·캐릭터', emoji: '👑', re: /공주|왕자|캐릭터|동화|뽀로로|핑크퐁|티니핑|프린세스|신데렐라|백설|인어|애니메이션|만화|헬로키티|인형극/ },
+    { id: 'art', label: '미술·드로잉', emoji: '🎨', re: /미술|아트|드로잉|그림|색칠|회화|공예|도예|만들기|조형|판화|캘리|디자인|미디어아트|스케치/ },
+    { id: 'cooking', label: '쿠킹·베이킹', emoji: '🍳', re: /쿠킹|베이킹|요리|제과|제빵|쿠키|케이크|마카롱|피자|김밥|식문화|셰프|쉐프/ },
+    { id: 'picnic', label: '꽃·피크닉', emoji: '🌷', re: /꽃|정원|피크닉|튤립|국화|코스모스|장미|벚꽃|단풍|식물원|수목원|억새|호수공원|공원/ },
+    { id: 'dinosaur', label: '공룡 탐험', emoji: '🦖', re: /공룡|화석|쥬라기|지질|티라노|트리케라|익룡|고생대/ },
+    { id: 'transport', label: '기차·자동차', emoji: '🚂', re: /기차|철도|자동차|버스|비행|항공|교통|소방|경찰|트럭|열차|전철|레일|탈것|로보카/ },
+    { id: 'animal', label: '동물·아쿠아리움', emoji: '🦁', re: /동물|아쿠아|수족관|고래|사자|펭귄|곤충|파충|목장|농장|돌고래|해양|바다/ },
+    { id: 'nature', label: '숲·모래놀이', emoji: '🌳', re: /숲|모래|갯벌|해수욕장|캠핑|산책|둘레길|휴양림|계곡|놀이터|습지|해변|생태|자연/ },
+    { id: 'science', label: '박물관·과학', emoji: '🏛️', re: /박물관|과학|천문|우주|행성|발명|체험관|전시관|역사|민속|기록관|도서관|메이커|실험|과학관/ }
+  ];
+  var SEASONS = [{ id: 'fall', label: '🍁 단풍·꽃놀이', re: /단풍|꽃|수목원|식물원|정원|억새|코스모스|국화|숲길|호수공원|생태공원|공원/ }, { id: 'rain', label: '☔ 비 오는 날 실내', re: /박물관|미술관|과학관|체험관|전시|도서관|키즈카페|아쿠아|실내/ }];
+  var state = { theme: '', season: '', near: '' };
+  function textOf(i) { var s = i.seed || {}; return [i.title, i.line, (i.tags || []).join(' '), s.category, s.tag, s.space_type, i.genre].join(' '); }
+  function themeRe() { var t = THEMES.filter(function (x) { return x.id === state.theme; })[0]; return t ? t.re : null; }
+  function seasonRe() { var t = SEASONS.filter(function (x) { return x.id === state.season; })[0]; return t ? t.re : null; }
+  window.BuygFilter = {
+    active: function () { return !!(state.theme || state.season); },
+    outing: function (i) { var a = themeRe(), b = seasonRe(), tx = textOf(i); return (!a || a.test(tx)) && (!b || b.test(tx)) && (state.season !== 'rain' || !i.seed || i.seed.space_type !== '야외'); },
+    near: function (i) { return !state.near || (i.tabs || []).indexOf(state.near) >= 0; }
+  };
+  function drawThemes() {
+    var row = $('themeRow'); if (!row) return; row.innerHTML = '';
+    THEMES.forEach(function (t) {
+      var b = el('button', 'theme-chip'); b.type = 'button'; b.setAttribute('aria-pressed', state.theme === t.id ? 'true' : 'false'); b.appendChild(iconNode('theme_' + t.id, t.emoji)); b.appendChild(el('span', 'lb', t.label));
+      b.addEventListener('click', function () { state.theme = state.theme === t.id ? '' : t.id; ga('home_theme', { theme: state.theme || 'none' }); drawThemes(); refreshOuting(); });
+      row.appendChild(b);
+    });
+  }
+  function drawSeasons() {
+    var row = $('seasonRow'); if (!row) return; row.innerHTML = '';
+    var all = el('button', 'soft-chip', '전체'); all.type = 'button'; all.setAttribute('aria-pressed', state.season ? 'false' : 'true'); all.addEventListener('click', function () { state.season = ''; drawSeasons(); refreshOuting(); }); row.appendChild(all);
+    SEASONS.forEach(function (s) { var b = el('button', 'soft-chip', s.label); b.type = 'button'; b.setAttribute('aria-pressed', state.season === s.id ? 'true' : 'false'); b.addEventListener('click', function () { state.season = state.season === s.id ? '' : s.id; ga('home_season', { season: state.season || 'none' }); drawSeasons(); refreshOuting(); }); row.appendChild(b); });
+  }
+  function refreshOuting() {
+    if (window.__redrawOuting) window.__redrawOuting();
+    var box = $('themeCulture'), list = $('themeCultureList'), th = themeRe();
+    if (!box || !list) return;
+    if (!th || !window.__cultureItems || !window.__cultureCard) { box.hidden = true; return; }
+    var lab = THEMES.filter(function (x) { return x.id === state.theme; })[0].label;
+    var found = window.__cultureItems.filter(function (i) { return th.test(textOf(i)); }).slice(0, 12);
+    list.innerHTML = ''; $('themeCultureTitle').textContent = lab + ' 공연·전시';
+    if (!found.length) { list.appendChild(el('div', 'out-empty', '이 테마의 공연·전시는 아직 없어요. 곧 시작하는 일정이 생기면 보여드릴게요.')); }
+    found.forEach(function (i) { list.appendChild(window.__cultureCard(i, 0)); });
+    box.hidden = false;
+  }
+
+  /* ---------- 3) 공연·전시: 필터 칩, 무료 관람, 개막/마감 ---------- */
+  var CUL = { filter: 'all', week: 'open' };
+  function drawCulFilter() {
+    var row = $('culFilter'); if (!row) return; row.innerHTML = '';
+    [['all', '전체'], ['soon', '추천순(곧 시작하는 순)'], ['free', '전국 무료 공연·전시'], ['near', '내 주변 공연']].forEach(function (c) {
+      var b = el('button', 'soft-chip', c[1]); b.type = 'button'; b.setAttribute('aria-pressed', CUL.filter === c[0] ? 'true' : 'false');
+      b.addEventListener('click', function () { setCulFilter(c[0]); }); row.appendChild(b);
+    });
+  }
+  function nearestRegion(lat, lon) { var best = '', bd = 1e9; Object.keys(CENTER).forEach(function (k) { var d = dist(lat, lon, CENTER[k][0], CENTER[k][1]); if (d < bd) { bd = d; best = k; } }); return best; }
+  function setCulFilter(f) {
+    ga('home_culture_filter', { f: f });
+    if (f === 'near') {
+      if (!navigator.geolocation) { toastMsg('이 기기에서는 위치 정보를 쓸 수 없어요.'); return; }
+      navigator.geolocation.getCurrentPosition(function (pos) { state.near = nearestRegion(pos.coords.latitude, pos.coords.longitude); CUL.filter = 'near'; applyCul(); toastMsg('가까운 지역(' + state.near + ')의 공연·전시를 보여드려요.'); }, function () { toastMsg('위치 권한이 없어 내 주변 공연을 볼 수 없어요. 지역 탭으로 골라 보세요.'); }, { timeout: 8000, maximumAge: 600000 });
+      return;
+    }
+    state.near = ''; CUL.filter = f; applyCul();
+  }
+  function applyCul() {
+    drawCulFilter();
+    var f = CUL.filter, show = function (id, on) { var s = $(id); if (s) s.style.display = on ? '' : 'none'; };
+    var onCul = HS && HS.getAttribute('data-tab') === 'culture';
+    show('sec-free', f === 'all' || f === 'free'); show('sec-week', f === 'all');
+    var main = $('sec-culture'); if (main) { var hideMain = f === 'free'; main.setAttribute('data-hidden-by-filter', hideMain ? '1' : ''); main.style.display = hideMain ? 'none' : ''; }
+    if (window.__redrawCulture) window.__redrawCulture();
+    if (onCul && f === 'free') { var fs = $('sec-free'); if (fs) fs.scrollIntoView({ block: 'nearest' }); }
+  }
+  function toastMsg(m) { var t = $('toast'); if (t) { t.textContent = m; t.classList.add('show'); clearTimeout(toastMsg._t); toastMsg._t = setTimeout(function () { t.classList.remove('show'); }, 2600); } else { try { alert(m); } catch (e) { /* 무시 */ } } }
+  function dist(a, b, c, d) { var R = 6371, r = Math.PI / 180, dl = (c - a) * r, dn = (d - b) * r, x = Math.sin(dl / 2) * Math.sin(dl / 2) + Math.cos(a * r) * Math.cos(c * r) * Math.sin(dn / 2) * Math.sin(dn / 2); return 2 * R * Math.asin(Math.sqrt(x)); }
+  function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function drawFree() {
+    var sel = $('freeRegion'), box = $('freeList'); if (!sel || !box || !window.__cultureItems) return;
+    if (!sel.options.length) { var o = D.createElement('option'); o.value = ''; o.textContent = '전국'; sel.appendChild(o); REGIONS.forEach(function (r) { var op = D.createElement('option'); op.value = r; op.textContent = r; sel.appendChild(op); }); sel.addEventListener('change', drawFree); }
+    var rg = sel.value, seeds = window.__cultureSeeds ? window.__cultureSeeds() : [];
+    var list = window.__cultureItems.concat(seeds).filter(function (i) { return i.free && (!rg || (i.tabs || []).indexOf(rg) >= 0); });
+    var shown = list.filter(function (i) { return i.grp === 0; }).slice(0, 14).concat(list.filter(function (i) { return i.grp === 1; }).slice(0, 6)).slice(0, 20);
+    box.innerHTML = '';
+    if (!shown.length) box.appendChild(el('div', 'out-empty', (rg || '전국') + ' 무료 공연·전시는 아직 없어요. 다른 지역을 골라 보세요.'));
+    shown.forEach(function (i) { box.appendChild(window.__cultureCard(i, 0)); });
+  }
+  function drawWeek() {
+    var row = $('weekChips'), box = $('weekCulList'); if (!row || !box || !window.__cultureItems) return;
+    row.innerHTML = '';
+    [['open', '이번 주말 개막'], ['end', '마감 임박']].forEach(function (c) { var b = el('button', 'soft-chip', c[1]); b.type = 'button'; b.setAttribute('aria-pressed', CUL.week === c[0] ? 'true' : 'false'); b.addEventListener('click', function () { CUL.week = c[0]; drawWeek(); }); row.appendChild(b); });
+    var now = new Date(), today = iso(now), dow = now.getDay(), toSun = new Date(now.getTime() + ((7 - dow) % 7) * 864e5), sun = iso(toSun), in7 = iso(new Date(now.getTime() + 7 * 864e5));
+    var L = window.__cultureItems, list, note = '';
+    if (CUL.week === 'open') { list = L.filter(function (i) { return i.start > today && i.start <= sun; }).sort(function (a, b) { return a.start.localeCompare(b.start); }); if (!list.length) { list = L.filter(function (i) { return i.start > today; }).sort(function (a, b) { return a.start.localeCompare(b.start); }); note = '이번 주말에 시작하는 일정이 없어 가장 가까운 개막작을 보여드려요.'; } }
+    else { list = L.filter(function (i) { return i.start <= today && i.end && i.end >= today && i.end <= in7; }).sort(function (a, b) { return a.end.localeCompare(b.end); }); if (!list.length) note = '일주일 안에 끝나는 일정이 없어요.'; }
+    box.innerHTML = ''; if (note) box.appendChild(el('div', 'out-note', note));
+    list.slice(0, 16).forEach(function (i) { box.appendChild(window.__cultureCard(i, 0)); });
+  }
+
+  /* ---------- 4) 나들이 상세 시트: 주변 공연·전시(차로 10~20분 · 직선거리 추정) 묶음 코스 ---------- */
+  window.BuygBundle = {
+    minutes: function (km) { return Math.max(10, Math.ceil(km * 3 / 5) * 5); },   // plan.html 의 직선거리 추정(1km당 3분, 최소 10분)과 같은 규칙
+    nearby: function (it) {
+      if (!it || !it.geo || !isFinite(it.geo.lat) || !window.__cultureItems) return [];
+      var self = this, seeds = window.__cultureSeeds ? window.__cultureSeeds() : [], today = iso(new Date());
+      return window.__cultureItems.concat(seeds).filter(function (c) { return c.geo && isFinite(c.geo.lat) && c.key !== 's' + it.id && (!c.end || c.end >= today); })
+        .map(function (c) { var km = dist(it.geo.lat, it.geo.lon, c.geo.lat, c.geo.lon); return { c: c, km: km, min: self.minutes(km) }; })
+        .filter(function (x) { return x.min <= 20; }).sort(function (a, b) { return a.km - b.km; }).slice(0, 3);
+    },
+    render: function (it) {
+      var list = this.nearby(it); if (!list.length) return null;
+      var box = el('div', 'os-bundle'); box.appendChild(el('h4', '', '주변 공연·전시 묶음 코스')); box.appendChild(el('p', 'bd-note', '직선거리로 추정한 차량 이동 시간이에요(실제 경로와 다를 수 있어요).'));
+      list.forEach(function (x) {
+        var r = el('div', 'bd-item'), tx = el('div', 'bd-tx'); tx.appendChild(el('div', 'bd-nm', x.c.title));
+        tx.appendChild(el('div', 'bd-ds', x.c.kind + ' · 직선 ' + x.km.toFixed(1) + 'km · 차로 약 ' + x.min + '분(추정)' + (x.c.free ? ' · 무료(일반 정보)' : '')));
+        var go = el('a', 'bd-go'); go.innerHTML = '함께 묶어<br>일정 만들기'; go.href = 'plan.html?place=' + encodeURIComponent(it.id) + '&stop=' + encodeURIComponent(x.c.key.slice(1));
+        go.addEventListener('click', function () { ga('home_bundle_plan', { place: it.id, stop: x.c.key }); });
+        r.appendChild(tx); r.appendChild(go); box.appendChild(r);
+      });
+      return box;
+    }
+  };
+
+  /* ---------- 초기화 ---------- */
+  drawThemes(); drawSeasons(); drawCulFilter();
+  D.addEventListener('outing-ready', function () { refreshOuting(); });
+  D.addEventListener('culture-ready', function () { drawFree(); drawWeek(); refreshOuting(); });
+  if (window.__cultureItems) { drawFree(); drawWeek(); }
 })();
 </script>
 </body>
