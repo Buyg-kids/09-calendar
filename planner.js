@@ -59,13 +59,13 @@
     var party = {}; AGE_KEYS.forEach(function (k) { party[k] = int0((inp.party || DEFAULT_PARTY)[k]); });
     var costs = (place && place.costs) || {};
     var eat = inp.eat_id ? findEat(place, inp.eat_id) : null;
-    var start = toMin(inp.start || '10:30'), end = toMin(inp.end || '15:00');
+    var start = toMin(START_CHOICES.indexOf(inp.start) >= 0 ? inp.start : DEFAULT_START), end = toMin(inp.end || toHHMM(Math.max(900, start + 270)));   // 끝 시각 기본: 15:00 또는 출발 4시간 30분 뒤 중 늦은 쪽
     var visit = Math.max(30, int0(inp.visit_minutes) || 90);
     var out = { timetable: [], budget: { lines: [], known_total: 0, unknown: [], manual: [], estimates: [], estimate_total: 0, total: 0 }, warnings: [], party_count: partyCount(party) };
     var t = start, mealMin = 60, cafeMin = 45;
 
     // ---- 타임테이블 ----
-    out.timetable.push({ start: toHHMM(t), end: toHHMM(t + visit), label: (place.name || '장소') + ' 관람', kind: 'place' });
+    out.timetable.push({ start: toHHMM(t), end: toHHMM(t + visit), label: (place.name || '장소') + ' 관람', kind: 'place', ref: 'place' });
     t += visit;
     var walkEat = false, cafeStays = false, anyEstimate = false;
     var xs = inp.extra_stop && inp.extra_stop.name ? inp.extra_stop : null;   // 함께 갈 곳(공연·전시·전시 장소): 직선거리로 이동 시간을 추정한다
@@ -91,7 +91,7 @@
           t += wait;
         }
       }
-      out.timetable.push({ start: toHHMM(t), end: toHHMM(t + mealMin), label: eat.name + ' 점심', kind: 'meal' });
+      out.timetable.push({ start: toHHMM(t), end: toHHMM(t + mealMin), label: eat.name + (t >= 660 && t < 840 ? ' 점심' : ' 식사'), kind: 'meal', ref: eat.id });
       t += mealMin;
     }
     if (inp.cafe_id) {
@@ -102,7 +102,7 @@
           out.timetable.push({ start: toHHMM(t), end: toHHMM(t + cl.minutes), label: (cl.walk ? '도보 이동' : '차로 이동') + ' → ' + cafe.name, kind: 'move', note: ((cafe.distance && cafe.distance.v) || '') + (cl.estimate ? ' · 추정 시간' : '') });
           t += cl.minutes;
         }
-        out.timetable.push({ start: toHHMM(t), end: toHHMM(t + cafeMin), label: cafe.name + ' 휴식', kind: 'cafe' }); t += cafeMin;
+        out.timetable.push({ start: toHHMM(t), end: toHHMM(t + cafeMin), label: cafe.name + ' 휴식', kind: 'cafe', ref: cafe.id }); t += cafeMin;
       }
     }
     if (anyEstimate) out.warnings.push('이동 시간 중 일부는 거리로 계산한 추정값이에요. 실제 경로는 지도 앱으로 확인해 주세요.');
@@ -155,6 +155,7 @@
 
   // ---- 저장 상태 정규화(순수 함수) + 브라우저 LocalStorage 래퍼 ----
   var VISIT_CHOICES = [60, 90, 120, 150];
+  var START_CHOICES = ['09:00', '09:30', '10:00', '10:30', '11:00', '13:00'], DEFAULT_START = '10:30';
   function normStop(s) {   // 외부 입력(공유 링크·저장소)이므로 길이·문자·범위를 제한한다
     if (!s || typeof s !== 'object') return null;
     var name = String(s.name || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 60); if (!name) return null;
@@ -177,7 +178,7 @@
       extra_stop: normStop(o.extra_stop),
       meal_skip: typeof o.meal_skip === 'boolean' ? o.meal_skip : !!(o.place_id && !o.eat_id),
       cafe_skip: typeof o.cafe_skip === 'boolean' ? o.cafe_skip : !!(o.place_id && !o.cafe_id),
-      manual: { meal: money(man.meal), cafe: money(man.cafe) }, lodging: 'day', start: '10:30', end: '15:00',
+      manual: { meal: money(man.meal), cafe: money(man.cafe) }, lodging: 'day', start: START_CHOICES.indexOf(o.start) >= 0 ? o.start : DEFAULT_START,
       visit_date: (typeof o.visit_date === 'string' && parseIso(o.visit_date)) ? o.visit_date : '',
       updated_at: typeof o.updated_at === 'number' ? o.updated_at : 0
     };
@@ -226,14 +227,14 @@
   // 공유 링크용 압축 직렬화(짧은 키). 받는 쪽은 반드시 normalizePlan 을 거친다(외부 입력 - 길이·문자·범위 제한).
   function encodePlan(st) {
     var n = normalizePlan(st);
-    return b64enc(JSON.stringify({ p: n.place_id, e: n.eat_id, c: n.cafe_id, a: [n.party.adult, n.party.teen, n.party.child, n.party.toddler], k: n.car ? 1 : 0, v: n.visit_minutes, d: n.visit_date, m: [n.manual.meal, n.manual.cafe], s: [n.meal_skip ? 1 : 0, n.cafe_skip ? 1 : 0], z: n.extra_stop ? [n.extra_stop.key, n.extra_stop.name, n.extra_stop.kind, n.extra_stop.meters, n.extra_stop.free === true ? 1 : (n.extra_stop.free === false ? 0 : 2), n.extra_stop.visit_minutes] : 0, x: n.extras.theme_garden ? 1 : 0 }));
+    return b64enc(JSON.stringify({ p: n.place_id, e: n.eat_id, c: n.cafe_id, a: [n.party.adult, n.party.teen, n.party.child, n.party.toddler], k: n.car ? 1 : 0, v: n.visit_minutes, d: n.visit_date, m: [n.manual.meal, n.manual.cafe], s: [n.meal_skip ? 1 : 0, n.cafe_skip ? 1 : 0], z: n.extra_stop ? [n.extra_stop.key, n.extra_stop.name, n.extra_stop.kind, n.extra_stop.meters, n.extra_stop.free === true ? 1 : (n.extra_stop.free === false ? 0 : 2), n.extra_stop.visit_minutes] : 0, x: n.extras.theme_garden ? 1 : 0, t: n.start === DEFAULT_START ? undefined : n.start }));   // 기본 출발 시간(10:30)은 넣지 않아 이전 공유 링크·보관함 id 가 그대로 유지된다
   }
   function decodePlan(s) {
     try {
       if (!s || String(s).length > 600) return null;
       var o = JSON.parse(b64dec(s)); if (!o || typeof o !== 'object') return null;
       var a = Array.isArray(o.a) ? o.a : [], m = Array.isArray(o.m) ? o.m : [];
-      return normalizePlan({ place_id: o.p, eat_id: o.e, cafe_id: o.c, extra_stop: Array.isArray(o.z) ? { key: o.z[0], name: o.z[1], kind: o.z[2], meters: o.z[3], free: o.z[4] === 1 ? true : (o.z[4] === 0 ? false : null), visit_minutes: o.z[5] } : null, meal_skip: Array.isArray(o.s) ? o.s[0] === 1 : undefined, cafe_skip: Array.isArray(o.s) ? o.s[1] === 1 : undefined, party: { adult: a[0], teen: a[1], child: a[2], toddler: a[3] }, car: o.k !== 0, visit_minutes: o.v, visit_date: o.d, manual: { meal: m[0], cafe: m[1] }, extras: { theme_garden: !!o.x } });
+      return normalizePlan({ place_id: o.p, eat_id: o.e, cafe_id: o.c, extra_stop: Array.isArray(o.z) ? { key: o.z[0], name: o.z[1], kind: o.z[2], meters: o.z[3], free: o.z[4] === 1 ? true : (o.z[4] === 0 ? false : null), visit_minutes: o.z[5] } : null, meal_skip: Array.isArray(o.s) ? o.s[0] === 1 : undefined, cafe_skip: Array.isArray(o.s) ? o.s[1] === 1 : undefined, party: { adult: a[0], teen: a[1], child: a[2], toddler: a[3] }, car: o.k !== 0, visit_minutes: o.v, visit_date: o.d, manual: { meal: m[0], cafe: m[1] }, extras: { theme_garden: !!o.x }, start: o.t });
     } catch (e) { return null; }
   }
   // ---- 내 일정 보관함: 서버 DB 이전을 대비한 규격 레코드 ----
@@ -271,6 +272,6 @@
   function savePlan(o) { var n = normalizePlan(o); n.updated_at = Date.now(); try { globalThis.localStorage.setItem(api.STORE_KEY, JSON.stringify(n)); } catch (e) { /* 저장소 차단: 화면은 계속 동작 */ } return n; }
   function clearPlan() { try { globalThis.localStorage.removeItem(api.STORE_KEY); } catch (e) { /* 무시 */ } }
 
-  var api = { DEFAULT_MEAL_PER_PERSON: DEFAULT_MEAL_PER_PERSON, DEFAULT_CAFE_PER_PERSON: DEFAULT_CAFE_PER_PERSON, isoDate: isoDate, parseIso: parseIso, nextSaturday: nextSaturday, dateLabel: dateLabel, daysFrom: daysFrom, wmo: wmo, weatherAdvice: weatherAdvice, encodePlan: encodePlan, decodePlan: decodePlan, listSaved: listSaved, findSaved: findSaved, addSaved: addSaved, completeSaved: completeSaved, removeSaved: removeSaved, guestId: guestId, SAVED_KEY: SAVED_KEY, SCHEMA_VERSION: SCHEMA_VERSION, legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
+  var api = { DEFAULT_MEAL_PER_PERSON: DEFAULT_MEAL_PER_PERSON, DEFAULT_CAFE_PER_PERSON: DEFAULT_CAFE_PER_PERSON, isoDate: isoDate, parseIso: parseIso, nextSaturday: nextSaturday, dateLabel: dateLabel, daysFrom: daysFrom, wmo: wmo, weatherAdvice: weatherAdvice, encodePlan: encodePlan, decodePlan: decodePlan, listSaved: listSaved, findSaved: findSaved, addSaved: addSaved, completeSaved: completeSaved, removeSaved: removeSaved, guestId: guestId, SAVED_KEY: SAVED_KEY, SCHEMA_VERSION: SCHEMA_VERSION, legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, START_CHOICES: START_CHOICES, DEFAULT_START: DEFAULT_START, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Planner = api;
 })(typeof window !== 'undefined' ? window : this);

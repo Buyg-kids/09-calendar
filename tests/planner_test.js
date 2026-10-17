@@ -258,4 +258,26 @@ t('함께 갈 곳(공연·전시): 이동·관람이 타임테이블에 들어�
   assert.equal(P.normalizePlan({ extra_stop: { name: 'a', meters: 999999999 } }).extra_stop.meters, 5000);
   const back = P.decodePlan(P.encodePlan(st)); assert.deepEqual(back.extra_stop, st.extra_stop);
 });
+t('출발 시간: 선택지·기본값·잘못된 값, 공유 링크 왕복, 기본값은 링크에 넣지 않는다', () => {
+  assert.deepEqual(P.START_CHOICES, ['09:00', '09:30', '10:00', '10:30', '11:00', '13:00']);
+  assert.equal(P.normalizePlan({}).start, '10:30');
+  assert.equal(P.normalizePlan({ start: '07:15' }).start, '10:30');
+  const base = P.normalizePlan({ place_id: 'spot_06', eat_id: 'eat_samdae_dubu' });
+  assert.equal(P.encodePlan(base), P.encodePlan(Object.assign({}, base, { start: '10:30' })));   // 이전 링크·보관함 id 유지
+  const s13 = Object.assign({}, base, { start: '13:00' });
+  assert.notEqual(P.encodePlan(s13), P.encodePlan(base));
+  assert.equal(P.decodePlan(P.encodePlan(s13)).start, '13:00');
+  assert.equal(P.decodePlan(P.encodePlan(base)).start, '10:30');
+});
+t('출발 시간: 시각에 따라 식사·카페가 순차 재계산되고 늦은 출발은 끝 시각도 따라간다', () => {
+  const inp = { party: { adult: 2 }, car: true, visit_minutes: 90, eat_id: 'eat_samdae_dubu', cafe_id: null };
+  const early = P.plan(Object.assign({ start: '09:00' }, inp), museum);
+  assert.equal(early.timetable[0].start, '09:00');
+  const meal = early.timetable.find(x => x.kind === 'meal'); assert.ok(meal.start >= '10:30' && meal.label.indexOf('식사') >= 0);
+  const late = P.plan(Object.assign({ start: '13:00' }, inp), museum);
+  assert.equal(late.timetable[0].start, '13:00');
+  assert.equal(late.timetable.find(x => x.kind === 'meal').label.slice(-3), ' 식사');       // 14시 이후 식사는 '점심'이라 부르지 않는다
+  assert.ok(!late.warnings.some(w => w.indexOf('넘겨요') >= 0));
+  const def = P.plan(inp, museum); assert.equal(def.timetable[0].start, '10:30'); assert.ok(def.timetable.find(x => x.kind === 'meal').label.slice(-3) === ' 점심');
+});
 console.log('planner tests passed: ' + n);
