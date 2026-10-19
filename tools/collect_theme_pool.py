@@ -29,16 +29,18 @@ DEDUPE_M = 100
 
 # 테마 id 는 index.html 의 THEMES 와 같다. 키워드는 한 곳에서 관리한다(사용자 지정 7종 + 나머지 2종은 기존 정규식의 핵심어).
 THEMES = {
-    "princess":  {"label": "공주·캐릭터", "keywords": ["캐릭터", "애니메이션", "동화", "뽀로로", "티니핑", "테마파크", "키즈카페"], "neg": r"공주시|국립공주박물관|공주대|공주 ?(?:공산성|무령왕릉|한옥)"},
-    "dinosaur":  {"label": "공룡 탐험", "keywords": ["공룡", "화석", "자연사", "쥐라기"], "neg": ""},
-    "transport": {"label": "기차·자동차", "keywords": ["철도", "기차", "자동차", "교통박물관", "항공"], "neg": r"철도공사|철도역|항공사|항공권"},
-    "art":       {"label": "미술·드로잉", "keywords": ["어린이미술관", "드로잉", "미술체험", "공예"], "neg": ""},
-    "cooking":   {"label": "쿠킹·베이킹", "keywords": ["농장체험", "딸기체험", "치즈체험", "쿠킹"], "neg": ""},
-    "animal":    {"label": "동물·아쿠아리움", "keywords": ["동물원", "아쿠아리움", "목장", "알파카", "승마체험"], "neg": ""},
+    "princess":  {"label": "공주·캐릭터", "keywords": ["캐릭터", "애니메이션", "동화", "뽀로로", "티니핑", "키즈카페", "인형극", "핑크퐁"], "neg": r"공주시|국립공주박물관|공주대|공주 ?(?:공산성|무령왕릉|한옥)|동화사|가을동화|수변공원|감귤밭|팔공산|동화 ?(?:골프|CC)"},
+    "dinosaur":  {"label": "공룡 탐험", "keywords": ["공룡", "화석", "자연사", "쥐라기"], "neg": r"자연사랑|화석정|워케이션"},
+    "transport": {"label": "기차·자동차", "keywords": ["철도", "기차", "자동차", "교통박물관", "항공"], "neg": r"철도공사|철도역|항공사|항공권|야영장|자동차극장|극장|대학|공장|교육원|카페|패러글라이딩|해골바위|경비행장|항공산업|문화회관|두바퀴|케이원|양평 미래항공"},
+    "art":       {"label": "미술·드로잉", "keywords": ["어린이미술관", "드로잉", "미술체험", "공예"], "neg": r"\(주\)|협동조합"},
+    "cooking":   {"label": "쿠킹·베이킹", "keywords": ["농장체험", "딸기체험", "치즈체험", "쿠킹", "베이킹", "체험농장", "치즈마을", "피자체험"], "neg": r"곤충|동물|허브"},
+    "animal":    {"label": "동물·아쿠아리움", "keywords": ["동물원", "아쿠아리움", "목장", "알파카", "승마체험"], "neg": r"목장군|목장터|목장길|목장성|목장 입구|바래길|말목장"},
     "nature":    {"label": "숲·모래놀이", "keywords": ["유아숲", "생태공원", "모래놀이", "수목원"], "neg": ""},
     "science":   {"label": "박물관·과학", "keywords": ["과학관", "천문대", "어린이박물관"], "neg": ""},
-    "picnic":    {"label": "꽃·피크닉", "keywords": ["국가정원", "식물원", "꽃축제", "피크닉"], "neg": ""},
+    "picnic":    {"label": "꽃·피크닉", "keywords": ["국가정원", "식물원", "꽃축제", "피크닉"], "neg": r"^피크닉$|피크닉댕댕|행복&피크닉"},
 }
+# 모든 테마 공통 제외: 야영장·캠핑장·펜션·골프장 등 숙박/레저 시설
+GLOBAL_NEG = re.compile(r"캠핑|야영장|펜션|골프|워케이션")
 # 성인·유흥 업종 제목은 어떤 테마에서도 제외
 ADULT_RE = re.compile(r"나이트|클럽|카지노|룸살롱|주점|모텔|성인")
 
@@ -69,7 +71,7 @@ def candidate(raw, theme_id, keyword, today, region_of):
     lat, lon = to_float(raw.get("mapy")), to_float(raw.get("mapx"))
     if not title or ctype not in OK_TYPES or keyword not in title or ADULT_RE.search(title):
         return None
-    if t["neg"] and re.search(t["neg"], title + " " + (raw.get("addr1") or "")):
+    if GLOBAL_NEG.search(title) or (t["neg"] and re.search(t["neg"], title + " " + (raw.get("addr1") or ""))):
         return None
     if lat is None or lon is None or not (33.0 <= lat <= 39.0 and 124.0 <= lon <= 132.0):
         return None

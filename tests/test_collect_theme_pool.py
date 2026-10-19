@@ -65,6 +65,24 @@ class TestCandidate(unittest.TestCase):
         self.assertIsNone(ctp.candidate(raw(firstimage="https://tong.visitkorea.or.kr/a.jpg", cpyrhtDivCd="Type3"), "dinosaur", "공룡", "2026-10-19", region)["photo"])
         self.assertIsNone(ctp.candidate(raw(firstimage="https://evil.example/a.jpg", cpyrhtDivCd="Type1"), "dinosaur", "공룡", "2026-10-19", region)["photo"])
 
+    def test_noise_rules_from_first_scan(self):
+        """1차 스캔(10/19) 오탐: 테마파크 일반명, 동화사, 야영장, 자동차극장, 목장길, 화석정, 곤충체험농장."""
+        def ok(theme, kw, title, addr="경기도"):
+            return ctp.candidate(raw(title=title, addr1=addr), theme, kw, "2026-10-19", region) is not None
+        self.assertNotIn("테마파크", ctp.THEMES["princess"]["keywords"])
+        self.assertFalse(ok("princess", "동화", "동화사(대구)"))
+        self.assertTrue(ok("princess", "동화", "송월동 동화마을"))
+        self.assertFalse(ok("transport", "자동차", "달궁자동차야영장"))
+        self.assertFalse(ok("transport", "자동차", "함평자동차극장"))
+        self.assertTrue(ok("transport", "철도", "의왕철도박물관"))
+        self.assertFalse(ok("animal", "목장", "구두산목장길"))
+        self.assertTrue(ok("animal", "목장", "대관령양떼목장"))
+        self.assertFalse(ok("dinosaur", "화석", "화석정"))
+        self.assertFalse(ok("dinosaur", "자연사", "자연사랑미술관"))
+        self.assertFalse(ok("cooking", "체험농장", "세산곤충체험농장"))
+        self.assertTrue(ok("cooking", "딸기체험", "양수리딸기체험농장"))
+        self.assertFalse(ok("nature", "생태공원", "문암생태공원캠핑장"))
+
 
 class TestScan(unittest.TestCase):
     def test_scan_merges_dedupes_and_pages(self):

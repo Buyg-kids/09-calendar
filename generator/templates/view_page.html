@@ -4020,6 +4020,12 @@ wcs_do();
     });
     return out;
   }
+  var POOL_BASE = null, POOL_STATE = '';
+  function loadPool() {   // 테마 풀은 테마 칩을 처음 누를 때 한 번만 불러온다(홈 첫 화면 용량 절약)
+    if (POOL_STATE || !POOL_BASE) return;
+    POOL_STATE = 'loading';
+    get('./theme_spots_pool.json').then(function (j) { ITEMS = POOL_BASE.concat(poolItems(j, POOL_BASE)); window.__outingItems = ITEMS; POOL_STATE = 'ready'; tabs(); draw(); });
+  }
   function themeOn() { return !!(window.BuygFilter && window.BuygFilter.theme && window.BuygFilter.theme()); }
   function safeUrl(u, hostRe) { try { var x = new URL(u); return x.protocol === 'https:' && (!hostRe || hostRe.test(x.hostname)) ? x.href : ''; } catch (e) { return ''; } }
   function gaEv(n, p) { if (typeof gtag === 'function') { try { gtag('event', n, p); } catch (e) { /* 무시 */ } } }
@@ -4067,6 +4073,7 @@ wcs_do();
   }
   function draw() {
     var box = document.getElementById('outingList'); if (!box) return; box.innerHTML = '';
+    if (themeOn()) { loadPool(); if (POOL_STATE === 'loading') { box.appendChild(el('div', 'out-empty', '테마별 장소를 불러오는 중…')); return; } }
     var rank = function (x, y) { return ((y.guide ? 2 : 0) + (y.img ? 1 : 0)) - ((x.guide ? 2 : 0) + (x.img ? 1 : 0)); };   // 에디터 추천 → 사진 있는 곳 → 나머지
     var list = ITEMS.filter(function (i) { return (!i.pool || themeOn()) && (tab === '전체' || i.region === tab) && (!window.BuygFilter || window.BuygFilter.outing(i)); }).sort(rank), note = '';
     if (!list.length) {   // 아직 장소가 없는 지역: 빈 슬라이더 대신 안내 + 전국 추천을 보여 준다
@@ -4088,8 +4095,8 @@ wcs_do();
   }
   function get(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
   tabs();
-  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_enriched.json'), get('./theme_spots_pool.json')]).then(function (r) {
-    var base = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {}); ITEMS = base.concat(poolItems(r[3], base)); draw();
+  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_enriched.json')]).then(function (r) {
+    var base = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {}); ITEMS = base; POOL_BASE = base; draw();
     window.__outingItems = ITEMS; window.__openSheet = openSheet; window.__redrawOuting = function () { tabs(); draw(); }; window.__outingCard = card; document.dispatchEvent(new Event('outing-ready'));
     if (typeof enableDragScroll === 'function') { var l = document.getElementById('outingList'); if (l) enableDragScroll(l); }
   });

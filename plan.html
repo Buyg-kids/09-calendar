@@ -535,7 +535,10 @@ function renderBar(r) {
   try { const r = await fetch('./free_spots_seed.json'); ((await r.json()).spots || []).forEach(s => { SEEDS[s.id] = s; }); } catch (e) { SEEDS = {}; }
   try { const r = await fetch('./spot_enriched.json'); ENR = (await r.json()).spots || {}; } catch (e) { ENR = {}; }
   try { const r = await fetch('./tour_events.json'); const j = await r.json(); EVENTS = j.events || j || []; } catch (e) { EVENTS = []; }
-  try {   // 테마 풀(TourAPI 키워드 수집·공공데이터 표준데이터): 시드 장소처럼 등록해 일정 만들기·5-1 후보에 쓴다
+  const isPoolId = id => /^(pool|pub)_/.test(id || '');
+  const sharedPlan = new URLSearchParams(location.search).get('s') && Planner.decodePlan(new URLSearchParams(location.search).get('s'));
+  const wantPoolPlace = isPoolId(new URLSearchParams(location.search).get('place')) || isPoolId(STATE.place_id) || !!(sharedPlan && isPoolId(sharedPlan.place_id));   // 풀(356KB)은 풀 장소를 쓸 때만 받는다
+  if (wantPoolPlace) try {   // 테마 풀(TourAPI 키워드 수집·공공데이터 표준데이터): 시드 장소처럼 등록해 일정 만들기·5-1 후보에 쓴다
     const r = await fetch('./theme_spots_pool.json'); const j = await r.json();
     Object.values(j.themes || {}).forEach(th => (th.items || []).forEach(q => { if (q && q.id && q.geo && !SEEDS[q.id]) { SEEDS[q.id] = { id: q.id, title: q.title, address: q.address || '', region: q.region || '', category: q.category || '', tag: '', parking: '' }; ENR[q.id] = { geo: q.geo, photo: q.photo || null }; } }));
   } catch (e) { /* 풀이 없어도 계속 */ }
