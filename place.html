@@ -64,10 +64,6 @@
   .plancta a { flex: 0 0 auto; padding: 11px 14px; border-radius: 10px; background: var(--brand); color: #fff; font-size: 13.5px; font-weight: 800; text-decoration: none; }
   .src { display: inline-block; margin-left: 6px; font-size: 11px; font-weight: 600; color: var(--mute); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
   section.mod { margin: 10px 0 0; padding: 18px; background: var(--card); }
-  .bd-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
-  .bd-item:last-child { border-bottom: 0; }
-  .bd-item .bd-tx { flex: 1; min-width: 0; } .bd-item .bd-nm { font-size: 14px; font-weight: 800; line-height: 1.3; word-break: keep-all; } .bd-item .bd-ds { margin-top: 2px; font-size: 12px; color: var(--sub); line-height: 1.4; }
-  .bd-item a.bd-go { flex: 0 0 auto; padding: 9px 11px; border-radius: 10px; background: #f6ecfa; color: var(--brand); font-size: 12px; font-weight: 800; text-decoration: none; text-align: center; line-height: 1.25; }
   section.mod > h2 { margin: 0 0 12px; font-size: 16px; font-weight: 800; letter-spacing: -.01em; padding-left: 9px; border-left: 3px solid var(--brand); line-height: 1.2; }
   .sub { margin: -6px 0 12px; font-size: 12px; color: var(--mute); }
   ul.bul { margin: 0; padding: 0 0 0 18px; }
@@ -127,7 +123,7 @@
 <div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
 <div class="toast" id="toast" role="status"></div>
 
-<script src="planner.js?v=20261017"></script>
+<script src="planner.js?v=20261019"></script>
 <script>
 // ===== 설정 =====
 const COUPANG_PARTNER_ID = '';   // 쿠팡 파트너스 계정 연동 전: 비어 있으면 일반 검색 링크 + 고지 문구는 숨김. 값이 생기면 준비물 링크를 제휴 링크로 바꾸고 고지 문구를 표시한다.
@@ -215,25 +211,6 @@ function accordionList(items, openFirst) {   // 핵심 2개 먼저, 나머지는
     box.appendChild(btn);
   }
   return box;
-}
-// ===== 주변 공연·전시 묶음 코스(앵커 장소): 행사(좌표 있음) + 전시 장소(박물관 등), 직선거리 기준 차로 20분 이하 =====
-function kmBetween(a, b, c, d) { const R = 6371, r = Math.PI / 180, dl = (c - a) * r, dn = (d - b) * r, x = Math.sin(dl / 2) * Math.sin(dl / 2) + Math.cos(a * r) * Math.cos(c * r) * Math.sin(dn / 2) * Math.sin(dn / 2); return 2 * R * Math.asin(Math.sqrt(x)); }
-async function fillBundle(box, place, g) {
-  const [ev, seed, enr] = await Promise.all([getJson('./tour_events.json', 'events'), getJson('./free_spots_seed.json', 'spots'), getJson('./spot_enriched.json', 'spots')]);
-  const d = new Date(), pad = n => ('0' + n).slice(-2), iso = x => x.getFullYear() + '-' + pad(x.getMonth() + 1) + '-' + pad(x.getDate()), today = iso(d), limit = iso(new Date(d.getTime() + 45 * 864e5));
-  const cands = [];
-  (ev || []).forEach(x => { if (x.kid_score >= 1 && isFinite(x.mapy) && isFinite(x.mapx) && (x.end_date || '') >= today && (x.start_date || '') <= limit) cands.push({ key: x.id, name: x.title, kind: '행사', lat: Number(x.mapy), lon: Number(x.mapx), free: x.is_free === true || x.fee_type === 'free' }); });
-  const myName = String(g.name || '').replace(/\(.*?\)|\s+/g, '');
-  (seed || []).forEach(s => { const e = (enr || {})[s.id]; const nm = String(s.title || '').replace(/\(.*?\)|\s+/g, ''); if (!e || !e.geo || s.id === place.id || (myName && (nm.indexOf(myName) >= 0 || myName.indexOf(nm) >= 0)) || !/박물관|미술관|전시|체험관|과학관/.test(s.category || '')) return; cands.push({ key: s.id, name: s.title, kind: '전시 장소', lat: e.geo.lat, lon: e.geo.lon, free: /무료입장/.test(s.tag || '') }); });
-  const list = cands.map(c => { const km = kmBetween(g.geo.lat, g.geo.lon, c.lat, c.lon); return Object.assign({ km: km, min: Math.max(10, Math.ceil(km * 3 / 5) * 5) }, c); }).filter(c => c.min <= 20).sort((a, b) => a.km - b.km).slice(0, 3);
-  if (!list.length) return;
-  box.appendChild(h('p', 'note', '직선거리로 추정한 차량 이동 시간이에요(실제 경로와 다를 수 있어요).'));
-  list.forEach(c => {
-    const r = h('div', 'bd-item'), tx = h('div', 'bd-tx'); tx.appendChild(h('div', 'bd-nm', c.name)); tx.appendChild(h('div', 'bd-ds', c.kind + ' · 직선 ' + c.km.toFixed(1) + 'km · 차로 약 ' + c.min + '분(추정)' + (c.free ? ' · 무료(일반 정보)' : '')));
-    const go = h('a', 'bd-go'); go.innerHTML = '함께 묶어<br>일정 만들기'; go.href = 'plan.html?place=' + encodeURIComponent(place.id) + '&stop=' + encodeURIComponent(c.key); go.addEventListener('click', () => ga('place_bundle_plan', { place: place.id, stop: c.key }));
-    r.appendChild(tx); r.appendChild(go); box.appendChild(r);
-  });
-  box.hidden = false;
 }
 
 function mod(title, sub) { const s = h('section', 'mod'); s.appendChild(h('h2', '', title)); if (sub) s.appendChild(h('p', 'sub', sub)); return s; }
@@ -376,8 +353,6 @@ function render(p) {
     { [...box.children].forEach(c => { if (/^(주차|대중교통)/.test(c.textContent.trim())) c.classList.add('wide'); }); const half = [...box.children].filter(c => !c.classList.contains('wide')); if (half.length % 2) half[half.length - 1].classList.add('wide'); }   // 데스크톱 2열에서 짝 없는 카드는 한 줄로 넓힌다
     m.appendChild(box); app.appendChild(m);
   }
-
-  if (g && g.geo && isFinite(g.geo.lat) && isFinite(g.geo.lon)) { const bm = mod('주변 공연·전시 묶음 코스'); bm.id = 'bundleMod'; bm.hidden = true; app.appendChild(bm); fillBundle(bm, p, g); }
 
   { // 연계 동선
     const m = mod('이어서 가기 좋은 곳');

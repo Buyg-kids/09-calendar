@@ -280,4 +280,24 @@ t('출발 시간: 시각에 따라 식사·카페가 순차 재계산되고 늦�
   assert.ok(!late.warnings.some(w => w.indexOf('넘겨요') >= 0));
   const def = P.plan(inp, museum); assert.equal(def.timetable[0].start, '10:30'); assert.ok(def.timetable.find(x => x.kind === 'meal').label.slice(-3) === ' 점심');
 });
+t('5-1 후보: 방문일에 열린 키즈 행사 + 전시 장소, 직선거리 차로 20분 이하만, 가까운 순', () => {
+  const place = { id: 'x1', name: '테스트공원', geo: { lat: 37.5, lon: 127.0 } };
+  const near = { lat: 37.51, lon: 127.0 }, far = { lat: 37.9, lon: 127.0 };
+  const ev = [
+    { id: 'tour_ok', title: '가까운 키즈 행사', kid_score: 2, mapy: near.lat, mapx: near.lon, start_date: '2026-10-01', end_date: '2026-11-30', is_free: true, image: 'https://img.example/a.jpg' },
+    { id: 'tour_far', title: '먼 행사', kid_score: 2, mapy: far.lat, mapx: far.lon, start_date: '2026-10-01', end_date: '2026-11-30' },
+    { id: 'tour_adult', title: '어른 행사', kid_score: 0, mapy: near.lat, mapx: near.lon, start_date: '2026-10-01', end_date: '2026-11-30' },
+    { id: 'tour_past', title: '끝난 행사', kid_score: 2, mapy: near.lat, mapx: near.lon, start_date: '2026-08-01', end_date: '2026-09-01' },
+    { id: 'tour_later', title: '방문일 뒤 시작', kid_score: 2, mapy: near.lat, mapx: near.lon, start_date: '2026-12-05', end_date: '2026-12-31' }
+  ];
+  const seeds = [{ id: 's_m', title: '어린이박물관', category: '박물관/체험', tag: '무료입장' }, { id: 's_p', title: '그냥공원', category: '공원/산책' }, { id: 'x1', title: '테스트공원', category: '박물관' }];
+  const enr = { s_m: { geo: { lat: 37.52, lon: 127.0 } }, s_p: { geo: { lat: 37.5, lon: 127.0 } }, x1: { geo: { lat: 37.5, lon: 127.0 } } };
+  const r = P.nearbyStops(place, { events: ev, seeds, enr, visit_date: '2026-10-17', today: '2026-10-17' });
+  assert.deepEqual(r.map(c => c.key), ['tour_ok', 's_m']);                       // 가까운 순, 먼·어른·끝난·늦게 시작 행사와 자기 자신·공원은 제외
+  assert.equal(r[0].kind, '행사'); assert.equal(r[0].free, true); assert.ok(r[0].minutes <= 20 && r[0].meters > 0);
+  assert.equal(r[1].kind, '전시 장소'); assert.equal(r[1].free, true);
+  assert.deepEqual(P.nearbyStops(place, { events: ev, seeds, enr, visit_date: '2026-12-10' }).map(c => c.key), ['tour_later', 's_m']);   // 방문일에 따라 달라진다
+  assert.deepEqual(P.nearbyStops({ id: 'n', name: 'n' }, { events: ev }), []);   // 좌표가 없으면 후보 없음
+  assert.equal(P.nearbyStops(place, { events: ev, seeds, enr, visit_date: 'bad', today: '2026-10-17' }).length, 2);   // 잘못된 방문일은 '오늘 이후'로 처리
+});
 console.log('planner tests passed: ' + n);

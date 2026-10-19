@@ -184,6 +184,9 @@
   .ebdg .bdg { padding: 2px 7px; border-radius: 999px; background: var(--ok-bg); color: var(--ok); font-size: 11px; font-weight: 800; }
   .ebdg .bdg { display: inline-flex; align-items: center; gap: 3px; } .bdg-ic { width: 14px; height: 14px; object-fit: contain; }
   .ebdg .unk { font-size: 11px; color: var(--mute); }
+  .no.sub { width: auto; min-width: 22px; padding: 0 8px; border-radius: 999px; white-space: nowrap; flex: none; }
+  .ecard.stop .enm { -webkit-line-clamp: 2; min-height: 2.6em; }
+  .ecard.stop .emn { min-height: 0; }
   .ehint { margin: 2px 0 8px; font-size: 12px; color: var(--mute); }
   .stopbox { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; background: #f6ecfa; } .stopbox b { font-size: 15px; word-break: keep-all; } .stopbox span { font-size: 12.5px; color: var(--sub); line-height: 1.45; }
   .empty { padding: 50px 20px; text-align: center; color: var(--sub); line-height: 1.7; }
@@ -192,7 +195,7 @@
 <body>
 <div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><button class="boxbtn" id="boxBtn" type="button" aria-haspopup="dialog">📁 보관함<span class="cnt" id="boxCnt"></span></button><a class="logo" href="./" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="24" height="24" decoding="async">Buyg</a></div>
 <div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
-<script src="planner.js?v=20261017"></script>
+<script src="planner.js?v=20261019"></script>
 <script src="food_thumb.js?v=20261017"></script>
 <script>
 const $ = (s, r) => (r || document).querySelector(s);
@@ -202,7 +205,7 @@ let GUIDES = {}, STATE = Planner.loadPlan();
 const AGE_ROWS = [['adult', '어른', '만 19~64세'], ['teen', '청소년', '만 13~18세'], ['child', '어린이', '만 6~12세'], ['toddler', '영유아', '만 5세 이하']];
 
 function save() { STATE = Planner.savePlan(STATE); }
-let SEEDS = {}, ENR = {};   // ENR: spot_enriched.json (좌표·반경 2km 식당·카페)
+let SEEDS = {}, ENR = {}, EVENTS = [];   // ENR: spot_enriched.json (좌표·반경 2km 식당·카페)
 function enrGeo(id) { const g = (ENR[id] || {}).geo; return g && isFinite(g.lat) && isFinite(g.lon) ? { lat: g.lat, lon: g.lon } : undefined; }
 function enrEats(id) { const n = (ENR[id] || {}).nearby || {}; return [].concat(n.eats || [], n.cafes || []).filter(e => e && e.level === 'listed'); }
 function ensureSeedPlace(id) {   // 시드 장소는 검증된 요금·식당 정보가 없다: 입장료·주차비는 '확인 필요', 식당은 비워 둔다
@@ -232,6 +235,31 @@ async function resolveStop(key, place) {   // 홈의 묶음 코스 후보(행사
   if (!cand) return null;
   return { key: key, name: cand.name, kind: cand.kind, meters: Math.round(haversineKm(place.geo.lat, place.geo.lon, cand.lat, cand.lon) * 1000), free: cand.free, visit_minutes: 90 };
 }
+
+// 5-1 단계 카드: 행사·전시 장소(사진은 contain + 흐린 배경, 없으면 이모지). 거리·시간은 직선거리 추정
+function stopCard(c, on, onClick) {
+  const b = h('button', 'ecard stop' + (on ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  const ph = h('div', 'eph ' + (c.kind === '행사' ? 'we' : 'kr'));
+  const emo = () => ph.insertBefore(h('span', '', c.kind === '행사' ? '🎭' : '🏛️'), ph.firstChild);
+  if (c.img && /^https:\/\//.test(c.img)) {
+    ph.classList.add('photo'); const mk = cls => { const im = document.createElement('img'); im.className = cls; im.src = c.img; im.alt = ''; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; return im; };
+    const bg = mk('bg'), fg = mk('fg'); fg.alt = c.name || ''; bg.setAttribute('aria-hidden', 'true');
+    fg.onerror = () => { bg.remove(); fg.remove(); ph.classList.remove('photo'); emo(); };
+    ph.appendChild(bg); ph.appendChild(fg);
+  } else emo();
+  ph.appendChild(h('span', 'edist', '차로 약 ' + c.minutes + '분')); ph.appendChild(h('span', 'echk', '✓')); b.appendChild(ph);
+  const bd = h('div', 'ebd'); bd.appendChild(h('div', 'enm', c.name)); bd.appendChild(h('div', 'ecat', c.kind));
+  const md = c.kind === '행사' && c.start ? c.start.slice(5).replace('-', '/') + '~' + (c.end || '').slice(5).replace('-', '/') : '직선 ' + (c.meters / 1000).toFixed(1) + 'km';
+  bd.appendChild(h('div', 'emn', md + (c.kind === '행사' ? ' · 직선 ' + (c.meters / 1000).toFixed(1) + 'km' : '')));
+  const bg2 = h('div', 'ebdg'); bg2.appendChild(h('span', c.free === true ? 'bdg' : 'unk', c.free === true ? '무료(일반 정보)' : '관람료 확인 필요')); bd.appendChild(bg2);
+  b.appendChild(bd); b.addEventListener('click', onClick); return b;
+}
+function stopCards(list, selected, pick) {
+  const wrap = h('div', 'ecar'); wrap.setAttribute('role', 'listbox');
+  list.forEach(c => wrap.appendChild(stopCard(c, selected === c.key, () => pick(c))));
+  return wrap;
+}
+function stopCands(place) { return Planner.nearbyStops(place, { events: EVENTS, seeds: Object.values(SEEDS), enr: ENR, visit_date: STATE.visit_date, today: Planner.isoDate(new Date()) }); }
 
 function nearestEat(place, kind) {   // 숫자 거리(meters)가 있으면 가장 가까운 곳, 없으면 목록의 첫 곳
   const list = (place.eats || []).filter(e => e.kind === kind); if (!list.length) return null;
@@ -428,13 +456,6 @@ function render() {
     Object.keys(opts).forEach(k => { const l = h('label', 'opt'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!STATE.extras[k]; cb.addEventListener('change', () => set(st => { st.extras[k] = cb.checked; })); l.appendChild(cb); l.appendChild(document.createTextNode(opts[k].label + '도 함께 입장해요')); s.appendChild(l); });
     app.appendChild(s); }
 
-  // 함께 갈 곳(공연·전시): 홈에서 [함께 묶어 일정 만들기]로 들어왔을 때만 나온다
-  if (STATE.extra_stop) { const x = STATE.extra_stop; const s = h('section', 'step'); const h2 = h('h2'); h2.appendChild(document.createTextNode('🎭 함께 갈 곳')); s.appendChild(h2);
-    const bx = h('div', 'stopbox'); bx.appendChild(h('b', '', x.name)); bx.appendChild(h('span', '', x.kind + ' · 직선 ' + (x.meters / 1000).toFixed(1) + 'km · 차로 약 ' + Planner.legTravel({ mode: 'straight', meters: x.meters }).minutes + '분(추정)' + (x.free === true ? ' · 무료(일반 정보)' : ' · 관람료 확인 필요'))); s.appendChild(bx);
-    const vt = h('div', 'choices'); vt.style.marginTop = '10px'; [60, 90, 120].forEach(m => vt.appendChild(chip(m >= 60 ? (m % 60 ? Math.floor(m / 60) + '시간 ' + (m % 60) + '분' : (m / 60) + '시간') : m + '분', x.visit_minutes === m, () => set(st => { st.extra_stop.visit_minutes = m; })))); s.appendChild(vt);
-    const rm = h('button', 'ghost', '함께 갈 곳 빼기'); rm.type = 'button'; rm.addEventListener('click', () => set(st => { st.extra_stop = null; })); s.appendChild(rm);
-    app.appendChild(s); }
-
   // 3) 식당
   { const s = section(4, '식사는 어디서 할까요?');
     const eats = (place.eats || []).filter(e => e.kind === '식당');
@@ -450,6 +471,17 @@ function render() {
     if (cafes.length) s.appendChild(eatCarousel(cafes, STATE.cafe_id, e => set(st => { st.cafe_id = st.cafe_id === e.id ? null : e.id; st.cafe_skip = !st.cafe_id; })));
     if (cafes.length) s.appendChild(skipC);
     app.appendChild(s); }
+
+  // 5-1) 근처 같이 갈 만한 전시·공연·체험: 키즈 행사 + 전시 장소(직선거리 차로 20분 이하 추정). 후보도 선택도 없으면 단계를 숨긴다
+  { const cands = stopCands(place), cur = STATE.extra_stop;
+    if (cur && !cands.some(c => c.key === cur.key)) cands.unshift({ key: cur.key, name: cur.name, kind: cur.kind || '행사', meters: cur.meters, free: cur.free, minutes: Planner.legTravel({ mode: 'straight', meters: cur.meters }).minutes, img: '', start: '', end: '' });
+    if (cands.length) {
+      const s = section('5-1', '근처 같이 갈 만한 전시·공연·체험이 있어요!', '고르면 관람 다음에 들르는 코스로 시간표와 예산에 함께 담아요. 이동 시간은 직선거리로 추정한 값이에요.'); s.querySelector('.no').classList.add('sub');
+      s.appendChild(stopCards(cands, cur && cur.key, c => set(st => { if (st.extra_stop && st.extra_stop.key === c.key) st.extra_stop = null; else { st.extra_stop = { key: c.key, name: c.name, kind: c.kind, meters: c.meters, free: c.free, visit_minutes: 90 }; ga('plan_pick_stop', { key: c.key }); } })));
+      const nx = h('div', 'choices skiprow'); nx.appendChild(chip('함께 가지 않을래요', !cur, () => set(st => { st.extra_stop = null; }))); s.appendChild(nx);
+      if (cur) { const vt = h('div', 'choices'); vt.style.marginTop = '10px'; vt.appendChild(h('span', 'hint', '머무는 시간')); vt.firstChild.style.cssText = 'width:100%;margin:0 0 -2px';
+        [60, 90, 120].forEach(m => vt.appendChild(chip(m % 60 ? Math.floor(m / 60) + '시간 ' + (m % 60) + '분' : (m / 60) + '시간', cur.visit_minutes === m, () => set(st => { st.extra_stop.visit_minutes = m; })))); s.appendChild(vt); }
+      app.appendChild(s); } }
 
   // 5) 숙소
   { const s = section(6, '숙소가 필요한가요?'); const c = h('div', 'choices'); c.appendChild(chip('당일치기', true, null, true)); s.appendChild(c); s.appendChild(h('p', 'note', '지금은 당일치기 일정만 만들 수 있어요. 키즈 펜션·리조트 같은 숙소 연계는 정보를 확인하는 대로 추가할 예정이에요.')); app.appendChild(s); }
@@ -502,6 +534,11 @@ function renderBar(r) {
   try { const r = await fetch('./place_guides.json', { cache: 'no-store' }); GUIDES = (await r.json()).places || {}; } catch (e) { GUIDES = {}; }
   try { const r = await fetch('./free_spots_seed.json'); ((await r.json()).spots || []).forEach(s => { SEEDS[s.id] = s; }); } catch (e) { SEEDS = {}; }
   try { const r = await fetch('./spot_enriched.json'); ENR = (await r.json()).spots || {}; } catch (e) { ENR = {}; }
+  try { const r = await fetch('./tour_events.json'); const j = await r.json(); EVENTS = j.events || j || []; } catch (e) { EVENTS = []; }
+  try {   // 테마 풀(TourAPI 키워드 수집·공공데이터 표준데이터): 시드 장소처럼 등록해 일정 만들기·5-1 후보에 쓴다
+    const r = await fetch('./theme_spots_pool.json'); const j = await r.json();
+    Object.values(j.themes || {}).forEach(th => (th.items || []).forEach(q => { if (q && q.id && q.geo && !SEEDS[q.id]) { SEEDS[q.id] = { id: q.id, title: q.title, address: q.address || '', region: q.region || '', category: q.category || '', tag: '', parking: '' }; ENR[q.id] = { geo: q.geo, photo: q.photo || null }; } }));
+  } catch (e) { /* 풀이 없어도 계속 */ }
   { const qq = new URLSearchParams(location.search).get('place'); ensureSeedPlace(qq); ensureSeedPlace(STATE.place_id); const sq = new URLSearchParams(location.search).get('s'); const dd = sq && Planner.decodePlan(sq); if (dd) ensureSeedPlace(dd.place_id); }
   const q = new URLSearchParams(location.search).get('place');
   if (q && GUIDES[q] && GUIDES[q].costs && STATE.place_id !== q) { STATE.place_id = q; STATE.eat_id = null; STATE.cafe_id = null; STATE.extra_stop = null; STATE.meal_skip = false; STATE.cafe_skip = false; STATE.extras.theme_garden = false; save(); }

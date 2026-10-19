@@ -153,6 +153,37 @@
   }
 
 
+
+  // ---- 5-1 단계: 근처 같이 갈 만한 전시·공연·체험 후보 ----
+  // ctx: { events: tour_events.json 목록, seeds: 시드 장소 목록, enr: spot_enriched.json spots, visit_date: 'YYYY-MM-DD'(없으면 오늘 이후), today }
+  // 키즈 행사(kid_score>=1·좌표 있음·방문일에 진행 중) + 전시 장소(박물관·미술관·체험관 등 시드, 좌표 있음). 근거 없는 후보는 만들지 않는다.
+  var EXHIBIT_RE = /박물관|미술관|전시|체험관|과학관/;
+  function haversineKm(a, b, c, d) { var R = 6371, r = Math.PI / 180, dl = (c - a) * r, dn = (d - b) * r, x = Math.sin(dl / 2) * Math.sin(dl / 2) + Math.cos(a * r) * Math.cos(c * r) * Math.sin(dn / 2) * Math.sin(dn / 2); return 2 * R * Math.asin(Math.sqrt(x)); }
+  function normName(s) { return String(s || '').replace(/\(.*?\)/g, '').replace(/\s+/g, ''); }
+  function nearbyStops(place, ctx, maxMin) {
+    if (!place || !place.geo || !isFinite(place.geo.lat) || !isFinite(place.geo.lon)) return [];
+    ctx = ctx || {}; maxMin = maxMin || 20;
+    var today = ctx.today || isoDate(new Date()), vd = parseIso(ctx.visit_date) ? ctx.visit_date : '', cands = [], me = normName(place.name), lim = isoDate(new Date(parseIso(today).getTime() + 45 * 864e5));
+    (ctx.events || []).forEach(function (x) {
+      if (!x || !(x.kid_score >= 1) || !isFinite(x.mapy) || !isFinite(x.mapx)) return;
+      var s = x.start_date || '', e = x.end_date || '';
+      if (vd ? (s > vd || e < vd) : (e < today || s > lim)) return;         // 방문일에 열려 있는 행사만(방문일이 없으면 오늘부터 45일 안에 열리는 행사)
+      cands.push({ key: String(x.id), name: x.title, kind: '행사', lat: Number(x.mapy), lon: Number(x.mapx), free: (x.is_free === true || x.fee_type === 'free') ? true : null, img: /^https:\/\//.test(x.image || '') ? x.image : '', start: s, end: e });
+    });
+    var enr = ctx.enr || {};
+    (ctx.seeds || []).forEach(function (s) {
+      var en = enr[s.id], g = en && en.geo, nm = normName(s.title);
+      if (!g || !isFinite(g.lat) || !isFinite(g.lon) || s.id === place.id || !EXHIBIT_RE.test(s.category || '')) return;
+      if (me && (nm.indexOf(me) >= 0 || me.indexOf(nm) >= 0)) return;       // 같은 장소 제외
+      var ph = (en.photo && (en.photo.thumb || en.photo.url)) || '';
+      cands.push({ key: s.id, name: s.title, kind: '전시 장소', lat: g.lat, lon: g.lon, free: /무료입장/.test(s.tag || '') ? true : null, img: /^https:\/\//.test(ph) ? ph : '', start: '', end: '' });
+    });
+    return cands.map(function (c) {
+      var meters = Math.round(haversineKm(place.geo.lat, place.geo.lon, c.lat, c.lon) * 1000);
+      c.meters = meters; c.minutes = legTravel({ mode: 'straight', meters: meters }).minutes; return c;
+    }).filter(function (c) { return c.minutes <= maxMin; }).sort(function (a, b) { return a.meters - b.meters; }).slice(0, 8);
+  }
+
   // ---- 저장 상태 정규화(순수 함수) + 브라우저 LocalStorage 래퍼 ----
   var VISIT_CHOICES = [60, 90, 120, 150];
   var START_CHOICES = ['09:00', '09:30', '10:00', '10:30', '11:00', '13:00'], DEFAULT_START = '10:30';
@@ -272,6 +303,6 @@
   function savePlan(o) { var n = normalizePlan(o); n.updated_at = Date.now(); try { globalThis.localStorage.setItem(api.STORE_KEY, JSON.stringify(n)); } catch (e) { /* 저장소 차단: 화면은 계속 동작 */ } return n; }
   function clearPlan() { try { globalThis.localStorage.removeItem(api.STORE_KEY); } catch (e) { /* 무시 */ } }
 
-  var api = { DEFAULT_MEAL_PER_PERSON: DEFAULT_MEAL_PER_PERSON, DEFAULT_CAFE_PER_PERSON: DEFAULT_CAFE_PER_PERSON, isoDate: isoDate, parseIso: parseIso, nextSaturday: nextSaturday, dateLabel: dateLabel, daysFrom: daysFrom, wmo: wmo, weatherAdvice: weatherAdvice, encodePlan: encodePlan, decodePlan: decodePlan, listSaved: listSaved, findSaved: findSaved, addSaved: addSaved, completeSaved: completeSaved, removeSaved: removeSaved, guestId: guestId, SAVED_KEY: SAVED_KEY, SCHEMA_VERSION: SCHEMA_VERSION, legTravel: legTravel, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, START_CHOICES: START_CHOICES, DEFAULT_START: DEFAULT_START, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
+  var api = { DEFAULT_MEAL_PER_PERSON: DEFAULT_MEAL_PER_PERSON, DEFAULT_CAFE_PER_PERSON: DEFAULT_CAFE_PER_PERSON, isoDate: isoDate, parseIso: parseIso, nextSaturday: nextSaturday, dateLabel: dateLabel, daysFrom: daysFrom, wmo: wmo, weatherAdvice: weatherAdvice, encodePlan: encodePlan, decodePlan: decodePlan, listSaved: listSaved, findSaved: findSaved, addSaved: addSaved, completeSaved: completeSaved, removeSaved: removeSaved, guestId: guestId, SAVED_KEY: SAVED_KEY, SCHEMA_VERSION: SCHEMA_VERSION, legTravel: legTravel, nearbyStops: nearbyStops, normalizePlan: normalizePlan, loadPlan: loadPlan, savePlan: savePlan, clearPlan: clearPlan, VISIT_CHOICES: VISIT_CHOICES, START_CHOICES: START_CHOICES, DEFAULT_START: DEFAULT_START, plan: plan, parkingFee: parkingFee, admission: admission, toMin: toMin, toHHMM: toHHMM, won: won, DEFAULT_PARTY: DEFAULT_PARTY, AGE_KEYS: AGE_KEYS, AGE_LABEL: AGE_LABEL, STORE_KEY: 'buyg_weekend_plan_v1' };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Planner = api;
 })(typeof window !== 'undefined' ? window : this);
