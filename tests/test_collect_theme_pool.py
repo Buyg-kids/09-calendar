@@ -212,7 +212,9 @@ class TestCache(unittest.TestCase):
     def test_expanded_keywords_present(self):
         self.assertIn("핑크퐁", ctp.THEMES["character"]["keywords"])
         self.assertIn("증기기관차", ctp.THEMES["transport"]["keywords"])
-        self.assertIn("도예", ctp.THEMES["art"]["keywords"])
+        self.assertNotIn("안전체험관", ctp.THEMES["transport"]["keywords"])   # 119안전체험관은 교통이 아님
+        self.assertIn("도예촌", ctp.THEMES["art"]["keywords"])
+        self.assertNotIn("공방", ctp.THEMES["art"]["keywords"])      # 매듭·떡 공방 등 성인 공방이 섞여 뺌
         self.assertIsNone(ctp.candidate(raw(title="수원버스터미널 열차", addr1="경기도 수원시"), "transport", "열차", "2026-10-19", region))
 
 
@@ -220,9 +222,9 @@ class TestThemeSplit(unittest.TestCase):
     def test_thirteen_themes_and_user_keywords(self):
         self.assertEqual(list(ctp.THEMES), ["princess", "character", "dinosaur", "transport", "art", "cooking", "animal", "fish", "nature", "picnic", "museum", "space", "science"])
         self.assertEqual(ctp.THEMES["princess"]["keywords"], ["공주", "드레스", "동화", "백설공주"])
-        self.assertEqual(ctp.THEMES["character"]["keywords"], ["뽀로로", "티니핑", "타요", "핑크퐁", "애니메이션", "캐릭터", "키즈월드"])
+        self.assertEqual(ctp.THEMES["character"]["keywords"][:7], ["뽀로로", "티니핑", "타요", "핑크퐁", "애니메이션", "캐릭터", "키즈월드"])   # 사용자 지정 7개 + 테디베어·헬로키티·레고랜드·인형박물관
         self.assertEqual(ctp.THEMES["fish"]["keywords"], ["아쿠아리움", "수족관", "민물고기", "해양생물"])
-        self.assertEqual(ctp.THEMES["animal"]["keywords"], ["동물원", "목장", "알파카", "승마", "사파리"])
+        self.assertEqual(ctp.THEMES["animal"]["keywords"], ["동물원", "목장", "알파카", "승마체험", "사파리"])   # 승마(45곳 승마장)는 동물 테마를 덮어 승마체험으로 좁힘
         self.assertEqual(ctp.THEMES["space"]["keywords"], ["천문대", "우주", "항공우주", "별자리", "플라네타륨"])
         self.assertEqual(ctp.THEMES["museum"]["keywords"], ["어린이박물관", "역사박물관", "민속촌", "고궁"])
 

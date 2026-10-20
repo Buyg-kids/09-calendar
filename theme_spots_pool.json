@@ -257,9 +257,40 @@
     "핑크퐁",
     "애니메이션",
     "캐릭터",
-    "키즈월드"
+    "키즈월드",
+    "테디베어",
+    "헬로키티",
+    "레고랜드",
+    "인형박물관"
    ],
    "items": [
+    {
+     "id": "pool_2633908",
+     "contentid": "2633908",
+     "title": "비엔나인형박물관",
+     "address": "강원특별자치도 평창군 대관령면 솔봉로 296",
+     "region": "강원",
+     "geo": {
+      "lat": 37.662774,
+      "lon": 128.663979
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/99/3501899_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/99/3501899_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2633908",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "인형박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
     {
      "id": "pool_130487",
      "contentid": "130487",
@@ -285,6 +316,87 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2737274",
+     "contentid": "2737274",
+     "title": "테디베어뮤지엄 군산",
+     "address": "전북특별자치도 군산시 구영7길 37 (월명동)",
+     "region": "전북",
+     "geo": {
+      "lat": 35.985527,
+      "lon": 126.709529
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/94/3560894_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/94/3560894_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2737274",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "테디베어"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130317",
+     "contentid": "130317",
+     "title": "테디베어뮤지엄 제주",
+     "address": "제주특별자치도 서귀포시 중문관광로110번길 31",
+     "region": "제주",
+     "geo": {
+      "lat": 33.25002,
+      "lon": 126.412146
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/67/3548667_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/67/3548667_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "130317",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "테디베어"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2710914",
+     "contentid": "2710914",
+     "title": "테디베어팜",
+     "address": "강원특별자치도 속초시 울산바위길 3",
+     "region": "강원",
+     "geo": {
+      "lat": 38.2052,
+      "lon": 128.5155
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/13/3528913_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/13/3528913_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2710914",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "테디베어"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -315,6 +427,73 @@
      "verified": false
     },
     {
+     "id": "pool_1911160",
+     "contentid": "1911160",
+     "title": "헬로키티아일랜드",
+     "address": "제주특별자치도 서귀포시 안덕면 한창로 340",
+     "region": "제주",
+     "geo": {
+      "lat": 33.290054,
+      "lon": 126.352123
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/80/3548380_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/80/3548380_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1911160",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "헬로키티"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2815362",
+     "contentid": "2815362",
+     "title": "레고랜드 코리아 리조트",
+     "address": "강원특별자치도 춘천시 하중도길 128",
+     "region": "강원",
+     "geo": {
+      "lat": 37.884728,
+      "lon": 127.698461
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "레고랜드"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_3083429",
+     "contentid": "3083429",
+     "title": "벡스코 상상체험 키즈월드",
+     "address": "부산광역시 해운대구 APEC로 30 (우동)",
+     "region": "부산",
+     "geo": {
+      "lat": 35.165766,
+      "lon": 129.134948
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "키즈월드"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_3410530",
      "contentid": "3410530",
      "title": "뽀로로앤타요 테마파크 제주",
@@ -327,7 +506,8 @@
      "category": "관광지",
      "photo": null,
      "matched_keywords": [
-      "뽀로로"
+      "뽀로로",
+      "타요"
      ],
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
@@ -355,6 +535,46 @@
      "verified": false
     },
     {
+     "id": "pool_3007161",
+     "contentid": "3007161",
+     "title": "여수 테디베어뮤지엄",
+     "address": "전남광주통합특별시 여수시 안심산길 155",
+     "region": "광주",
+     "geo": {
+      "lat": 34.748081,
+      "lon": 127.641918
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "테디베어"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2778914",
+     "contentid": "2778914",
+     "title": "익산 공룡테마공원(다이노키즈월드)",
+     "address": "전북특별자치도 익산시 왕궁면 호반로 8",
+     "region": "전북",
+     "geo": {
+      "lat": 35.989323,
+      "lon": 127.104385
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "키즈월드"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_130472",
      "contentid": "130472",
      "title": "춘천 애니메이션박물관·토이로봇관",
@@ -372,6 +592,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_696841",
+     "contentid": "696841",
+     "title": "테디베어하우스 테지움",
+     "address": "제주특별자치도 제주시 애월읍 평화로 2159",
+     "region": "제주",
+     "geo": {
+      "lat": 33.412044,
+      "lon": 126.393584
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "테디베어"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -1555,13 +1795,64 @@
     "항공",
     "열차",
     "증기기관차",
-    "모노레일",
     "레일바이크",
-    "교통안전",
-    "안전체험관",
-    "비행기"
+    "교통안전"
    ],
    "items": [
+    {
+     "id": "pool_2361081",
+     "contentid": "2361081",
+     "title": "가평 레일바이크",
+     "address": "경기도 가평군 가평읍 장터길 14",
+     "region": "경기",
+     "geo": {
+      "lat": 37.828966,
+      "lon": 127.515856
+     },
+     "category": "레포츠",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/45/3096245_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/45/3096245_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2361081",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_3545335",
+     "contentid": "3545335",
+     "title": "고마열차",
+     "address": "충청남도 공주시 금성동",
+     "region": "충남",
+     "geo": {
+      "lat": 36.4634,
+      "lon": 127.126
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/73/3543973_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/73/3543973_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "3545335",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
     {
      "id": "pool_3351638",
      "contentid": "3351638",
@@ -1614,6 +1905,87 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_1846830",
+     "contentid": "1846830",
+     "title": "남도해양열차 에스트레인(S-train)",
+     "address": "부산광역시 동구 중앙대로 206",
+     "region": "부산",
+     "geo": {
+      "lat": 35.115231,
+      "lon": 129.042405
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/53/4122653_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/53/4122653_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1846830",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2440925",
+     "contentid": "2440925",
+     "title": "레일크루즈 해랑열차",
+     "address": "서울특별시 용산구 한강대로 405",
+     "region": "서울",
+     "geo": {
+      "lat": 37.554773,
+      "lon": 126.9717
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/78/3505778_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/78/3505778_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2440925",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1945729",
+     "contentid": "1945729",
+     "title": "문경 철로자전거(레일바이크)",
+     "address": "경상북도 문경시 마성면 진남1길 155",
+     "region": "경북",
+     "geo": {
+      "lat": 36.65438,
+      "lon": 128.128526
+     },
+     "category": "레포츠",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/95/3407895_image2_1.png",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/95/3407895_image3_1.png",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1945729",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -1671,6 +2043,60 @@
      "verified": false
     },
     {
+     "id": "pool_1945438",
+     "contentid": "1945438",
+     "title": "삼척 해양레일바이크",
+     "address": "강원특별자치도 삼척시 근덕면 공양왕길 2",
+     "region": "강원",
+     "geo": {
+      "lat": 37.323645,
+      "lon": 129.266363
+     },
+     "category": "레포츠",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/00/4085000_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/00/4085000_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1945438",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1987566",
+     "contentid": "1987566",
+     "title": "서해금빛열차",
+     "address": "서울특별시 용산구 한강대로23길 55 (한강로3가)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.529772,
+      "lon": 126.964741
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/84/4070284_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/84/4070284_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1987566",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_128578",
      "contentid": "128578",
      "title": "섬진강기차마을",
@@ -1722,6 +2148,33 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2032322",
+     "contentid": "2032322",
+     "title": "섬진강레일바이크",
+     "address": "전남광주통합특별시 곡성군 오곡면 섬진강로 1877",
+     "region": "광주",
+     "geo": {
+      "lat": 35.259081,
+      "lon": 127.349137
+     },
+     "category": "레포츠",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/02/3552902_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/02/3552902_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2032322",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -1779,6 +2232,33 @@
      "verified": false
     },
     {
+     "id": "pool_2706344",
+     "contentid": "2706344",
+     "title": "월미바다열차",
+     "address": "인천광역시 제물포구 제물량로 269",
+     "region": "인천",
+     "geo": {
+      "lat": 37.476593,
+      "lon": 126.61709
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource_photo/20/3581320_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/20/3581320_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2706344",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2463812",
      "contentid": "2463812",
      "title": "의왕철도박물관",
@@ -1803,6 +2283,33 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2426995",
+     "contentid": "2426995",
+     "title": "전주한옥레일바이크",
+     "address": "전북특별자치도 전주시 덕진구 동부대로 420 (우아동1가)",
+     "region": "전북",
+     "geo": {
+      "lat": 35.829677,
+      "lon": 127.175971
+     },
+     "category": "레포츠",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/98/3552298_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/98/3552298_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2426995",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -1860,6 +2367,60 @@
      "verified": false
     },
     {
+     "id": "pool_1987215",
+     "contentid": "1987215",
+     "title": "진주 레일바이크",
+     "address": "경상남도 진주시 내동면 망경로 13",
+     "region": "경남",
+     "geo": {
+      "lat": 35.166302,
+      "lon": 128.067247
+     },
+     "category": "레포츠",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/93/3589493_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/93/3589493_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1987215",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2729978",
+     "contentid": "2729978",
+     "title": "청도 레일바이크",
+     "address": "경상북도 청도군 청도읍 신도리",
+     "region": "경북",
+     "geo": {
+      "lat": 35.5903,
+      "lon": 128.7634
+     },
+     "category": "레포츠",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/06/4017006_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/06/4017006_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2729978",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2654601",
      "contentid": "2654601",
      "title": "화랑대 철도공원",
@@ -1904,6 +2465,46 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_1947118",
+     "contentid": "1947118",
+     "title": "강촌레일파크(김유정레일바이크)",
+     "address": "강원특별자치도 춘천시 신동면 김유정로 1383",
+     "region": "강원",
+     "geo": {
+      "lat": 37.815714,
+      "lon": 127.71215
+     },
+     "category": "레포츠",
+     "photo": null,
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2774559",
+     "contentid": "2774559",
+     "title": "강촌레일파크경강레일바이크",
+     "address": "강원특별자치도 춘천시 남산면 서백길 57",
+     "region": "강원",
+     "geo": {
+      "lat": 37.842871,
+      "lon": 127.550719
+     },
+     "category": "레포츠",
+     "photo": null,
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -1959,7 +2560,8 @@
      "category": "레포츠",
      "photo": null,
      "matched_keywords": [
-      "기차"
+      "기차",
+      "레일바이크"
      ],
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
@@ -2007,6 +2609,26 @@
      "verified": false
     },
     {
+     "id": "pool_3532465",
+     "contentid": "3532465",
+     "title": "동해산타열차",
+     "address": "강원특별자치도 강릉시 용지로 176 (교동)",
+     "region": "강원",
+     "geo": {
+      "lat": 37.764062,
+      "lon": 128.899666
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_130662",
      "contentid": "130662",
      "title": "모형항공기박물관",
@@ -2047,6 +2669,86 @@
      "verified": false
     },
     {
+     "id": "pool_1923400",
+     "contentid": "1923400",
+     "title": "백두대간협곡열차(V-트레인)",
+     "address": "강원특별자치도 태백시 동태백로 389 (철암동)",
+     "region": "강원",
+     "geo": {
+      "lat": 37.113109,
+      "lon": 129.03671
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2615342",
+     "contentid": "2615342",
+     "title": "비비정예술열차",
+     "address": "전북특별자치도 완주군 삼례읍 비비정길 73-21",
+     "region": "전북",
+     "geo": {
+      "lat": 35.898992,
+      "lon": 127.067778
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1936362",
+     "contentid": "1936362",
+     "title": "아산레일바이크",
+     "address": "충청남도 아산시 도고면 아산만로 199-7",
+     "region": "충남",
+     "geo": {
+      "lat": 36.760962,
+      "lon": 126.867299
+     },
+     "category": "레포츠",
+     "photo": null,
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1105980",
+     "contentid": "1105980",
+     "title": "양천구어린이교통안전교육장",
+     "address": "서울특별시 양천구 목동남로 106-23 (신정동)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.509867,
+      "lon": 126.870035
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "교통안전"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_3377993",
      "contentid": "3377993",
      "title": "에어랜드항공",
@@ -2084,6 +2786,106 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2606233",
+     "contentid": "2606233",
+     "title": "영종씨사이드 레일바이크",
+     "address": "인천광역시 영종구 구읍로 75",
+     "region": "인천",
+     "geo": {
+      "lat": 37.488452,
+      "lon": 126.576841
+     },
+     "category": "레포츠",
+     "photo": null,
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2396259",
+     "contentid": "2396259",
+     "title": "정동진 레일바이크",
+     "address": "강원특별자치도 강릉시 정동역길 17 정동진역",
+     "region": "강원",
+     "geo": {
+      "lat": 37.691414,
+      "lon": 129.032604
+     },
+     "category": "레포츠",
+     "photo": null,
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1936389",
+     "contentid": "1936389",
+     "title": "정선레일바이크",
+     "address": "강원특별자치도 정선군 여량면 노추산로 745",
+     "region": "강원",
+     "geo": {
+      "lat": 37.51639,
+      "lon": 128.727348
+     },
+     "category": "레포츠",
+     "photo": null,
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1987563",
+     "contentid": "1987563",
+     "title": "정선아리랑열차(A-train)",
+     "address": "강원특별자치도 정선군 여량면 여량6길 17",
+     "region": "강원",
+     "geo": {
+      "lat": 37.472873,
+      "lon": 128.722026
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "열차"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2705373",
+     "contentid": "2705373",
+     "title": "제주레일바이크",
+     "address": "제주특별자치도 제주시 구좌읍 용눈이오름로 641",
+     "region": "제주",
+     "geo": {
+      "lat": 33.464359,
+      "lon": 126.836627
+     },
+     "category": "레포츠",
+     "photo": null,
+     "matched_keywords": [
+      "레일바이크"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -2175,11 +2977,11 @@
     "드로잉",
     "미술체험",
     "공예",
-    "도예",
+    "도예촌",
+    "도예체험",
     "도자기체험",
     "목공체험",
     "판화",
-    "공방",
     "어린이미술",
     "키즈아트"
    ],
@@ -2239,6 +3041,33 @@
      "verified": false
     },
     {
+     "id": "pool_2606954",
+     "contentid": "2606954",
+     "title": "방곡 도예촌",
+     "address": "충청북도 단양군 대강면 선암계곡로 148",
+     "region": "충북",
+     "geo": {
+      "lat": 36.828172,
+      "lon": 128.311241
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/18/3581918_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/18/3581918_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2606954",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "도예촌"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2993183",
      "contentid": "2993183",
      "title": "북촌전통공예체험관",
@@ -2263,6 +3092,33 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_3012678",
+     "contentid": "3012678",
+     "title": "사기막골 도예촌",
+     "address": "경기도 이천시 경충대로2993번길 56 (사음동)",
+     "region": "경기",
+     "geo": {
+      "lat": 37.293633,
+      "lon": 127.411828
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/46/3541546_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/46/3541546_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "3012678",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "도예촌"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -2502,6 +3358,46 @@
      "verified": false
     },
     {
+     "id": "pool_2690525",
+     "contentid": "2690525",
+     "title": "고창읍성 도예체험장",
+     "address": "전북특별자치도 고창군 고창읍 동리로 120",
+     "region": "전북",
+     "geo": {
+      "lat": 35.4325,
+      "lon": 126.705478
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "도예체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130539",
+     "contentid": "130539",
+     "title": "고판화박물관",
+     "address": "강원특별자치도 원주시 신림면 물안길 62",
+     "region": "강원",
+     "geo": {
+      "lat": 37.257133,
+      "lon": 128.128698
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "판화"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_3085026",
      "contentid": "3085026",
      "title": "김현관 북촌펜드로잉",
@@ -2539,6 +3435,46 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_612107",
+     "contentid": "612107",
+     "title": "도예촌 쌀밥거리",
+     "address": "경기도 이천시 신둔면 경충대로 3194",
+     "region": "경기",
+     "geo": {
+      "lat": 37.311341,
+      "lon": 127.400951
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "도예촌"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1944709",
+     "contentid": "1944709",
+     "title": "도자기체험미술관 비즘",
+     "address": "경기도 양평군 서종면 황순원로 165",
+     "region": "경기",
+     "geo": {
+      "lat": 37.59544,
+      "lon": 127.383259
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "도자기체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -2594,6 +3530,7 @@
      "category": "문화시설",
      "photo": null,
      "matched_keywords": [
+      "어린이미술",
       "어린이미술관"
      ],
      "provenance": "tourapi",
@@ -2619,6 +3556,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_635460",
+     "contentid": "635460",
+     "title": "제주도예촌",
+     "address": "제주특별자치도 서귀포시 대정읍 암반수마농로 433",
+     "region": "제주",
+     "geo": {
+      "lat": 33.265078,
+      "lon": 126.23538
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "도예촌"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -3137,7 +4094,7 @@
     "동물원",
     "목장",
     "알파카",
-    "승마",
+    "승마체험",
     "사파리"
    ],
    "items": [
@@ -3271,6 +4228,33 @@
      "matched_keywords": [
       "목장",
       "알파카"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2767553",
+     "contentid": "2767553",
+     "title": "몽토랑 산양목장",
+     "address": "강원특별자치도 태백시 효자1길 27-2",
+     "region": "강원",
+     "geo": {
+      "lat": 37.182027,
+      "lon": 128.964128
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/86/4128186_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/86/4128186_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2767553",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "목장"
      ],
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
@@ -3683,6 +4667,33 @@
      "verified": false
     },
     {
+     "id": "pool_2751986",
+     "contentid": "2751986",
+     "title": "포레스트 공룡사파리",
+     "address": "제주특별자치도 제주시 조천읍 선교로 474-1",
+     "region": "제주",
+     "geo": {
+      "lat": 33.463062,
+      "lon": 126.709569
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/43/3553643_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/43/3553643_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2751986",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "사파리"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2590796",
      "contentid": "2590796",
      "title": "해피초원목장",
@@ -3727,6 +4738,46 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_4106347",
+     "contentid": "4106347",
+     "title": "글로우사파리 스윗바캉스",
+     "address": "경기도 안성시 공도읍 서동대로 3930-39",
+     "region": "경기",
+     "geo": {
+      "lat": 36.994633,
+      "lon": 127.14725
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "사파리"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_4098351",
+     "contentid": "4098351",
+     "title": "글로우사파리 판다100",
+     "address": "대구광역시 달서구 두류공원로 200 (두류동)",
+     "region": "대구",
+     "geo": {
+      "lat": 35.854058,
+      "lon": 128.564714
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "사파리"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -3790,26 +4841,6 @@
      "verified": false
     },
     {
-     "id": "pool_2767553",
-     "contentid": "2767553",
-     "title": "몽토랑 산양목장",
-     "address": "강원특별자치도 태백시 효자1길 27-2",
-     "region": "강원",
-     "geo": {
-      "lat": 37.182027,
-      "lon": 128.964128
-     },
-     "category": "관광지",
-     "photo": null,
-     "matched_keywords": [
-      "목장"
-     ],
-     "provenance": "tourapi",
-     "source_url": "https://api.visitkorea.or.kr/",
-     "fetched_at": "2026-10-19",
-     "verified": false
-    },
-    {
      "id": "pool_2606239",
      "contentid": "2606239",
      "title": "무등산 양떼목장",
@@ -3827,6 +4858,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_3012695",
+     "contentid": "3012695",
+     "title": "사파리체험테마파크",
+     "address": "경기도 파주시 탄현면 헤이리마을길 93-75",
+     "region": "경기",
+     "geo": {
+      "lat": 37.791434,
+      "lon": 126.696237
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "사파리"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -4401,6 +5452,114 @@
    ],
    "items": [
     {
+     "id": "pool_128226",
+     "contentid": "128226",
+     "title": "경기도 민물고기 생태학습관",
+     "address": "경기도 양평군 용문면 상광길 23-2",
+     "region": "경기",
+     "geo": {
+      "lat": 37.51196,
+      "lon": 127.639548
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/88/3505388_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/88/3505388_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "128226",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "민물고기"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_3408892",
+     "contentid": "3408892",
+     "title": "경기도해양수산자원연구소민물고기생태학습관",
+     "address": "경기도 양평군 용문면 상광길 23-2",
+     "region": "경기",
+     "geo": {
+      "lat": 37.511753,
+      "lon": 127.638474
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/49/3408849_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/49/3408849_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "3408892",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "민물고기"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2014616",
+     "contentid": "2014616",
+     "title": "국립해양생물자원관",
+     "address": "충청남도 서천군 장항읍 장산로101번길 75",
+     "region": "충남",
+     "geo": {
+      "lat": 36.017452,
+      "lon": 126.669364
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource_photo/91/3339191_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/91/3339191_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2014616",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "해양생물"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130696",
+     "contentid": "130696",
+     "title": "민물고기생태체험관",
+     "address": "경상북도 울진군 근남면 불영계곡로 3532",
+     "region": "경북",
+     "geo": {
+      "lat": 36.967158,
+      "lon": 129.380923
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/98/3590998_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/98/3590998_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "130696",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "민물고기"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2725759",
      "contentid": "2725759",
      "title": "아라마루 아쿠아리움",
@@ -4482,6 +5641,33 @@
      "verified": false
     },
     {
+     "id": "pool_2760806",
+     "contentid": "2760806",
+     "title": "탄천민물고기습지생태원",
+     "address": "경기도 성남시 수정구 태평동",
+     "region": "경기",
+     "geo": {
+      "lat": 37.4478,
+      "lon": 127.1184
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/71/3541771_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/71/3541771_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2760806",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "민물고기"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_3075254",
      "contentid": "3075254",
      "title": "플레이 아쿠아리움 부천",
@@ -4506,6 +5692,53 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2784201",
+     "contentid": "2784201",
+     "title": "해양생물테마파크",
+     "address": "경상남도 창원시 진해구 명동로 62",
+     "region": "경남",
+     "geo": {
+      "lat": 35.092,
+      "lon": 128.7201
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/33/3569033_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/33/3569033_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2784201",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "해양생물"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2656739",
+     "contentid": "2656739",
+     "title": "경상남도 수산자원연구소 민물고기전시관",
+     "address": "경상남도 밀양시 산외면 산외남로 28-27",
+     "region": "경남",
+     "geo": {
+      "lat": 35.497396,
+      "lon": 128.797417
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "민물고기"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -4629,6 +5862,26 @@
      "verified": false
     },
     {
+     "id": "pool_130677",
+     "contentid": "130677",
+     "title": "삼척 민물고기전시관",
+     "address": "강원특별자치도 삼척시 근덕면 초당길 234",
+     "region": "강원",
+     "geo": {
+      "lat": 37.38748,
+      "lon": 129.195554
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "민물고기"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_229912",
      "contentid": "229912",
      "title": "씨라이프부산아쿠아리움",
@@ -4666,6 +5919,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_1687039",
+     "contentid": "1687039",
+     "title": "충주 민물고기전시관",
+     "address": "충청북도 충주시 충주호수로 423 (용탄동)",
+     "region": "충북",
+     "geo": {
+      "lat": 37.018285,
+      "lon": 127.965642
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "민물고기"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -4852,6 +6125,33 @@
       "license": "공공누리 제1유형(출처표시)",
       "contentid": "630741",
       "checked": "2026-10-19"
+     },
+     "matched_keywords": [
+      "생태공원"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2732164",
+     "contentid": "2732164",
+     "title": "고양생태공원",
+     "address": "경기도 고양시 일산서구 대화로 315 (대화동)",
+     "region": "경기",
+     "geo": {
+      "lat": 37.683948,
+      "lon": 126.744128
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/18/4120918_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/18/4120918_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2732164",
+      "checked": "2026-10-20"
      },
      "matched_keywords": [
       "생태공원"
@@ -7217,26 +8517,6 @@
      "verified": false
     },
     {
-     "id": "pool_2732164",
-     "contentid": "2732164",
-     "title": "고양생태공원",
-     "address": "경기도 고양시 일산서구 대화로 315 (대화동)",
-     "region": "경기",
-     "geo": {
-      "lat": 37.683948,
-      "lon": 126.744128
-     },
-     "category": "관광지",
-     "photo": null,
-     "matched_keywords": [
-      "생태공원"
-     ],
-     "provenance": "tourapi",
-     "source_url": "https://api.visitkorea.or.kr/",
-     "fetched_at": "2026-10-19",
-     "verified": false
-    },
-    {
      "id": "pool_2756089",
      "contentid": "2756089",
      "title": "곡강천생태공원",
@@ -9493,6 +10773,33 @@
    ],
    "items": [
     {
+     "id": "pool_2992823",
+     "contentid": "2992823",
+     "title": "K-컬처 스크린(대한민국역사박물관)",
+     "address": "서울특별시 종로구 세종대로 198 (세종로)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.574134,
+      "lon": 126.977574
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/06/2987806_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/06/2987806_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2992823",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2551413",
      "contentid": "2551413",
      "title": "고양어린이박물관",
@@ -9517,6 +10824,33 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_129811",
+     "contentid": "129811",
+     "title": "국립고궁박물관",
+     "address": "서울특별시 종로구 효자로 12 (세종로)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.576592,
+      "lon": 126.974975
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/35/4054035_image2_1.png",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/35/4054035_image3_1.png",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "129811",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "고궁"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -9601,6 +10935,242 @@
      "verified": false
     },
     {
+     "id": "pool_127339",
+     "contentid": "127339",
+     "title": "안동민속촌",
+     "address": "경상북도 안동시 성곡동",
+     "region": "경북",
+     "geo": {
+      "lat": 36.579498,
+      "lon": 128.766669
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/52/3538752_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/52/3538752_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "127339",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "민속촌"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130330",
+     "contentid": "130330",
+     "title": "원주시역사박물관",
+     "address": "강원특별자치도 원주시 봉산로 134 (봉산동)",
+     "region": "강원",
+     "geo": {
+      "lat": 37.342995,
+      "lon": 127.966571
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/02/3557102_image2_1.JPG",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/02/3557102_image3_1.JPG",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "130330",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2733465",
+     "contentid": "2733465",
+     "title": "월곡역사박물관",
+     "address": "대구광역시 달서구 송현로7길 38",
+     "region": "대구",
+     "geo": {
+      "lat": 35.819208,
+      "lon": 128.54564
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/48/3586748_image2_1.JPG",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/48/3586748_image3_1.JPG",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2733465",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130445",
+     "contentid": "130445",
+     "title": "전주역사박물관",
+     "address": "전북특별자치도 전주시 완산구 쑥고개로 259 (효자동2가)",
+     "region": "전북",
+     "geo": {
+      "lat": 35.801145,
+      "lon": 127.093329
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/00/3587800_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/00/3587800_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "130445",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130474",
+     "contentid": "130474",
+     "title": "제주민속촌",
+     "address": "제주특별자치도 서귀포시 표선면 민속해안로 631-34",
+     "region": "제주",
+     "geo": {
+      "lat": 33.321316,
+      "lon": 126.843102
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/43/3534943_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/43/3534943_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "130474",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "민속촌"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1628029",
+     "contentid": "1628029",
+     "title": "진안역사박물관",
+     "address": "전북특별자치도 진안군 진안읍 내사양길 7",
+     "region": "전북",
+     "geo": {
+      "lat": 35.772405,
+      "lon": 127.41674
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/13/3587813_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/13/3587813_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1628029",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2525523",
+     "contentid": "2525523",
+     "title": "충청남도역사박물관",
+     "address": "충청남도 공주시 국고개길 24",
+     "region": "충남",
+     "geo": {
+      "lat": 36.453704,
+      "lon": 127.126594
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/42/3535942_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/42/3535942_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2525523",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_125578",
+     "contentid": "125578",
+     "title": "한국민속촌",
+     "address": "경기도 용인시 기흥구 민속촌로 90 (보라동)",
+     "region": "경기",
+     "geo": {
+      "lat": 37.256715,
+      "lon": 127.114581
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/87/3563987_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/87/3563987_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "125578",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "민속촌"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_129810",
+     "contentid": "129810",
+     "title": "강화역사박물관",
+     "address": "인천광역시 강화군 하점면 강화대로 994-19",
+     "region": "인천",
+     "geo": {
+      "lat": 37.773684,
+      "lon": 126.435269
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_1605877",
      "contentid": "1605877",
      "title": "경기도어린이박물관",
@@ -9638,6 +11208,126 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_1684836",
+     "contentid": "1684836",
+     "title": "군산근대역사박물관",
+     "address": "전북특별자치도 군산시 해망로 240 (장미동)",
+     "region": "전북",
+     "geo": {
+      "lat": 35.99082,
+      "lon": 126.712123
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1849416",
+     "contentid": "1849416",
+     "title": "대한민국역사박물관",
+     "address": "서울특별시 종로구 세종대로 198 (세종로)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.57408,
+      "lon": 126.97756
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_1198901",
+     "contentid": "1198901",
+     "title": "배재학당역사박물관",
+     "address": "서울특별시 중구 서소문로11길 19 (정동)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.564,
+      "lon": 126.9726
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130911",
+     "contentid": "130911",
+     "title": "부평역사박물관",
+     "address": "인천광역시 부평구 굴포로 151",
+     "region": "인천",
+     "geo": {
+      "lat": 37.512066,
+      "lon": 126.737846
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_3075429",
+     "contentid": "3075429",
+     "title": "용산역사박물관",
+     "address": "서울특별시 용산구 한강대로14길 35-29 (한강로3가)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.525668,
+      "lon": 126.965769
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2638587",
+     "contentid": "2638587",
+     "title": "의림지 역사박물관",
+     "address": "충청북도 제천시 의림대로47길 7",
+     "region": "충북",
+     "geo": {
+      "lat": 37.176155,
+      "lon": 128.209488
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -9679,6 +11369,46 @@
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
      "verified": false
+    },
+    {
+     "id": "pool_2463869",
+     "contentid": "2463869",
+     "title": "청강 만화역사박물관",
+     "address": "경기도 이천시 마장면 청강가창로 389-94",
+     "region": "경기",
+     "geo": {
+      "lat": 37.205051,
+      "lon": 127.355606
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_130726",
+     "contentid": "130726",
+     "title": "하남역사박물관",
+     "address": "경기도 하남시 덕풍동로 30 (덕풍동)",
+     "region": "경기",
+     "geo": {
+      "lat": 37.545514,
+      "lon": 127.206101
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "역사박물관"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
     }
    ]
   },
@@ -9692,6 +11422,87 @@
     "플라네타륨"
    ],
    "items": [
+    {
+     "id": "pool_3000522",
+     "contentid": "3000522",
+     "title": "거창월성우주창의과학관",
+     "address": "경상남도 거창군 덕유월성로 1312-96 거창군월성청소년수련원",
+     "region": "경남",
+     "geo": {
+      "lat": 35.7618,
+      "lon": 127.7263
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/96/3571296_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/96/3571296_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "3000522",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2380835",
+     "contentid": "2380835",
+     "title": "고흥우주발사전망대",
+     "address": "전남광주통합특별시 고흥군 영남면 해맞이로 840",
+     "region": "광주",
+     "geo": {
+      "lat": 34.585013,
+      "lon": 127.492293
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/33/3552733_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/33/3552733_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2380835",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2379568",
+     "contentid": "2379568",
+     "title": "고흥우주천문과학관",
+     "address": "전남광주통합특별시 고흥군 도양읍 장기산선암길 353",
+     "region": "광주",
+     "geo": {
+      "lat": 34.552594,
+      "lon": 127.125038
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/68/3552768_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/68/3552768_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2379568",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
     {
      "id": "pool_800067",
      "contentid": "800067",
@@ -9744,6 +11555,60 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_751881",
+     "contentid": "751881",
+     "title": "나로우주센터 우주과학관",
+     "address": "전남광주통합특별시 고흥군 봉래면 하반로 490",
+     "region": "광주",
+     "geo": {
+      "lat": 34.453525,
+      "lon": 127.517777
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/14/3552714_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/14/3552714_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "751881",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_127885",
+     "contentid": "127885",
+     "title": "나로우주해수욕장",
+     "address": "전남광주통합특별시 고흥군 봉래면 신금리",
+     "region": "광주",
+     "geo": {
+      "lat": 34.467,
+      "lon": 127.4697
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/44/3519244_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/44/3519244_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "127885",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -9820,11 +11685,68 @@
       "checked": "2026-10-19"
      },
      "matched_keywords": [
+      "우주",
       "천문대"
      ],
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2473002",
+     "contentid": "2473002",
+     "title": "사천 항공우주박물관",
+     "address": "경상남도 사천시 사남면 공단1로 78",
+     "region": "경남",
+     "geo": {
+      "lat": 35.071453,
+      "lon": 128.062909
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/29/3505529_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/29/3505529_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2473002",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주",
+      "항공우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2623664",
+     "contentid": "2623664",
+     "title": "사천항공우주과학관",
+     "address": "경상남도 사천시 사남면 공단1로 108",
+     "region": "경남",
+     "geo": {
+      "lat": 35.0708,
+      "lon": 128.0635
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/06/4065406_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/06/4065406_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2623664",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주",
+      "항공우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -9852,6 +11774,60 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_1039170",
+     "contentid": "1039170",
+     "title": "옥토끼우주센터",
+     "address": "인천광역시 강화군 불은면 강화동로 403",
+     "region": "인천",
+     "geo": {
+      "lat": 37.6742,
+      "lon": 126.487155
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/51/4057151_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/51/4057151_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "1039170",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_4076758",
+     "contentid": "4076758",
+     "title": "우주드림",
+     "address": "전남광주통합특별시 나주시 다도면 나주호로 558-314",
+     "region": "광주",
+     "geo": {
+      "lat": 34.948334,
+      "lon": 126.871477
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/64/4074964_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/64/4074964_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "4076758",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -9963,6 +11939,54 @@
      "verified": false
     },
     {
+     "id": "pool_2554262",
+     "contentid": "2554262",
+     "title": "한국항공대학교 항공우주박물관",
+     "address": "경기도 고양시 덕양구 항공대학로 76-9 (화전동)",
+     "region": "경기",
+     "geo": {
+      "lat": 37.599869,
+      "lon": 126.865261
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/51/4070851_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/51/4070851_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2554262",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "우주",
+      "항공우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_3304115",
+     "contentid": "3304115",
+     "title": "강서별빛우주과학관",
+     "address": "서울특별시 강서구 금낭화로 178 (방화동)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.581036,
+      "lon": 126.814621
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2769571",
      "contentid": "2769571",
      "title": "거꾸로천문대",
@@ -10063,6 +12087,26 @@
      "verified": false
     },
     {
+     "id": "pool_2673827",
+     "contentid": "2673827",
+     "title": "국립청소년우주센터",
+     "address": "전남광주통합특별시 고흥군 동일면 덕흥양쪽길 200",
+     "region": "광주",
+     "geo": {
+      "lat": 34.533014,
+      "lon": 127.468275
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_1607213",
      "contentid": "1607213",
      "title": "남원항공우주천문대",
@@ -10075,11 +12119,33 @@
      "category": "관광지",
      "photo": null,
      "matched_keywords": [
-      "천문대"
+      "우주",
+      "천문대",
+      "항공우주"
      ],
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2745731",
+     "contentid": "2745731",
+     "title": "노원천문우주과학관",
+     "address": "서울특별시 노원구 동일로205길 13 (중계동)",
+     "region": "서울",
+     "geo": {
+      "lat": 37.640746,
+      "lon": 127.065219
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -10403,6 +12469,26 @@
      "verified": false
     },
     {
+     "id": "pool_128182",
+     "contentid": "128182",
+     "title": "예천천문우주센터",
+     "address": "경상북도 예천군 충효로 1078",
+     "region": "경북",
+     "geo": {
+      "lat": 36.701302,
+      "lon": 128.504602
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_3012524",
      "contentid": "3012524",
      "title": "용인어린이천문대",
@@ -10420,6 +12506,46 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_3401161",
+     "contentid": "3401161",
+     "title": "우주미술관",
+     "address": "경상남도 사천시 정동면 사천강1길 3 (수양빌라)",
+     "region": "경남",
+     "geo": {
+      "lat": 35.073668,
+      "lon": 128.083171
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2461651",
+     "contentid": "2461651",
+     "title": "우주측지관측센터",
+     "address": "세종특별자치시 월산공단로 276-73 (세종동)",
+     "region": "세종",
+     "geo": {
+      "lat": 36.521217,
+      "lon": 127.303137
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -10480,6 +12606,27 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2661407",
+     "contentid": "2661407",
+     "title": "제주항공우주박물관",
+     "address": "제주특별자치도 서귀포시 안덕면 항공우주로 83",
+     "region": "제주",
+     "geo": {
+      "lat": 33.30435,
+      "lon": 126.299794
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "우주",
+      "항공우주"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -10658,6 +12805,33 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_3453929",
+     "contentid": "3453929",
+     "title": "경상북도교육청 발명체험교육관",
+     "address": "경상북도 경주시 첨성로 97 (황남동)",
+     "region": "경북",
+     "geo": {
+      "lat": 35.833375,
+      "lon": 129.212993
+     },
+     "category": "관광지",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/96/3453896_image2_1.JPG",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/96/3453896_image3_1.JPG",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "3453929",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "발명"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -11255,6 +13429,33 @@
      "verified": false
     },
     {
+     "id": "pool_2905116",
+     "contentid": "2905116",
+     "title": "제주과학탐구체험관",
+     "address": "제주특별자치도 제주시 산록북로 421-1 (오라이동)",
+     "region": "제주",
+     "geo": {
+      "lat": 33.42665,
+      "lon": 126.531455
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/58/3585158_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/58/3585158_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2905116",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "탐구"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2515791",
      "contentid": "2515791",
      "title": "지리산생태과학관",
@@ -11363,6 +13564,33 @@
      "verified": false
     },
     {
+     "id": "pool_2614908",
+     "contentid": "2614908",
+     "title": "충청북도자연과학교육원 과학체험관",
+     "address": "충청북도 청주시 상당구 대성로 150",
+     "region": "충북",
+     "geo": {
+      "lat": 36.638246,
+      "lon": 127.492806
+     },
+     "category": "문화시설",
+     "photo": {
+      "url": "https://tong.visitkorea.or.kr/cms/resource/18/3504518_image2_1.jpg",
+      "thumb": "https://tong.visitkorea.or.kr/cms/resource/18/3504518_image3_1.jpg",
+      "credit": "한국관광공사 TourAPI",
+      "license": "공공누리 제1유형(출처표시)",
+      "contentid": "2614908",
+      "checked": "2026-10-20"
+     },
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2782811",
      "contentid": "2782811",
      "title": "통영수산과학관",
@@ -11387,6 +13615,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_2784143",
+     "contentid": "2784143",
+     "title": "3D과학체험관",
+     "address": "경상남도 양산시 웅상대로 1009-1 (주진동)",
+     "region": "경남",
+     "geo": {
+      "lat": 35.38987,
+      "lon": 129.155758
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -11550,6 +13798,26 @@
      "verified": false
     },
     {
+     "id": "pool_2720024",
+     "contentid": "2720024",
+     "title": "금강생태과학체험장",
+     "address": "충청남도 금산군 제원면 닥실길 16",
+     "region": "충남",
+     "geo": {
+      "lat": 36.105059,
+      "lon": 127.568678
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2745731",
      "contentid": "2745731",
      "title": "노원천문우주과학관",
@@ -11610,6 +13878,46 @@
      "verified": false
     },
     {
+     "id": "pool_1907645",
+     "contentid": "1907645",
+     "title": "발명교육센터 창의발명체험관",
+     "address": "대전광역시 유성구 과학로 82 (가정동)",
+     "region": "대전",
+     "geo": {
+      "lat": 36.378093,
+      "lon": 127.364027
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "발명"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_3016002",
+     "contentid": "3016002",
+     "title": "부산과학체험관",
+     "address": "부산광역시 동구 중앙대로260번길 11 (초량동)",
+     "region": "부산",
+     "geo": {
+      "lat": 35.120321,
+      "lon": 129.044128
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_2470024",
      "contentid": "2470024",
      "title": "삼진어묵 체험·역사과학관",
@@ -11667,6 +13975,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_3444863",
+     "contentid": "3444863",
+     "title": "성주 과일어린이 과학체험관",
+     "address": "경상북도 성주군 성주읍 성주순환로 271-9",
+     "region": "경북",
+     "geo": {
+      "lat": 35.919178,
+      "lon": 128.293311
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -11770,6 +14098,46 @@
      "verified": false
     },
     {
+     "id": "pool_3080928",
+     "contentid": "3080928",
+     "title": "울산중구어린이역사과학체험관",
+     "address": "울산광역시 중구 새즈믄해거리 37 (성남동)",
+     "region": "울산",
+     "geo": {
+      "lat": 35.556642,
+      "lon": 129.320076
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
+     "id": "pool_2753977",
+     "contentid": "2753977",
+     "title": "울진과학체험관",
+     "address": "경상북도 울진군 울진읍 연지길 30",
+     "region": "경북",
+     "geo": {
+      "lat": 36.99657,
+      "lon": 129.408047
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
+     "verified": false
+    },
+    {
      "id": "pool_130148",
      "contentid": "130148",
      "title": "전남광주통합특별시 해양수산과학관",
@@ -11787,6 +14155,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_3078015",
+     "contentid": "3078015",
+     "title": "전남광주통합특별시교육청자연탐구원",
+     "address": "전남광주통합특별시 장성군 북하면 대흥길 27",
+     "region": "광주",
+     "geo": {
+      "lat": 35.391025,
+      "lon": 126.913643
+     },
+     "category": "관광지",
+     "photo": null,
+     "matched_keywords": [
+      "탐구"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -11827,6 +14215,26 @@
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
      "fetched_at": "2026-10-19",
+     "verified": false
+    },
+    {
+     "id": "pool_1904774",
+     "contentid": "1904774",
+     "title": "창원과학체험관",
+     "address": "경상남도 창원시 성산구 충혼로72번길 16 (중앙동)",
+     "region": "경남",
+     "geo": {
+      "lat": 35.230254,
+      "lon": 128.661778
+     },
+     "category": "문화시설",
+     "photo": null,
+     "matched_keywords": [
+      "과학체험"
+     ],
+     "provenance": "tourapi",
+     "source_url": "https://api.visitkorea.or.kr/",
+     "fetched_at": "2026-10-20",
      "verified": false
     },
     {
@@ -11902,7 +14310,8 @@
      "category": "문화시설",
      "photo": null,
      "matched_keywords": [
-      "과학관"
+      "과학관",
+      "탐구"
      ],
      "provenance": "tourapi",
      "source_url": "https://api.visitkorea.or.kr/",
