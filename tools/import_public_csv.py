@@ -1,7 +1,7 @@
 """공공데이터포털 표준데이터(CSV) -> 테마 풀 흡수기.  python tools/import_public_csv.py --kind forest|museum|park --csv <파일> [--label "데이터셋 이름"] [--data-date YYYY-MM-DD] [--out theme_spots_pool.json] [--dry-run]
 
  - kind forest: 유아숲체험원 표준데이터 -> 테마 nature(숲·모래놀이)
- - kind museum: 박물관·미술관 표준데이터 -> 이름 키워드로 dinosaur/transport/art/science (단서가 없으면 science)
+ - kind museum: 박물관·미술관 표준데이터 -> 이름 키워드로 dinosaur/transport/space/science/art (단서가 없으면 museum)
  - kind park  : 어린이공원 표준데이터 -> 동네 놀이터가 풀을 덮지 않도록 '큰 공원/체험·생태·물놀이' 이름이거나 면적이 일정 이상(--min-area, 기본 5000㎡)일 때만 nature
 인코딩(utf-8-sig/cp949)을 자동 판별하고, 열 이름은 별칭 표로 찾는다(데이터셋마다 열 이름이 조금씩 달라서). 좌표(위도·경도)가 없는 행은 건너뛴다(주소로 좌표를 만드는 단계는 따로).
 출처 표기: provenance 에 데이터셋 이름·기준일을 적고, 이용 조건은 '데이터셋 페이지에서 확인 필요'로 둔다(단정하지 않음). 사진은 없다(카드는 이모지/손그림 폴백).
@@ -36,7 +36,8 @@ ALIAS = {
     "date": ["데이터기준일자", "기준일자", "데이터기준일"],
     "type": ["공원구분", "구분", "시설구분"],
 }
-MUSEUM_THEME = [("dinosaur", re.compile(r"공룡|화석|자연사|지질|쥐라기")), ("transport", re.compile(r"철도|기차|자동차|교통|항공|비행|소방")),
+MUSEUM_THEME = [("dinosaur", re.compile(r"공룡|화석|자연사|지질|쥐라기")), ("transport", re.compile(r"철도|기차|자동차|교통|소방")),
+                ("space", re.compile(r"천문|우주|항공|비행|별자리|플라네타륨")), ("science", re.compile(r"과학|발명|탐구")),
                 ("art", re.compile(r"미술|아트|공예|도자|판화|드로잉"))]
 PARK_BIG = re.compile(r"테마|생태|체험|물놀이|수목|식물|숲|호수|해양|랜드|어린이대공원")
 
@@ -79,7 +80,7 @@ def theme_of(kind, name, area, min_area, ptype=""):
         for tid, rx in MUSEUM_THEME:
             if rx.search(name):
                 return tid
-        return "science"
+        return "museum"
     if kind == "park":
         if PARK_BIG.search(name) or area >= min_area or (re.search(r"근린|체육|역사|문화|수변", ptype or "") and area >= min_area / 2):
             return "nature"

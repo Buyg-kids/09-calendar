@@ -134,7 +134,9 @@ class TestCsv(unittest.TestCase):
     def test_museum_theme_by_name_and_park_filter(self):
         self.assertEqual(ipc.theme_of("museum", "철도박물관", 0, 5000), "transport")
         self.assertEqual(ipc.theme_of("museum", "공룡화석전시관", 0, 5000), "dinosaur")
-        self.assertEqual(ipc.theme_of("museum", "OO향토박물관", 0, 5000), "science")
+        self.assertEqual(ipc.theme_of("museum", "OO향토박물관", 0, 5000), "museum")
+        self.assertEqual(ipc.theme_of("museum", "OO천문과학관", 0, 5000), "space")
+        self.assertEqual(ipc.theme_of("museum", "OO과학박물관", 0, 5000), "science")
         self.assertIsNone(ipc.theme_of("park", "행복어린이공원", 1200, 5000))               # 동네 놀이터는 풀에 넣지 않는다
         self.assertEqual(ipc.theme_of("park", "OO생태공원", 800, 5000), "nature")
         self.assertEqual(ipc.theme_of("park", "큰어린이공원", 9000, 5000), "nature")
@@ -189,6 +191,71 @@ class TestGeocode(unittest.TestCase):
         row = {"시설명": "가나유아숲체험원", "주소": "서울특별시 노원구 상계동 산1-2", "운영기간": "2025-03~2025-11", "전화번호": "02-000-0000", "참여방법": "전화/방문", "위도": "37.6", "경도": "127.1"}
         it = ipc.to_item(row, "forest", "nature", "라벨", "2025-11-30", "2026-10-19", region)
         self.assertEqual((it["operating_period"], it["how_to_join"], it["phone"]), ("2025-03~2025-11", "전화/방문", "02-000-0000"))
+
+
+class TestCache(unittest.TestCase):
+    def test_cached_budget_reuses_responses_without_calls(self):
+        class Inner:
+            used = 0
+            def call(self, key, endpoint, params):
+                Inner.used += 1
+                return [{"contentid": "1", "kw": params["keyword"]}]
+        with tempfile.TemporaryDirectory() as d:
+            b = ctp.CachedBudget(Inner(), d)
+            first = b.call("k", "searchKeyword2", {"keyword": "공룡", "pageNo": 1})
+            again = b.call("k", "searchKeyword2", {"keyword": "공룡", "pageNo": 1})
+            other = b.call("k", "searchKeyword2", {"keyword": "화석", "pageNo": 1})
+            self.assertEqual(first, again)
+            self.assertEqual((Inner.used, b.hits), (2, 1))           # 같은 요청은 한 번만 호출, 다른 요청은 호출
+            self.assertEqual(other[0]["kw"], "화석")
+
+    def test_expanded_keywords_present(self):
+        self.assertIn("핑크퐁", ctp.THEMES["character"]["keywords"])
+        self.assertIn("증기기관차", ctp.THEMES["transport"]["keywords"])
+        self.assertIn("도예", ctp.THEMES["art"]["keywords"])
+        self.assertIsNone(ctp.candidate(raw(title="수원버스터미널 열차", addr1="경기도 수원시"), "transport", "열차", "2026-10-19", region))
+
+
+class TestThemeSplit(unittest.TestCase):
+    def test_thirteen_themes_and_user_keywords(self):
+        self.assertEqual(list(ctp.THEMES), ["princess", "character", "dinosaur", "transport", "art", "cooking", "animal", "fish", "nature", "picnic", "museum", "space", "science"])
+        self.assertEqual(ctp.THEMES["princess"]["keywords"], ["공주", "드레스", "동화", "백설공주"])
+        self.assertEqual(ctp.THEMES["character"]["keywords"], ["뽀로로", "티니핑", "타요", "핑크퐁", "애니메이션", "캐릭터", "키즈월드"])
+        self.assertEqual(ctp.THEMES["fish"]["keywords"], ["아쿠아리움", "수족관", "민물고기", "해양생물"])
+        self.assertEqual(ctp.THEMES["animal"]["keywords"], ["동물원", "목장", "알파카", "승마", "사파리"])
+        self.assertEqual(ctp.THEMES["space"]["keywords"], ["천문대", "우주", "항공우주", "별자리", "플라네타륨"])
+        self.assertEqual(ctp.THEMES["museum"]["keywords"], ["어린이박물관", "역사박물관", "민속촌", "고궁"])
+
+    def test_gongju_place_names_still_excluded(self):
+        def ok(title, addr="경기도"):
+            return ctp.candidate(raw(title=title, addr1=addr), "princess", "공주", "2026-10-20", region) is not None
+        self.assertTrue(ok("백설공주 드레스 체험관"))
+        self.assertFalse(ok("공주시 어린이 공원", "충남 공주시"))
+        self.assertFalse(ok("국립공주박물관"))
+
+    def test_remap_old_pool_to_new_themes(self):
+        def it(cid, title, kws):
+            return {"id": "pool_" + cid, "contentid": cid, "title": title, "photo": None, "matched_keywords": kws}
+        old = {"princess": {"items": [it("1", "동화마을", ["동화"]), it("2", "뽀로로파크", ["뽀로로"]), it("3", "애니박물관", ["애니메이션", "동화"])]},
+               "animal": {"items": [it("4", "아쿠아A", ["아쿠아리움"]), it("5", "동물원B", ["동물원"]), it("6", "목장C", ["목장", "승마체험"])]},
+               "science": {"items": [it("7", "천문대D", ["천문대"]), it("8", "어린이박물관E", ["어린이박물관"]), it("9", "과학관F", ["과학관"]), it("10", "뜻모를", ["없는키워드"])]},
+               "dinosaur": {"items": [it("11", "공룡G", ["공룡"])]}}
+        new = ctp.remap_pool(old)
+        titles = {k: sorted(i["title"] for i in v["items"]) for k, v in new.items()}
+        self.assertEqual(titles["princess"], ["동화마을", "애니박물관"])
+        self.assertEqual(titles["character"], ["뽀로로파크", "애니박물관"])      # 키워드가 둘이면 두 테마에 모두
+        self.assertEqual(titles["fish"], ["아쿠아A"]); self.assertEqual(titles["animal"], ["동물원B", "목장C"])
+        self.assertEqual((titles["space"], titles["museum"], titles["science"]), (["천문대D"], ["어린이박물관E"], ["과학관F"]))
+        self.assertEqual(titles["dinosaur"], ["공룡G"])
+        self.assertNotIn("뜻모를", sum(titles.values(), []))                       # 매핑 규칙이 없는 항목은 버린다
+        self.assertEqual(list(new), [t for t in ctp.THEMES if t in new])          # 정해진 테마 순서
+
+    def test_load_pool_migrates_legacy_file(self):
+        legacy = {"schema_version": 1, "themes": {"princess": {"items": [{"id": "pool_1", "contentid": "1", "title": "뽀로로파크", "photo": None, "matched_keywords": ["뽀로로"]}]}, "science": {"items": []}, "animal": {"items": []}}}
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "pool.json"
+            p.write_text(__import__("json").dumps(legacy, ensure_ascii=False), encoding="utf-8")
+            self.assertEqual(list(ctp.load_pool(p)), ["character"])                # 옛 9종 파일은 읽을 때 13종으로 옮겨진다
 
 
 if __name__ == "__main__":

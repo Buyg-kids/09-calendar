@@ -1013,6 +1013,7 @@
   .out-card:active { transform: translateY(-1px); }
   .out-photo { position: relative; height: 128px; background: linear-gradient(135deg, #f1ecf6, #e2d6ee); display: flex; align-items: center; justify-content: center; font-size: 38px; overflow: hidden; }
   .out-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .out-photo img.theme-art, .os-hero img.theme-art { object-fit: contain; padding: 18px; }   /* 사진이 없는 테마 풀 장소: 테마 손그림을 가운데에 */
   .out-photo.forest { background: linear-gradient(135deg, #e8f3ea, #cfe7d5); } .out-photo.museum { background: linear-gradient(135deg, #f3ecf8, #e5d8f0); } .out-photo.zoo { background: linear-gradient(135deg, #e6f1fb, #cfe5f6); } .out-photo.park { background: linear-gradient(135deg, #eaf5e4, #d3e9c6); } .out-photo.play { background: linear-gradient(135deg, #fff1db, #ffe0b0); }
   .out-badge { position: absolute; left: 8px; top: 8px; z-index: 1; padding: 3px 8px; border-radius: 999px; background: #5f0080; color: #fff; font-size: 11px; font-weight: 800; }
   .out-credit { position: absolute; right: 6px; bottom: 4px; z-index: 1; font-size: 9.5px; color: #fff; text-shadow: 0 0 3px rgba(0,0,0,.7); }
@@ -1087,6 +1088,10 @@
   #sec-free, #sec-week, #sec-stories { padding-top: 24px; padding-bottom: 14px; border-radius: 14px; }
   .cul-photo .cul-tag { position: absolute; left: 8px; top: 8px; z-index: 2; padding: 2px 8px; border-radius: 999px; background: rgba(31,36,48,.82); color: #fff; font-size: 11px; font-weight: 800; }
   #homeSections[data-tab="outing"] #sec-season { margin-top: 10px; padding-top: 24px; padding-bottom: 14px; border-radius: 14px; }
+  #homeSections[data-tab="outing"] #sec-freeout { margin-top: 10px; padding-top: 24px; padding-bottom: 14px; border-radius: 14px; }
+  #sec-freeout .section-head { gap: 8px; align-items: center; margin-bottom: 14px; }
+  #sec-freeout .section-head h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; color: var(--text-main); word-break: keep-all; }
+  #sec-freeout .section-head h2 small { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; color: #1b7a46; letter-spacing: 0; }
   #sec-season .section-head { gap: 8px; align-items: center; margin-bottom: 14px; }
   #sec-season .section-head h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; color: var(--text-main); word-break: keep-all; }
   #sec-season .section-head h2 small { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; color: #b45309; letter-spacing: 0; }
@@ -1108,10 +1113,10 @@
   #sec-category { top: calc(var(--hdr-h) + var(--tab-h) + env(safe-area-inset-top, 0px)); border-radius: 0; }
   .dt-gnb .gnb-go { display: none; }
   #homeSections:not([data-tab="gonggu"]) :is(#heroCarousel, #sharedSection, #sec-category, #favSection, #sec-age, #sec-closing, #sec-feed) { display: none !important; }
-  #homeSections:not([data-tab="outing"]) :is(#sec-outing, #sec-season) { display: none !important; }
+  #homeSections:not([data-tab="outing"]) :is(#sec-outing, #sec-season, #sec-freeout) { display: none !important; }
   #homeSections:not([data-tab="culture"]) :is(#sec-culture, #sec-free, #sec-week, #sec-stories) { display: none !important; }
   #homeSections:not([data-tab="tips"]) :is(#sec-tips) { display: none !important; }
-  #sec-outing, #sec-season, #sec-culture, #sec-free, #sec-week, #sec-stories, #sec-tips { margin-top: 0; }
+  #sec-outing, #sec-season, #sec-freeout, #sec-culture, #sec-free, #sec-week, #sec-stories, #sec-tips { margin-top: 0; }
   #homeSections[data-tab="outing"] #sec-outing, #homeSections[data-tab="culture"] #sec-culture { padding-top: 22px; }
   #homeSections[data-tab="culture"] #sec-free, #homeSections[data-tab="culture"] #sec-week, #homeSections[data-tab="culture"] #sec-stories { margin-top: 10px; }
   .sub-title { margin: 18px 16px 10px; font-size: 16px; font-weight: 800; color: var(--text-main); }
@@ -1377,7 +1382,7 @@
 </style>
 </head>
 <body>
-<script>window.BUYG_ICONS = ['theme_princess', 'theme_art', 'theme_cooking', 'theme_picnic', 'theme_dinosaur', 'theme_transport', 'theme_animal', 'theme_nature', 'theme_science', 'gonggu_all', 'gonggu_fav', 'gonggu_trip', 'gonggu_feeding', 'gonggu_tableware', 'gonggu_clothes', 'gonggu_toy', 'gonggu_hygiene', 'gonggu_health', 'facility_highchair', 'facility_stroller'];   /* assets/img/icons/<id>.webp 가 있는 손그림 아이콘 */</script>
+<script>window.BUYG_ICONS = ['theme_zoo', 'theme_fish', 'theme_museum', 'theme_space', 'theme_princess', 'theme_art', 'theme_cooking', 'theme_picnic', 'theme_dinosaur', 'theme_transport', 'theme_animal', 'theme_nature', 'theme_science', 'gonggu_all', 'gonggu_fav', 'gonggu_trip', 'gonggu_feeding', 'gonggu_tableware', 'gonggu_clothes', 'gonggu_toy', 'gonggu_hygiene', 'gonggu_health', 'facility_highchair', 'facility_stroller'];   /* assets/img/icons/<id>.webp 가 있는 손그림 아이콘 */</script>
   <div class="app">
     <div class="notice-bar" id="noticeBar" hidden>
       <span class="notice-msg">🎯 원하는 공구만 콕!</span>
@@ -1512,6 +1517,16 @@
           <button type="button" class="scroll-arrow arrow-right" data-target="seasonList" aria-label="다음">›</button>
         </div>
         <p class="cul-note">단풍·꽃 시기는 해마다 지역마다 달라요. 방문 전에 공식 안내(산림청·지자체)에서 최신 소식을 확인해 주세요.</p>
+      </section>
+      <section class="section" id="sec-freeout" aria-label="전국 무료 나들이" hidden>
+        <div class="section-head"><h2>💰 부담 없이 떠나는 전국 무료 나들이<small>입장료 걱정 없는 곳만 모았어요</small></h2></div>
+        <div class="out-tabs" id="freeOutTabs" role="tablist" aria-label="무료 나들이 지역 선택"></div>
+        <div class="hscroll-wrap">
+          <button type="button" class="scroll-arrow arrow-left" data-target="freeOutList" aria-label="이전">‹</button>
+          <div class="hscroll out-scroll" id="freeOutList"><div class="out-empty">불러오는 중…</div></div>
+          <button type="button" class="scroll-arrow arrow-right" data-target="freeOutList" aria-label="다음">›</button>
+        </div>
+        <p class="cul-note">요금·예약 여부는 바뀔 수 있어요. 방문 전에 공식 안내에서 한 번 더 확인해 주세요.</p>
       </section>
       <section class="section" id="sec-culture" aria-label="아이와 함께하는 공연·전시">
         <div class="section-head"><h2>아이와 함께하는 공연·전시</h2><a class="sub outing-all" href="./map.html?tab=show" id="cultureMapLink">지도로 보기 ›</a></div>
@@ -3993,7 +4008,7 @@ wcs_do();
     var phOf = function (id) { return ((photos || {})[id] || {}).photo || {}; };
     Object.keys(guides).forEach(function (k) {
       var g = guides[k], ph = (g.photos || [])[0] || {}, addr = (g.facts && g.facts.address && g.facts.address.v) || '';
-      out.push({ geo: g.geo, href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: '에디터 추천', guide: true });
+      out.push({ geo: g.geo, href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: '에디터 추천', guide: true, free: !!(g.costs && g.costs.admission && g.costs.admission.model === 'free') });
     });
     (seed || []).forEach(function (s) {
       var c = s.category || '', url = s.homepage_url || s.link || '';
@@ -4003,7 +4018,8 @@ wcs_do();
     });
     return out;
   }
-  var POOL_CLS = { nature: 'forest', animal: 'zoo', science: 'museum', picnic: 'forest', art: 'museum', dinosaur: 'museum', transport: 'museum', princess: 'play', cooking: 'play' };
+  var POOL_CLS = { nature: 'forest', animal: 'zoo', fish: 'zoo', science: 'museum', museum: 'museum', space: 'museum', picnic: 'forest', art: 'museum', dinosaur: 'museum', transport: 'museum', princess: 'play', character: 'play', cooking: 'play' };
+  var THEME_ART = { animal: 'theme_zoo', fish: 'theme_fish', museum: 'theme_museum', space: 'theme_space', character: '', science: '' };   // 전용 그림이 없는 테마는 '' (이모지로 폴백)
   function poolItems(pool, base) {   // 테마 풀(TourAPI 키워드 수집 + 공공데이터 표준데이터): 테마 칩을 고른 때만 카드로 보인다
     var themes = (pool && pool.themes) || {}, byId = {}, out = [], taken = {};
     base.forEach(function (o) { taken[norm(o.title)] = 1; });
@@ -4014,7 +4030,7 @@ wcs_do();
         if (o) { if (o.themes.indexOf(tid) < 0) o.themes.push(tid); return; }
         if (taken[norm(p.title)]) return;
         var ph = p.photo || {}, hp = typeof p.homepage === 'string' && /^https:/.test(p.homepage) ? p.homepage : '';
-        o = { geo: p.geo, href: '#' + p.id, title: p.title, line: '', region: regionOf(p.region, p.address), regionLabel: (p.address || p.region || '').split(' ').slice(0, 2).join(' '), tags: [p.category || '나들이'], theme: POOL_CLS[tid] || '', themes: [tid], pool: true, img: ph.thumb || ph.url || '', credit: ph.url ? '© ' + (ph.credit || '한국관광공사') : '', badge: '', guide: false, seed: { id: p.id, category: p.category || '', tag: '', homepage_url: hp, pool_source: p.source || (p.provenance === 'tourapi' ? '한국관광공사 TourAPI' : '') }, id: p.id, addr: p.address || '' };
+        o = { geo: p.geo, href: '#' + p.id, title: p.title, line: '', region: regionOf(p.region, p.address), regionLabel: (p.address || p.region || '').split(' ').slice(0, 2).join(' '), tags: [p.category || '나들이'], theme: POOL_CLS[tid] || '', themes: [tid], pool: true, free: p.free === true, img: ph.thumb || ph.url || '', credit: ph.url ? '© ' + (ph.credit || '한국관광공사') : '', badge: '', guide: false, seed: { id: p.id, category: p.category || '', tag: '', homepage_url: hp, pool_source: p.source || (p.provenance === 'tourapi' ? '한국관광공사 TourAPI' : '') }, id: p.id, addr: p.address || '' };
         byId[p.id] = o; out.push(o); taken[norm(p.title)] = 1;
       });
     });
@@ -4024,7 +4040,7 @@ wcs_do();
   function loadPool() {   // 테마 풀은 테마 칩을 처음 누를 때 한 번만 불러온다(홈 첫 화면 용량 절약)
     if (POOL_STATE || !POOL_BASE) return;
     POOL_STATE = 'loading';
-    get('./theme_spots_pool.json').then(function (j) { ITEMS = POOL_BASE.concat(poolItems(j, POOL_BASE)); window.__outingItems = ITEMS; POOL_STATE = 'ready'; tabs(); draw(); });
+    get('./theme_spots_pool.json').then(function (j) { ITEMS = POOL_BASE.concat(poolItems(j, POOL_BASE)); window.__outingItems = ITEMS; POOL_STATE = 'ready'; tabs(); draw(); if (window.__redrawFreeOut) window.__redrawFreeOut(); });
   }
   function themeOn() { return !!(window.BuygFilter && window.BuygFilter.theme && window.BuygFilter.theme()); }
   function safeUrl(u, hostRe) { try { var x = new URL(u); return x.protocol === 'https:' && (!hostRe || hostRe.test(x.hostname)) ? x.href : ''; } catch (e) { return ''; } }
@@ -4037,7 +4053,7 @@ wcs_do();
     if (!back) { back = el('div', 'os-back'); back.id = 'osBack'; back.addEventListener('click', closeSheet); document.body.appendChild(back); var sh = el('div', 'os-sheet'); sh.id = 'osSheet'; sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-modal', 'true'); document.body.appendChild(sh); document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSheet(); }); }
     var sheet = document.getElementById('osSheet'); sheet.innerHTML = ''; sheet.setAttribute('aria-label', it.title + ' 상세');
     var hero = el('div', 'os-hero ' + (it.theme || ''));
-    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.referrerPolicy = 'no-referrer'; im.onerror = function () { im.remove(); hero.appendChild(el('span', '', ICON[it.theme] || '🧸')); }; hero.appendChild(im); } else hero.appendChild(el('span', '', ICON[it.theme] || '🧸'));
+    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.referrerPolicy = 'no-referrer'; im.onerror = function () { im.remove(); fallbackArt(hero, it); }; hero.appendChild(im); } else fallbackArt(hero, it);
     if (it.credit) hero.appendChild(el('span', 'out-credit', it.credit));
     var x = el('button', 'os-x', '✕'); x.type = 'button'; x.setAttribute('aria-label', '닫기'); x.addEventListener('click', closeSheet); hero.appendChild(x); sheet.appendChild(hero);
     var body = el('div', 'os-body'); body.appendChild(el('h3', '', it.title));
@@ -4058,11 +4074,17 @@ wcs_do();
     lastFocus = document.activeElement; back.classList.add('open'); sheet.classList.add('open'); sheet.scrollTop = 0; document.body.classList.add('os-lock'); x.focus();
     gaEv('home_outing_sheet', { id: it.id });
   }
+  function fallbackArt(host, it) {   // 사진이 없거나 깨졌을 때: 테마 풀 항목은 테마 손그림, 그 밖에는 기존 이모지
+    var tid = it.themes && it.themes[0];
+    var art = tid ? (THEME_ART[tid] === undefined ? 'theme_' + tid : THEME_ART[tid]) : '';
+    if (art) { var im = document.createElement('img'); im.className = 'theme-art'; im.src = 'assets/img/icons/' + art + '.webp'; im.alt = ''; im.onerror = function () { im.remove(); host.appendChild(el('span', '', ICON[it.theme] || '🧸')); }; host.appendChild(im); }
+    else host.appendChild(el('span', '', ICON[it.theme] || '🧸'));
+  }
   function card(it) {
     var a = el('a', 'out-card'); a.href = it.seed ? '#' + it.id : it.href; if (it.ext && !it.seed) { a.target = '_blank'; a.rel = 'noopener'; }
     var ph = el('div', 'out-photo ' + it.theme);
-    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.onerror = function () { im.remove(); ph.appendChild(el('span', '', ICON[it.theme] || '🧸')); }; ph.appendChild(im); }
-    else ph.appendChild(el('span', '', ICON[it.theme] || '🧸'));
+    if (it.img) { var im = document.createElement('img'); im.src = it.img; im.alt = it.title; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.onerror = function () { im.remove(); fallbackArt(ph, it); }; ph.appendChild(im); }
+    else fallbackArt(ph, it);
     if (it.badge) ph.appendChild(el('span', 'out-badge', it.badge));
     if (it.credit) ph.appendChild(el('span', 'out-credit', it.credit));
     a.appendChild(ph);
@@ -4243,15 +4265,19 @@ wcs_do();
 
   /* ---------- 2) 관심사 테마 9종 + 계절 칩 + 필터(규칙 기반 키워드 분류) ---------- */
   var THEMES = [
-    { id: 'princess', label: '공주·캐릭터', emoji: '👑', re: /공주(?!\s?(?:시|박물관|대학|대\b|공산성|무령왕릉|한옥|알밤))|왕자|캐릭터|동화|뽀로로|핑크퐁|티니핑|프린세스|신데렐라|백설|인어|애니메이션|만화|헬로키티|인형극/ },
-    { id: 'art', label: '미술·드로잉', emoji: '🎨', re: /미술|아트|드로잉|그림|색칠|회화|공예|도예|만들기|조형|판화|캘리|디자인|미디어아트|스케치/ },
-    { id: 'cooking', label: '쿠킹·베이킹', emoji: '🍳', re: /쿠킹|베이킹|요리|제과|제빵|쿠키|케이크|마카롱|피자|김밥|식문화|셰프|쉐프/ },
-    { id: 'picnic', label: '꽃·피크닉', emoji: '🌷', re: /꽃|정원|피크닉|튤립|국화|코스모스|장미|벚꽃|단풍|식물원|수목원|억새|호수공원|공원/ },
+    { id: 'princess', label: '공주', emoji: '👑', re: /공주(?!\s?(?:시|박물관|대학|대\b|공산성|무령왕릉|한옥|알밤))|드레스|왕자|프린세스|신데렐라|백설|인어|동화/ },
+    { id: 'character', label: '만화·캐릭터', emoji: '🧸', re: /캐릭터|뽀로로|티니핑|타요|핑크퐁|애니메이션|만화|헬로키티|키즈월드|인형극/ },
     { id: 'dinosaur', label: '공룡 탐험', emoji: '🦖', re: /공룡|화석|쥬라기|지질|티라노|트리케라|익룡|고생대/ },
     { id: 'transport', label: '기차·자동차', emoji: '🚂', re: /기차|철도|자동차|버스|비행|항공|교통|소방|경찰|트럭|열차|전철|레일|탈것|로보카/ },
-    { id: 'animal', label: '동물·아쿠아리움', emoji: '🦁', re: /동물|아쿠아|수족관|고래|사자|펭귄|곤충|파충|목장|농장|돌고래|해양|바다/ },
+    { id: 'art', label: '미술·드로잉', emoji: '🎨', re: /미술|아트|드로잉|그림|색칠|회화|공예|도예|만들기|조형|판화|캘리|디자인|미디어아트|스케치/ },
+    { id: 'cooking', label: '쿠킹·베이킹', emoji: '🍳', re: /쿠킹|베이킹|요리|제과|제빵|쿠키|케이크|마카롱|피자|김밥|식문화|셰프|쉐프|딸기체험|치즈체험|농장체험/ },
+    { id: 'animal', label: '동물', emoji: '🦁', icon: 'theme_zoo', re: /동물|사자|목장|농장|알파카|승마|사파리|곤충|파충|양떼/ },
+    { id: 'fish', label: '물고기', emoji: '🐠', icon: 'theme_fish', re: /아쿠아|수족관|물고기|민물고기|해양생물|고래|돌고래|펭귄|해양/ },
     { id: 'nature', label: '숲·모래놀이', emoji: '🌳', re: /숲|모래|갯벌|해수욕장|캠핑|산책|둘레길|휴양림|계곡|놀이터|습지|해변|생태|자연/ },
-    { id: 'science', label: '박물관·과학', emoji: '🏛️', re: /박물관|과학|천문|우주|행성|발명|체험관|전시관|역사|민속|기록관|도서관|메이커|실험|과학관/ }
+    { id: 'picnic', label: '꽃·피크닉', emoji: '🌷', re: /꽃|정원|피크닉|튤립|국화|코스모스|장미|벚꽃|단풍|식물원|수목원|억새|호수공원|공원/ },
+    { id: 'museum', label: '박물관', emoji: '🏛️', icon: 'theme_museum', re: /박물관|민속|고궁|궁궐|역사|기록관|전시관/ },
+    { id: 'space', label: '별·우주', emoji: '🔭', icon: 'theme_space', re: /천문|우주|항공우주|별자리|플라네타륨|행성|별빛/ },
+    { id: 'science', label: '과학·탐구', emoji: '🔬', icon: 'theme_none', re: /과학|발명|체험관|메이커|실험|탐구|도서관/ }
   ];
   var SEASONS = [{ id: 'fall', label: '🍁 단풍·꽃놀이', re: /단풍|꽃|수목원|식물원|정원|억새|코스모스|국화|숲길|호수공원|생태공원|공원/ }, { id: 'rain', label: '☔ 비 오는 날 실내', re: /박물관|미술관|과학관|체험관|전시|도서관|키즈카페|아쿠아|실내/ }];
   var state = { theme: '', season: '', near: '' };
@@ -4267,7 +4293,7 @@ wcs_do();
   function drawThemes() {
     var row = $('themeRow'); if (!row) return; row.innerHTML = '';
     THEMES.forEach(function (t) {
-      var b = el('button', 'theme-chip'); b.type = 'button'; b.setAttribute('aria-pressed', state.theme === t.id ? 'true' : 'false'); b.appendChild(iconNode('theme_' + t.id, t.emoji)); b.appendChild(el('span', 'lb', t.label));
+      var b = el('button', 'theme-chip'); b.type = 'button'; b.setAttribute('aria-pressed', state.theme === t.id ? 'true' : 'false'); b.appendChild(iconNode(t.icon || ('theme_' + t.id), t.emoji)); b.appendChild(el('span', 'lb', t.label));
       b.addEventListener('click', function () { state.theme = state.theme === t.id ? '' : t.id; ga('home_theme', { theme: state.theme || 'none' }); drawThemes(); refreshOuting(); });
       row.appendChild(b);
     });
@@ -4376,8 +4402,28 @@ wcs_do();
     if (!list.length) box.appendChild(el('div', 'out-empty', (SEA.region || '전국') + ' 가을 나들이 장소는 준비하고 있어요. 다른 지역을 골라 보세요.'));
     list.forEach(function (i) { box.appendChild(window.__outingCard(i)); });
   }
+  /* 전국 무료 나들이: 요금 표기가 무료입장·무료관람인 시드 + 입장료 무료 앵커 + free:true 풀 항목. 지역 칩은 가을 섹션과 별개로 동작 */
+  var FREEOUT = { region: '' };
+  function isFreeItem(i) { return i.free === true || !!(i.seed && /무료입장|무료관람/.test(i.seed.tag || '')); }
+  function drawFreeOut() {
+    var sec = $('sec-freeout'), tabs = $('freeOutTabs'), box = $('freeOutList'); if (!sec || !tabs || !box || !window.__outingCard) return;
+    sec.hidden = false;
+    var items = (window.__outingItems || []).filter(isFreeItem);
+    var has = {}; items.forEach(function (i) { has[i.region] = 1; });
+    var keep = tabs.scrollLeft; tabs.innerHTML = '';
+    ['전체'].concat(REGIONS).forEach(function (r) {
+      var val = r === '전체' ? '' : r, b = el('button', 'out-tab' + (val === FREEOUT.region ? ' on' : '') + (val && !has[val] ? ' dim' : ''), r); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', val === FREEOUT.region ? 'true' : 'false');
+      b.addEventListener('click', function () { FREEOUT.region = val; ga('home_freeout_region', { r: r }); drawFreeOut(); }); tabs.appendChild(b);
+    });
+    tabs.scrollLeft = keep; var onTab = tabs.querySelector('.out-tab.on'); if (onTab) { tabs.scrollTo({ left: Math.max(0, onTab.offsetLeft - (tabs.clientWidth - onTab.offsetWidth) / 2), behavior: 'smooth' }); }
+    var list = items.filter(function (i) { return !FREEOUT.region || i.region === FREEOUT.region; }).sort(function (a, b) { return ((b.guide ? 2 : 0) + (b.img ? 1 : 0)) - ((a.guide ? 2 : 0) + (a.img ? 1 : 0)); });
+    box.innerHTML = '';
+    if (!list.length) box.appendChild(el('div', 'out-empty', (FREEOUT.region || '전국') + ' 무료 나들이 장소는 준비하고 있어요. 다른 지역을 골라 보세요.'));
+    list.slice(0, 30).forEach(function (i) { box.appendChild(window.__outingCard(i)); });
+  }
+  window.__redrawFreeOut = drawFreeOut;
   drawThemes(); drawSeasons(); drawCulFilter();
-  D.addEventListener('outing-ready', function () { refreshOuting(); drawSeason(); });
+  D.addEventListener('outing-ready', function () { refreshOuting(); drawSeason(); drawFreeOut(); });
   D.addEventListener('culture-ready', function () { drawFree(); drawWeek(); refreshOuting(); });
   if (window.__cultureItems) { drawFree(); drawWeek(); }
 })();

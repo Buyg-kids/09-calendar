@@ -1,0 +1,743 @@
+{
+ "note": "내부 우선순위(점수)는 가이드 작성 순서용이며 화면에 노출하지 않는다.",
+ "total_candidates": 78,
+ "rows": [
+  {
+   "key": "seed:spot_08",
+   "title": "광교호수공원",
+   "address": "경기 수원시 영통구 광교호수로 165",
+   "city": "수원시",
+   "source": "seed",
+   "themes": [],
+   "photo": true,
+   "category": "공원/물놀이터",
+   "homepage": false,
+   "free": true,
+   "score": 10
+  },
+  {
+   "key": "pool:pool_2736416",
+   "title": "알콩달콩유아숲체험원",
+   "address": "경기도 화성시 동탄구 동탄중앙로 410-30 (석우동)",
+   "city": "화성시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 8
+  },
+  {
+   "key": "pool:pool_129436",
+   "title": "화성 고정리 공룡알 화석산지",
+   "address": "경기도 화성시 만세구 송산면 공룡로 659",
+   "city": "화성시",
+   "source": "theme_pool",
+   "themes": [
+    "dinosaur"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 8
+  },
+  {
+   "key": "pool:pool_1605877",
+   "title": "경기도어린이박물관",
+   "address": "경기도 용인시 기흥구 상갈로 6 (상갈동)",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "museum"
+   ],
+   "photo": false,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_3033137",
+   "title": "광교어린이천문대",
+   "address": "경기도 수원시 영통구 웰빙타운로36번길 46-248 (이의동)",
+   "city": "수원시",
+   "source": "theme_pool",
+   "themes": [
+    "space"
+   ],
+   "photo": false,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "seed:spot_05",
+   "title": "국립현대미술관 과천 어린이미술관",
+   "address": "경기 과천시 광명로 313",
+   "city": "과천시",
+   "source": "seed",
+   "themes": [],
+   "photo": false,
+   "category": "미술관/체험",
+   "homepage": true,
+   "free": true,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_2863621",
+   "title": "매향리평화생태공원",
+   "address": "경기도 화성시 우정읍 고온리안길 24-11",
+   "city": "화성시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_1177867",
+   "title": "분당 어린이천문대",
+   "address": "경기도 용인시 처인구 모현면 오산로 132-1",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "space"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_2733840",
+   "title": "수지생태공원",
+   "address": "경기도 용인시 수지구 수지로 253 (신봉동)",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_3012585",
+   "title": "수지어린이천문대",
+   "address": "경기도 용인시 수지구 동천로 535-1 (고기동)",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "space"
+   ],
+   "photo": false,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_2998800",
+   "title": "영흥수목원",
+   "address": "경기도 수원시 영통구 영통로 435 (영통동)",
+   "city": "수원시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_3012524",
+   "title": "용인어린이천문대",
+   "address": "경기도 용인시 기흥구 지삼로98번길 11 (지곡동)",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "space"
+   ],
+   "photo": false,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_3076051",
+   "title": "일월수목원",
+   "address": "경기도 수원시 장안구 일월로 61 (천천동)",
+   "city": "수원시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_3013894",
+   "title": "주렁주렁 동물원 동탄점",
+   "address": "경기도 화성시 동탄대로5길 21 (송동)",
+   "city": "화성시",
+   "source": "theme_pool",
+   "themes": [
+    "animal"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_982142",
+   "title": "진주목장 낙농체험",
+   "address": "경기도 화성시 비봉면 일묵동길 24",
+   "city": "화성시",
+   "source": "theme_pool",
+   "themes": [
+    "animal"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_2665254",
+   "title": "청계목장",
+   "address": "경기도 용인시 처인구 백암면 청계로104번길 20",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "animal"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_127823",
+   "title": "한택식물원",
+   "address": "경기도 용인시 처인구 백암면 한택로 2",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "picnic"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_2514563",
+   "title": "화성시 우리꽃식물원",
+   "address": "경기도 화성시 팔탄면 3.1만세로 777-17",
+   "city": "화성시",
+   "source": "theme_pool",
+   "themes": [
+    "picnic"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 6
+  },
+  {
+   "key": "pool:pool_630741",
+   "title": "경안천 습지생태공원",
+   "address": "경기도 광주시 퇴촌면 정지리",
+   "city": "광주시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_660722",
+   "title": "국립과천과학관",
+   "address": "경기도 과천시 상하벌로 110 (과천동)",
+   "city": "과천시",
+   "source": "theme_pool",
+   "themes": [
+    "science"
+   ],
+   "photo": true,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2653096",
+   "title": "김포한강야생조류생태공원",
+   "address": "경기도 김포시 김포한강11로 455 (운양동)",
+   "city": "김포시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2736408",
+   "title": "남부수자원생태공원",
+   "address": "경기도 부천시 소사구 연동로 89 (옥길동)",
+   "city": "부천시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_128986",
+   "title": "물향기수목원",
+   "address": "경기도 오산시 청학로 211 (수청동)",
+   "city": "오산시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2750338",
+   "title": "배다리생태공원",
+   "address": "경기도 평택시 죽백6로 20 (죽백동)",
+   "city": "평택시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_4078125",
+   "title": "부천자연생태공원",
+   "address": "경기도 부천시 원미구 길주로 660 (춘의동)",
+   "city": "부천시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_3534509",
+   "title": "부천천문과학관",
+   "address": "경기도 부천시 원미구 부천로264번길 117 (도당동)",
+   "city": "부천시",
+   "source": "theme_pool",
+   "themes": [
+    "science"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2764942",
+   "title": "북부수자원생태공원",
+   "address": "경기도 부천시 오정구 벌말로 220 (대장동)",
+   "city": "부천시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2741575",
+   "title": "소풍동물원",
+   "address": "경기도 평택시 진위면 하북3길 25-59",
+   "city": "평택시",
+   "source": "theme_pool",
+   "themes": [
+    "animal"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "seed:spot_54",
+   "title": "시흥 갯골생태공원",
+   "address": "경기 시흥시 동서로 287",
+   "city": "시흥시",
+   "source": "seed",
+   "themes": [],
+   "photo": false,
+   "category": "공원/생태",
+   "homepage": false,
+   "free": true,
+   "score": 5
+  },
+  {
+   "key": "seed:spot_53",
+   "title": "안산 갈대습지공원",
+   "address": "경기 안산시 단원구 동산로 268",
+   "city": "안산시",
+   "source": "seed",
+   "themes": [],
+   "photo": false,
+   "category": "공원/생태",
+   "homepage": false,
+   "free": true,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_4039603",
+   "title": "안양수목원",
+   "address": "경기도 안양시 만안구 예술공원로 280 (안양동)",
+   "city": "안양시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2733412",
+   "title": "안터생태공원",
+   "address": "경기도 광명시 안재로1번길 27 (하안동)",
+   "city": "광명시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_125454",
+   "title": "애기봉평화생태공원",
+   "address": "경기도 김포시 월곶면 평화공원로 289",
+   "city": "김포시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2755456",
+   "title": "양평양떼목장",
+   "address": "경기도 양평군 용문면 은고갯길 112",
+   "city": "양평군",
+   "source": "theme_pool",
+   "themes": [
+    "animal"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "seed:spot_09",
+   "title": "율동공원",
+   "address": "경기 성남시 분당구 문정로 72",
+   "city": "성남시",
+   "source": "seed",
+   "themes": [],
+   "photo": false,
+   "category": "공원/산책",
+   "homepage": false,
+   "free": true,
+   "score": 5
+  },
+  {
+   "key": "seed:spot_56",
+   "title": "의왕 왕송호수공원",
+   "address": "경기 의왕시 왕송못동로 107",
+   "city": "의왕시",
+   "source": "seed",
+   "themes": [],
+   "photo": false,
+   "category": "공원/산책",
+   "homepage": false,
+   "free": true,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2859584",
+   "title": "의왕어린이천문대",
+   "address": "경기도 의왕시 오매기백운산길 54-10 의왕어린이천문대",
+   "city": "의왕시",
+   "source": "theme_pool",
+   "themes": [
+    "space"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_1850672",
+   "title": "의왕조류생태과학관",
+   "address": "경기도 의왕시 왕송못동로 209 (월암동)",
+   "city": "의왕시",
+   "source": "theme_pool",
+   "themes": [
+    "science"
+   ],
+   "photo": true,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2463812",
+   "title": "의왕철도박물관",
+   "address": "경기도 의왕시 철도박물관로 142 (월암동)",
+   "city": "의왕시",
+   "source": "theme_pool",
+   "themes": [
+    "transport"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_130743",
+   "title": "창조자연사박물관",
+   "address": "경기도 시흥시 두문로71번길 4 (신천동)",
+   "city": "시흥시",
+   "source": "theme_pool",
+   "themes": [
+    "dinosaur"
+   ],
+   "photo": true,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2751296",
+   "title": "초막골생태공원",
+   "address": "경기도 군포시 초막골길 130",
+   "city": "군포시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": true,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_2551477",
+   "title": "풀짚공예박물관",
+   "address": "경기도 광주시 문형산길 76 (신현동)",
+   "city": "광주시",
+   "source": "theme_pool",
+   "themes": [
+    "art"
+   ],
+   "photo": true,
+   "category": "문화시설",
+   "homepage": false,
+   "free": false,
+   "score": 5
+  },
+  {
+   "key": "pool:pool_128988",
+   "title": "경희천문대",
+   "address": "경기도 용인시 기흥구 덕영대로 1732 (서천동)",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "space"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 4
+  },
+  {
+   "key": "pool:pool_2514731",
+   "title": "덕평공룡수목원",
+   "address": "경기도 이천시 마장면 작촌로 282",
+   "city": "이천시",
+   "source": "theme_pool",
+   "themes": [
+    "dinosaur",
+    "nature"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 4
+  },
+  {
+   "key": "pool:pool_2732160",
+   "title": "동천자연식물원",
+   "address": "경기도 용인시 수지구 동천로 233",
+   "city": "용인시",
+   "source": "theme_pool",
+   "themes": [
+    "picnic"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 4
+  },
+  {
+   "key": "pool:pool_4032721",
+   "title": "금나루전통장체험농장",
+   "address": "경기도 김포시 하성면 마곡로72번길 275",
+   "city": "김포시",
+   "source": "theme_pool",
+   "themes": [
+    "cooking"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 3
+  },
+  {
+   "key": "pool:pool_3082256",
+   "title": "금원수목원수영장",
+   "address": "경기도 광주시 남종면 태허정로 389",
+   "city": "광주시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": false,
+   "category": "레포츠",
+   "homepage": false,
+   "free": false,
+   "score": 3
+  },
+  {
+   "key": "seed:spot_59",
+   "title": "남한산성",
+   "address": "경기 광주시 남한산성면 산성리",
+   "city": "광주시",
+   "source": "seed",
+   "themes": [],
+   "photo": false,
+   "category": "역사/산책",
+   "homepage": false,
+   "free": true,
+   "score": 3
+  },
+  {
+   "key": "pool:pool_2752942",
+   "title": "동탄어린이천문대",
+   "address": "경기도 오산시 독산성로270번길 24",
+   "city": "오산시",
+   "source": "theme_pool",
+   "themes": [
+    "space"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 3
+  },
+  {
+   "key": "pool:pool_2781609",
+   "title": "무릉도원수목원",
+   "address": "경기도 부천시 춘의동",
+   "city": "부천시",
+   "source": "theme_pool",
+   "themes": [
+    "nature"
+   ],
+   "photo": false,
+   "category": "관광지",
+   "homepage": false,
+   "free": false,
+   "score": 3
+  }
+ ]
+}
