@@ -1,0 +1,992 @@
+{
+ "note": "내부 우선순위(점수)는 가이드 작성 순서용이며 화면에 노출하지 않는다.",
+ "source": "TourAPI areaBasedList2(12·14·28)",
+ "totals": {
+  "수원시": 140,
+  "용인시": 188,
+  "화성시": 117
+ },
+ "rows": {
+  "수원시": [
+   {
+    "contentid": "1921150",
+    "title": "수원화성박물관",
+    "address": "경기도 수원시 팔달구 창룡대로 21 (매향동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.282085,
+     "lon": 127.01908
+    },
+    "score": 9
+   },
+   {
+    "contentid": "2944481",
+    "title": "국립농업박물관",
+    "address": "경기도 수원시 권선구 수인로 154 (서둔동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.274644,
+     "lon": 126.982672
+    },
+    "score": 8
+   },
+   {
+    "contentid": "2714652",
+    "title": "아쿠아플라넷 광교",
+    "address": "경기도 수원시 영통구 광교중앙로 124 (하동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.285251,
+     "lon": 127.057455
+    },
+    "score": 8
+   },
+   {
+    "contentid": "3033137",
+    "title": "광교어린이천문대",
+    "address": "경기도 수원시 영통구 웰빙타운로36번길 46-248 (이의동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.311992,
+     "lon": 127.054591
+    },
+    "score": 5
+   },
+   {
+    "contentid": "130744",
+    "title": "국립지도박물관",
+    "address": "경기도 수원시 영통구 월드컵로 92",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.275795,
+     "lon": 127.054928
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2781860",
+    "title": "물봉선어린이공원",
+    "address": "경기도 수원시 영통구 이의동",
+    "city": "수원시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.2941,
+     "lon": 127.0539
+    },
+    "score": 5
+   },
+   {
+    "contentid": "638913",
+    "title": "수원박물관",
+    "address": "경기도 수원시 영통구 창룡대로 265 (이의동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.297647,
+     "lon": 127.035633
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2742316",
+    "title": "수원어린이교통공원",
+    "address": "경기도 수원시 영통구 덕영대로 1570 (영통동)",
+    "city": "수원시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.245454,
+     "lon": 127.062784
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2480899",
+    "title": "수원화성 관광특구",
+    "address": "경기도 수원시 팔달구 정조로 780 (팔달로2가)",
+    "city": "수원시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.277614,
+     "lon": 127.016792
+    },
+    "score": 5
+   },
+   {
+    "contentid": "4067984",
+    "title": "수원화성 성곽길",
+    "address": "경기도 수원시 팔달구 정조로 776-2 (팔달로3가)",
+    "city": "수원시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.277351,
+     "lon": 127.017261
+    },
+    "score": 5
+   },
+   {
+    "contentid": "129437",
+    "title": "화성행궁",
+    "address": "경기도 수원시 팔달구 정조로 825 (남창동)",
+    "city": "수원시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.281816,
+     "lon": 127.016373
+    },
+    "score": 5
+   },
+   {
+    "contentid": "130827",
+    "title": "바른샘어린이도서관",
+    "address": "경기도 수원시 영통구 매봉로 10 (매탄동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.268907,
+     "lon": 127.052387
+    },
+    "score": 4
+   },
+   {
+    "contentid": "2379222",
+    "title": "수원광교박물관",
+    "address": "경기도 수원시 영통구 광교로 182 (이의동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": false,
+    "geo": {
+     "lat": 37.296344,
+     "lon": 127.051426
+    },
+    "score": 4
+   },
+   {
+    "contentid": "130826",
+    "title": "슬기샘어린이도서관",
+    "address": "경기도 수원시 장안구 송정로 9 (송죽동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.297627,
+     "lon": 126.999127
+    },
+    "score": 4
+   },
+   {
+    "contentid": "2998800",
+    "title": "영흥수목원",
+    "address": "경기도 수원시 영통구 영통로 435 (영통동)",
+    "city": "수원시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.259581,
+     "lon": 127.07309
+    },
+    "score": 4
+   },
+   {
+    "contentid": "3076051",
+    "title": "일월수목원",
+    "address": "경기도 수원시 장안구 일월로 61 (천천동)",
+    "city": "수원시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.2881,
+     "lon": 126.97702
+    },
+    "score": 4
+   },
+   {
+    "contentid": "130825",
+    "title": "지혜샘어린이도서관",
+    "address": "경기도 수원시 권선구 동탄원천로 818 (권선동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.248134,
+     "lon": 127.039924
+    },
+    "score": 4
+   },
+   {
+    "contentid": "2033483",
+    "title": "수원시립미술관",
+    "address": "경기도 수원시 팔달구 정조로 833 (신풍동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.282705,
+     "lon": 127.015825
+    },
+    "score": 3
+   },
+   {
+    "contentid": "2553414",
+    "title": "해움미술관",
+    "address": "경기도 수원시 팔달구 매산로 133 (교동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.272311,
+     "lon": 127.015026
+    },
+    "score": 3
+   },
+   {
+    "contentid": "1835388",
+    "title": "[경기옛길 삼남길 제5길] 중복들길(서호공원입구 ~ 배양교)",
+    "address": "경기도 수원시 팔달구 서호천길 815 (화서동)",
+    "city": "수원시",
+    "contenttypeid": "28",
+    "photo": true,
+    "geo": {
+     "lat": 37.28061,
+     "lon": 126.987892
+    },
+    "score": 2
+   },
+   {
+    "contentid": "3081843",
+    "title": "경기도업사이클플라자",
+    "address": "경기도 수원시 권선구 서둔로 166 (서둔동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.26785,
+     "lon": 126.983886
+    },
+    "score": 2
+   },
+   {
+    "contentid": "3427294",
+    "title": "경기도행정역사관",
+    "address": "경기도 수원시 장안구 경수대로 1150 (파장동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.313512,
+     "lon": 126.989422
+    },
+    "score": 2
+   },
+   {
+    "contentid": "3084989",
+    "title": "경기문화재단 아트홀(구 다산홀)",
+    "address": "경기도 수원시 팔달구 인계로 178 (인계동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.265936,
+     "lon": 127.036911
+    },
+    "score": 2
+   },
+   {
+    "contentid": "2747132",
+    "title": "경기상상캠퍼스",
+    "address": "경기도 수원시 권선구 서둔로 166 (서둔동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.266529,
+     "lon": 126.981175
+    },
+    "score": 2
+   },
+   {
+    "contentid": "130489",
+    "title": "경기아트센터",
+    "address": "경기도 수원시 팔달구 효원로307번길 20 (인계동)",
+    "city": "수원시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.261407,
+     "lon": 127.035941
+    },
+    "score": 2
+   }
+  ],
+  "용인시": [
+   {
+    "contentid": "2629751",
+    "title": "용인농촌테마파크 농경문화전시관",
+    "address": "경기도 용인시 처인구 원삼면 농촌파크로 80-1",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.172768,
+     "lon": 127.298417
+    },
+    "score": 9
+   },
+   {
+    "contentid": "1605877",
+    "title": "경기도어린이박물관",
+    "address": "경기도 용인시 기흥구 상갈로 6 (상갈동)",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.266916,
+     "lon": 127.107418
+    },
+    "score": 8
+   },
+   {
+    "contentid": "2662397",
+    "title": "용인곤충테마파크",
+    "address": "경기도 용인시 처인구 백암면 삼백로835번길 38",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.145341,
+     "lon": 127.364557
+    },
+    "score": 8
+   },
+   {
+    "contentid": "773293",
+    "title": "용인농촌테마파크",
+    "address": "경기도 용인시 처인구 원삼면 농촌파크로 80-1",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.17282,
+     "lon": 127.298434
+    },
+    "score": 8
+   },
+   {
+    "contentid": "2714225",
+    "title": "용인어린이상상의숲",
+    "address": "경기도 용인시 처인구 동백죽전대로 61 (삼가동)",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.249631,
+     "lon": 127.165158
+    },
+    "score": 8
+   },
+   {
+    "contentid": "127797",
+    "title": "에버랜드",
+    "address": "경기도 용인시 처인구 포곡읍 에버랜드로 199",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.294067,
+     "lon": 127.202128
+    },
+    "score": 7
+   },
+   {
+    "contentid": "125578",
+    "title": "한국민속촌",
+    "address": "경기도 용인시 기흥구 민속촌로 90 (보라동)",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.256715,
+     "lon": 127.114581
+    },
+    "score": 7
+   },
+   {
+    "contentid": "131305",
+    "title": "한국민속촌 눈썰매장",
+    "address": "경기도 용인시 기흥구 민속촌로 90 (보라동)",
+    "city": "용인시",
+    "contenttypeid": "28",
+    "photo": true,
+    "geo": {
+     "lat": 37.256715,
+     "lon": 127.114581
+    },
+    "score": 7
+   },
+   {
+    "contentid": "3582744",
+    "title": "한복남 한국민속촌점",
+    "address": "경기도 용인시 기흥구 민속촌로 85 (보라동)",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.256757,
+     "lon": 127.113931
+    },
+    "score": 7
+   },
+   {
+    "contentid": "127823",
+    "title": "한택식물원",
+    "address": "경기도 용인시 처인구 백암면 한택로 2",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.094009,
+     "lon": 127.409749
+    },
+    "score": 7
+   },
+   {
+    "contentid": "130136",
+    "title": "경기도박물관",
+    "address": "경기도 용인시 기흥구 상갈로 6 (상갈동)",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.266916,
+     "lon": 127.107418
+    },
+    "score": 5
+   },
+   {
+    "contentid": "3012585",
+    "title": "수지어린이천문대",
+    "address": "경기도 용인시 수지구 동천로 535-1 (고기동)",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.351283,
+     "lon": 127.053367
+    },
+    "score": 5
+   },
+   {
+    "contentid": "1824455",
+    "title": "예아리박물관",
+    "address": "경기도 용인시 처인구 원설로270번길 25 예아리 박물관",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.142153,
+     "lon": 127.362955
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2732148",
+    "title": "용인시기후변화체험교육센터",
+    "address": "경기도 용인시 처인구 동부로162번길 14",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.222379,
+     "lon": 127.22292
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2734982",
+    "title": "용인시박물관",
+    "address": "경기도 용인시 기흥구 동백3로 79 (중동)",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.273897,
+     "lon": 127.157125
+    },
+    "score": 5
+   },
+   {
+    "contentid": "3012524",
+    "title": "용인어린이천문대",
+    "address": "경기도 용인시 기흥구 지삼로98번길 11 (지곡동)",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.249439,
+     "lon": 127.128762
+    },
+    "score": 5
+   },
+   {
+    "contentid": "3023343",
+    "title": "주니어천문스쿨 수지점",
+    "address": "경기도 용인시 수지구 성복2로301번길 7 (성복동)",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.318203,
+     "lon": 127.055145
+    },
+    "score": 5
+   },
+   {
+    "contentid": "130147",
+    "title": "한국등잔박물관",
+    "address": "경기도 용인시 처인구 모현읍 능곡로56번길 8",
+    "city": "용인시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.336586,
+     "lon": 127.177881
+    },
+    "score": 5
+   },
+   {
+    "contentid": "128988",
+    "title": "경희천문대",
+    "address": "경기도 용인시 기흥구 덕영대로 1732 (서천동)",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.248001,
+     "lon": 127.080882
+    },
+    "score": 4
+   },
+   {
+    "contentid": "2732160",
+    "title": "동천자연식물원",
+    "address": "경기도 용인시 수지구 동천로 233",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.337449,
+     "lon": 127.079452
+    },
+    "score": 4
+   },
+   {
+    "contentid": "2734980",
+    "title": "딸기랑소풍가기좋은날",
+    "address": "경기도 용인시 처인구 남사읍 전원로 8",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.117413,
+     "lon": 127.175927
+    },
+    "score": 4
+   },
+   {
+    "contentid": "1177867",
+    "title": "분당 어린이천문대",
+    "address": "경기도 용인시 처인구 모현면 오산로 132-1",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.323258,
+     "lon": 127.155056
+    },
+    "score": 4
+   },
+   {
+    "contentid": "3032064",
+    "title": "용인청정팜",
+    "address": "경기도 용인시 처인구 원삼면 미평리",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.191751,
+     "lon": 127.322017
+    },
+    "score": 4
+   },
+   {
+    "contentid": "3455504",
+    "title": "용인특례시 가상현실스포츠체험센터",
+    "address": "경기도 용인시 처인구 중부대로 1217 (역북동)",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.238601,
+     "lon": 127.180554
+    },
+    "score": 4
+   },
+   {
+    "contentid": "2713393",
+    "title": "팜앤트리",
+    "address": "경기도 용인시 처인구 원삼면 두창로113번길 21",
+    "city": "용인시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.162691,
+     "lon": 127.335418
+    },
+    "score": 4
+   }
+  ],
+  "화성시": [
+   {
+    "contentid": "2757395",
+    "title": "화성시 향토박물관",
+    "address": "경기도 화성시 향남읍 행정동로 96",
+    "city": "화성시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.132593,
+     "lon": 126.928061
+    },
+    "score": 6
+   },
+   {
+    "contentid": "2610168",
+    "title": "화성시어린이문화센터",
+    "address": "경기도 화성시 봉담읍 동화길 146",
+    "city": "화성시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.212334,
+     "lon": 126.960802
+    },
+    "score": 6
+   },
+   {
+    "contentid": "131785",
+    "title": "경기도사격테마파크",
+    "address": "경기도 화성시 양감면 사격장길 142",
+    "city": "화성시",
+    "contenttypeid": "28",
+    "photo": true,
+    "geo": {
+     "lat": 37.09275,
+     "lon": 126.957388
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2737291",
+    "title": "백미리갯벌체험장",
+    "address": "경기도 화성시 서신면 백미길 210-35",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.143642,
+     "lon": 126.679927
+    },
+    "score": 5
+   },
+   {
+    "contentid": "3017378",
+    "title": "센트럴곤충생태농장",
+    "address": "경기도 화성시 정남면 세자로 225",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.188268,
+     "lon": 126.976995
+    },
+    "score": 5
+   },
+   {
+    "contentid": "3456908",
+    "title": "화성 융건릉",
+    "address": "경기도 화성시 효행로481번길 21 (안녕동)",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.208185,
+     "lon": 126.989286
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2514563",
+    "title": "화성시 우리꽃식물원",
+    "address": "경기도 화성시 팔탄면 3.1만세로 777-17",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.114819,
+     "lon": 126.882863
+    },
+    "score": 5
+   },
+   {
+    "contentid": "2795195",
+    "title": "유앤아이센터",
+    "address": "경기도 화성시 태안로 145 (병점동)",
+    "city": "화성시",
+    "contenttypeid": "28",
+    "photo": true,
+    "geo": {
+     "lat": 37.203902,
+     "lon": 127.033567
+    },
+    "score": 4
+   },
+   {
+    "contentid": "3017490",
+    "title": "주니어천문스쿨 동탄점",
+    "address": "경기도 화성시 풀무골로60번길 4-16 (중동)",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.201421,
+     "lon": 127.13521
+    },
+    "score": 4
+   },
+   {
+    "contentid": "3013894",
+    "title": "주렁주렁 동물원 동탄점",
+    "address": "경기도 화성시 동탄대로5길 21 (송동)",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.166891,
+     "lon": 127.105154
+    },
+    "score": 4
+   },
+   {
+    "contentid": "982142",
+    "title": "진주목장 낙농체험",
+    "address": "경기도 화성시 비봉면 일묵동길 24",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.241326,
+     "lon": 126.879345
+    },
+    "score": 4
+   },
+   {
+    "contentid": "3466257",
+    "title": "치유앤 딸기 체험 농장",
+    "address": "경기도 화성시 팔탄면 해창길 155-27",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.099677,
+     "lon": 126.883598
+    },
+    "score": 4
+   },
+   {
+    "contentid": "613310",
+    "title": "하피랜드",
+    "address": "경기도 화성시 팔탄면 시청로 888",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.168624,
+     "lon": 126.888532
+    },
+    "score": 4
+   },
+   {
+    "contentid": "2756728",
+    "title": "소다미술관",
+    "address": "경기도 화성시 효행로707번길 30",
+    "city": "화성시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.20162,
+     "lon": 127.006087
+    },
+    "score": 3
+   },
+   {
+    "contentid": "3081851",
+    "title": "엄미술관",
+    "address": "경기도 화성시 봉담읍 오궁길 37",
+    "city": "화성시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.205628,
+     "lon": 126.979387
+    },
+    "score": 3
+   },
+   {
+    "contentid": "2759970",
+    "title": "할아버지동물농장",
+    "address": "경기도 화성시 우정읍 배미길 50",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": false,
+    "geo": {
+     "lat": 37.064495,
+     "lon": 126.785375
+    },
+    "score": 3
+   },
+   {
+    "contentid": "1835565",
+    "title": "[경기옛길 삼남길 제6길] 화성효행길",
+    "address": "경기도 화성시 배양동",
+    "city": "화성시",
+    "contenttypeid": "28",
+    "photo": true,
+    "geo": {
+     "lat": 37.2302,
+     "lon": 126.9936
+    },
+    "score": 2
+   },
+   {
+    "contentid": "2734903",
+    "title": "개나리공원",
+    "address": "경기도 화성시 반송동",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.20955,
+     "lon": 127.065515
+    },
+    "score": 2
+   },
+   {
+    "contentid": "3017599",
+    "title": "구봉산근린공원",
+    "address": "경기도 화성시 병점1로 110 (병점동)",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.204761,
+     "lon": 127.045567
+    },
+    "score": 2
+   },
+   {
+    "contentid": "2757397",
+    "title": "궁평관광지",
+    "address": "경기도 화성시 서신면 궁평리 513-9",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.128494,
+     "lon": 126.683302
+    },
+    "score": 2
+   },
+   {
+    "contentid": "2514454",
+    "title": "궁평항",
+    "address": "경기도 화성시 서신면 궁평항로 1049-24",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.115353,
+     "lon": 126.681336
+    },
+    "score": 2
+   },
+   {
+    "contentid": "2733830",
+    "title": "궁평해송군락지",
+    "address": "경기도 화성시 서신면 궁평리 660-41",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.120965,
+     "lon": 126.685046
+    },
+    "score": 2
+   },
+   {
+    "contentid": "3017606",
+    "title": "너른공원",
+    "address": "경기도 화성시 방교동",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.1818,
+     "lon": 127.09
+    },
+    "score": 2
+   },
+   {
+    "contentid": "2736682",
+    "title": "노작호수공원",
+    "address": "경기도 화성시 석우동",
+    "city": "화성시",
+    "contenttypeid": "12",
+    "photo": true,
+    "geo": {
+     "lat": 37.206251,
+     "lon": 127.080016
+    },
+    "score": 2
+   },
+   {
+    "contentid": "1113463",
+    "title": "노작홍사용문학관",
+    "address": "경기도 화성시 노작로 206",
+    "city": "화성시",
+    "contenttypeid": "14",
+    "photo": true,
+    "geo": {
+     "lat": 37.205562,
+     "lon": 127.075867
+    },
+    "score": 2
+   }
+  ]
+ }
+}

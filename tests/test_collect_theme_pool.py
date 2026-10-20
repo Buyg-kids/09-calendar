@@ -260,5 +260,25 @@ class TestThemeSplit(unittest.TestCase):
             self.assertEqual(list(ctp.load_pool(p)), ["character"])                # 옛 9종 파일은 읽을 때 13종으로 옮겨진다
 
 
+class TestAnchorDiscovery(unittest.TestCase):
+    def test_kid_score_orders_flagships_and_excludes_noise(self):
+        import discover_anchor_area as dis
+        self.assertEqual(dis.kid_score("OO체육공원"), -1)
+        self.assertEqual(dis.kid_score("달빛캠핑장"), -1)
+        self.assertGreater(dis.kid_score("에버랜드", True), dis.kid_score("동네공원", True))
+        self.assertGreater(dis.kid_score("한국민속촌", True), dis.kid_score("OO어린이도서관", True))   # 도서관은 감점
+        self.assertGreater(dis.kid_score("경기도어린이박물관", True, "14"), dis.kid_score("아무개박물관", True, "14"))
+
+    def test_pick_top_per_city_and_geo(self):
+        import discover_anchor_area as dis
+        raw = {"수원시": {"1": {"contentid": "1", "title": "수원화성박물관", "addr1": "경기도 수원시", "mapx": "127.0", "mapy": "37.3", "firstimage": "x", "contenttypeid": "14"},
+                          "2": {"contentid": "2", "title": "OO체육공원", "addr1": "경기도 수원시", "mapx": "127.0", "mapy": "37.3", "contenttypeid": "12"},
+                          "3": {"contentid": "3", "title": "아이랑농장", "addr1": "경기도 수원시", "mapx": "bad", "mapy": "37.3", "contenttypeid": "12"}}}
+        rows = dis.pick(raw, top=5)["수원시"]
+        self.assertEqual([r["title"] for r in rows], ["수원화성박물관", "아이랑농장"])        # 체육공원은 제외
+        self.assertIsNone(rows[1]["geo"])
+        self.assertEqual(rows[0]["geo"], {"lat": 37.3, "lon": 127.0})
+
+
 if __name__ == "__main__":
     unittest.main()
