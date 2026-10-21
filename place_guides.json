@@ -1,977 +1,1812 @@
 {
- "version": 1,
- "updated": "2026-10-14",
- "places": {
-  "spot_06": {
-   "id": "spot_06",
-   "name": "경기도박물관",
-   "region": "경기",
-   "theme": "museum",
-   "copy": "입장은 무료, 해설과 함께 천천히 둘러보는 박물관",
-   "photos": [
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/25/4106425_image2_1.jpg",
-     "thumb": "https://tong.visitkorea.or.kr/cms/resource/25/4106425_image3_1.jpg",
-     "credit": "한국관광공사 TourAPI",
-     "license": "공공누리 제1유형(출처표시)",
-     "contentid": "130136",
-     "checked": "2026-10-14"
-    }
-   ],
-   "facts": {
-    "address": {
-     "v": "경기 용인시 기흥구 상갈로 6 (상갈동)",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    "tel": {
-     "v": "031-288-5300 (관람안내 031-288-5400)",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    "hours": {
-     "v": "10:00~18:00 (입장마감 17:20)",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    "closed": {
-     "v": "매주 월요일, 1월 1일, 설날·추석 당일, 대체휴관일 (월요일이 공휴일이면 개관, 그다음 첫 평일 휴관)",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    "fee": {
-     "v": "무료",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    "reservation": {
-     "v": null,
-     "src": null,
-     "checked": null
-    }
-   },
-   "age_fit": {
-    "baby": 1,
-    "toddler": 2,
-    "kid": 3,
-    "preschool": 3,
-    "basis": "editor",
-    "reviewed": true,
-    "reviewed_by": "운영자",
-    "reviewed_at": "2026-10-14",
-    "note": "전시 관람과 50분 내외 해설이 중심이라 4세 이후 연령에서 몰입하기 좋아요. 음식물 반입이 금지돼 있어 영유아는 간식 시간을 미리 챙겨 주세요."
-   },
-   "tips": [
-    {
-     "text": "정기 해설은 별도 신청 없이 11:00·13:00·15:00에 안내데스크 앞에 모이면 돼요(50분 내외). 단체 해설이 있으면 개별 해설은 제한되거나 없을 수 있어요.",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "음식물 반입이 금지돼 있어요. 영유아 간식·수유는 입장 전에 미리 챙겨 주세요.",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "경기도박물관·백남준아트센터·경기도어린이박물관이 같은 주차장을 써요. 입차 후 30분 이내 출차는 무료, 다자녀우대카드 소지 가족은 주차요금 50% 감면이에요.",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "뮤지엄숍에서 10,000원 이상 구매하면 주차 2시간 무료예요(중복 할인 불가).",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    }
-   ],
-   "highlights": [
-    {
-     "text": "정기 해설(11:00 · 13:00 · 15:00, 50분 내외)에 신청 없이 참여할 수 있어요.",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "전시실 1·2층과 야외전시장이 있어요. 야외 관람로에서는 자전거·킥보드 등을 탈 수 없어요.",
-     "src": "https://musenet.ggcf.kr/pages/guide-facility",
-     "checked": "2026-10-14"
-    }
-   ],
-   "infra": {
-    "stroller": {
-     "v": null,
-     "src": null,
-     "checked": null
-    },
-    "nursing": {
-     "v": null,
-     "src": null,
-     "checked": null
-    },
-    "diaper": {
-     "v": null,
-     "src": null,
-     "checked": null
-    },
-    "parking": {
-     "v": "승용차 기본 1시간 1,000원 · 초과 10분당 200원 · 1일 최대 8,000원 (주차장은 백남준아트센터·경기도어린이박물관과 공용)",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    },
-    "transit": {
-     "v": "분당선 상갈역 4번 출구에서 도보 10분",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    }
-   },
-   "faq": [
-    {
-     "q": "입장료가 있나요?",
-     "a": "관람료는 무료예요.",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "간식이나 음식을 가져가도 되나요?",
-     "a": "음식물 반입이 금지돼 있어요.",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "킥보드나 자전거를 타고 들어가도 되나요?",
-     "a": "야외 관람로에서는 자전거·킥보드·인라인스케이트 등을 이용할 수 없어요.",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "쉬는 날은 언제예요?",
-     "a": "매주 월요일, 1월 1일, 설날·추석 당일, 대체휴관일이에요. 월요일이 공휴일이면 문을 열고 그다음 첫 평일에 쉬어요.",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "주차 요금은 얼마예요?",
-     "a": "승용차 기준 기본 1시간 1,000원, 초과 10분당 200원, 1일 최대 8,000원이에요. 입차 후 30분 이내 출차는 무료예요.",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    }
-   ],
-   "nearby": [
-    {
-     "name": "백남준아트센터",
-     "kind": "함께 들르기",
-     "note": "경기도박물관과 주차장을 함께 쓰는 시설이에요.",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    },
-    {
-     "name": "경기도어린이박물관",
-     "kind": "함께 들르기",
-     "note": "경기도박물관과 주차장을 함께 쓰는 시설이에요.",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    }
-   ],
-   "costs": {
-    "admission": {
-     "model": "free",
-     "note": "관람료 무료",
-     "src": "https://musenet.ggcf.kr/pages/guide",
-     "checked": "2026-10-14"
-    },
-    "parking": {
-     "model": "tiered",
-     "free_minutes": 30,
-     "base_minutes": 60,
-     "base": 1000,
-     "step_minutes": 10,
-     "step": 200,
-     "daily_max": 8000,
-     "note": "승용차 기준 · 입차 후 30분 이내 출차 무료 · 경기도박물관·백남준아트센터·경기도어린이박물관 공용 주차장",
-     "src": "https://musenet.ggcf.kr/pages/guide-contact",
-     "checked": "2026-10-14"
-    }
-   },
-   "eats": [
-    {
-     "id": "eat_samdae_dubu",
-     "kind": "식당",
-     "name": "삼대째손두부 (기흥점)",
-     "address": "경기 용인시 기흥구 신갈로 25",
-     "distance": {
-      "v": "경기도박물관에서 차로 3~5분",
-      "mode": "car",
-      "min_minutes": 3,
-      "max_minutes": 5,
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "recommend_for": {
-      "v": "돌 전후~유아 동반, 자극 없는 순한 한식 식사가 필요할 때",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "infra": {
-      "high_chair": {
-       "v": "아기의자 구비",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+  "version": 1,
+  "updated": "2026-10-21",
+  "places": {
+    "spot_06": {
+      "id": "spot_06",
+      "name": "경기도박물관",
+      "region": "경기",
+      "theme": "museum",
+      "copy": "입장은 무료, 해설과 함께 천천히 둘러보는 박물관",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/25/4106425_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/25/4106425_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "130136",
+          "checked": "2026-10-14"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기 용인시 기흥구 상갈로 6 (상갈동)",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        "tel": {
+          "v": "031-288-5300 (관람안내 031-288-5400)",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        "hours": {
+          "v": "10:00~18:00 (입장마감 17:20)",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        "closed": {
+          "v": "매주 월요일, 1월 1일, 설날·추석 당일, 대체휴관일 (월요일이 공휴일이면 개관, 그다음 첫 평일 휴관)",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        "fee": {
+          "v": "무료",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        "reservation": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
       },
-      "parking": {
-       "v": "매장 앞 전용 주차장",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
-      }
-     },
-     "menu": {
-      "v": "부드러운 하얀 순두부·두부 요리",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "pros": [
-      {
-       "text": "부드러운 하얀 순두부와 두부 요리로 어린 유아 식사에 좋아요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": true,
+        "reviewed_by": "운영자",
+        "reviewed_at": "2026-10-14",
+        "note": "전시 관람과 50분 내외 해설이 중심이라 4세 이후 연령에서 몰입하기 좋아요. 음식물 반입이 금지돼 있어 영유아는 간식 시간을 미리 챙겨 주세요."
       },
-      {
-       "text": "주차 공간이 넉넉해 가족 단위 자가용 방문이 수월해요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
-      }
-     ],
-     "cons": [
-      {
-       "text": "주말 점심 피크(12~13시)에는 가족 단위 손님으로 만석이라 웨이팅이 있을 수 있어요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
-      }
-     ],
-     "peak": {
-      "start": "12:00",
-      "end": "13:00",
-      "label": "주말 점심 피크(12~13시)"
-     },
-     "place_check": {
-      "status": "confirmed",
-      "confirmed_by": "운영자",
-      "confirmed_at": "2026-10-14",
-      "note": "주소·영업 여부를 운영자가 직접 확인"
-     },
-     "provenance": "operator_verified",
-     "verified_at": "2026-10-14",
-     "ref_menu": {
-      "name": "얼큰순두부찌개",
-      "price": 11000,
-      "note": "",
-      "basis": "운영자 확인 기준가",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     }
-    },
-    {
-     "id": "eat_hwangje_jjamppong",
-     "kind": "식당",
-     "name": "황제바지락짬뽕 (상갈본점)",
-     "address": "경기 용인시 기흥구 상갈로 29",
-     "distance": {
-      "v": "경기도박물관에서 도보 3분 · 차로 1분",
-      "mode": "walk",
-      "min_minutes": 3,
-      "max_minutes": 3,
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "recommend_for": {
-      "v": "24개월 이상~어린이 동반, 박물관에서 도보로 이동할 때",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "infra": {
-      "high_chair": {
-       "v": "아기의자 완비",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "tips": [
+        {
+          "text": "정기 해설은 별도 신청 없이 11:00·13:00·15:00에 안내데스크 앞에 모이면 돼요(50분 내외). 단체 해설이 있으면 개별 해설은 제한되거나 없을 수 있어요.",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "음식물 반입이 금지돼 있어요. 영유아 간식·수유는 입장 전에 미리 챙겨 주세요.",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "경기도박물관·백남준아트센터·경기도어린이박물관이 같은 주차장을 써요. 입차 후 30분 이내 출차는 무료, 다자녀우대카드 소지 가족은 주차요금 50% 감면이에요.",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "뮤지엄숍에서 10,000원 이상 구매하면 주차 2시간 무료예요(중복 할인 불가).",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "정기 해설(11:00 · 13:00 · 15:00, 50분 내외)에 신청 없이 참여할 수 있어요.",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "전시실 1·2층과 야외전시장이 있어요. 야외 관람로에서는 자전거·킥보드 등을 탈 수 없어요.",
+          "src": "https://musenet.ggcf.kr/pages/guide-facility",
+          "checked": "2026-10-14"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "nursing": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "승용차 기본 1시간 1,000원 · 초과 10분당 200원 · 1일 최대 8,000원 (주차장은 백남준아트센터·경기도어린이박물관과 공용)",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        },
+        "transit": {
+          "v": "분당선 상갈역 4번 출구에서 도보 10분",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        }
       },
-      "parking": {
-       "v": "매장 주차장 구비",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "faq": [
+        {
+          "q": "입장료가 있나요?",
+          "a": "관람료는 무료예요.",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "간식이나 음식을 가져가도 되나요?",
+          "a": "음식물 반입이 금지돼 있어요.",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "킥보드나 자전거를 타고 들어가도 되나요?",
+          "a": "야외 관람로에서는 자전거·킥보드·인라인스케이트 등을 이용할 수 없어요.",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "쉬는 날은 언제예요?",
+          "a": "매주 월요일, 1월 1일, 설날·추석 당일, 대체휴관일이에요. 월요일이 공휴일이면 문을 열고 그다음 첫 평일에 쉬어요.",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "주차 요금은 얼마예요?",
+          "a": "승용차 기준 기본 1시간 1,000원, 초과 10분당 200원, 1일 최대 8,000원이에요. 입차 후 30분 이내 출차는 무료예요.",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        }
+      ],
+      "nearby": [
+        {
+          "name": "백남준아트센터",
+          "kind": "함께 들르기",
+          "note": "경기도박물관과 주차장을 함께 쓰는 시설이에요.",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        },
+        {
+          "name": "경기도어린이박물관",
+          "kind": "함께 들르기",
+          "note": "경기도박물관과 주차장을 함께 쓰는 시설이에요.",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        }
+      ],
+      "costs": {
+        "admission": {
+          "model": "free",
+          "note": "관람료 무료",
+          "src": "https://musenet.ggcf.kr/pages/guide",
+          "checked": "2026-10-14"
+        },
+        "parking": {
+          "model": "tiered",
+          "free_minutes": 30,
+          "base_minutes": 60,
+          "base": 1000,
+          "step_minutes": 10,
+          "step": 200,
+          "daily_max": 8000,
+          "note": "승용차 기준 · 입차 후 30분 이내 출차 무료 · 경기도박물관·백남준아트센터·경기도어린이박물관 공용 주차장",
+          "src": "https://musenet.ggcf.kr/pages/guide-contact",
+          "checked": "2026-10-14"
+        }
       },
-      "table_space": {
-       "v": "넓은 테이블 간격",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "eats": [
+        {
+          "id": "eat_samdae_dubu",
+          "kind": "식당",
+          "name": "삼대째손두부 (기흥점)",
+          "address": "경기 용인시 기흥구 신갈로 25",
+          "distance": {
+            "v": "경기도박물관에서 차로 3~5분",
+            "mode": "car",
+            "min_minutes": 3,
+            "max_minutes": 5,
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "recommend_for": {
+            "v": "돌 전후~유아 동반, 자극 없는 순한 한식 식사가 필요할 때",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "infra": {
+            "high_chair": {
+              "v": "아기의자 구비",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            "parking": {
+              "v": "매장 앞 전용 주차장",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          },
+          "menu": {
+            "v": "부드러운 하얀 순두부·두부 요리",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "pros": [
+            {
+              "text": "부드러운 하얀 순두부와 두부 요리로 어린 유아 식사에 좋아요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            {
+              "text": "주차 공간이 넉넉해 가족 단위 자가용 방문이 수월해요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          ],
+          "cons": [
+            {
+              "text": "주말 점심 피크(12~13시)에는 가족 단위 손님으로 만석이라 웨이팅이 있을 수 있어요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          ],
+          "peak": {
+            "start": "12:00",
+            "end": "13:00",
+            "label": "주말 점심 피크(12~13시)"
+          },
+          "place_check": {
+            "status": "confirmed",
+            "confirmed_by": "운영자",
+            "confirmed_at": "2026-10-14",
+            "note": "주소·영업 여부를 운영자가 직접 확인"
+          },
+          "provenance": "operator_verified",
+          "verified_at": "2026-10-14",
+          "ref_menu": {
+            "name": "얼큰순두부찌개",
+            "price": 11000,
+            "note": "",
+            "basis": "운영자 확인 기준가",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          }
+        },
+        {
+          "id": "eat_hwangje_jjamppong",
+          "kind": "식당",
+          "name": "황제바지락짬뽕 (상갈본점)",
+          "address": "경기 용인시 기흥구 상갈로 29",
+          "distance": {
+            "v": "경기도박물관에서 도보 3분 · 차로 1분",
+            "mode": "walk",
+            "min_minutes": 3,
+            "max_minutes": 3,
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "recommend_for": {
+            "v": "24개월 이상~어린이 동반, 박물관에서 도보로 이동할 때",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "infra": {
+            "high_chair": {
+              "v": "아기의자 완비",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            "parking": {
+              "v": "매장 주차장 구비",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            "table_space": {
+              "v": "넓은 테이블 간격",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          },
+          "menu": {
+            "v": "탕수육·짜장면·바지락 맑은 국물 등 아이가 먹기 좋은 메뉴",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "pros": [
+            {
+              "text": "박물관 맞은편이라 유모차로 걸어서 이동할 수 있어요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            {
+              "text": "탕수육, 짜장면, 바지락 맑은 국물 등 아이가 먹기 좋은 메뉴가 있어요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          ],
+          "cons": [
+            {
+              "text": "주말 점심시간대에는 박물관·어린이박물관 방문객이 몰려 대기할 수 있어요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          ],
+          "peak": null,
+          "place_check": {
+            "status": "confirmed",
+            "confirmed_by": "운영자",
+            "confirmed_at": "2026-10-14",
+            "note": "주소·영업 여부를 운영자가 직접 확인"
+          },
+          "provenance": "operator_verified",
+          "verified_at": "2026-10-14",
+          "ref_menu": {
+            "name": "바지락짬뽕",
+            "price": 10000,
+            "note": "",
+            "basis": "운영자 확인 기준가",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          }
+        },
+        {
+          "id": "eat_gm_nineblock",
+          "kind": "카페",
+          "name": "나인블럭 신갈점",
+          "address": "경기 용인시 기흥구 용구대로 2147번길 17",
+          "distance": {
+            "v": "경기도박물관에서 차로 약 5~7분",
+            "mode": "car",
+            "min_minutes": 5,
+            "max_minutes": 7,
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "recommend_for": {
+            "v": "아이와 함께 방문할 수 있는 대형 정원형 카페",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          },
+          "infra": {
+            "high_chair": {
+              "v": "아기의자 완비",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            "parking": {
+              "v": "지상 전용 주차장 (여유 있음)",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          },
+          "pros": [
+            {
+              "text": "대형 정원형 카페예요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            {
+              "text": "아기의자가 완비돼 있어요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            },
+            {
+              "text": "지상 전용 주차장에 여유가 있어요.",
+              "provenance": "operator_verified",
+              "verified_at": "2026-10-14"
+            }
+          ],
+          "cons": [],
+          "peak": null,
+          "place_check": {
+            "status": "confirmed",
+            "confirmed_by": "운영자",
+            "confirmed_at": "2026-10-14",
+            "note": "정보를 운영자가 직접 확인"
+          },
+          "provenance": "operator_verified",
+          "verified_at": "2026-10-14",
+          "ref_menu": {
+            "name": "아메리카노",
+            "price": 7000,
+            "note": "",
+            "basis": "운영자 확인 기준가",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          }
+        }
+      ],
+      "geo": {
+        "lat": 37.2669,
+        "lon": 127.1074,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-14"
       }
-     },
-     "menu": {
-      "v": "탕수육·짜장면·바지락 맑은 국물 등 아이가 먹기 좋은 메뉴",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "pros": [
-      {
-       "text": "박물관 맞은편이라 유모차로 걸어서 이동할 수 있어요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+    },
+    "spot_57": {
+      "id": "spot_57",
+      "name": "국립수목원(광릉)",
+      "region": "경기",
+      "theme": "forest",
+      "copy": "예약하고 들어가 천천히 걷는 광릉숲 산책",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/63/3493563_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/63/3493563_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "127497",
+          "checked": "2026-10-14"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 포천시 소흘읍 광릉수목원로 509",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        "tel": {
+          "v": "031-540-2000 (예약·매표)",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        "hours": {
+          "v": "입장 마감: 하절기(4~10월) 17:00 / 동절기(11~3월) 16:00",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        "closed": {
+          "v": "월요일, 1월 1일, 설날·추석 연휴, 동절기(12·1·2월) 일요일",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
+          "checked": "2026-10-14"
+        },
+        "fee": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "reservation": {
+          "v": "차량은 100% 사전 예약(입장 희망일 30일 전 0시부터, 당일 잔여분은 마감 1시간 전까지). 도보·대중교통 이용은 예약 없이 현장 입장(1일 4,500명 이하)",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        }
       },
-      {
-       "text": "탕수육, 짜장면, 바지락 맑은 국물 등 아이가 먹기 좋은 메뉴가 있어요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
-      }
-     ],
-     "cons": [
-      {
-       "text": "주말 점심시간대에는 박물관·어린이박물관 방문객이 몰려 대기할 수 있어요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
-      }
-     ],
-     "peak": null,
-     "place_check": {
-      "status": "confirmed",
-      "confirmed_by": "운영자",
-      "confirmed_at": "2026-10-14",
-      "note": "주소·영업 여부를 운영자가 직접 확인"
-     },
-     "provenance": "operator_verified",
-     "verified_at": "2026-10-14",
-     "ref_menu": {
-      "name": "바지락짬뽕",
-      "price": 10000,
-      "note": "",
-      "basis": "운영자 확인 기준가",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     }
-    },
-    {
-     "id": "eat_gm_nineblock",
-     "kind": "카페",
-     "name": "나인블럭 신갈점",
-     "address": "경기 용인시 기흥구 용구대로 2147번길 17",
-     "distance": {
-      "v": "경기도박물관에서 차로 약 5~7분",
-      "mode": "car",
-      "min_minutes": 5,
-      "max_minutes": 7,
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "recommend_for": {
-      "v": "아이와 함께 방문할 수 있는 대형 정원형 카페",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     },
-     "infra": {
-      "high_chair": {
-       "v": "아기의자 완비",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "age_fit": {
+        "baby": 2,
+        "toddler": 3,
+        "kid": 3,
+        "preschool": 2,
+        "basis": "editor",
+        "reviewed": true,
+        "reviewed_by": "운영자",
+        "reviewed_at": "2026-10-14",
+        "note": "관람로를 따라 걷는 숲 산책이라 걸음마 이후 자연 관찰에 좋아요. 공·킥보드·비눗방울 놀이는 반입할 수 없어 활동적인 놀이를 원하는 연령에는 심심할 수 있어요."
       },
-      "parking": {
-       "v": "지상 전용 주차장 (여유 있음)",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
-      }
-     },
-     "pros": [
-      {
-       "text": "대형 정원형 카페예요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "tips": [
+        {
+          "text": "차량으로 가면 사전 예약이 필수예요. 예약 없는 차량은 주차장에 들어갈 수 없어요. 대중교통·도보로 가면 예약이 필요 없어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "공·라켓·킥보드·자전거·비눗방울 놀이는 반입할 수 없어요. 돗자리는 휴게광장에서만 쓸 수 있어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "간식은 손질한 과일 등 간단한 음식만, 휴게광장·벤치 같은 지정 장소에서 드세요. 쓰레기는 되가져가야 해요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "수목원해설 프로그램은 누구나 무료로 참여할 수 있어요(정문 해설센터에서 선착순 접수).",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "주차요금은 입장 당일 주차정산소에서 따로 결제해요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "휠체어는 정문 매표소 왼쪽 사무실에서 무료로 빌릴 수 있어요(8대, 수량이 적어요). 물품보관함은 24개예요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_06&cmsId=FC_003188",
+          "checked": "2026-10-14"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "정문 해설센터에서 선착순으로 접수하는 무료 수목원해설 프로그램이 있어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "휴게광장에서는 돗자리를 펼 수 있어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "수목원 안내도에 데크 구간·카페·어린이정원이 표시돼 있어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003161&mn=UKNA_01_01",
+          "checked": "2026-10-14"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "nursing": {
+          "v": "수유실이 수목원 안에 2곳 있어요(정문 고객지원실 안, 산림박물관 앞쪽)",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_06&cmsId=FC_003188",
+          "checked": "2026-10-14"
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "차량은 사전 예약 필수 · 오전(9~13시)/오후(13~18시) 시간대별 각 300대 이하 · 주차요금은 당일 정산소에서 별도 결제(금액은 예약 페이지 확인)",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
+          "checked": "2026-10-14"
+        },
+        "transit": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
       },
-      {
-       "text": "아기의자가 완비돼 있어요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "faq": [
+        {
+          "q": "예약 없이 갈 수 있나요?",
+          "a": "차량 없이 대중교통·도보로 가면 예약 없이 현장 입장이 가능해요. 차량은 사전 예약한 경우만 주차장에 들어갈 수 있어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "공이나 킥보드, 비눗방울 놀이를 가져가도 되나요?",
+          "a": "운동기구·놀이기구(자전거, 킥보드, 공, 라켓, 비누방울 놀이 등)는 반입할 수 없어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "돗자리를 펴고 간식을 먹어도 되나요?",
+          "a": "간단한 음식은 지정된 장소(휴게광장, 벤치)에서만 가능하고, 돗자리는 휴게광장에서만 쓸 수 있어요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "쉬는 날은 언제예요?",
+          "a": "월요일, 1월 1일, 설날·추석 연휴, 동절기(12·1·2월) 일요일이 휴원일이에요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "아이만 들여보내도 되나요?",
+          "a": "어린이와 노약자는 안전을 위해 반드시 보호자와 함께 입장해야 해요.",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
+          "checked": "2026-10-14"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "unknown",
+          "note": "입장료 금액은 공식 안내에서 확인하지 못했어요(예약 페이지에서 확인)",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
+          "checked": "2026-10-14"
+        },
+        "parking": {
+          "model": "unknown",
+          "note": "차량은 사전 예약이 필수이고 주차요금은 입장 당일 정산소에서 따로 결제해요(금액은 예약 페이지에서 확인)",
+          "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
+          "checked": "2026-10-14"
+        }
       },
-      {
-       "text": "지상 전용 주차장에 여유가 있어요.",
-       "provenance": "operator_verified",
-       "verified_at": "2026-10-14"
+      "eats": [
+        {
+          "id": "eat_kn_dongi_mandu",
+          "kind": "식당",
+          "name": "동이손만두",
+          "address": "경기도 포천시 소흘읍 광릉수목원로 700-5",
+          "level": "listed",
+          "distance": {
+            "v": "수목원에서 직선 약 1.8km",
+            "mode": "straight",
+            "meters": 1833
+          },
+          "identity": {
+            "src": "https://api.visitkorea.or.kr/",
+            "checked": "2026-10-14",
+            "note": "한국관광공사 TourAPI 음식점 정보(contentid 134944)에서 확인",
+            "tourapi_contentid": "134944"
+          },
+          "place_check": {
+            "status": "unchecked",
+            "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+          },
+          "ref_menu": {
+            "name": "만두전골",
+            "price": 13000,
+            "note": "1인 환산 약",
+            "basis": "운영자 확인 기준가",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          }
+        },
+        {
+          "id": "eat_kn_poook",
+          "kind": "카페",
+          "name": "포옥",
+          "address": "경기도 포천시 소흘읍 죽엽산로 685-20",
+          "level": "listed",
+          "distance": {
+            "v": "수목원에서 직선 약 1.7km",
+            "mode": "straight",
+            "meters": 1745
+          },
+          "identity": {
+            "src": "https://api.visitkorea.or.kr/",
+            "checked": "2026-10-14",
+            "note": "한국관광공사 TourAPI 음식점(카페) 정보(contentid 2853666)에서 확인",
+            "tourapi_contentid": "2853666"
+          },
+          "place_check": {
+            "status": "unchecked",
+            "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+          },
+          "ref_menu": {
+            "name": "아메리카노",
+            "price": 6500,
+            "note": "",
+            "basis": "운영자 확인 기준가",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          }
+        }
+      ],
+      "geo": {
+        "lat": 37.7595,
+        "lon": 127.1689,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-14"
       }
-     ],
-     "cons": [],
-     "peak": null,
-     "place_check": {
-      "status": "confirmed",
-      "confirmed_by": "운영자",
-      "confirmed_at": "2026-10-14",
-      "note": "정보를 운영자가 직접 확인"
-     },
-     "provenance": "operator_verified",
-     "verified_at": "2026-10-14",
-     "ref_menu": {
-      "name": "아메리카노",
-      "price": 7000,
-      "note": "",
-      "basis": "운영자 확인 기준가",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     }
-    }
-   ],
-   "geo": {
-    "lat": 37.2669,
-    "lon": 127.1074,
-    "source": "한국관광공사 TourAPI",
-    "checked": "2026-10-14"
-   }
-  },
-  "spot_57": {
-   "id": "spot_57",
-   "name": "국립수목원(광릉)",
-   "region": "경기",
-   "theme": "forest",
-   "copy": "예약하고 들어가 천천히 걷는 광릉숲 산책",
-   "photos": [
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/63/3493563_image2_1.jpg",
-     "thumb": "https://tong.visitkorea.or.kr/cms/resource/63/3493563_image3_1.jpg",
-     "credit": "한국관광공사 TourAPI",
-     "license": "공공누리 제1유형(출처표시)",
-     "contentid": "127497",
-     "checked": "2026-10-14"
-    }
-   ],
-   "facts": {
-    "address": {
-     "v": "경기도 포천시 소흘읍 광릉수목원로 509",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
     },
-    "tel": {
-     "v": "031-540-2000 (예약·매표)",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    "hours": {
-     "v": "입장 마감: 하절기(4~10월) 17:00 / 동절기(11~3월) 16:00",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    "closed": {
-     "v": "월요일, 1월 1일, 설날·추석 연휴, 동절기(12·1·2월) 일요일",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
-     "checked": "2026-10-14"
-    },
-    "fee": {
-     "v": null,
-     "src": null,
-     "checked": null
-    },
-    "reservation": {
-     "v": "차량은 100% 사전 예약(입장 희망일 30일 전 0시부터, 당일 잔여분은 마감 1시간 전까지). 도보·대중교통 이용은 예약 없이 현장 입장(1일 4,500명 이하)",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    }
-   },
-   "age_fit": {
-    "baby": 2,
-    "toddler": 3,
-    "kid": 3,
-    "preschool": 2,
-    "basis": "editor",
-    "reviewed": true,
-    "reviewed_by": "운영자",
-    "reviewed_at": "2026-10-14",
-    "note": "관람로를 따라 걷는 숲 산책이라 걸음마 이후 자연 관찰에 좋아요. 공·킥보드·비눗방울 놀이는 반입할 수 없어 활동적인 놀이를 원하는 연령에는 심심할 수 있어요."
-   },
-   "tips": [
-    {
-     "text": "차량으로 가면 사전 예약이 필수예요. 예약 없는 차량은 주차장에 들어갈 수 없어요. 대중교통·도보로 가면 예약이 필요 없어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "공·라켓·킥보드·자전거·비눗방울 놀이는 반입할 수 없어요. 돗자리는 휴게광장에서만 쓸 수 있어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "간식은 손질한 과일 등 간단한 음식만, 휴게광장·벤치 같은 지정 장소에서 드세요. 쓰레기는 되가져가야 해요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "수목원해설 프로그램은 누구나 무료로 참여할 수 있어요(정문 해설센터에서 선착순 접수).",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "주차요금은 입장 당일 주차정산소에서 따로 결제해요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "휠체어는 정문 매표소 왼쪽 사무실에서 무료로 빌릴 수 있어요(8대, 수량이 적어요). 물품보관함은 24개예요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_06&cmsId=FC_003188",
-     "checked": "2026-10-14"
-    }
-   ],
-   "highlights": [
-    {
-     "text": "정문 해설센터에서 선착순으로 접수하는 무료 수목원해설 프로그램이 있어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "휴게광장에서는 돗자리를 펼 수 있어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "수목원 안내도에 데크 구간·카페·어린이정원이 표시돼 있어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003161&mn=UKNA_01_01",
-     "checked": "2026-10-14"
-    }
-   ],
-   "infra": {
-    "stroller": {
-     "v": null,
-     "src": null,
-     "checked": null
-    },
-    "nursing": {
-     "v": "수유실이 수목원 안에 2곳 있어요(정문 고객지원실 안, 산림박물관 앞쪽)",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_06&cmsId=FC_003188",
-     "checked": "2026-10-14"
-    },
-    "diaper": {
-     "v": null,
-     "src": null,
-     "checked": null
-    },
-    "parking": {
-     "v": "차량은 사전 예약 필수 · 오전(9~13시)/오후(13~18시) 시간대별 각 300대 이하 · 주차요금은 당일 정산소에서 별도 결제(금액은 예약 페이지 확인)",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
-     "checked": "2026-10-14"
-    },
-    "transit": {
-     "v": null,
-     "src": null,
-     "checked": null
-    }
-   },
-   "faq": [
-    {
-     "q": "예약 없이 갈 수 있나요?",
-     "a": "차량 없이 대중교통·도보로 가면 예약 없이 현장 입장이 가능해요. 차량은 사전 예약한 경우만 주차장에 들어갈 수 있어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "공이나 킥보드, 비눗방울 놀이를 가져가도 되나요?",
-     "a": "운동기구·놀이기구(자전거, 킥보드, 공, 라켓, 비누방울 놀이 등)는 반입할 수 없어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "돗자리를 펴고 간식을 먹어도 되나요?",
-     "a": "간단한 음식은 지정된 장소(휴게광장, 벤치)에서만 가능하고, 돗자리는 휴게광장에서만 쓸 수 있어요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "쉬는 날은 언제예요?",
-     "a": "월요일, 1월 1일, 설날·추석 연휴, 동절기(12·1·2월) 일요일이 휴원일이에요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "아이만 들여보내도 되나요?",
-     "a": "어린이와 노약자는 안전을 위해 반드시 보호자와 함께 입장해야 해요.",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?cmsId=FC_003167&mn=UKNA_01_02_01",
-     "checked": "2026-10-14"
-    }
-   ],
-   "nearby": [],
-   "costs": {
-    "admission": {
-     "model": "unknown",
-     "note": "입장료 금액은 공식 안내에서 확인하지 못했어요(예약 페이지에서 확인)",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
-     "checked": "2026-10-14"
-    },
-    "parking": {
-     "model": "unknown",
-     "note": "차량은 사전 예약이 필수이고 주차요금은 입장 당일 정산소에서 따로 결제해요(금액은 예약 페이지에서 확인)",
-     "src": "https://kna.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=UKNA_01_03_01&cmsId=FC_003267",
-     "checked": "2026-10-14"
-    }
-   },
-   "eats": [
-    {
-     "id": "eat_kn_dongi_mandu",
-     "kind": "식당",
-     "name": "동이손만두",
-     "address": "경기도 포천시 소흘읍 광릉수목원로 700-5",
-     "level": "listed",
-     "distance": {
-      "v": "수목원에서 직선 약 1.8km",
-      "mode": "straight",
-      "meters": 1833
-     },
-     "identity": {
-      "src": "https://api.visitkorea.or.kr/",
-      "checked": "2026-10-14",
-      "note": "한국관광공사 TourAPI 음식점 정보(contentid 134944)에서 확인",
-      "tourapi_contentid": "134944"
-     },
-     "place_check": {
-      "status": "unchecked",
-      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-     },
-     "ref_menu": {
-      "name": "만두전골",
-      "price": 13000,
-      "note": "1인 환산 약",
-      "basis": "운영자 확인 기준가",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     }
-    },
-    {
-     "id": "eat_kn_poook",
-     "kind": "카페",
-     "name": "포옥",
-     "address": "경기도 포천시 소흘읍 죽엽산로 685-20",
-     "level": "listed",
-     "distance": {
-      "v": "수목원에서 직선 약 1.7km",
-      "mode": "straight",
-      "meters": 1745
-     },
-     "identity": {
-      "src": "https://api.visitkorea.or.kr/",
-      "checked": "2026-10-14",
-      "note": "한국관광공사 TourAPI 음식점(카페) 정보(contentid 2853666)에서 확인",
-      "tourapi_contentid": "2853666"
-     },
-     "place_check": {
-      "status": "unchecked",
-      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-     },
-     "ref_menu": {
-      "name": "아메리카노",
-      "price": 6500,
-      "note": "",
-      "basis": "운영자 확인 기준가",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     }
-    }
-   ],
-   "geo": {
-    "lat": 37.7595,
-    "lon": 127.1689,
-    "source": "한국관광공사 TourAPI",
-    "checked": "2026-10-14"
-   }
-  },
-  "guide_seoulgrandpark": {
-   "id": "guide_seoulgrandpark",
-   "name": "서울대공원 동물원",
-   "region": "경기",
-   "theme": "zoo",
-   "copy": "만 5세 이하는 무료, 어린이동물원이 있는 하루 코스",
-   "photos": [
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/23/3539123_image2_1.jpg",
-     "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/23/3539123_image3_1.jpg",
-     "credit": "한국관광공사 TourAPI",
-     "license": "공공누리 제1유형(출처표시)",
-     "contentid": "126712",
-     "checked": "2026-10-14"
-    }
-   ],
-   "facts": {
-    "address": {
-     "v": "경기도 과천시 대공원광장로 102 (막계동)",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    "tel": {
-     "v": "02-500-7335 (고객도움터)",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    "hours": {
-     "v": "동물원·테마가든 09:00~18:00(3~4월, 9~10월) · 09:00~19:00(5~8월) · 09:00~17:00(11~2월), 마감 1시간 전까지 입장. 전시온실 10:00~17:00(16:30까지 입장)",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    "closed": {
-     "v": "연중무휴(365일). 단 돌고래이야기관·책마루는 매주 월요일 휴관",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    "fee": {
-     "v": "동물원 어른 5,000원 · 청소년 3,000원 · 어린이(만 6~12세) 2,000원 · 만 5세 이하 무료 / 테마가든 어른 2,000원 · 청소년 1,500원 · 어린이 1,000원 (개인 기준)",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    "reservation": {
-     "v": "현장 매표소 또는 온라인 입장권(평일 온라인 티켓 20% 할인)",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    }
-   },
-   "age_fit": {
-    "baby": 1,
-    "toddler": 3,
-    "kid": 3,
-    "preschool": 3,
-    "basis": "editor",
-    "reviewed": true,
-    "reviewed_by": "운영자",
-    "reviewed_at": "2026-10-14",
-    "note": "만 5세 이하 무료, 유모차 입장 가능, 어린이동물원이 있어 걸음마 이후 연령부터 특히 좋아요. 동물원이 넓어 영아는 이동 피로가 있을 수 있어요."
-   },
-   "tips": [
-    {
-     "text": "주말·공휴일에는 캠핑장·서울랜드·국립현대미술관 방문객이 많아, 자가용보다 지하철 4호선 대공원역 같은 대중교통을 권해요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "동물원이 넓어요. 리프트로 가장 높은 곳의 맹수사까지 올라간 뒤 경사로를 따라 내려오면 관람이 편해요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "야행성 동물이 많아 이른 아침에 가면 비교적 활발한 모습을 볼 수 있어요. 차가 막히지 않는 이른 아침에 왔다가 이른 오후에 돌아가는 방법도 있어요. 날씨나 동물 상태에 따라 동물이 일찍 실내로 들어갈 수 있어요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "입구에서 동물원 지도를 챙기고, 온라인 티켓(평일 20% 할인)이나 동물원+테마가든 패키지권(20% 할인)으로 입장료를 아낄 수 있어요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "현재 일부 동물사는 공사로 관람이 제한돼요(예: 야행관 10/6~10/16, 실내관람장 9/16~10/20). 방문 전 공식 관람안내를 확인하세요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "유아차(유모차) 대여소가 있어요. 일반 4,000원(~15kg), 디럭스 7,000원(16~20kg)이고, 우천 시에는 안전상 대여가 어려울 수 있어요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005002",
-     "checked": "2026-10-14"
-    }
-   ],
-   "highlights": [
-    {
-     "text": "어린이동물원(09:00~17:00)에서 양·알파카·북극여우·토끼·다람쥐원숭이를 만날 수 있어요(동물한마당, 꼬마동물사 야외).",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "테마가든이 동물원과 함께 운영돼요(동물원·테마가든 이용시간 동일).",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "돌고래이야기관과 동물원 속 책마루(10:00~17:00, 월요일 휴관)가 있어요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "text": "공원 안에 푸드코트와 카페가 여러 곳 있어요(기린 푸드코트, 호랑이 푸드코트, 원더카페 등).",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
-     "checked": "2026-10-14"
-    }
-   ],
-   "infra": {
-    "stroller": {
-     "v": "유모차·휠체어는 동물원·테마가든에 입장할 수 있어요",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    },
-    "nursing": {
-     "v": null,
-     "src": null,
-     "checked": null
-    },
-    "diaper": {
-     "v": "아기 쉼터에 기저귀 교환대가 있어요(아리수 음수대·전자레인지 등도 있어요)",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005002",
-     "checked": "2026-10-14"
-    },
-    "parking": {
-     "v": "일반차 기본 2시간 3,000원(카카오T 모바일 정산)·초과 30분당 1,000원·1일 최대 5,000원(주차장 안정화 기간 특별할인 적용). 사전·출구 정산은 4,000원·1,500원·6,000원. 다둥이카드(서울시민·경기도민) 50% 감면",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001007.do",
-     "checked": "2026-10-14"
-    },
-    "transit": {
-     "v": "지하철 4호선 대공원역(사당역에서 전철 10분)",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    }
-   },
-   "faq": [
-    {
-     "q": "유모차를 가져가도 되나요?",
-     "a": "유모차와 휠체어는 동물원·테마가든에 입장할 수 있어요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "아이 입장료는 얼마예요?",
-     "a": "동물원·테마가든은 만 5세 이하가 무료이고, 만 6~12세 어린이는 동물원 개인 2,000원이에요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "킥보드나 자전거를 가져갈 수 있나요?",
-     "a": "킥보드, 자전거, 전동휠, 전동자동차(완구), 인라인, 공류, 텐트 등은 동물원·테마가든에 반입할 수 없어요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "쉬는 날이 있나요?",
-     "a": "동물원·테마가든은 쉬는 날 없이 연중무휴로 운영돼요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "q": "반려견과 함께 입장할 수 있나요?",
-     "a": "동물원·테마가든 등 시설에는 반려견 입장이 불가해요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    }
-   ],
-   "nearby": [
-    {
-     "name": "서울랜드",
-     "kind": "함께 들르기",
-     "note": "공식 관람 팁에서 동물원·서울랜드·국립현대미술관을 묶어 하루 코스로 소개해요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    },
-    {
-     "name": "국립현대미술관(과천)",
-     "kind": "함께 들르기",
-     "note": "공식 관람 팁에서 함께 둘러보는 코스로 소개해요.",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
-     "checked": "2026-10-14"
-    }
-   ],
-   "costs": {
-    "admission": {
-     "model": "per_person",
-     "prices": {
-      "adult": 5000,
-      "teen": 3000,
-      "child": 2000,
-      "toddler": 0
-     },
-     "options": {
-      "theme_garden": {
-       "label": "테마가든",
-       "prices": {
-        "adult": 2000,
-        "teen": 1500,
-        "child": 1000,
-        "toddler": 0
-       }
+    "guide_seoulgrandpark": {
+      "id": "guide_seoulgrandpark",
+      "name": "서울대공원 동물원",
+      "region": "경기",
+      "theme": "zoo",
+      "copy": "만 5세 이하는 무료, 어린이동물원이 있는 하루 코스",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource_photo/23/3539123_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/23/3539123_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "126712",
+          "checked": "2026-10-14"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 과천시 대공원광장로 102 (막계동)",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        "tel": {
+          "v": "02-500-7335 (고객도움터)",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        "hours": {
+          "v": "동물원·테마가든 09:00~18:00(3~4월, 9~10월) · 09:00~19:00(5~8월) · 09:00~17:00(11~2월), 마감 1시간 전까지 입장. 전시온실 10:00~17:00(16:30까지 입장)",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        "closed": {
+          "v": "연중무휴(365일). 단 돌고래이야기관·책마루는 매주 월요일 휴관",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        "fee": {
+          "v": "동물원 어른 5,000원 · 청소년 3,000원 · 어린이(만 6~12세) 2,000원 · 만 5세 이하 무료 / 테마가든 어른 2,000원 · 청소년 1,500원 · 어린이 1,000원 (개인 기준)",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        "reservation": {
+          "v": "현장 매표소 또는 온라인 입장권(평일 온라인 티켓 20% 할인)",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 3,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": true,
+        "reviewed_by": "운영자",
+        "reviewed_at": "2026-10-14",
+        "note": "만 5세 이하 무료, 유모차 입장 가능, 어린이동물원이 있어 걸음마 이후 연령부터 특히 좋아요. 동물원이 넓어 영아는 이동 피로가 있을 수 있어요."
+      },
+      "tips": [
+        {
+          "text": "주말·공휴일에는 캠핑장·서울랜드·국립현대미술관 방문객이 많아, 자가용보다 지하철 4호선 대공원역 같은 대중교통을 권해요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "동물원이 넓어요. 리프트로 가장 높은 곳의 맹수사까지 올라간 뒤 경사로를 따라 내려오면 관람이 편해요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "야행성 동물이 많아 이른 아침에 가면 비교적 활발한 모습을 볼 수 있어요. 차가 막히지 않는 이른 아침에 왔다가 이른 오후에 돌아가는 방법도 있어요. 날씨나 동물 상태에 따라 동물이 일찍 실내로 들어갈 수 있어요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "입구에서 동물원 지도를 챙기고, 온라인 티켓(평일 20% 할인)이나 동물원+테마가든 패키지권(20% 할인)으로 입장료를 아낄 수 있어요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "현재 일부 동물사는 공사로 관람이 제한돼요(예: 야행관 10/6~10/16, 실내관람장 9/16~10/20). 방문 전 공식 관람안내를 확인하세요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "유아차(유모차) 대여소가 있어요. 일반 4,000원(~15kg), 디럭스 7,000원(16~20kg)이고, 우천 시에는 안전상 대여가 어려울 수 있어요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005002",
+          "checked": "2026-10-14"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "어린이동물원(09:00~17:00)에서 양·알파카·북극여우·토끼·다람쥐원숭이를 만날 수 있어요(동물한마당, 꼬마동물사 야외).",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "테마가든이 동물원과 함께 운영돼요(동물원·테마가든 이용시간 동일).",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "돌고래이야기관과 동물원 속 책마루(10:00~17:00, 월요일 휴관)가 있어요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001002005.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "text": "공원 안에 푸드코트와 카페가 여러 곳 있어요(기린 푸드코트, 호랑이 푸드코트, 원더카페 등).",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
+          "checked": "2026-10-14"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": "유모차·휠체어는 동물원·테마가든에 입장할 수 있어요",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        },
+        "nursing": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "diaper": {
+          "v": "아기 쉼터에 기저귀 교환대가 있어요(아리수 음수대·전자레인지 등도 있어요)",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005002",
+          "checked": "2026-10-14"
+        },
+        "parking": {
+          "v": "일반차 기본 2시간 3,000원(카카오T 모바일 정산)·초과 30분당 1,000원·1일 최대 5,000원(주차장 안정화 기간 특별할인 적용). 사전·출구 정산은 4,000원·1,500원·6,000원. 다둥이카드(서울시민·경기도민) 50% 감면",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001007.do",
+          "checked": "2026-10-14"
+        },
+        "transit": {
+          "v": "지하철 4호선 대공원역(사당역에서 전철 10분)",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        }
+      },
+      "faq": [
+        {
+          "q": "유모차를 가져가도 되나요?",
+          "a": "유모차와 휠체어는 동물원·테마가든에 입장할 수 있어요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "아이 입장료는 얼마예요?",
+          "a": "동물원·테마가든은 만 5세 이하가 무료이고, 만 6~12세 어린이는 동물원 개인 2,000원이에요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "킥보드나 자전거를 가져갈 수 있나요?",
+          "a": "킥보드, 자전거, 전동휠, 전동자동차(완구), 인라인, 공류, 텐트 등은 동물원·테마가든에 반입할 수 없어요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "쉬는 날이 있나요?",
+          "a": "동물원·테마가든은 쉬는 날 없이 연중무휴로 운영돼요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "q": "반려견과 함께 입장할 수 있나요?",
+          "a": "동물원·테마가든 등 시설에는 반려견 입장이 불가해요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        }
+      ],
+      "nearby": [
+        {
+          "name": "서울랜드",
+          "kind": "함께 들르기",
+          "note": "공식 관람 팁에서 동물원·서울랜드·국립현대미술관을 묶어 하루 코스로 소개해요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        },
+        {
+          "name": "국립현대미술관(과천)",
+          "kind": "함께 들르기",
+          "note": "공식 관람 팁에서 함께 둘러보는 코스로 소개해요.",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001006.do",
+          "checked": "2026-10-14"
+        }
+      ],
+      "costs": {
+        "admission": {
+          "model": "per_person",
+          "prices": {
+            "adult": 5000,
+            "teen": 3000,
+            "child": 2000,
+            "toddler": 0
+          },
+          "options": {
+            "theme_garden": {
+              "label": "테마가든",
+              "prices": {
+                "adult": 2000,
+                "teen": 1500,
+                "child": 1000,
+                "toddler": 0
+              }
+            }
+          },
+          "note": "동물원 개인 요금 · 어른 만 19~64세, 청소년 만 13~18세, 어린이 만 6~12세, 만 5세 이하 무료(동물원·테마가든) · 만 65세 이상·다자녀 가정 등 무료/감면 대상은 합산에 반영하지 않았어요",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
+          "checked": "2026-10-14"
+        },
+        "parking": {
+          "model": "tiered",
+          "free_minutes": 30,
+          "base_minutes": 120,
+          "base": 3000,
+          "step_minutes": 30,
+          "step": 1000,
+          "daily_max": 5000,
+          "note": "일반차 카카오T 모바일 정산 기준(주차장 안정화 기간 특별할인 적용가) · 사전/출구 정산은 기본 2시간 4,000원·초과 30분당 1,500원·1일 최대 6,000원",
+          "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001007.do",
+          "checked": "2026-10-14"
+        }
+      },
+      "eats": [
+        {
+          "id": "eat_sg_giraffe_foodcourt",
+          "kind": "식당",
+          "name": "기린 푸드코트",
+          "address": "경기도 과천시 대공원광장로 102 (서울대공원 안)",
+          "level": "listed",
+          "distance": {
+            "v": "서울대공원 안",
+            "mode": "in_park",
+            "meters": 0
+          },
+          "identity": {
+            "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
+            "checked": "2026-10-14",
+            "note": "서울대공원 공식 음식점 안내(수정일 2026-07-01)에서 확인",
+            "tourapi_contentid": null
+          },
+          "place_check": {
+            "status": "unchecked",
+            "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+          },
+          "menu": {
+            "v": "육개장, 볶음밥, 돈가스, 짜장밥, 짜장면, 우동, 잔치국수, 셀프라면 등",
+            "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
+            "checked": "2026-10-14"
+          },
+          "ref_menu": {
+            "name": "돈가스",
+            "price": 10000,
+            "note": "",
+            "basis": "운영자 확인 기준가",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          }
+        },
+        {
+          "id": "eat_sg_wonder_cafe",
+          "kind": "카페",
+          "name": "원더카페",
+          "address": "경기도 과천시 대공원광장로 102 (서울대공원 안)",
+          "level": "listed",
+          "distance": {
+            "v": "서울대공원 안",
+            "mode": "in_park",
+            "meters": 0
+          },
+          "identity": {
+            "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005004",
+            "checked": "2026-10-14",
+            "note": "서울대공원 공식 카페 안내(수정일 2026-07-01)에서 확인",
+            "tourapi_contentid": null
+          },
+          "place_check": {
+            "status": "unchecked",
+            "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
+          },
+          "menu": {
+            "v": "커피, 음료, 빵, 디저트 등",
+            "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005004",
+            "checked": "2026-10-14"
+          },
+          "ref_menu": {
+            "name": "아메리카노",
+            "price": 5000,
+            "note": "",
+            "basis": "운영자 확인 기준가",
+            "provenance": "operator_verified",
+            "verified_at": "2026-10-14"
+          }
+        }
+      ],
+      "geo": {
+        "lat": 37.4365,
+        "lon": 127.0139,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-14"
       }
-     },
-     "note": "동물원 개인 요금 · 어른 만 19~64세, 청소년 만 13~18세, 어린이 만 6~12세, 만 5세 이하 무료(동물원·테마가든) · 만 65세 이상·다자녀 가정 등 무료/감면 대상은 합산에 반영하지 않았어요",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001001.do",
-     "checked": "2026-10-14"
     },
-    "parking": {
-     "model": "tiered",
-     "free_minutes": 30,
-     "base_minutes": 120,
-     "base": 3000,
-     "step_minutes": 30,
-     "step": 1000,
-     "daily_max": 5000,
-     "note": "일반차 카카오T 모바일 정산 기준(주차장 안정화 기간 특별할인 적용가) · 사전/출구 정산은 기본 2시간 4,000원·초과 30분당 1,500원·1일 최대 6,000원",
-     "src": "https://grandpark.seoul.go.kr/conts/contsView/ko/S001001001007.do",
-     "checked": "2026-10-14"
-    }
-   },
-   "eats": [
-    {
-     "id": "eat_sg_giraffe_foodcourt",
-     "kind": "식당",
-     "name": "기린 푸드코트",
-     "address": "경기도 과천시 대공원광장로 102 (서울대공원 안)",
-     "level": "listed",
-     "distance": {
-      "v": "서울대공원 안",
-      "mode": "in_park",
-      "meters": 0
-     },
-     "identity": {
-      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
-      "checked": "2026-10-14",
-      "note": "서울대공원 공식 음식점 안내(수정일 2026-07-01)에서 확인",
-      "tourapi_contentid": null
-     },
-     "place_check": {
-      "status": "unchecked",
-      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-     },
-     "menu": {
-      "v": "육개장, 볶음밥, 돈가스, 짜장밥, 짜장면, 우동, 잔치국수, 셀프라면 등",
-      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005005",
-      "checked": "2026-10-14"
-     },
-     "ref_menu": {
-      "name": "돈가스",
-      "price": 10000,
-      "note": "",
-      "basis": "운영자 확인 기준가",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     }
+    "guide_namuk": {
+      "id": "guide_namuk",
+      "name": "국립농업박물관",
+      "region": "경기",
+      "theme": "museum",
+      "copy": "입장은 무료, 어린이박물관은 온라인 사전예약이 필요한 수원의 박물관",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/95/4056595_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/95/4056595_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "2944481",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 수원시 권선구 수인로 154 [16429]",
+          "src": "https://www.namuk.or.kr/kr/193/subview.do",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "어린이박물관 031-324-9118",
+          "src": "https://www.namuk.or.kr/kr/1333/subview.do",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "매일 10:00~18:00 (입장 마감 17:00) · 어린이박물관은 회차제 10:10~17:40",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "1월 1일, 설·추석 당일, 매주 월요일 (월요일이 공휴일이면 그다음 첫 평일 휴관)",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "무료 (일부 전시·교육은 요금이 발생할 수 있어요 · 어린이박물관 입장료 무료)",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": "어린이박물관은 누리집 온라인 사전예약(전화 예약 불가) · 미입장 자리는 회차 시작 15분 후부터 사전예약창·키오스크에서 추가 예약",
+          "src": "https://www.namuk.or.kr/kr/1333/subview.do",
+          "checked": "2026-10-21"
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "어린이박물관이 10세 이하 어린이를 위한 공간이라 걷고 만지며 노는 연령에서 즐기기 좋아요. 영아는 회차 예약과 이동 동선을 미리 챙겨 주세요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "어린이박물관은 10세 이하 어린이를 위한 공간이라 어린이를 동반하지 않은 성인은 입장할 수 없어요. 어린이는 반드시 보호자와 함께 입장해요.",
+          "src": "https://www.namuk.or.kr/kr/1333/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "어린이박물관은 하루 5회차(10:10~17:40, 회차당 55명)로 운영하고, 사전예약은 누리집에서만 가능해요. 회차가 끝나면 체험물 정리·소독 시간이 있어요.",
+          "src": "https://www.namuk.or.kr/kr/1333/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "2026-10-20~2027-03-26에는 기획전 준비로 기획전시실 앞~대회의실 복도 통행이 제한돼요. 어린이박물관은 농업관1 → 농업관2 연결 복도로 돌아서 가야 해요.",
+          "src": "https://www.namuk.or.kr/bbs/kr/95/1957/artclView.do?layout=unknown",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "전시장 안에서는 음식물을 먹을 수 없어요. 교육동 2층 피크닉실(어린이 54인 사용 가능)에서 식사·간식을 할 수 있어요.",
+          "src": "https://www.namuk.or.kr/kr/500/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "실내·야외 모두 바퀴 달린 이동수단(바퀴달린 신발·자전거·보드·킥보드 등)은 이용할 수 없어요.",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "어린이박물관 관람권은 입구 키오스크에서 예매·출력할 수 있어요.",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "유모차와 휠체어를 무료로 빌릴 수 있어요(신분증 또는 소지품 필요, 박물관 밖으로는 반출 불가).",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": "유모차·휠체어 무료 대여(전시동 B1층 안내데스크) · 신분증 또는 소지품 필요, 박물관 밖 반출 불가",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        "nursing": {
+          "v": "전시동 B1층 수유실",
+          "src": "https://www.namuk.or.kr/kr/500/subview.do",
+          "checked": "2026-10-21"
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "무료 · 관람객 주차 206대(일반 164대) · 운영시간 이후 출입문이 닫히니 시간 안에 출차",
+          "src": "https://www.namuk.or.kr/kr/193/subview.do",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": "버스 '국립농업박물관' 정류소(일반11·37·92 등) · 지하철 수인분당선 수원역 7번 출구에서 시내버스 환승",
+          "src": "https://www.namuk.or.kr/kr/193/subview.do",
+          "checked": "2026-10-21"
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료가 있나요?",
+          "a": "관람료는 무료예요. 일부 전시와 교육에는 요금이 발생할 수 있어요.",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "어린이박물관은 예약해야 하나요?",
+          "a": "누리집에서 온라인 사전예약 후 관람해요(전화 예약 불가). 회차 시작 15분 후부터 미입장 자리에 추가 예약을 받아요.",
+          "src": "https://www.namuk.or.kr/kr/1333/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "유모차를 빌릴 수 있나요?",
+          "a": "필요하면 무료로 빌릴 수 있어요. 대여 시 신분증 또는 소지품이 필요하고 박물관 밖으로 가져갈 수 없어요.",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "주차 요금이 있나요?",
+          "a": "관람객 주차 요금은 무료예요. 운영시간 이후에는 출입문이 닫혀요.",
+          "src": "https://www.namuk.or.kr/kr/193/subview.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "반려동물과 함께 가도 되나요?",
+          "a": "안내견 외 반려동물은 출입할 수 없어요.",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "free",
+          "note": "관람료 무료 · 일부 전시·교육은 요금이 발생할 수 있어요 · 어린이박물관 입장료 무료(사전예약)",
+          "src": "https://www.namuk.or.kr/kr/530/subview.do",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "free",
+          "note": "관람객 주차 요금 무료 · 운영시간 이후 출입문 폐쇄",
+          "src": "https://www.namuk.or.kr/kr/193/subview.do",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.274644,
+        "lon": 126.982672,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
     },
-    {
-     "id": "eat_sg_wonder_cafe",
-     "kind": "카페",
-     "name": "원더카페",
-     "address": "경기도 과천시 대공원광장로 102 (서울대공원 안)",
-     "level": "listed",
-     "distance": {
-      "v": "서울대공원 안",
-      "mode": "in_park",
-      "meters": 0
-     },
-     "identity": {
-      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005004",
-      "checked": "2026-10-14",
-      "note": "서울대공원 공식 카페 안내(수정일 2026-07-01)에서 확인",
-      "tourapi_contentid": null
-     },
-     "place_check": {
-      "status": "unchecked",
-      "note": "공식 출처로 이름·주소만 확인했고 영업 여부는 매장 확인이 필요해요"
-     },
-     "menu": {
-      "v": "커피, 음료, 빵, 디저트 등",
-      "src": "https://grandpark.seoul.go.kr/conts/contsView.do?lang=ko&menu_id=S001001001005004",
-      "checked": "2026-10-14"
-     },
-     "ref_menu": {
-      "name": "아메리카노",
-      "price": 5000,
-      "note": "",
-      "basis": "운영자 확인 기준가",
-      "provenance": "operator_verified",
-      "verified_at": "2026-10-14"
-     }
+    "guide_aquaplanet_gwanggyo": {
+      "id": "guide_aquaplanet_gwanggyo",
+      "name": "아쿠아플라넷 광교",
+      "region": "경기",
+      "theme": "indoor",
+      "copy": "연중무휴로 문을 여는 광교의 실내 아쿠아리움, 36개월 미만은 무료 입장",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/08/3515008_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/08/3515008_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "2714652",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 수원시 영통구 광교중앙로 124 (하동)",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "1833-7001",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "10:30~19:30 (입장·매표 마감 18:30)",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/index.do",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "연중무휴",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/index.do",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "정상가 30,000원(14세 이상) · 특별 할인가 27,000원(13세 이하·65세 이상) · 36개월 미만 무료(증빙서류 지참·직계가족 동반·단체 제외) · 개인 아쿠아리움권 기준",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "36개월 미만은 무료 입장이고 유모차 입장이 가능해 영유아와 함께 가기 좋아요. 생물 관찰은 4세 이후에 더 몰입해요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "36개월 미만 무료 입장은 증빙서류를 지참하고 직계가족이 동반해야 해요. 단체 입장객은 제외돼요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "특별 할인가(13세 이하·65세 이상)로 결제하면 다른 할인과 중복 적용이 되지 않아요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "웨건·킥보드·자전거·폴딩카트는 안전을 위해 반입이 제한돼요. 유모차와 휠체어는 입장할 수 있어요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "체험 프로그램과 생태 관찰 교육 프로그램은 임시 중단 공지가 있었어요(공지 확인일 기준). 방문 전에 오늘의 프로그램 운영 여부를 확인해 주세요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/index.do",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "영업시간은 10:30~19:30, 입장·매표는 18:30에 마감해요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/index.do",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": "유모차·휠체어 입장 가능 · 웨건·킥보드·자전거·폴딩카트는 반입 제한",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        "nursing": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "최대 2시간 무료 · 초과 시 갤러리아 백화점 주차장 10분당 1,000원, 포레나 광교 주차장 10분당 500원 (무료 조건은 공식 안내 확인)",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "faq": [
+        {
+          "q": "입장권 요금이 어떻게 되나요?",
+          "a": "개인 아쿠아리움권 기준 정상가(14세 이상) 30,000원, 특별 할인가(13세 이하·65세 이상) 27,000원이고 36개월 미만은 무료예요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "36개월 미만 아기는 무료인가요?",
+          "a": "증빙서류를 지참하고 직계가족이 동반하면 무료로 입장할 수 있어요(단체 입장객 제외).",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "유모차를 가져가도 되나요?",
+          "a": "유모차와 휠체어는 입장할 수 있어요. 웨건·킥보드·자전거·폴딩카트는 반입이 제한돼요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "쉬는 날이 있나요?",
+          "a": "연중무휴예요.",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/index.do",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "unknown",
+          "note": "정상가(14세 이상) 30,000원·특별 할인가(13세 이하·65세 이상) 27,000원·36개월 미만 무료라 일정 연령 구분과 맞지 않아 합산하지 않았어요(방문 전 공식 요금 확인)",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "unknown",
+          "note": "최대 2시간 무료, 초과 요금은 이용하는 주차장(갤러리아 10분당 1,000원·포레나 광교 10분당 500원)에 따라 달라 합산하지 않았어요",
+          "src": "https://www.aquaplanet.co.kr/gwanggyo/information/use_price.do",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.285251,
+        "lon": 127.057455,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
+    },
+    "guide_gcm": {
+      "id": "guide_gcm",
+      "name": "경기도어린이박물관",
+      "region": "경기",
+      "theme": "museum",
+      "copy": "회차제로 운영하는 어린이 체험 박물관, 80%는 온라인 사전예약",
+      "photos": [],
+      "facts": {
+        "address": {
+          "v": "경기도 용인시 기흥구 상갈로 6 (상갈동) [17072]",
+          "src": "https://gcm.ggcf.kr/boards/visit",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "031-270-8600 (단체 문의 8636)",
+          "src": "https://gcm.ggcf.kr/boards/visit",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "1회차 10:00~13:30 · 2회차 14:00~17:30 (각 회차 종료 1시간 전 입장 마감 · 재입장 불가)",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "월요일(월요일이 공휴일이면 개관, 다음 평일 휴관), 1월 1일, 추석·설날 당일",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "개인 4,000원 · 단체(20인 이상) 2,000원 · 12개월 미만 무료",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": "20% 현장발권, 80% 온라인 사전예약 · 인터넷 예매는 관람일 7일 전부터 당일까지(1인 1회·최대 6인) · 영유아·무료 대상자도 인원 수대로 예매",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "12개월 미만은 무료이고 1층에 유아휴게실이 있어 영유아 동반이 가능해요. 체험 중심이라 걸어 다니는 연령에서 가장 잘 즐겨요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "전시장 안에서는 음식물(음료·과자·도시락)을 먹을 수 없어요. 영·유아 수유는 1층 유아휴게실을 이용해요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "교육 예약과 박물관 입장권 예매는 따로예요. 교육 프로그램을 예약해도 해당 회차의 입장권을 꼭 예매해야 해요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "예매가 확정된 관람권은 당일 입장하지 않으면 환불이나 날짜 변경이 안 돼요. 예매 시간 5분 전까지는 취소할 수 있어요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "퀵보드·롤러슈즈(바퀴 달린 신발)는 들고 들어갈 수 없고 반려동물 동반도 금지예요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "유모차와 휠체어는 대여하지 않아요. 가져온 유모차는 1층 자연놀이터 앞 지정 보관 장소에 맡길 수 있어요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/618",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "1층 유아휴게실은 48개월 이하 영유아의 수유와 휴게 공간이에요(박물관 운영 회차와 같은 시간에 운영).",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/620",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": "유모차·휠체어는 대여하지 않아요 · 개인 유모차는 1층 자연놀이터 앞 보관 장소에 둘 수 있어요",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/618",
+          "checked": "2026-10-21"
+        },
+        "nursing": {
+          "v": "1층 복도(자연놀이터 전시실 뒤쪽) 유아휴게실 · 48개월 이하 · 분유·이유식 외 음식물 반입 불가",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/620",
+          "checked": "2026-10-21"
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "공용주차장 승용차 기본 1시간 1,000원 · 초과 10분당 200원 · 30분 이내 출차 무료 · 1일 최대 8,000원",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/614",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료는 얼마인가요?",
+          "a": "개인 4,000원, 단체(20인 이상) 2,000원이고 12개월 미만은 무료예요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "예약 없이 갈 수 있나요?",
+          "a": "20%는 현장 발권이지만 80%가 온라인 사전예약이라 미리 예매하는 게 안전해요. 인터넷 예매는 관람일 7일 전부터 가능해요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "아기도 예매해야 하나요?",
+          "a": "방문 인원 수만큼 모두 예매해야 해요(영유아·무료 대상자 포함).",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "수유실이 있나요?",
+          "a": "1층에 48개월 이하 영유아를 위한 유아휴게실이 있어요.",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/620",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "per_person",
+          "prices": {
+            "adult": 4000,
+            "teen": 4000,
+            "child": 4000,
+            "toddler": 4000
+          },
+          "note": "개인 4,000원 기준 · 12개월 미만은 무료 · 20인 이상 단체 2,000원은 합산에 반영하지 않았어요",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/610",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "tiered",
+          "free_minutes": 30,
+          "base_minutes": 60,
+          "base": 1000,
+          "step_minutes": 10,
+          "step": 200,
+          "daily_max": 8000,
+          "note": "승용차 기준 · 30분 이내 출차 무료 · 공용주차장(경기도박물관·백남준아트센터와 함께 사용) · 감면 대상은 반영하지 않았어요",
+          "src": "https://gcm.ggcf.kr/boards/visit/articles/614",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.266916,
+        "lon": 127.107418,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
+    },
+    "guide_yongin_imagination_forest": {
+      "id": "guide_yongin_imagination_forest",
+      "name": "용인어린이상상의숲",
+      "region": "경기",
+      "theme": "indoor",
+      "copy": "1층 놀이터와 지하 예술교육 공간이 있는 어린이 문화공간, 주차는 무료",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/61/3566761_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/61/3566761_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "2714225",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 용인시 처인구 동백죽전대로 61 (삼가동 28-6) 용인미르스타디움 內",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "031-323-6500 (이용·단체 문의)",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "화~일 10:00~17:00 (전화 문의 10:00~18:00)",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "매주 월요일, 용인문화재단 창립기념일(3.5.), 공휴일 · 어린이날(5.5.)과 토·일요일인 공휴일은 정상 운영 · 설날·추석 연휴 휴관",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "reservation": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "놀이터와 예술교육 프로그램이 중심이라 걸어 다니는 연령부터 잘 맞아요. 연령별 이용 기준은 공식 안내에서 확인하지 못해 방문 전 문의가 필요해요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "어린이날(5.5.)과 토·일요일인 공휴일은 정상 운영하지만, 그 밖의 공휴일은 쉬어요. 설날·추석 연휴도 휴관이에요.",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "주차는 무료예요. VIP A 주차장(북문) 또는 지하 주차장(남문)을 이용해 주세요.",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010300&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "전화 문의는 10:00~18:00에 받고, 시설 이용은 10:00~17:00까지예요.",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "1층에는 어린이 놀이터, 지하 2층에는 예술교육 프로그램 공간이 있는 용인시민체육공원 안의 어린이 문화공간이에요.",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "nursing": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "무료 · VIP A 주차장(북문) 또는 지하 주차장(남문)",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010300&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": "경전철 용인에버라인 삼가역 1번 출구(풍림아파트 삼거리 방면 도보 15분) · 버스 용인미르스타디움 정류장: 5(마을)·65·66-4·68·5000B·5003A·5003B",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010300&thirdMenuNo=",
+          "checked": "2026-10-21"
+        }
+      },
+      "faq": [
+        {
+          "q": "주차 요금이 있나요?",
+          "a": "주차비는 무료예요. 북문 VIP A 주차장이나 남문 지하 주차장을 이용해요.",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010300&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "월요일에도 문을 여나요?",
+          "a": "매주 월요일은 휴관이에요. 어린이날(5.5.)과 토·일요일인 공휴일은 정상 운영해요.",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "대중교통으로 어떻게 가나요?",
+          "a": "용인에버라인 삼가역 1번 출구에서 도보 15분이고, 용인미르스타디움 정류장에 5(마을)·65·66-4·68·5000B·5003A·5003B 버스가 서요.",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010300&thirdMenuNo=",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "unknown",
+          "note": "이용 요금과 예약 방법은 공식 안내에서 확인하지 못했어요(방문 전 031-323-6500 문의)",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010100&thirdMenuNo=",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "free",
+          "note": "주차비 무료",
+          "src": "https://www.yicf.or.kr/lib/PageContent.do?tempParam1=&menuNo=010000&subMenuNo=010300&thirdMenuNo=",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.249631,
+        "lon": 127.165158,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
+    },
+    "guide_korean_folk_village": {
+      "id": "guide_korean_folk_village",
+      "name": "한국민속촌",
+      "region": "경기",
+      "theme": "outdoor",
+      "copy": "전통 생활문화를 걷고 체험하는 테마파크, 요일·계절에 따라 운영시간이 달라요",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/87/3563987_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/87/3563987_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "125578",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 용인시 기흥구 민속촌로 90 한국민속촌 (보라동)",
+          "src": "https://www.koreanfolk.co.kr/operation/transportation",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "031-288-0000",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "10월 기준 평일 10:00~19:00 · 금·토·일·공휴일 야간 개장 10:00~22:00 (계절·날씨에 따라 변동)",
+          "src": "https://www.koreanfolk.co.kr/operation",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "연중무휴 (한국관광공사 TourAPI 기재 · 방문 전 운영 정보 확인)",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "종일 입장권 주말 성인 39,000원·아동 32,000원 / 주중 성인 37,000원·아동 30,000원 · 성인은 중학생 이상, 아동은 36개월 이상~초등학생 · 36개월 미만은 증빙서류 지참 시 무료",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "36개월 미만은 무료이고 유모차·유아 휴게실이 있지만 넓은 야외라 걷는 연령부터 더 즐겨요. 놀이시설은 키 기준으로 이용이 제한될 수 있어요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "놀이시설은 개장 30분 뒤부터 이용할 수 있고, 날씨·안전 점검에 따라 예고 없이 운영이 바뀔 수 있어요. 대기가 길면 일찍 마감되고 키 기준으로 이용이 제한될 수 있어요.",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "자전거(어린이용 세발자전거 포함)·킥보드·인라인스케이트·공 같은 놀이용품은 반입과 이용이 제한돼요. 반려동물은 입장할 수 없어요(안내견 제외).",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "퇴장한 뒤에는 다시 들어올 수 없어요.",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "주말 오후 입장권이 따로 있어요. 4·5·9·10·11월 기준 주말 오후 2시 성인 35,000원·아동 28,000원, 주말 오후 4시 성인 31,000원·아동 25,000원이에요.",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "정문 쪽 상가마을 3호에서 유모차·휠체어를 빌릴 수 있고 같은 곳에 유아 휴게실이 있어요.",
+          "src": "https://www.koreanfolk.co.kr/entertainment/convenience",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "수유실이 장터(10호 근처)와 놀이마을(25호 근처) 두 곳에 있고, 유아 휴게실은 상가마을 3호에 있어요.",
+          "src": "https://www.koreanfolk.co.kr/entertainment/convenience",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": "유모차 대여: 상가마을 3호 (휠체어 대여도 같은 곳)",
+          "src": "https://www.koreanfolk.co.kr/entertainment/convenience",
+          "checked": "2026-10-21"
+        },
+        "nursing": {
+          "v": "수유실: 장터 10호 근처, 놀이마을 25호 근처 · 유아 휴게실: 상가마을 3호",
+          "src": "https://www.koreanfolk.co.kr/entertainment/convenience",
+          "checked": "2026-10-21"
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "소형 2,000원 · 대형 3,000원 · 장애인 등록차량 50% 할인",
+          "src": "https://www.koreanfolk.co.kr/operation/transportation",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": "수인분당선 상갈역에서 버스 환승(37번·10-5번) · 공항·직행버스는 '민속촌 입구' 정류장",
+          "src": "https://www.koreanfolk.co.kr/operation/transportation",
+          "checked": "2026-10-21"
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료가 얼마인가요?",
+          "a": "종일권은 주말 성인 39,000원·아동 32,000원, 주중 성인 37,000원·아동 30,000원이에요. 36개월 미만은 증빙서류를 지참하면 무료예요.",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "소인(아동) 기준이 어떻게 되나요?",
+          "a": "36개월 이상부터 초등학생까지가 소인이고, 중학생 이상은 대인이에요.",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "유모차를 빌릴 수 있나요?",
+          "a": "상가마을 3호에서 유모차와 휠체어를 빌릴 수 있어요.",
+          "src": "https://www.koreanfolk.co.kr/entertainment/convenience",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "주차 요금이 얼마인가요?",
+          "a": "소형차 2,000원, 대형차 3,000원이고 장애인 등록차량은 50% 할인이에요.",
+          "src": "https://www.koreanfolk.co.kr/operation/transportation",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "대중교통은 어떻게 가나요?",
+          "a": "가장 가까운 역은 수인분당선 상갈역이고 버스로 한 번 환승해요(37번·10-5번). 공항·직행버스는 '민속촌 입구' 정류장에 서요.",
+          "src": "https://www.koreanfolk.co.kr/operation/transportation",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "unknown",
+          "note": "종일권은 주말 성인 39,000원·아동 32,000원, 주중 37,000원·30,000원이에요. 요일별 요금과 36개월 기준(아동은 36개월 이상~초등학생)이 일정 연령 구분과 맞지 않아 합산하지 않았어요",
+          "src": "https://www.koreanfolk.co.kr/ticket/admission-fees",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "tiered",
+          "free_minutes": 0,
+          "base_minutes": 1440,
+          "base": 2000,
+          "step_minutes": 1440,
+          "step": 0,
+          "daily_max": 2000,
+          "note": "소형차 기준 입차 1회 2,000원(대형 3,000원) 정액 · 장애인 등록차량 50% 할인은 반영하지 않았어요",
+          "src": "https://www.koreanfolk.co.kr/operation/transportation",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.256715,
+        "lon": 127.114581,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
     }
-   ],
-   "geo": {
-    "lat": 37.4365,
-    "lon": 127.0139,
-    "source": "한국관광공사 TourAPI",
-    "checked": "2026-10-14"
-   }
   }
- }
 }

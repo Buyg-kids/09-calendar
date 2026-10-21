@@ -102,8 +102,10 @@ def validate_costs(pid: str, c) -> list[str]:
                 for k in AGE_PRICE_KEYS:
                     if not (isinstance((opt.get("prices") or {}).get(k), int) and opt["prices"][k] >= 0):
                         errs.append(f"{pid}.costs.admission.options.{ok}.prices.{k}: 0 이상 정수 필요")
-    if not isinstance(pk, dict) or pk.get("model") not in {"tiered", "unknown"}:
-        errs.append(f"{pid}.costs.parking.model: tiered/unknown 중 하나")
+    if not isinstance(pk, dict) or pk.get("model") not in {"tiered", "unknown", "free"}:
+        errs.append(f"{pid}.costs.parking.model: tiered/unknown/free 중 하나")
+    elif pk["model"] == "free":
+        errs += _prov_errors(f"{pid}.costs.parking", pk)   # 주차 무료도 공식 출처 URL+확인일(또는 운영자 확인)이 있어야 한다
     elif pk["model"] == "unknown":
         if not str(pk.get("note") or "").strip():
             errs.append(f"{pid}.costs.parking: unknown 이면 note 필요")

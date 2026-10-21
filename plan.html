@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/x-icon" href="icons/favicon.ico?v=3" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=3" />
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png?v=3" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=3" />
 <title>나의 주말 일정표 | BUYG(바이그)</title>
 <meta name="description" content="장소·식당을 고르면 타임테이블과 예상 비용을 계산해 드려요. 로그인 없이 이 기기에 저장돼요.">
 <meta name="robots" content="noindex">
@@ -193,7 +197,7 @@
 </style>
 </head>
 <body>
-<div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><button class="boxbtn" id="boxBtn" type="button" aria-haspopup="dialog">📁 보관함<span class="cnt" id="boxCnt"></span></button><a class="logo" href="./" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="24" height="24" decoding="async">Buyg</a></div>
+<div class="top"><button class="back" id="back" type="button">‹ 뒤로</button><button class="boxbtn" id="boxBtn" type="button" aria-haspopup="dialog">📁 보관함<span class="cnt" id="boxCnt"></span></button><a class="logo" href="./" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp?v=3" alt="" width="24" height="24" decoding="async">Buyg</a></div>
 <div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
 <script src="planner.js?v=20261019"></script>
 <script src="food_thumb.js?v=20261017"></script>
@@ -553,6 +557,7 @@ function renderBar(r) {
   $('#boxBtn').addEventListener('click', () => openDrawer());
   updateBox();
   render();
+  { const u = new URLSearchParams(location.search); if (u.get('open') === 'drawer') { openDrawer(); u.delete('open'); try { history.replaceState(null, '', location.pathname + (u.toString() ? '?' + u.toString() : '') + location.hash); } catch (e) { /* 무시 */ } } }   // 홈 헤더 '내 일정' 바로가기
 })();
 </script>
 </body>

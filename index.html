@@ -52,9 +52,9 @@
      배포와도 호환됨. -->
 <link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#5f0080" />
-<link rel="icon" type="image/x-icon" href="icons/favicon.ico?v=2" />
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=2" />
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png?v=2" />
+<link rel="icon" type="image/x-icon" href="icons/favicon.ico?v=3" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=3" />
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png?v=3" />
 <!-- iOS는 매니페스트의 display:standalone을 따르지 않아 이 메타태그들이 따로 필요하다. -->
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,7 +62,7 @@
      노란 배너와 겹쳤다 - default로 두면 iOS가 상태바 영역을 따로 확보한다. -->
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="BUYG" />
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=3" />
 
 <!-- Google tag (gtag.js) - GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6FK3NSWH2F"></script>
@@ -133,6 +133,10 @@
   .refresh-btn:active { background: #e6dcf3; }
   .refresh-btn span { display: block; transition: transform .6s ease; }
   .refresh-btn.spin span { transform: rotate(360deg); }
+  /* ---- 헤더 바로가기(모바일): 새로고침 버튼 왼쪽에 내 일정·찜한 목록 아이콘 버튼 ---- */
+  .hdr-quick { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: 56px; z-index: 30; display: flex; gap: 8px; }
+  .hq-btn { width: 34px; height: 34px; border-radius: 50%; background: #f3effa; color: var(--brand-purple); font-size: 16px; line-height: 1; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+  .hq-btn:active { background: #e6dcf3; }
   .ptr {
     position: fixed; top: calc(8px + env(safe-area-inset-top, 0px)); left: 50%; z-index: 70; width: 34px; height: 34px; margin-left: -17px;
     border-radius: 50%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.2); display: flex; align-items: center; justify-content: center;
@@ -1391,13 +1395,14 @@
     </div>
     <div class="brand-hero">
       <button class="refresh-btn" id="refreshBtn" type="button" aria-label="새로고침"><span>↻</span></button>
-      <a class="logo" href="./" id="homeLink" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="30" height="30" decoding="async">Buyg</a>
+      <div class="hdr-quick"><a class="hq-btn hq-plan" href="plan.html?open=drawer" aria-label="내 일정">📁</a><a class="hq-btn hq-fav" href="#gonggu" aria-label="찜한 목록">🤍</a></div>
+      <a class="logo" href="./" id="homeLink" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp?v=3" alt="" width="30" height="30" decoding="async">Buyg</a>
       <div class="brand-main">0~7세 아이 성장에 맞춘, 똑똑한 육아 공구 달력</div>
       <div class="brand-sub">매일 자정 업데이트되는 인스타 최저가 모아보기</div>
       <div class="today-badge" id="todayBadge" hidden></div>
     </div>
     <header class="app-header">
-      <a class="dt-logo" id="dtLogo" href="./" aria-label="BUYG 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="36" height="36" decoding="async">BUYG</a>
+      <a class="dt-logo" id="dtLogo" href="./" aria-label="BUYG 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp?v=3" alt="" width="36" height="36" decoding="async">BUYG</a>
       <div class="search-box">
         <input
           type="search"
@@ -1413,7 +1418,8 @@
       </div>
       <div class="count" id="resultCount"></div>
       <div class="dt-utils">
-        <a href="outing.html">아이와 나들이</a>
+        <a class="hq-plan" href="plan.html?open=drawer">📁 내 일정</a>
+        <a class="hq-fav" href="#gonggu">🤍 찜한 목록</a>
       </div>
       <nav class="dt-gnb" aria-label="주요 메뉴">
         <a class="gnb-go" href="#gonggu">인스타 공구</a>
@@ -1438,7 +1444,7 @@
       </nav>
       <section class="section" id="sec-tips" aria-label="육아정보 준비 중">
         <div class="tips-card">
-          <img class="tips-face" src="assets/img/tein_logo.webp" alt="" width="88" height="88" decoding="async">
+          <img class="tips-face" src="assets/img/tein_logo.webp?v=3" alt="" width="88" height="88" decoding="async">
           <h2>육아정보 준비 중이에요</h2>
           <p>아이와 함께하는 유용한 육아 정보와 지자체 혜택을<br>꼼꼼히 정리 중이에요. 곧 찾아올게요!</p>
           <button type="button" class="tips-go" data-go="outing">주말나들이 둘러보기</button>
@@ -1661,7 +1667,7 @@
 <div class="install-sheet" id="installSheet" role="dialog" aria-label="홈 화면에 추가">
   <button type="button" class="install-sheet-close" id="installSheetClose" aria-label="닫기">✕</button>
   <div class="install-sheet-top">
-    <div class="install-sheet-icon"><img src="icons/icon-192.png" alt="" width="48" height="48" /></div>
+    <div class="install-sheet-icon"><img src="icons/icon-192.png?v=3" alt="" width="48" height="48" /></div>
     <div>
       <div class="install-sheet-title">Buyg 홈 화면에 추가</div>
       <div class="install-sheet-desc" id="installSheetDesc"></div>
@@ -4008,7 +4014,7 @@ wcs_do();
     var phOf = function (id) { return ((photos || {})[id] || {}).photo || {}; };
     Object.keys(guides).forEach(function (k) {
       var g = guides[k], ph = (g.photos || [])[0] || {}, addr = (g.facts && g.facts.address && g.facts.address.v) || '';
-      out.push({ geo: g.geo, href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: '에디터 추천', guide: true, free: !!(g.costs && g.costs.admission && g.costs.admission.model === 'free') });
+      out.push({ geo: g.geo, href: 'place.html?id=' + encodeURIComponent(g.id), title: g.name, line: g.copy, region: regionOf(g.region, addr), regionLabel: (addr.replace(/^(경기도|경기)\s*/, '경기 ').split(' ').slice(0, 2).join(' ')) || g.region, tags: [THEME_TAG[g.theme] || '나들이'], theme: THEME_CLS[g.theme] || '', img: ph.thumb || ph.url || '', credit: ph.credit ? '© ' + ph.credit : '', badge: (g.age_fit && g.age_fit.reviewed === false) ? '공식 안내 기반' : '에디터 추천', guide: true, free: !!(g.costs && g.costs.admission && g.costs.admission.model === 'free') });
     });
     (seed || []).forEach(function (s) {
       var c = s.category || '', url = s.homepage_url || s.link || '';
@@ -4260,6 +4266,20 @@ wcs_do();
   function goTab(id) { if (location.hash.replace('#', '') === id) applyTab(id, true); else location.hash = '#' + id; }
   D.querySelectorAll('#mainTabs .main-tab').forEach(function (b) { b.addEventListener('click', function () { ga('home_main_tab', { tab: b.getAttribute('data-tab') }); goTab(b.getAttribute('data-tab')); }); });
   D.querySelectorAll('.gnb-go, .tips-go').forEach(function (a) { a.addEventListener('click', function (e) { var id = (a.getAttribute('href') || '').replace('#', '') || a.getAttribute('data-go'); if (TAB_IDS.indexOf(id) >= 0) { e.preventDefault(); goTab(id); } }); });
+  /* ---------- 헤더 바로가기: 내 일정(plan.html 보관함 서랍) · 찜한 목록(공구 탭 '찜한 공구' 칩) ---------- */
+  function openFavs() {
+    var focus = function () {
+      if (typeof activeChip !== 'undefined' && typeof renderChips === 'function' && typeof renderHome === 'function') { activeChip = 'fav'; renderChips(); renderHome(); }
+      setTimeout(function () {   // 찜 화면으로 바뀌며 레이아웃이 줄어든 뒤의 위치로 계산한다
+        var row = $('chipRow'), hdr = D.querySelector('.app-header'), mt = $('mainTabs'); if (!row) return;
+        var on = row.querySelector('.chip.active'); if (on && row.scrollTo) row.scrollTo({ left: Math.max(0, on.offsetLeft - (row.clientWidth - on.offsetWidth) / 2) });
+        var top = row.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0) - (mt ? mt.offsetHeight : 0) - 12; window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });   // 고정 상단바(검색창+메인 탭) 높이만큼 비운다
+      }, 80);
+    };
+    if (tabFromHash() !== 'gonggu') { goTab('gonggu'); setTimeout(focus, 80); } else focus();
+  }
+  D.querySelectorAll('.hq-fav').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); ga('header_shortcut', { to: 'favs' }); openFavs(); }); });
+  D.querySelectorAll('.hq-plan').forEach(function (a) { a.addEventListener('click', function () { ga('header_shortcut', { to: 'plan_box' }); }); });
   window.addEventListener('hashchange', function () { var h = (location.hash || '').replace('#', ''); applyTab(tabFromHash(), true); var t = LEGACY[h] && $(h); if (t && !t.hidden) setTimeout(function () { t.scrollIntoView({ block: 'start' }); }, 30); });
   applyTab(tabFromHash(), false);
 

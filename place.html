@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/x-icon" href="icons/favicon.ico?v=3" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=3" />
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png?v=3" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=3" />
 <title>아이와 가볼 만한 곳 | BUYG(바이그)</title>
 <meta name="description" content="아이와 함께 가기 전에 확인할 요금·운영시간·예약·유모차·주차 정보를 출처와 함께 정리했어요.">
 <meta property="og:type" content="website">
@@ -119,7 +123,7 @@
 </style>
 </head>
 <body>
-<div class="top"><button class="back" id="back" type="button" aria-label="뒤로">‹ 뒤로</button><a class="logo" href="./" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp" alt="" width="24" height="24" decoding="async">Buyg</a></div>
+<div class="top"><button class="back" id="back" type="button" aria-label="뒤로">‹ 뒤로</button><a class="logo" href="./" aria-label="Buyg 홈으로 이동"><img class="logo-face" src="assets/img/tein_logo.webp?v=3" alt="" width="24" height="24" decoding="async">Buyg</a></div>
 <div class="wrap" id="app"><div class="empty">불러오는 중…</div></div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -291,7 +295,7 @@ function render(p) {
   const hb = buildHero(p); app.appendChild(hb.hero); if (hb.credit) { const cr = h('p', 'credit', hb.credit); cr.id = 'heroCredit'; app.appendChild(cr); }
 
   const head = h('div', 'head');
-  head.appendChild(h('div', 'kicker', (region ? region + ' · ' : '') + (g ? '에디터 추천 나들이' : p.kind === 'reserve' ? '예약 체험' : p.kind === 'event' ? '행사·축제' : '나들이 장소')));
+  head.appendChild(h('div', 'kicker', (region ? region + ' · ' : '') + (g ? ((g.age_fit && g.age_fit.reviewed === false) ? '공식 안내 기반 나들이' : '에디터 추천 나들이') : p.kind === 'reserve' ? '예약 체험' : p.kind === 'event' ? '행사·축제' : '나들이 장소')));
   head.appendChild(h('h1', '', name));
   if (g && g.copy) head.appendChild(h('p', 'copy', g.copy));
   head.appendChild(pillsFor(p));

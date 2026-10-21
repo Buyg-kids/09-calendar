@@ -144,6 +144,9 @@ class TestEatsAndCosts(unittest.TestCase):
         self.assertTrue(any("daily_max" in x for x in self.errs(costs={"admission": free, "parking": bad})))
         bad = dict(tier, step_minutes=0)
         self.assertTrue(self.errs(costs={"admission": free, "parking": bad}))
+        free_park = {"model": "free", "note": "주차 무료", "src": S, "checked": D}
+        self.assertEqual(self.errs(costs={"admission": free, "parking": free_park}), [])                              # 주차 무료도 허용(출처 필수)
+        self.assertTrue(self.errs(costs={"admission": free, "parking": {"model": "free", "note": "주차 무료"}}))        # 출처·확인일 없는 무료는 거절
         pp = {"model": "per_person", "prices": {"adult": 5000, "teen": 3000, "child": 2000}, "src": S, "checked": D}
         self.assertTrue(any("toddler" in x for x in self.errs(costs={"admission": pp, "parking": tier})))
 
@@ -160,8 +163,9 @@ class TestEatsAndCosts(unittest.TestCase):
         if not path.exists():
             self.skipTest("place_guides.json 없음")
         places = json.loads(path.read_text(encoding="utf-8"))["places"]
+        for pid in ("spot_06", "spot_57", "guide_seoulgrandpark"):   # 처음 만든 앵커 3곳은 공식 사진이 있다(이후 초안 앵커는 공공누리 제1유형 사진이 없으면 비워 둔다)
+            self.assertTrue(places[pid]["photos"], pid)
         for pid, p in places.items():
-            self.assertTrue(p["photos"], pid)
             for ph in p["photos"]:
                 self.assertTrue(ph["url"].startswith("https://tong.visitkorea.or.kr/"), ph["url"])
                 self.assertIn("공공누리 제1유형", ph["license"])
