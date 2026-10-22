@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-21T22:53:59",
- "count": 100,
+ "generated_at": "2026-10-22T23:22:08",
+ "count": 111,
  "deals": [
   {
    "row_id": "row-1",
@@ -98,7 +98,7 @@
    "purchase_url": "https://www.instagram.com/reel/Dd6k2y1NZvf/"
   },
   {
-   "row_id": "row-29",
+   "row_id": "row-28",
    "product_name": "청라 플레이그라운드 이용권 (평일 3시간)",
    "brand": "",
    "category": "키즈체험",
@@ -115,6 +115,25 @@
    "influencer_label": "@road_with_2kids",
    "post_url": "https://www.instagram.com/reel/Dd78F0hz9p0/",
    "purchase_url": "https://link.inpock.co.kr/toryveryheart"
+  },
+  {
+   "row_id": "row-29",
+   "product_name": "광이멀스테이 글램핑 숙박권 (더블객실, 그랜드가든객실, 패밀리객실) / 광이멀스테이 숙박권 (더블객실, 그랜드가든 객실, 패밀리 객실)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "인천",
+   "place_name": "제주 광이멀스테이",
+   "start_date": "2026-10-01",
+   "end_date": "2026-11-30",
+   "date_label": "2026-10-01~2026-11-30",
+   "price": "평일 20만원대~36만원 / 주말 20만원대~45만원 (온수풀 포함)",
+   "key_benefit": "온수풀 무료 제공, 정가 할인",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "turtlemomsj",
+   "influencer_label": "@turtlemomsj",
+   "post_url": "",
+   "purchase_url": "https://link.inpock.co.kr/turtlemomsj"
   },
   {
    "row_id": "row-30",
@@ -156,7 +175,7 @@
   },
   {
    "row_id": "row-37",
-   "product_name": "경주 한옥 풀빌라 숙박권 (기준인원, 미온수/자쿠지, 그릴) 외 4종",
+   "product_name": "경주 한옥 풀빌라 숙박권 (기준인원, 미온수/자쿠지, 그릴) 외 6종",
    "brand": "",
    "category": "키즈체험",
    "sub_category": "stay",
@@ -167,7 +186,7 @@
    "date_label": "2026-10-03~2027-01-03",
    "price": "최저 20만원대 (최대 50% 할인)",
    "key_benefit": "최대 50% 할인, 기준 인원 2인 추가, 실내/루프탑 미온수비 할인, 바베큐 숯 할인",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792158178/buyg/posts/DeiAY4eknK-",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678758/buyg/posts/DexdAm7kumi",
    "influencer_handle": "_yeonyworld_",
    "influencer_label": "@_yeonyworld_",
    "post_url": "https://www.instagram.com/reel/Dd7YbV6Sqfz/",
@@ -175,7 +194,7 @@
   },
   {
    "row_id": "row-38",
-   "product_name": "보양온천 워터파크·스파 이용권 (주중, 주말, 공휴일) 외 2종",
+   "product_name": "보양온천 워터파크·스파 이용권 (주중, 주말, 공휴일) 외 3종",
    "brand": "",
    "category": "키즈체험",
    "sub_category": "play",
@@ -186,7 +205,7 @@
    "date_label": "2026-10-04~2026-12-17",
    "price": "최대 43% 할인 (2만 원대)",
    "key_benefit": "최대 43% 할인, 주중/주말/공휴일 동일 가격, 12/17까지 유효",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1791368383/buyg/posts/DeG1tdyiRUz",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678760/buyg/posts/DexwMsykUFO",
    "influencer_handle": "travelreason",
    "influencer_label": "@travelreason",
    "post_url": "https://www.instagram.com/p/DeG1tdyiRUz/",
@@ -269,7 +288,7 @@
    "purchase_url": "https://www.instagram.com/reel/DeMNo_STWaa/"
   },
   {
-   "row_id": "row-56",
+   "row_id": "row-55",
    "product_name": "히어로플레이파크 이용권 (반일권 5시간) 외 2종",
    "brand": "",
    "category": "키즈체험",
@@ -288,7 +307,7 @@
    "purchase_url": "https://www.instagram.com/p/DeN_fD8FKYP/"
   },
   {
-   "row_id": "row-57",
+   "row_id": "row-56",
    "product_name": "히어로플레이파크 반일권 (5시간)",
    "brand": "히어로플레이파크",
    "category": "키즈체험",
@@ -307,8 +326,8 @@
    "purchase_url": "https://www.instagram.com/p/DeN_fD8FKYP/"
   },
   {
-   "row_id": "row-58",
-   "product_name": "중부권 키즈리조트 숙박권 (최대 8인 객실, 워터파크 포함) 외 10종",
+   "row_id": "row-57",
+   "product_name": "중부권 키즈리조트 숙박권 (최대 8인 객실, 워터파크 포함) 외 11종",
    "brand": "소노라",
    "category": "키즈체험",
    "sub_category": "stay",
@@ -326,7 +345,7 @@
    "purchase_url": "https://www.instagram.com/reel/Deg7woVyq83/"
   },
   {
-   "row_id": "row-59",
+   "row_id": "row-58",
    "product_name": "신상 호텔 숙박권 (풀캉스 패키지, 올인클루시브 패키지)",
    "brand": "",
    "category": "키즈체험",
@@ -345,7 +364,7 @@
    "purchase_url": "https://www.instagram.com/reel/DeF43hwybEB/"
   },
   {
-   "row_id": "row-60",
+   "row_id": "row-59",
    "product_name": "경주 다나풀빌라 숙박권 (6인 기본, 12인~14인 확장) 외 4종",
    "brand": "",
    "category": "키즈체험",
@@ -364,7 +383,7 @@
    "purchase_url": "https://link.inpock.co.kr/zoon2_"
   },
   {
-   "row_id": "row-63",
+   "row_id": "row-62",
    "product_name": "디거앤레이스 일산점 전동카 이용권 (1시간) / 디거앤레이스 김포점 전동카 이용권 (30분 + 모래놀이)",
    "brand": "",
    "category": "키즈체험",
@@ -383,26 +402,26 @@
    "purchase_url": "https://www.instagram.com/p/DeQfsw4k9X6/"
   },
   {
-   "row_id": "row-65",
-   "product_name": "웅진플레이도시 자유이용권 외 2종",
+   "row_id": "row-64",
+   "product_name": "웅진플레이도시 자유이용권 (1인권, 2인권) 외 2종",
    "brand": "",
    "category": "키즈체험",
    "sub_category": "play",
-   "region": "경기",
+   "region": null,
    "place_name": "웅진플레이도시",
    "start_date": "2026-10-10",
-   "end_date": "2026-10-22",
-   "date_label": "2026-10-10~2026-10-22",
-   "price": "가격공개예정",
-   "key_benefit": "",
-   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "end_date": "2026-11-30",
+   "date_label": "2026-10-10~2026-11-30",
+   "price": "1인 2만원대 (55% 할인)",
+   "key_benefit": "최대 55.8% 할인, 천연암반온천 워터파크",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678748/buyg/posts/Dewg306lOS3",
    "influencer_handle": "2brone",
    "influencer_label": "@2brone",
-   "post_url": "",
-   "purchase_url": "https://www.instagram.com/2brone/"
+   "post_url": "https://www.instagram.com/reel/DexnGHYNj6u/",
+   "purchase_url": "https://www.instagram.com/reel/DexnGHYNj6u/"
   },
   {
-   "row_id": "row-68",
+   "row_id": "row-67",
    "product_name": "스플라스리솜 자유이용권 외 2종",
    "brand": "",
    "category": "키즈체험",
@@ -421,7 +440,7 @@
    "purchase_url": "https://www.instagram.com/2brone/"
   },
   {
-   "row_id": "row-70",
+   "row_id": "row-69",
    "product_name": "<UNKNOWN> 룸 업그레이드 숙박권 (10월-11월 일자별) 외 2종",
    "brand": "",
    "category": "키즈체험",
@@ -440,7 +459,7 @@
    "purchase_url": "https://www.instagram.com/p/DeksFQfH1aF/"
   },
   {
-   "row_id": "row-75",
+   "row_id": "row-73",
    "product_name": "펀지키즈풀빌라 숙박권 (공주방, 잠수함방, 캐슬, 기본객실) 외 2종",
    "brand": "",
    "category": "키즈체험",
@@ -459,7 +478,7 @@
    "purchase_url": "https://www.instagram.com/p/DeimyJOEQNq/"
   },
   {
-   "row_id": "row-76",
+   "row_id": "row-74",
    "product_name": "경상도 풀빌라 숙박권 (룸 타입 1, 룸 타입 2, 룸 타입 3, 룸 타입 4) 외 15종",
    "brand": "",
    "category": "키즈체험",
@@ -478,7 +497,7 @@
    "purchase_url": "https://link.inpock.co.kr/boram_4823"
   },
   {
-   "row_id": "row-77",
+   "row_id": "row-75",
    "product_name": "비발디파크 스키강습권 (1:1, 1:2, 1:3, 패찰권 포함) 외 7종",
    "brand": "비발디파크",
    "category": "키즈체험",
@@ -497,7 +516,7 @@
    "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
   },
   {
-   "row_id": "row-80",
+   "row_id": "row-77",
    "product_name": "집사TV 뮤지컬 시즌2 part.2 : <대저택 끝 없는 문> 입장권 (평택, 용인) 외 3종",
    "brand": "",
    "category": "키즈체험",
@@ -516,7 +535,7 @@
    "purchase_url": "https://www.instagram.com/reel/DeqJSi0tNt2/"
   },
   {
-   "row_id": "row-87",
+   "row_id": "row-84",
    "product_name": "펀지키즈풀빌라 숙박권 (공주방, 잠수함방, 캐슬) / 펀지키즈풀빌라 숙박권 (잠수함방, 공주방)",
    "brand": "",
    "category": "키즈체험",
@@ -535,7 +554,7 @@
    "purchase_url": "https://www.instagram.com/p/Deah9L0I4OX/"
   },
   {
-   "row_id": "row-88",
+   "row_id": "row-85",
    "product_name": "라마다 평창 숙박권 (객실+조식, 객실+오션700, 객실+조식·사우나·양떼목장) 외 2종",
    "brand": "라마다",
    "category": "키즈체험",
@@ -554,7 +573,7 @@
    "purchase_url": "https://www.instagram.com/p/DeagpFiExh6/"
   },
   {
-   "row_id": "row-89",
+   "row_id": "row-86",
    "product_name": "쏠비치진도 키즈풀빌라 숙박권 (룸온리, 올인클루시브) 외 2종",
    "brand": "",
    "category": "키즈체험",
@@ -574,25 +593,6 @@
   },
   {
    "row_id": "row-90",
-   "product_name": "원블리 숙박권 (스위트룸, 풀/사우나 이용권, 체험 옵션) 외 2종",
-   "brand": "",
-   "category": "키즈체험",
-   "sub_category": "stay",
-   "region": null,
-   "place_name": "원블리",
-   "start_date": "2026-10-13",
-   "end_date": "2026-10-21",
-   "date_label": "2026-10-13~2026-10-21",
-   "price": "최대 51% 특가",
-   "key_benefit": "최대인원 추가 비용 무료, 인피니티 풀/인도어 풀&사우나 택1 무료, 키즈 스낵투어 2인 무료, 승마체험 50% 할인, 양떼 먹이체험 1인 무료",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792330553/buyg/posts/DeoeAVUREfB",
-   "influencer_handle": "_wooonvely_",
-   "influencer_label": "@_wooonvely_",
-   "post_url": "https://www.instagram.com/p/DeajQ2Uk_cG/",
-   "purchase_url": "https://link.inpock.co.kr/_wooonvely_"
-  },
-  {
-   "row_id": "row-94",
    "product_name": "리조트 워터파크 이용권 (종일권) / 워터파크 자유이용권 (종일권)",
    "brand": "",
    "category": "키즈체험",
@@ -611,7 +611,7 @@
    "purchase_url": "https://www.instagram.com/p/DeaqVZUkjzj/"
   },
   {
-   "row_id": "row-95",
+   "row_id": "row-91",
    "product_name": "키즈카페/레전드히어로즈 이용권",
    "brand": "",
    "category": "키즈체험",
@@ -630,7 +630,7 @@
    "purchase_url": "https://www.instagram.com/reel/Dec8jyuSBri/"
   },
   {
-   "row_id": "row-98",
+   "row_id": "row-93",
    "product_name": "PIC 괌 키즈호텔 숙박권 (스탠다드, 슈페리어, 슈페리어플러스) 외 5종",
    "brand": "PIC",
    "category": "키즈체험",
@@ -649,7 +649,7 @@
    "purchase_url": "https://www.instagram.com/reel/Dejei9aTLax/"
   },
   {
-   "row_id": "row-101",
+   "row_id": "row-94",
    "product_name": "비발디파크 시즌패스 (스마트, 프리미엄)",
    "brand": "비발디파크",
    "category": "키즈체험",
@@ -668,7 +668,7 @@
    "purchase_url": "https://www.instagram.com/p/DedIFRrAZW-/"
   },
   {
-   "row_id": "row-107",
+   "row_id": "row-98",
    "product_name": "동물원 + 놀이동산 패키지 (동물 먹이체험, 생태설명회, 놀이기구) 외 2종",
    "brand": "",
    "category": "키즈체험",
@@ -687,7 +687,7 @@
    "purchase_url": "https://link.inpock.co.kr/_loveyooo_"
   },
   {
-   "row_id": "row-111",
+   "row_id": "row-99",
    "product_name": "서울 호텔 숙박권 (호텔/빌라/원룸형) / 서울 5성급 호텔 숙박권 (온돌 객실)",
    "brand": "",
    "category": "키즈체험",
@@ -706,26 +706,7 @@
    "purchase_url": "https://www.instagram.com/reel/DebrRV9zkL4/"
   },
   {
-   "row_id": "row-113",
-   "product_name": "스테이시옷 풀빌라 숙박권 (주말, 평일)",
-   "brand": "스테이시옷",
-   "category": "키즈체험",
-   "sub_category": "stay",
-   "region": "강원",
-   "place_name": "스테이시옷 강릉",
-   "start_date": "2026-10-15",
-   "end_date": "2026-10-21",
-   "date_label": "2026-10-15~2026-10-21",
-   "price": "주말포함 원하는 날짜 숙박권 (1팀) / 평일 숙박권 (2팀)",
-   "key_benefit": "강릉 신상 풀빌라 최대 10인, 유아 동반 가능, 2026년 12월 20일까지 잔여일자 중 선택",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792158028/buyg/posts/Deg4Uj3P8sY",
-   "influencer_handle": "_sohee.e",
-   "influencer_label": "@_sohee.e",
-   "post_url": "https://www.instagram.com/reel/Deg4Uj3P8sY/",
-   "purchase_url": "https://inpk.link/_sohee.e"
-  },
-  {
-   "row_id": "row-116",
+   "row_id": "row-103",
    "product_name": "마티에오시리아 숙박권 (스위트룸 오션뷰수영장 포함)",
    "brand": "마티에오시리아",
    "category": "키즈체험",
@@ -744,7 +725,7 @@
    "purchase_url": "https://link.inpock.co.kr/ckb510"
   },
   {
-   "row_id": "row-124",
+   "row_id": "row-112",
    "product_name": "웅진플레이도시 입장권 (로우시즌)",
    "brand": "",
    "category": "키즈체험",
@@ -763,7 +744,7 @@
    "purchase_url": "https://link.inpock.co.kr/rurus_yumi"
   },
   {
-   "row_id": "row-125",
+   "row_id": "row-113",
    "product_name": "키캉스 숙박권 (캐릭터스위트룸, 일반룸)",
    "brand": "",
    "category": "키즈체험",
@@ -782,7 +763,7 @@
    "purchase_url": "https://www.instagram.com/reel/DeZGgetsWcs/"
   },
   {
-   "row_id": "row-126",
+   "row_id": "row-114",
    "product_name": "양평 숙박페스타 숙박권 (일반룸, 캐릭터스위트룸)",
    "brand": "",
    "category": "키즈체험",
@@ -801,7 +782,7 @@
    "purchase_url": "https://www.instagram.com/p/Def15cpH1fd/"
   },
   {
-   "row_id": "row-127",
+   "row_id": "row-115",
    "product_name": "하남 호텔 숙박권 (일반룸, 캐릭터룸)",
    "brand": "",
    "category": "키즈체험",
@@ -820,7 +801,7 @@
    "purchase_url": "https://www.instagram.com/reel/DebquDpsigs/"
   },
   {
-   "row_id": "row-128",
+   "row_id": "row-116",
    "product_name": "플래시백 입장권 (티켓)",
    "brand": "",
    "category": "키즈체험",
@@ -839,7 +820,7 @@
    "purchase_url": "https://www.instagram.com/reel/Dedqly-xVWu/"
   },
   {
-   "row_id": "row-129",
+   "row_id": "row-117",
    "product_name": "놀이공원 + 호텔 숙박 패키지 (종일권 3인, 오션뷰 조식, 스위트룸) / 놀이공원 패키지 (종일권 3인, 조식 3인, 스위트룸 숙박)",
    "brand": "",
    "category": "키즈체험",
@@ -858,7 +839,7 @@
    "purchase_url": "https://link.inpock.co.kr/ckb510"
   },
   {
-   "row_id": "row-130",
+   "row_id": "row-118",
    "product_name": "부산 키즈호텔 숙박+놀이공원권 (종일권 3인, 오션뷰 조식 3인, 스위트룸)",
    "brand": "",
    "category": "키즈체험",
@@ -877,7 +858,7 @@
    "purchase_url": "https://link.inpock.co.kr/ckb510"
   },
   {
-   "row_id": "row-149",
+   "row_id": "row-135",
    "product_name": "광이멀스테이 풀빌라 숙박권 (그랜드가든 객실, 패밀리 객실)",
    "brand": "광이멀스테이",
    "category": "키즈체험",
@@ -896,7 +877,7 @@
    "purchase_url": "https://link.inpock.co.kr/turtlemomsj"
   },
   {
-   "row_id": "row-155",
+   "row_id": "row-139",
    "product_name": "워터피아 숙박권 (워터피아 4인 + BBQ, 조식 + 워터피아, 조식 + 워터피아 + BBQ 외) / 워터피아 키즈풀 숙박권 (쏘라노 온천)",
    "brand": "",
    "category": "키즈체험",
@@ -915,7 +896,7 @@
    "purchase_url": "https://www.instagram.com/reel/Dejds8FTjP5/"
   },
   {
-   "row_id": "row-175",
+   "row_id": "row-154",
    "product_name": "황순원 문학촌 소나기마을 입장권",
    "brand": "",
    "category": "키즈체험",
@@ -934,7 +915,7 @@
    "purchase_url": "https://www.instagram.com/reel/DekpPXYyBoo/"
   },
   {
-   "row_id": "row-176",
+   "row_id": "row-155",
    "product_name": "소나기마을 근처 호텔 키즈캉스 숙박권",
    "brand": "",
    "category": "키즈체험",
@@ -953,26 +934,7 @@
    "purchase_url": "https://www.instagram.com/reel/DekpPXYyBoo/"
   },
   {
-   "row_id": "row-201",
-   "product_name": "블룸비스타 키즈룸 숙박권 (쥬쥬방, 콩순이방, 또봇방)",
-   "brand": "",
-   "category": "키즈체험",
-   "sub_category": "stay",
-   "region": "경기",
-   "place_name": "양평 블룸비스타",
-   "start_date": "2026-10-18",
-   "end_date": "2026-10-21",
-   "date_label": "2026-10-18~2026-10-21",
-   "price": "특가 (투숙기간 ~ 2026.12.31)",
-   "key_benefit": "캐릭터 키즈룸 선택 가능, 키즈라운지·플레이존 포함",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792330553/buyg/posts/DeoeAVUREfB",
-   "influencer_handle": "_wooonvely_",
-   "influencer_label": "@_wooonvely_",
-   "post_url": "https://www.instagram.com/reel/DeoeAVUREfB/",
-   "purchase_url": "https://link.inpock.co.kr/_wooonvely_"
-  },
-  {
-   "row_id": "row-208",
+   "row_id": "row-173",
    "product_name": "부관훼리 여행 패키지 (1박 2일, 2박 여행)",
    "brand": "",
    "category": "키즈체험",
@@ -991,7 +953,7 @@
    "purchase_url": "https://link.inpock.co.kr/mamedreo"
   },
   {
-   "row_id": "row-209",
+   "row_id": "row-174",
    "product_name": "선재해림 펜션 숙박권 (평일, 주말) / 선재해림 숙박권 (평일, 주말)",
    "brand": "",
    "category": "키즈체험",
@@ -1010,7 +972,7 @@
    "purchase_url": "https://www.instagram.com/p/Des5anKEeBs/"
   },
   {
-   "row_id": "row-210",
+   "row_id": "row-175",
    "product_name": "한화리조트 설악 쏘라노 숙박권 (오픈런 객실 패키지)",
    "brand": "",
    "category": "키즈체험",
@@ -1029,8 +991,8 @@
    "purchase_url": "https://www.instagram.com/p/Den85uCE1QB/"
   },
   {
-   "row_id": "row-211",
-   "product_name": "슬라라 어린이입장권 (기본, 슬라임바풍+폭포) / 슬라라 (인스파이어 슬라임키즈카페) 입장권",
+   "row_id": "row-176",
+   "product_name": "슬라라 입장권 (기본입장, 바풍+폭포 옵션, 시간연장) 외 2종",
    "brand": "",
    "category": "키즈체험",
    "sub_category": "play",
@@ -1039,16 +1001,16 @@
    "start_date": "2026-10-18",
    "end_date": "2027-01-31",
    "date_label": "2026-10-18~2027-01-31",
-   "price": "특가 (기존가 대비 할인)",
-   "key_benefit": "어린이입장권 정가→특가, 이용시간 1.5H→2H 연장, 슬라임 바풍+폭포 체험 특가",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792330504/buyg/posts/DemX-WupeCj",
+   "price": "할인 가격",
+   "key_benefit": "기본입장권 할인, 시간연장 포함, 바풍+폭포 옵션 포함, 내년 1월까지 사용 가능, 일일주차권 지원",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678774/buyg/posts/DewQE9jCTL_",
    "influencer_handle": "special_ym_",
    "influencer_label": "@special_ym_",
-   "post_url": "https://www.instagram.com/reel/DemX-WupeCj/",
+   "post_url": "https://www.instagram.com/p/DewQE9jCTL_/",
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-212",
+   "row_id": "row-177",
    "product_name": "키즈풀 패키지 (숙박권)",
    "brand": "",
    "category": "키즈체험",
@@ -1067,7 +1029,7 @@
    "purchase_url": "https://www.instagram.com/reel/DendSiKy9t-/"
   },
   {
-   "row_id": "row-213",
+   "row_id": "row-178",
    "product_name": "라마다프라자 & 씨원리조트 숙박권 (슈페리어 킹/트윈, 아일랜드 패밀리)",
    "brand": "",
    "category": "키즈체험",
@@ -1086,26 +1048,7 @@
    "purchase_url": "https://www.instagram.com/p/DeneKZFjwND/"
   },
   {
-   "row_id": "row-243",
-   "product_name": "코엑스 아쿠아리움 이용권 (1년 무제한 연간이용권, 해양탐험선) 외 3종",
-   "brand": "",
-   "category": "키즈체험",
-   "sub_category": "play",
-   "region": "서울",
-   "place_name": "코엑스 아쿠아리움",
-   "start_date": "2026-10-19",
-   "end_date": "2026-10-21",
-   "date_label": "2026-10-19~2026-10-21",
-   "price": "즉시할인 2% / 카드할인 4% + 해양탐험선 1회 체험권 무료 제공(선착순 500매)",
-   "key_benefit": "즉시할인 2% / 카드할인 4% + 해양탐험선 체험권 무료 제공(선착순 500매)",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792504440/buyg/posts/Des7OCwGKI3",
-   "influencer_handle": "_onioni.mom",
-   "influencer_label": "@_onioni.mom",
-   "post_url": "https://www.instagram.com/p/Des7OCwGKI3/",
-   "purchase_url": "https://link.inpock.co.kr/_onionimom"
-  },
-  {
-   "row_id": "row-338",
+   "row_id": "row-247",
    "product_name": "키즈카페 종일권 (주중 어린이) / 그라운드 플래닛 키즈카페 자유이용권 (주중 어린이 종일권)",
    "brand": "",
    "category": "키즈체험",
@@ -1124,8 +1067,8 @@
    "purchase_url": "https://link.inpock.co.kr/rurus_yumi"
   },
   {
-   "row_id": "row-376",
-   "product_name": "인스파이어 자유이용권 / 인스파이어 숙박권 (객실+수영장)",
+   "row_id": "row-285",
+   "product_name": "인스파이어 숙박권 (수영장+버거세트, 수영장+브런치, 수영장+2박) 외 2종",
    "brand": "",
    "category": "키즈체험",
    "sub_category": "stay",
@@ -1135,15 +1078,15 @@
    "end_date": "2026-10-23",
    "date_label": "2026-10-19~2026-10-23",
    "price": "20만원대~",
-   "key_benefit": "투숙객 전원 스플래시베이 수영장 입장권 포함",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792330501/buyg/posts/DenhprDpOd1",
+   "key_benefit": "수영장 입장권 포함, 시간 연장, 일일주차권 지원, 연말까지 투숙 가능",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678774/buyg/posts/DewQE9jCTL_",
    "influencer_handle": "special_ym_",
    "influencer_label": "@special_ym_",
-   "post_url": "https://www.instagram.com/reel/DenhprDpOd1/",
+   "post_url": "https://www.instagram.com/p/DewQE9jCTL_/",
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-379",
+   "row_id": "row-288",
    "product_name": "슬라라 입장권 (슬라임체험, 키즈카페) 외 2종",
    "brand": "슬라라",
    "category": "키즈체험",
@@ -1162,7 +1105,7 @@
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-385",
+   "row_id": "row-294",
    "product_name": "인스파이어 숙박권 (객실+스플래시베이 수영장) / 인스파이어 리조트 숙박권 (스플래시베이 입장권 패키지, MJ버거 패키지, 브런치 패키지, 2박 패키지)",
    "brand": "인스파이어",
    "category": "키즈체험",
@@ -1181,7 +1124,7 @@
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-393",
+   "row_id": "row-302",
    "product_name": "제주올패스 자유이용권 (24시간, 이용권)",
    "brand": "",
    "category": "키즈체험",
@@ -1200,7 +1143,7 @@
    "purchase_url": "https://www.instagram.com/p/Dep7RrDDwks/"
   },
   {
-   "row_id": "row-401",
+   "row_id": "row-310",
    "product_name": "all실내클루시브 리조트 숙박권 (브런치/버거/수영장 패키지, 2박 패키지)",
    "brand": "",
    "category": "키즈체험",
@@ -1219,7 +1162,7 @@
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-402",
+   "row_id": "row-311",
    "product_name": "슬라임키카 슬라라 이용권",
    "brand": "",
    "category": "키즈체험",
@@ -1238,7 +1181,7 @@
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-403",
+   "row_id": "row-313",
    "product_name": "제주신화월드 숙박권 (신화관 룸온리, 신화관 조식패키지, 신화관 2박크레딧패키지, 서머셋 스위트 룸온리, 서머셋 스위트 조식패키지, 서머셋 스위트 2박크레딧패키지) 외 11종",
    "brand": "",
    "category": "키즈체험",
@@ -1257,7 +1200,7 @@
    "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
   },
   {
-   "row_id": "row-412",
+   "row_id": "row-322",
    "product_name": "서머셋 룸 숙박권 (9인실)",
    "brand": "",
    "category": "키즈체험",
@@ -1276,7 +1219,7 @@
    "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
   },
   {
-   "row_id": "row-416",
+   "row_id": "row-326",
    "product_name": "신화월드 숙박권 (1+1 바우처, 감귤카트 포함)",
    "brand": "신화월드",
    "category": "키즈체험",
@@ -1295,7 +1238,7 @@
    "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
   },
   {
-   "row_id": "row-432",
+   "row_id": "row-342",
    "product_name": "제주신화월드 숙박권 (랜딩관, 신화관, 서머셋)",
    "brand": "제주신화월드",
    "category": "키즈체험",
@@ -1314,7 +1257,7 @@
    "purchase_url": "https://litt.ly/favoritejeju"
   },
   {
-   "row_id": "row-443",
+   "row_id": "row-353",
    "product_name": "선재해림 숙박권 (평일, 주말) / 선재해림 숙박권 (주중, 주말)",
    "brand": "",
    "category": "키즈체험",
@@ -1333,7 +1276,7 @@
    "purchase_url": "https://link.inpock.co.kr/riojoy2721"
   },
   {
-   "row_id": "row-524",
+   "row_id": "row-425",
    "product_name": "<UNKNOWN> 키즈풀빌라 (주중, 주말)",
    "brand": "",
    "category": "키즈체험",
@@ -1352,7 +1295,7 @@
    "purchase_url": "https://link.inpock.co.kr/boram_4823"
   },
   {
-   "row_id": "row-554",
+   "row_id": "row-456",
    "product_name": "바운스 더 퍼스트 이용권 (X2 이용권, 30% 할인 입장권)",
    "brand": "",
    "category": "키즈체험",
@@ -1371,7 +1314,7 @@
    "purchase_url": "https://www.instagram.com/reel/DeqH_4WMsaq/"
   },
   {
-   "row_id": "row-558",
+   "row_id": "row-460",
    "product_name": "무아마운틴파크 입장권 (성인권, 소인권)",
    "brand": "",
    "category": "키즈체험",
@@ -1390,26 +1333,7 @@
    "purchase_url": "https://www.instagram.com/reel/DerTfmbBXmJ/"
   },
   {
-   "row_id": "row-632",
-   "product_name": "은우랜드 자유이용권",
-   "brand": "",
-   "category": "키즈체험",
-   "sub_category": "play",
-   "region": "전남",
-   "place_name": "은우랜드",
-   "start_date": "2026-10-21",
-   "end_date": "2026-10-21",
-   "date_label": "2026-10-21",
-   "price": "초특가",
-   "key_benefit": "",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792590695/buyg/posts/DevT0iVPDWv",
-   "influencer_handle": "choi.3aaa",
-   "influencer_label": "@choi.3aaa",
-   "post_url": "https://www.instagram.com/reel/DevT0iVPDWv/",
-   "purchase_url": "https://www.instagram.com/reel/DevT0iVPDWv/"
-  },
-  {
-   "row_id": "row-638",
+   "row_id": "row-476",
    "product_name": "사천 아르떼리조트 숙박권 (오션뷰 객실, 개인풀 객실)",
    "brand": "",
    "category": "키즈체험",
@@ -1428,45 +1352,7 @@
    "purchase_url": "https://link.inpock.co.kr/_onionimom"
   },
   {
-   "row_id": "row-639",
-   "product_name": "산타포레리조트 숙박권 (주말)",
-   "brand": "",
-   "category": "키즈체험",
-   "sub_category": "stay",
-   "region": null,
-   "place_name": "산타포레리조트",
-   "start_date": "2026-10-21",
-   "end_date": "2026-10-21",
-   "date_label": "2026-10-21",
-   "price": "10만원대",
-   "key_benefit": "조식무료, 추가인원 1인무료, 미취학아동무료, 바베큐할인권, 카페음료권",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792590785/buyg/posts/DevSLmJmqQa",
-   "influencer_handle": "imji_0624",
-   "influencer_label": "@imji_0624",
-   "post_url": "https://www.instagram.com/p/DevSLmJmqQa/",
-   "purchase_url": "https://link.inpock.co.kr/zoon2_"
-  },
-  {
-   "row_id": "row-647",
-   "product_name": "블룸비스타 숙박권",
-   "brand": "",
-   "category": "키즈체험",
-   "sub_category": "stay",
-   "region": "경기",
-   "place_name": null,
-   "start_date": "2026-10-21",
-   "end_date": "2026-10-21",
-   "date_label": "2026-10-21",
-   "price": "역대 최저가",
-   "key_benefit": "역대 최저가",
-   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
-   "influencer_handle": "hellorongcho_",
-   "influencer_label": "@hellorongcho_",
-   "post_url": "",
-   "purchase_url": "https://www.instagram.com/hellorongcho_/"
-  },
-  {
-   "row_id": "row-654",
+   "row_id": "row-483",
    "product_name": "밤티객실 숙박권 (쥬쥬 스위트룸, 콩순이, 또봇)",
    "brand": "",
    "category": "키즈체험",
@@ -1485,7 +1371,7 @@
    "purchase_url": "https://www.instagram.com/reel/DetbSdYMdwb/"
   },
   {
-   "row_id": "row-696",
+   "row_id": "row-526",
    "product_name": "뽀아빌 온천 입장권",
    "brand": "",
    "category": "키즈체험",
@@ -1493,18 +1379,18 @@
    "region": null,
    "place_name": "뽀아빌",
    "start_date": "2026-10-21",
-   "end_date": "2026-10-24",
-   "date_label": "2026-10-21~2026-10-24",
+   "end_date": "2026-10-25",
+   "date_label": "2026-10-21~2026-10-25",
    "price": "초특가",
    "key_benefit": "36개월 미만 무료 입장, 100% 자동환불, 부분 사용 후 취소 가능",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792590806/buyg/posts/DetxIVAk8NX",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678814/buyg/posts/Dewrk1lE8-U",
    "influencer_handle": "_loveyooo_",
    "influencer_label": "@_loveyooo_",
    "post_url": "https://www.instagram.com/p/DetxIVAk8NX/",
    "purchase_url": "https://link.inpock.co.kr/_loveyooo_"
   },
   {
-   "row_id": "row-720",
+   "row_id": "row-551",
    "product_name": "솔샘온천 숙박권 (조식 PKG, 빠띠오 PKG)",
    "brand": "",
    "category": "키즈체험",
@@ -1523,7 +1409,7 @@
    "purchase_url": "https://www.instagram.com/p/DevI9_DE_Wz/"
   },
   {
-   "row_id": "row-734",
+   "row_id": "row-570",
    "product_name": "오션뷰 풀빌라 숙박권 (5인 객실, 7인 객실)",
    "brand": "",
    "category": "키즈체험",
@@ -1542,7 +1428,7 @@
    "purchase_url": "https://link.inpock.co.kr/_onionimom"
   },
   {
-   "row_id": "row-736",
+   "row_id": "row-574",
    "product_name": "네이처스케이프 플러스 입장권 (평일 무제한, 주말·공휴일 4시간) / 네이처스케이프 플러스 입장권 (평일 무제한, 주말 4시간)",
    "brand": "",
    "category": "키즈체험",
@@ -1561,26 +1447,7 @@
    "purchase_url": "https://www.instagram.com/p/Deu9uFQj6DA/"
   },
   {
-   "row_id": "row-737",
-   "product_name": "광이멀스테이 숙박권 (더블객실, 그랜드가든 객실, 패밀리 객실)",
-   "brand": "",
-   "category": "키즈체험",
-   "sub_category": "stay",
-   "region": "인천",
-   "place_name": "제주 광이멀스테이 풀빌라",
-   "start_date": "2026-10-21",
-   "end_date": "2026-11-30",
-   "date_label": "2026-10-21~2026-11-30",
-   "price": "평일 20만원대~45만원 / 주말 20만원대~45만원 (온수풀 포함)",
-   "key_benefit": "온수풀 무료 서비스",
-   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
-   "influencer_handle": "turtlemomsj",
-   "influencer_label": "@turtlemomsj",
-   "post_url": "",
-   "purchase_url": "https://link.inpock.co.kr/turtlemomsj"
-  },
-  {
-   "row_id": "row-765",
+   "row_id": "row-601",
    "product_name": "코하쿠노쇼 료칸 숙박권 (3박4일 패키지)",
    "brand": "",
    "category": "키즈체험",
@@ -1599,7 +1466,7 @@
    "purchase_url": "https://www.instagram.com/p/Detq9nagbl0/"
   },
   {
-   "row_id": "row-766",
+   "row_id": "row-602",
    "product_name": "인터컨티넨탈 삿포로 숙박권",
    "brand": "",
    "category": "키즈체험",
@@ -1618,7 +1485,7 @@
    "purchase_url": "https://www.instagram.com/p/Detq9nagbl0/"
   },
   {
-   "row_id": "row-767",
+   "row_id": "row-603",
    "product_name": "공룡월드 입장권",
    "brand": "",
    "category": "키즈체험",
@@ -1637,7 +1504,159 @@
    "purchase_url": "https://www.instagram.com/hellorongcho_/"
   },
   {
-   "row_id": "row-812",
+   "row_id": "row-660",
+   "product_name": "더앤리조트 숙박권 (2인 패키지, 3인 패키지, 4인 패키지)",
+   "brand": "더앤리조트",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": null,
+   "place_name": "더앤리조트",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-22",
+   "date_label": "2026-10-22",
+   "price": "2만원 할인권(10매) / 1만원 할인권(50매) / 60분 추가 특전",
+   "key_benefit": "선착순 할인권(최대 2만원), 60분 특전, 키즈룸/조식/온천장/치맥세트 포함",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678753/buyg/posts/DexoPghE13b",
+   "influencer_handle": "jongjong0121",
+   "influencer_label": "@jongjong0121",
+   "post_url": "https://www.instagram.com/p/DexoPghE13b/",
+   "purchase_url": "https://www.instagram.com/p/DexoPghE13b/"
+  },
+  {
+   "row_id": "row-661",
+   "product_name": "천연온천수 리조트 숙박권 (키즈룸, 조식 포함)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": null,
+   "place_name": "천연온천수 리조트",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-22",
+   "date_label": "2026-10-22",
+   "price": "선착순 2만원 할인권 / 1만원 할인권 / 60분 할인",
+   "key_benefit": "일~목 기준 레이트 체크아웃, 키즈룸, 조식, 치맥세트 포함",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678754/buyg/posts/DewYqjypaT8",
+   "influencer_handle": "jongjong0121",
+   "influencer_label": "@jongjong0121",
+   "post_url": "https://www.instagram.com/reel/DewYqjypaT8/",
+   "purchase_url": "https://www.instagram.com/reel/DewYqjypaT8/"
+  },
+  {
+   "row_id": "row-662",
+   "product_name": "경주 포에티스 숙박권 / 경주 브레스테이킹 숙박권",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "경북",
+   "place_name": "경주 브레스테이킹",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-22",
+   "date_label": "2026-10-22",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "_yeonyworld_",
+   "influencer_label": "@_yeonyworld_",
+   "post_url": "",
+   "purchase_url": "https://www.instagram.com/_yeonyworld_/"
+  },
+  {
+   "row_id": "row-663",
+   "product_name": "밀양 탐스팜카라반파크 숙박권",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "경남",
+   "place_name": "밀양 탐스팜카라반파크",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-22",
+   "date_label": "2026-10-22",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "_yeonyworld_",
+   "influencer_label": "@_yeonyworld_",
+   "post_url": "",
+   "purchase_url": "https://www.instagram.com/_yeonyworld_/"
+  },
+  {
+   "row_id": "row-664",
+   "product_name": "포항 원모어데이 숙박권",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "경북",
+   "place_name": "포항 원모어데이",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-22",
+   "date_label": "2026-10-22",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "_yeonyworld_",
+   "influencer_label": "@_yeonyworld_",
+   "post_url": "",
+   "purchase_url": "https://www.instagram.com/_yeonyworld_/"
+  },
+  {
+   "row_id": "row-672",
+   "product_name": "화담숲 입장권 (프리패스, 화담채티켓 포함)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "play",
+   "region": "서울",
+   "place_name": "화담숲",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-22",
+   "date_label": "2026-10-22",
+   "price": "선착순할인",
+   "key_benefit": "시간 지정 없는 프리패스, 리프트 무료 이용",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678778/buyg/posts/DexeLLXyurv",
+   "influencer_handle": "hyun04love",
+   "influencer_label": "@hyun04love",
+   "post_url": "https://www.instagram.com/reel/DexeLLXyurv/",
+   "purchase_url": "https://www.instagram.com/reel/DexeLLXyurv/"
+  },
+  {
+   "row_id": "row-673",
+   "product_name": "꿀벌하우스 입장권",
+   "brand": "꿀벌하우스",
+   "category": "키즈체험",
+   "sub_category": "play",
+   "region": null,
+   "place_name": "꿀벌하우스",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-22",
+   "date_label": "2026-10-22",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "j_star_mom",
+   "influencer_label": "@j_star_mom",
+   "post_url": "",
+   "purchase_url": "https://www.instagram.com/j_star_mom/"
+  },
+  {
+   "row_id": "row-770",
+   "product_name": "뽀아빌 워터파크 입장권",
+   "brand": "뽀아빌",
+   "category": "키즈체험",
+   "sub_category": "play",
+   "region": null,
+   "place_name": "뽀아빌 워터파크",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-25",
+   "date_label": "2026-10-22~2026-10-25",
+   "price": "초특가",
+   "key_benefit": "정꼬맘 단독 최저가, 미사용시 100% 자동환불, 부분 사용 후 취소가능, 36개월 미만 무료 입장",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792590806/buyg/posts/DetxIVAk8NX",
+   "influencer_handle": "_loveyooo_",
+   "influencer_label": "@_loveyooo_",
+   "post_url": "https://www.instagram.com/p/DetxIVAk8NX/",
+   "purchase_url": "https://link.inpock.co.kr/_loveyooo_"
+  },
+  {
+   "row_id": "row-783",
    "product_name": "리조트 숙박권 (브런치 뷔페 패키지)",
    "brand": "",
    "category": "키즈체험",
@@ -1656,8 +1675,8 @@
    "purchase_url": "https://litt.ly/mommom"
   },
   {
-   "row_id": "row-817",
-   "product_name": "라테라스 숙박권 (객실 1박, 요트 1팀 1매, 수영장 이용)",
+   "row_id": "row-798",
+   "product_name": "라테라스 숙박권 (객실 1박, 요트 1팀 1매, 수영장 이용) / 여수 라테라스 숙박권 (야귀촌 패키지, 윈터 패키지)",
    "brand": "",
    "category": "키즈체험",
    "sub_category": "stay",
@@ -1668,25 +1687,82 @@
    "date_label": "2026-10-22~2026-10-28",
    "price": "78,800원~",
    "key_benefit": "객실 1박 78,800원~ / 다둥이 인원 추가 무료 / 요트 무료 이용 / 10,11월 수영장 무료 이용 / 연박시 F&B 20,000원 쿠폰",
-   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792418265/buyg/posts/DeoyIgXpu3M",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678807/buyg/posts/Dex2fN5JZ6E",
    "influencer_handle": "luv_anrin",
    "influencer_label": "@luv_anrin",
    "post_url": "https://www.instagram.com/reel/DeoyIgXpu3M/",
    "purchase_url": "https://www.instagram.com/reel/DeoyIgXpu3M/"
   },
   {
-   "row_id": "row-820",
-   "product_name": "<UNKNOWN> 숙박권 (객실, 스파패키지, 조식패키지)",
+   "row_id": "row-800",
+   "product_name": "김포 호텔 키즈룸 숙박권 (스탠다드, 키즈룸)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "경기",
+   "place_name": "김포 호텔",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-28",
+   "date_label": "2026-10-22~2026-10-28",
+   "price": "최저 6만원대 (키즈룸 10만원부터)",
+   "key_benefit": "수영장 2회 포함, 무제한 키즈존 무료 이용, 연말·방학·주말 포함",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678793/buyg/posts/DexzSdnpwIQ",
+   "influencer_handle": "mom_mom.ins",
+   "influencer_label": "@mom_mom.ins",
+   "post_url": "https://www.instagram.com/reel/DexzSdnpwIQ/",
+   "purchase_url": "https://litt.ly/mommom"
+  },
+  {
+   "row_id": "row-801",
+   "product_name": "도시형 키즈호텔 숙박권 (수영장 2회 포함, 키즈룸 옵션)",
    "brand": "",
    "category": "키즈체험",
    "sub_category": "stay",
    "region": null,
-   "place_name": null,
+   "place_name": "도심 속 호캉스 (유람선 탑승, 불꽃놀이 패키지 가능)",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-28",
+   "date_label": "2026-10-22~2026-10-28",
+   "price": "6만원대부터",
+   "key_benefit": "수영장 2회 무료 이용, 인추비 무료, 5인 가족 투숙 가능, 근처 어린이 체험관·맛집 다수",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678801/buyg/posts/Dewh21AmVfF",
+   "influencer_handle": "mom_mom.ins",
+   "influencer_label": "@mom_mom.ins",
+   "post_url": "https://www.instagram.com/p/Dewh21AmVfF/",
+   "purchase_url": "https://litt.ly/mommom"
+  },
+  {
+   "row_id": "row-807",
+   "product_name": "마카오 입장권",
+   "brand": "마카오",
+   "category": "키즈체험",
+   "sub_category": "play",
+   "region": null,
+   "place_name": "마카오",
+   "start_date": "2026-10-22",
+   "end_date": "2026-11-11",
+   "date_label": "2026-10-22~2026-11-11",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "j_star_mom",
+   "influencer_label": "@j_star_mom",
+   "post_url": "",
+   "purchase_url": "https://www.instagram.com/j_star_mom/"
+  },
+  {
+   "row_id": "row-808",
+   "product_name": "<UNKNOWN> 숙박권 (객실, 스파패키지, 조식패키지) / 단풍 명소 숙박 패키지 (기본숙박, 패밀리스파패키지, 조식패키지)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": null,
+   "place_name": "<UNKNOWN>",
    "start_date": "2026-10-22",
    "end_date": "2026-12-14",
    "date_label": "2026-10-22~2026-12-14",
-   "price": "1만원 쿠폰 할인, 추가 5천원 할인",
-   "key_benefit": "선착순 쿠폰 1만원 + 추가 할인 5천원, 입장권 포함",
+   "price": "1만원 할인 + 추가 5천원 할인",
+   "key_benefit": "선착순 1만원 할인 + 추가 5천원 할인, 투숙 객실에 단풍 시즌 입장권 프리패스 제공",
    "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792590776/buyg/posts/DevIQcMSKZf",
    "influencer_handle": "hyun04love",
    "influencer_label": "@hyun04love",
@@ -1694,7 +1770,64 @@
    "purchase_url": "https://www.instagram.com/reel/DevIQcMSKZf/"
   },
   {
-   "row_id": "row-847",
+   "row_id": "row-809",
+   "product_name": "일본 해외여행 패키지 (산리오 하모니랜드, 유후인 관광, 벳부 온천호텔, 후쿠오카, 2박3일/3박4일)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "서울",
+   "place_name": "일본 (산리오 하모니랜드, 유후인, 벳부, 후쿠오카)",
+   "start_date": "2026-10-22",
+   "end_date": "2027-03-23",
+   "date_label": "2026-10-22~2027-03-23",
+   "price": "2박3일 61만원부터 (인천출발기준, 최대할인가)",
+   "key_benefit": "항공+숙소+이동+관광지 포함, 조식/석식 무제한, 한국인 가이드, 전용차량",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678772/buyg/posts/DewavqEk1qj",
+   "influencer_handle": "rimi_m_m",
+   "influencer_label": "@rimi_m_m",
+   "post_url": "https://www.instagram.com/p/DewavqEk1qj/",
+   "purchase_url": "https://link.inpock.co.kr/ckb510"
+  },
+  {
+   "row_id": "row-824",
+   "product_name": "공룡월드 입장권 (전 지점)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "play",
+   "region": "전국",
+   "place_name": "공룡월드",
+   "start_date": "2026-10-23",
+   "end_date": "2026-10-23",
+   "date_label": "2026-10-23",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "hellorongcho_",
+   "influencer_label": "@hellorongcho_",
+   "post_url": "",
+   "purchase_url": "https://www.instagram.com/hellorongcho_/"
+  },
+  {
+   "row_id": "row-844",
+   "product_name": "원더빌리지 입장권 (소인, 대인) / 원더빌리지 입장권+음료패키지 (소인, 대인)",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "play",
+   "region": "경기",
+   "place_name": "스타필드 고양 원더빌리지",
+   "start_date": "2026-10-23",
+   "end_date": "2026-10-25",
+   "date_label": "2026-10-23~2026-10-25",
+   "price": "소인 15,000원 / 대인 10,000원",
+   "key_benefit": "3% 추가 할인쿠폰 포함, 아쿠아카페 음료 패키지",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678769/buyg/posts/DexwZtCPbBS",
+   "influencer_handle": "rurus_yumi",
+   "influencer_label": "@rurus_yumi",
+   "post_url": "https://www.instagram.com/reel/DexwZtCPbBS/",
+   "purchase_url": "https://link.inpock.co.kr/rurus_yumi"
+  },
+  {
+   "row_id": "row-857",
    "product_name": "키즈카페 풀빌라 숙박권 (스탠다드, 스위트룸)",
    "brand": "",
    "category": "키즈체험",
@@ -1713,7 +1846,7 @@
    "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
   },
   {
-   "row_id": "row-864",
+   "row_id": "row-875",
    "product_name": "마이다스 호텔 숙박권 (디럭스 트윈, 헐리우드, 온돌, 프리미어 듀플렉스)",
    "brand": "마이다스 호텔앤리조트",
    "category": "키즈체험",
@@ -1732,7 +1865,26 @@
    "purchase_url": "https://www.instagram.com/reel/Dd-lhmQx599/"
   },
   {
-   "row_id": "row-886",
+   "row_id": "row-883",
+   "product_name": "펀지 키즈풀빌라 숙박권",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "경기",
+   "place_name": "펀지 키즈풀빌라",
+   "start_date": "2026-10-26",
+   "end_date": "2026-10-26",
+   "date_label": "2026-10-26",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "hellorongcho_",
+   "influencer_label": "@hellorongcho_",
+   "post_url": "",
+   "purchase_url": "https://www.instagram.com/hellorongcho_/"
+  },
+  {
+   "row_id": "row-898",
    "product_name": "리솜 전지점 숙박권",
    "brand": "",
    "category": "키즈체험",
@@ -1751,7 +1903,26 @@
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-928",
+   "row_id": "row-914",
+   "product_name": "세부 해외여행 패키지 (항공권+호텔+워터파크)",
+   "brand": "CJ 온스타일 x 하나투어",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "서울",
+   "place_name": "세부 리조트",
+   "start_date": "2026-10-26",
+   "end_date": "2026-10-29",
+   "date_label": "2026-10-26~2026-10-29",
+   "price": "특가 정보 (구매 링크 확인 필요)",
+   "key_benefit": "왕복 항공권+호텔 숙박+워터파크 무제한+영어캠프+뽀로로파크 입장권 포함",
+   "image_url": "https://res.cloudinary.com/y5hfazfj/image/upload/f_auto,q_auto/v1792678854/buyg/posts/DeyxH6Gz2qE",
+   "influencer_handle": "_wooonvely_",
+   "influencer_label": "@_wooonvely_",
+   "post_url": "https://www.instagram.com/reel/DeyxH6Gz2qE/",
+   "purchase_url": "https://link.inpock.co.kr/_wooonvely_"
+  },
+  {
+   "row_id": "row-944",
    "product_name": "엔젤파크 입장권",
    "brand": "",
    "category": "키즈체험",
@@ -1770,7 +1941,7 @@
    "purchase_url": "https://link.inpock.co.kr/hunimaman"
   },
   {
-   "row_id": "row-975",
+   "row_id": "row-999",
    "product_name": "마카오 에어텔 (숙박권)",
    "brand": "",
    "category": "키즈체험",
@@ -1789,17 +1960,17 @@
    "purchase_url": "https://www.instagram.com/p/DeikiBIkXAQ/"
   },
   {
-   "row_id": "row-995",
-   "product_name": "웅진플레이도시 자유이용권 외 3종",
+   "row_id": "row-1019",
+   "product_name": "더앤리조트 숙박권",
    "brand": "",
    "category": "키즈체험",
-   "sub_category": "play",
+   "sub_category": "stay",
    "region": "서울",
-   "place_name": "웅진플레이도시",
+   "place_name": "더앤리조트",
    "start_date": "2026-11-02",
-   "end_date": "2026-11-12",
-   "date_label": "2026-11-02~2026-11-12",
-   "price": "특가",
+   "end_date": "2026-11-05",
+   "date_label": "2026-11-02~2026-11-05",
+   "price": "가격공개예정",
    "key_benefit": "특가",
    "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
    "influencer_handle": "_jenny_journey",
@@ -1808,7 +1979,7 @@
    "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
   },
   {
-   "row_id": "row-1006",
+   "row_id": "row-1028",
    "product_name": "로로키즈풀빌라 숙박권 (11월, 12월)",
    "brand": "",
    "category": "키즈체험",
@@ -1827,7 +1998,26 @@
    "purchase_url": "https://www.instagram.com/reel/DemMi9AP-gz/"
   },
   {
-   "row_id": "row-1007",
+   "row_id": "row-1029",
+   "product_name": "웅진플레이도시 입장권 / 웅진플레이도시 자유이용권",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "play",
+   "region": "서울",
+   "place_name": "웅진플레이도시",
+   "start_date": "2026-11-05",
+   "end_date": "2026-11-12",
+   "date_label": "2026-11-05~2026-11-12",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "_jenny_journey",
+   "influencer_label": "@_jenny_journey",
+   "post_url": "",
+   "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
+  },
+  {
+   "row_id": "row-1030",
    "product_name": "오크밸리 동계시즌 자유이용권",
    "brand": "",
    "category": "키즈체험",
@@ -1846,16 +2036,16 @@
    "purchase_url": "https://inpk.link/special_ym_"
   },
   {
-   "row_id": "row-1024",
-   "product_name": "인제스피디움 이용권",
+   "row_id": "row-1037",
+   "product_name": "다낭 에어텔 패키지 외 3종",
    "brand": "",
    "category": "키즈체험",
-   "sub_category": "play",
-   "region": "강원",
-   "place_name": "인제스피디움",
-   "start_date": "2026-11-13",
+   "sub_category": "stay",
+   "region": "서울",
+   "place_name": "다낭",
+   "start_date": "2026-11-06",
    "end_date": "2026-11-19",
-   "date_label": "2026-11-13~2026-11-19",
+   "date_label": "2026-11-06~2026-11-19",
    "price": "가격공개예정",
    "key_benefit": "특가",
    "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
@@ -1865,7 +2055,26 @@
    "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
   },
   {
-   "row_id": "row-1032",
+   "row_id": "row-1038",
+   "product_name": "다낭 여행권",
+   "brand": "",
+   "category": "키즈체험",
+   "sub_category": "stay",
+   "region": "서울",
+   "place_name": "다낭",
+   "start_date": "2026-11-06",
+   "end_date": "2026-11-12",
+   "date_label": "2026-11-06~2026-11-12",
+   "price": "가격공개예정",
+   "key_benefit": "",
+   "image_url": "https://buyg.kr/icons/placeholder-buyg.png",
+   "influencer_handle": "_jenny_journey",
+   "influencer_label": "@_jenny_journey",
+   "post_url": "",
+   "purchase_url": "https://link.inpock.co.kr/_jenny_journey"
+  },
+  {
+   "row_id": "row-1057",
    "product_name": "* 워터파크 임시 휴장 : 11/23~11/29",
    "brand": "",
    "category": "키즈체험",
@@ -1884,7 +2093,7 @@
    "purchase_url": "https://link.inpock.co.kr/happy.jiwoo"
   },
   {
-   "row_id": "row-1036",
+   "row_id": "row-1061",
    "product_name": "킹덤키즈풀빌라 숙박권",
    "brand": "",
    "category": "키즈체험",
