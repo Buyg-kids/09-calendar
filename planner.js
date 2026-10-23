@@ -178,6 +178,14 @@
       var ph = (en.photo && (en.photo.thumb || en.photo.url)) || '';
       cands.push({ key: s.id, name: s.title, kind: '전시 장소', lat: g.lat, lon: g.lon, free: /무료입장/.test(s.tag || '') ? true : null, img: /^https:\/\//.test(ph) ? ph : '', start: '', end: '' });
     });
+    (ctx.guides || []).forEach(function (g) {                              // 가이드가 있는 박물관·체험관 앵커도 서로의 후보(시드와 겹치면 제외)
+      if (!g || g.seed || g.id === place.id || g.theme !== 'museum' || !g.geo || !isFinite(g.geo.lat) || !isFinite(g.geo.lon)) return;
+      var nm = normName(g.name);
+      if (me && (nm.indexOf(me) >= 0 || me.indexOf(nm) >= 0)) return;
+      if (cands.some(function (c) { var cn = normName(c.name); return c.key === g.id || (cn && nm && (cn.indexOf(nm) >= 0 || nm.indexOf(cn) >= 0)); })) return;
+      var gp = (g.photos || [])[0], gu = (gp && (gp.thumb || gp.url)) || '', ad = g.costs && g.costs.admission;
+      cands.push({ key: g.id, name: g.name, kind: '전시 장소', lat: Number(g.geo.lat), lon: Number(g.geo.lon), free: ad && ad.model === 'free' ? true : null, img: /^https:\/\//.test(gu) ? gu : '', start: '', end: '' });
+    });
     return cands.map(function (c) {
       var meters = Math.round(haversineKm(place.geo.lat, place.geo.lon, c.lat, c.lon) * 1000);
       c.meters = meters; c.minutes = legTravel({ mode: 'straight', meters: meters }).minutes; return c;

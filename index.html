@@ -4053,6 +4053,30 @@ wcs_do();
   function gaEv(n, p) { if (typeof gtag === 'function') { try { gtag('event', n, p); } catch (e) { /* 무시 */ } } }
   var lastFocus = null;
   function closeSheet() { var s = document.getElementById('osSheet'), b = document.getElementById('osBack'); if (s) { s.classList.remove('open'); b.classList.remove('open'); document.body.classList.remove('os-lock'); if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) { /* 무시 */ } } } }
+  var POOL_ENR = null;
+  function loadPoolEnr() {   // 풀 세부정보는 풀 장소 상세를 열 때 한 번만 불러온다(홈 첫 화면 용량 절약)
+    if (!POOL_ENR) POOL_ENR = fetch('./pool_enriched.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { return (j && j.spots) || {}; }).catch(function () { return {}; });
+    return POOL_ENR;
+  }
+  function poolFee(d) { var t = d.fee || ''; if (d.reservation) t = (t ? t + ' · ' : '') + '예약 ' + d.reservation; return t; }
+  function poolOverview(d) {
+    var ov = [];
+    if (d.hours) ov.push('운영 ' + d.hours); if (d.closed) ov.push('휴무 ' + d.closed);
+    if (d.parking) ov.push('주차 ' + d.parking + (d.parking_fee ? ' (' + d.parking_fee + ')' : '')); else if (d.parking_fee) ov.push('주차요금 ' + d.parking_fee);
+    if (d.stroller === true) ov.push('유모차 대여 가능'); else if (d.stroller === false) ov.push('유모차 대여 없음');
+    if (d.pet === true) ov.push('반려동물 동반 가능'); else if (d.pet === false) ov.push('반려동물 동반 불가');
+    if (d.duration) ov.push('소요 약 ' + d.duration); if (d.tel) ov.push('문의 ' + d.tel);
+    return ov.join(' · ');
+  }
+  function hookPoolDetails(it, feeSp, ovSp, noteEl) {
+    loadPoolEnr().then(function (m) {
+      var rec = m[it.id], d = rec && rec.details; if (!d) return;
+      var fee = poolFee(d), ov = poolOverview(d);
+      if (fee && feeSp) feeSp.textContent = fee + ' (한국관광공사 일반 정보)';
+      if (ov && ovSp) ovSp.textContent = ov;
+      if ((fee || ov) && noteEl) noteEl.textContent += ' 요금·운영 정보 출처: 한국관광공사 TourAPI(' + d.checked + ' 확인).';
+    });
+  }
   function openSheet(it) {
     var s = it.seed || {}, ph = (it.img ? { thumb: it.img } : {});
     var back = document.getElementById('osBack');
@@ -4064,12 +4088,13 @@ wcs_do();
     var x = el('button', 'os-x', '✕'); x.type = 'button'; x.setAttribute('aria-label', '닫기'); x.addEventListener('click', closeSheet); hero.appendChild(x); sheet.appendChild(hero);
     var body = el('div', 'os-body'); body.appendChild(el('h3', '', it.title));
     var tg = el('div', 'os-tags'); tg.appendChild(el('span', 'rg', it.regionLabel || s.region || '')); it.tags.forEach(function (t) { tg.appendChild(el('span', '', t)); }); body.appendChild(tg);
-    var row = function (k, v) { if (!v) return; var r = el('div', 'os-row'); r.appendChild(el('b', '', k)); r.appendChild(el('span', '', v)); body.appendChild(r); };
+    var row = function (k, v) { if (!v) return null; var r = el('div', 'os-row'), sp = el('span', '', v); r.appendChild(el('b', '', k)); r.appendChild(sp); body.appendChild(r); return sp; };
     row('주소', it.addr);
-    row('요금·예약', s.tag ? s.tag + ' (일반 정보)' : '방문 전 공식 안내에서 확인해 주세요');
+    var feeSp = row('요금·예약', s.tag ? s.tag + ' (일반 정보)' : '방문 전 공식 안내에서 확인해 주세요');
     var ov = []; if (s.space_type) ov.push(s.space_type + ' 중심'); if (s.parking) ov.push(/^주차/.test(s.parking) ? s.parking : '주차 ' + s.parking); if (s.stroller === true) ov.push('유모차 이동 가능'); if (s.baby_care === true) ov.push('육아 편의시설 있음');
-    row('운영 개요', ov.join(' · ') || '방문 전 공식 안내에서 확인해 주세요');
-    body.appendChild(el('p', 'os-note', '요금·주차·유모차·수유실 같은 정보는 일반 정보 기준이라 운영 사정에 따라 달라질 수 있어요. 방문 전에 공식 홈페이지에서 한 번 더 확인해 주세요.' + (it.credit ? ' 사진: 한국관광공사 TourAPI(공공누리 제1유형)' : '') + (s.pool_source ? ' 출처: ' + s.pool_source + '.' : '')));
+    var ovSp = row('운영 개요', ov.join(' · ') || '방문 전 공식 안내에서 확인해 주세요');
+    var noteEl = el('p', 'os-note', '요금·주차·유모차·수유실 같은 정보는 일반 정보 기준이라 운영 사정에 따라 달라질 수 있어요. 방문 전에 공식 홈페이지에서 한 번 더 확인해 주세요.' + (it.credit ? ' 사진: 한국관광공사 TourAPI(공공누리 제1유형)' : '') + (s.pool_source ? ' 출처: ' + s.pool_source + '.' : '')); body.appendChild(noteEl);
+    if (it.pool) hookPoolDetails(it, feeSp, ovSp, noteEl);
     sheet.appendChild(body);
     var acts = el('div', 'os-acts');
     var plan = el('a', 'pri', '이 장소로 주말 일정 만들기'); plan.href = 'plan.html?place=' + encodeURIComponent(it.id); plan.addEventListener('click', function () { gaEv('home_outing_plan', { id: it.id }); }); acts.appendChild(plan);

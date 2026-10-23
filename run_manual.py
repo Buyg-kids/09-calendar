@@ -29,6 +29,13 @@ def main() -> None:
     print("영유아 공구 캘린더 파이프라인 - 자동 발굴 + 수동 실행")
     print("=" * 60)
 
+    try:   # 카카오 토큰 만료 임박 사전 경고(실패해도 파이프라인은 계속)
+        from generator.send_to_me import warn_if_token_expiring
+
+        warn_if_token_expiring()
+    except Exception as e:  # noqa: BLE001
+        logging.getLogger("run_manual").warning("카카오 토큰 만료 점검 건너뜀(%s)", type(e).__name__)
+
     started = time.time()
     result = run_pipeline_once()
     elapsed = time.time() - started

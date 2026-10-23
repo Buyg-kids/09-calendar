@@ -50,6 +50,14 @@ class TestValidator(unittest.TestCase):
         p = good_place(); p["infra"]["parking"] = {"v": "요금", "src": "http://insecure", "checked": D}
         self.assertTrue(any("https" in e for e in self.errs(p)))
 
+    def test_http_source_only_for_allowlisted_official_hosts(self):
+        for url in ("http://www.hantaek.co.kr/visit/fee/", "http://www.yonggon.com/bbs/page.php?hid=guide", "http://www.yonggon.com/"):
+            p = good_place(); p["facts"]["fee"] = {"v": "무료", "src": url, "checked": D}
+            self.assertEqual(self.errs(p), [], url)
+        for url in ("http://insecure", "http://www.yonggon.com.evil.example/x", "http://evil.example/www.yonggon.com/", "http://www.yonggon.com@evil.example/", "http://yonggon.com/", "ftp://www.yonggon.com/"):
+            p = good_place(); p["facts"]["fee"] = {"v": "무료", "src": url, "checked": D}
+            self.assertTrue(any("https" in e for e in self.errs(p)), url)
+
     def test_tip_faq_nearby_need_sources(self):
         for key, bad in (("tips", {"text": "팁", "checked": D}), ("highlights", {"text": "p", "src": S}),
                          ("faq", {"q": "q", "a": "a", "checked": D}), ("nearby", {"name": "n", "src": S})):

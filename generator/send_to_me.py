@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import re
 import sys
@@ -196,6 +197,78 @@ def _save_rotated_token(new_token: str) -> None:
         )
 
 
+# ---------------------------------------------------------------- 리프레시 토큰 만료 점검(발급일 기록 + 임박 경고)
+
+TOKEN_META = BASE_DIR / "data" / "kakao_token_meta.json"   # data/ 는 gitignore. 발급일·유효일수만 담고 토큰 값은 절대 저장하지 않는다
+TOKEN_WARN_DAYS = 7
+_log = logging.getLogger("send_to_me")
+
+
+def _write_token_meta(expires_in_seconds: int) -> None:
+    """--exchange 로 새 리프레시 토큰을 받은 날(KST)과 유효 일수를 기록한다."""
+    days = int(expires_in_seconds) // 86400
+    if days <= 0:
+        return
+    try:
+        TOKEN_META.parent.mkdir(parents=True, exist_ok=True)
+        TOKEN_META.write_text(json.dumps({"issued": kst_today().isoformat(), "valid_days": days}), encoding="utf-8")
+        print(f"발급일을 {TOKEN_META.name} 에 기록했어요(만료 {TOKEN_WARN_DAYS}일 전부터 야간 실행 때 경고해요).")
+    except OSError as e:
+        print(f"[경고] 발급일 기록 실패({type(e).__name__}) - 만료 사전 경고가 동작하지 않아요.", file=sys.stderr)
+
+
+def token_days_left(today: date | None = None, meta_path: Path | None = None) -> int | None:
+    """리프레시 토큰 만료까지 남은 일수(오늘 포함 안 함). 발급일 기록이 없거나 깨졌으면 None."""
+    p = meta_path or TOKEN_META
+    try:
+        m = json.loads(p.read_text(encoding="utf-8"))
+        issued = date.fromisoformat(m["issued"])
+        valid = int(m["valid_days"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    return (issued + timedelta(days=valid) - (today or kst_today())).days
+
+
+def warn_if_token_expiring(today: date | None = None, warn_days: int = TOKEN_WARN_DAYS, meta_path: Path | None = None, send=None) -> str | None:
+    """만료 warn_days 일 전부터 로그 경고, 토큰이 아직 유효하면 내 카톡으로도 하루 한 번 알린다. 알림 실패는 삼킨다(타입명만 기록).
+    반환: 경고 문구 또는 None(기록 없음·아직 여유 있음)."""
+    left = token_days_left(today, meta_path)
+    if left is None:
+        _log.info("카카오 토큰 발급일 기록이 없어 만료 점검을 건너뜀(재발급 때 --exchange 가 자동으로 기록)")
+        return None
+    if left > warn_days:
+        return None
+    if left < 0:
+        msg = f"카카오 리프레시 토큰이 {-left}일 전에 만료됐을 수 있어요. docs/kakao_token_reissue.md 대로 재발급하세요."
+        _log.warning(msg)
+        return msg
+    msg = f"카카오 리프레시 토큰이 {left}일 뒤 만료돼요. docs/kakao_token_reissue.md 대로 재발급하세요."
+    _log.warning(msg)
+    p = meta_path or TOKEN_META
+    mark = (today or kst_today()).isoformat()
+    try:
+        m = json.loads(p.read_text(encoding="utf-8"))
+        if m.get("last_alert") != mark:
+            (send or send_alert)("⚠️ [Buyg] " + msg)
+            m["last_alert"] = mark
+            p.write_text(json.dumps(m), encoding="utf-8")
+    except Exception as e:  # noqa: BLE001 - 알림 실패가 파이프라인을 막지 않는다
+        _log.warning("카카오 토큰 만료 알림 발송 실패(%s)", type(e).__name__)
+    return msg
+
+
+def cmd_check_token() -> int:
+    left = token_days_left()
+    if left is None:
+        print("발급일 기록이 없어요. --exchange 로 재발급하면 자동으로 기록돼요.")
+        return 0
+    if left < 0:
+        print(f"리프레시 토큰이 {-left}일 전에 만료됐을 수 있어요 - 재발급하세요(docs/kakao_token_reissue.md).")
+        return 1
+    print(f"리프레시 토큰 만료까지 {left}일 남았어요." + (" 곧 재발급하세요." if left <= TOKEN_WARN_DAYS else ""))
+    return 0
+
+
 # ---------------------------------------------------------------- 최초 1회 토큰 발급 도우미
 
 def cmd_auth_url() -> int:
@@ -229,6 +302,7 @@ def cmd_exchange(code: str) -> int:
     print(f"KAKAO_REFRESH_TOKEN={j.get('refresh_token')}")
     print(f"\n리프레시 토큰 유효기간: 약 {int(j.get('refresh_token_expires_in', 0)) // 86400}일")
     print("talk_message 동의 확인:", "OK" if "talk_message" in scopes else "누락! 콘솔 동의항목/--auth-url 의 scope 확인")
+    _write_token_meta(int(j.get("refresh_token_expires_in", 0) or 0))
     return 0
 
 
@@ -240,12 +314,15 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--dry-run", action="store_true", help="전송하지 않고 메시지만 출력")
     ap.add_argument("--auth-url", action="store_true", help="최초 1회: 동의 화면 주소 출력")
     ap.add_argument("--exchange", metavar="CODE", help="최초 1회: 인가 코드로 토큰 발급")
+    ap.add_argument("--check-token", action="store_true", help="리프레시 토큰 만료까지 남은 일수 확인(발급일 기록 기준)")
     args = ap.parse_args(argv)
 
     if args.auth_url:
         return cmd_auth_url()
     if args.exchange:
         return cmd_exchange(args.exchange)
+    if args.check_token:
+        return cmd_check_token()
 
     try:
         d = date.fromisoformat(args.date) if args.date else kst_today()

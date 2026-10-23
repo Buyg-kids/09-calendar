@@ -48,6 +48,7 @@ class TestClaudeResponseShapes(unittest.TestCase):
         self.assertIn(method, ("claude", "rule"))
 
     def test_real_api_error_still_surfaces_traceback(self):
+        ex._api_fail_seen.clear()
         def boom(*a, **k):
             raise RuntimeError("credit balance is too low")
         client = SimpleNamespace(messages=SimpleNamespace(create=boom))
@@ -57,6 +58,37 @@ class TestClaudeResponseShapes(unittest.TestCase):
                 _items, method = ex.extract_from_text("테스트 공구 글 10/12~10/15", "tester", "2026-10-12")
         self.assertEqual(method, "rule_fallback_error")
         self.assertTrue(any(r.exc_info for r in cm.records))   # 의도적 logger.exception 은 유지
+
+
+    def test_repeated_api_errors_log_traceback_once_then_one_liners(self):
+        ex._api_fail_seen.clear()
+        def boom(*a, **k):
+            raise RuntimeError("credit balance is too low")
+        client = SimpleNamespace(messages=SimpleNamespace(create=boom))
+        with mock.patch.object(ex, "ANTHROPIC_API_KEY", "x"), mock.patch.object(ex, "_get_client", return_value=client), \
+             mock.patch.object(ex, "_alert_if_credit_low"):
+            with self.assertLogs(ex.logger, level=logging.ERROR) as cm:
+                for name in ("a", "b", "c"):
+                    _items, method = ex.extract_from_text("테스트 공구 글 10/12~10/15", name, "2026-10-12")
+                    self.assertEqual(method, "rule_fallback_error")
+        self.assertEqual(len(cm.records), 3)
+        self.assertEqual(sum(1 for r in cm.records if r.exc_info), 1)           # 첫 1회만 Traceback(배포 차단 신호)
+        self.assertTrue(cm.records[0].exc_info and not any(r.exc_info for r in cm.records[1:]))
+        self.assertFalse(any("Traceback" in r.getMessage() for r in cm.records))   # 한 줄 로그에는 게이트 문자열이 없다
+
+    def test_different_error_kind_gets_its_own_first_traceback(self):
+        ex._api_fail_seen.clear()
+        errs = [RuntimeError("credit balance is too low"), ValueError("다른 오류"), ValueError("다른 오류 2")]
+        it = iter(errs)
+        def boom(*a, **k):
+            raise next(it)
+        client = SimpleNamespace(messages=SimpleNamespace(create=boom))
+        with mock.patch.object(ex, "ANTHROPIC_API_KEY", "x"), mock.patch.object(ex, "_get_client", return_value=client), \
+             mock.patch.object(ex, "_alert_if_credit_low"):
+            with self.assertLogs(ex.logger, level=logging.ERROR) as cm:
+                for name in ("a", "b", "c"):
+                    ex.extract_from_text("테스트 공구 글 10/12~10/15", name, "2026-10-12")
+        self.assertEqual([bool(r.exc_info) for r in cm.records], [True, True, False])   # 새 종류의 오류는 다시 Traceback
 
 
 if __name__ == "__main__":

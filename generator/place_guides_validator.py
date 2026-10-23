@@ -1,6 +1,7 @@
 """[장소 가이드 검증기] place_guides.json(앵커 장소의 꿀팁·FAQ·육아 인프라 등)이 '출처 없는 사실'을 담지 않도록 검사한다.
 
 원칙: 지어낸 정보 금지. 값(v)이 있는 모든 사실 항목, 모든 팁·포인트·FAQ·연계 장소는 https 출처 URL(src)과 확인일(checked)이 있어야 한다.
+(https 를 지원하지 않는 공식 누리집은 HTTP_OK_HOSTS 에 등록한 호스트만 http 출처로 인정한다.)
 확인하지 못한 항목은 v=null 로 두고 화면에서는 '확인 필요'로 보여 준다(없다고 단정하지 않는다).
 연령 적합도(age_fit)는 통계가 아니라 에디터 판단이다 - basis='editor' 와 reviewed(검수 여부)를 반드시 적는다.
 
@@ -21,8 +22,18 @@ THEMES = {"museum", "forest", "zoo", "water", "indoor", "outdoor"}
 REQUIRED = ("id", "name", "region", "theme", "copy", "photos", "facts", "age_fit", "tips", "highlights", "infra", "faq", "nearby")
 
 
+# 공식 누리집이 https 를 지원하지 않는 곳(운영자 승인 2026-10-21)만 http 출처를 허용한다. 그 밖의 http 는 그대로 거부한다.
+HTTP_OK_HOSTS = {"www.hantaek.co.kr", "www.yonggon.com"}
+_HTTP_HOST_RE = re.compile(r"^http://([^/:?#@]+)(?:[/?#]|$)")
+
+
 def _src_ok(src) -> bool:
-    return isinstance(src, str) and src.startswith("https://")
+    if not isinstance(src, str):
+        return False
+    if src.startswith("https://"):
+        return True
+    m = _HTTP_HOST_RE.match(src)
+    return bool(m) and m.group(1).lower() in HTTP_OK_HOSTS
 
 
 def _fact_errors(path: str, f) -> list[str]:

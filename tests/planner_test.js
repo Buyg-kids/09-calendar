@@ -300,4 +300,14 @@ t('5-1 후보: 방문일에 열린 키즈 행사 + 전시 장소, 직선거리 �
   assert.deepEqual(P.nearbyStops({ id: 'n', name: 'n' }, { events: ev }), []);   // 좌표가 없으면 후보 없음
   assert.equal(P.nearbyStops(place, { events: ev, seeds, enr, visit_date: 'bad', today: '2026-10-17' }).length, 2);   // 잘못된 방문일은 '오늘 이후'로 처리
 });
+t('5-1 후보에 가이드가 있는 박물관 앵커 포함(시드·자기 자신·비박물관·좌표 없음 제외)', () => {
+  const place = { id: 'guide_a', name: '앵커 박물관', geo: { lat: 37.5, lon: 127.0 } };
+  const mk = (id, name, theme, lat, extra) => Object.assign({ id: id, name: name, theme: theme, geo: { lat: lat, lon: 127.0 }, photos: [], costs: { admission: { model: 'per_person' } } }, extra || {});
+  const guides = [place, mk('guide_b', '가까운 어린이박물관', 'museum', 37.52, { costs: { admission: { model: 'free' } }, photos: [{ url: 'https://img.example/b.jpg', thumb: 'https://img.example/bt.jpg' }] }), mk('guide_c', '먼 박물관', 'museum', 38.5), mk('guide_d', '실외 공원', 'outdoor', 37.51), { id: 'guide_e', name: '좌표 없는 박물관', theme: 'museum' }, mk('spot_s', '시드 가이드', 'museum', 37.51, { seed: true }), mk('guide_f', '앵커 박물관 별관', 'museum', 37.51), mk('guide_g', '유료 박물관', 'museum', 37.53)];
+  const r = P.nearbyStops(place, { guides });
+  assert.deepEqual(r.map(c => c.key), ['guide_b', 'guide_g']);                    // 가까운 순, 먼 곳·실외·좌표 없음·시드 표기·같은 이름 포함 장소는 제외
+  assert.equal(r[0].kind, '전시 장소'); assert.equal(r[0].free, true); assert.equal(r[0].img, 'https://img.example/bt.jpg'); assert.equal(r[1].free, null); assert.equal(r[1].img, '');
+  const seeds = [{ id: 'spot_b', title: '가까운 어린이박물관', category: '박물관' }], enr = { spot_b: { geo: { lat: 37.52, lon: 127.0 } } };
+  assert.deepEqual(P.nearbyStops(place, { guides, seeds, enr }).map(c => c.key), ['spot_b', 'guide_g']);   // 시드와 이름이 같으면 중복으로 넣지 않는다
+});
 console.log('planner tests passed: ' + n);

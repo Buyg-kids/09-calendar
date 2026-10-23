@@ -217,7 +217,7 @@ function ensureSeedPlace(id) {   // 시드 장소는 검증된 요금·식당 �
   const s = SEEDS[id], c = s.category || '', theme = /박물관|전시/.test(c) ? 'museum' : /동물/.test(c) ? 'zoo' : /공원|숲|수목|생태|산책/.test(c) ? 'forest' : '';
   const fee = String(s.tag || ''), pk = String(s.parking || '');   // 시드의 일반 정보(요금·주차). 공식 확인 전이므로 '일반 정보'로 표기하고 방문 전 확인을 안내한다
   const admission = /무료입장/.test(fee) ? { model: 'free', note: '무료입장(일반 정보 · 방문 전 공식 확인)' + (/예약/.test(fee) ? ' · 사전예약 필요' : '') } : { model: 'unknown', note: '요금은 아직 확인하지 못했어요(방문 전 공식 안내에서 확인)' };
-  const parking = pk === '무료주차' ? { model: 'free', note: '무료주차(일반 정보 · 방문 전 확인)' } : { model: 'unknown', note: pk === '주차불가/대중교통' ? '주차가 어려운 곳이에요(대중교통 권장, 일반 정보)' : '주차는 유료예요(요금 미확인, 일반 정보)' };
+  const parking = pk === '무료주차' ? { model: 'free', note: '무료주차(일반 정보 · 방문 전 확인)' } : { model: 'unknown', note: pk === '주차불가/대중교통' ? '주차가 어려운 곳이에요(대중교통 권장, 일반 정보)' : pk ? '주차는 유료예요(요금 미확인, 일반 정보)' : '주차 요금은 아직 확인하지 못했어요(방문 전 공식 안내에서 확인)' };
   const SEED_COSTS = {   // 시드 장소 중 요금을 직접 확인한 곳(운영자 확인). 1일 최대 요금은 확인하지 못해 상한을 두지 않는다.
     spot_01: { admission: { model: 'free', note: '무료 관람 · 사전예약제(운영자 확인 2026-10-15)' }, parking: { model: 'tiered', free_minutes: 0, base_minutes: 120, base: 2000, step_minutes: 30, step: 500, daily_max: 1000000, note: '기본 2시간 2,000원 · 초과 30분당 500원(운영자 확인 2026-10-15, 1일 최대 요금은 미확인)' } }
   };
@@ -236,6 +236,7 @@ async function resolveStop(key, place) {   // 홈의 묶음 코스 후보(행사
   let cand = null;
   if (/^tour_/.test(key)) { try { const j = await (await fetch('./tour_events.json')).json(); const rec = (j.events || j).find(x => x.id === key); if (rec && isFinite(rec.mapy) && isFinite(rec.mapx)) cand = { name: rec.title, kind: '행사', lat: Number(rec.mapy), lon: Number(rec.mapx), free: (rec.is_free === true || rec.fee_type === 'free') ? true : null }; } catch (e) { /* 무시 */ } }
   else if (/^spot_/.test(key) && SEEDS[key] && enrGeo(key)) { const g = enrGeo(key); cand = { name: SEEDS[key].title, kind: '전시 장소', lat: g.lat, lon: g.lon, free: /무료입장/.test(SEEDS[key].tag || '') ? true : null }; }
+  else if (/^guide_/.test(key) && GUIDES[key] && !GUIDES[key].seed && GUIDES[key].geo) { const gg = GUIDES[key], ad = gg.costs && gg.costs.admission; cand = { name: gg.name, kind: '전시 장소', lat: gg.geo.lat, lon: gg.geo.lon, free: ad && ad.model === 'free' ? true : null }; }
   if (!cand) return null;
   return { key: key, name: cand.name, kind: cand.kind, meters: Math.round(haversineKm(place.geo.lat, place.geo.lon, cand.lat, cand.lon) * 1000), free: cand.free, visit_minutes: 90 };
 }
@@ -263,7 +264,7 @@ function stopCards(list, selected, pick) {
   list.forEach(c => wrap.appendChild(stopCard(c, selected === c.key, () => pick(c))));
   return wrap;
 }
-function stopCands(place) { return Planner.nearbyStops(place, { events: EVENTS, seeds: Object.values(SEEDS), enr: ENR, visit_date: STATE.visit_date, today: Planner.isoDate(new Date()) }); }
+function stopCands(place) { return Planner.nearbyStops(place, { events: EVENTS, seeds: Object.values(SEEDS), enr: ENR, guides: Object.values(GUIDES), visit_date: STATE.visit_date, today: Planner.isoDate(new Date()) }); }
 
 function nearestEat(place, kind) {   // 숫자 거리(meters)가 있으면 가장 가까운 곳, 없으면 목록의 첫 곳
   const list = (place.eats || []).filter(e => e.kind === kind); if (!list.length) return null;
@@ -463,14 +464,14 @@ function render() {
   // 3) 식당
   { const s = section(4, '식사는 어디서 할까요?');
     const eats = (place.eats || []).filter(e => e.kind === '식당');
-    if (!eats.length) s.appendChild(h('p', 'note', '이 장소의 식당 정보를 준비하고 있어요.'));
+    if (!eats.length) s.appendChild(h('p', 'note', (ENR[place.id] || {}).nearby ? '반경 2km 안에서 한국관광공사에 등록된 식당을 찾지 못했어요. 지금은 건너뛰기로 일정이 만들어져요.' : '이 장소의 식당 정보를 준비하고 있어요.'));   // 수집했는데 없는 것과 아직 수집 전을 구분한다
     if (eats.length) { s.appendChild(h('p', 'ehint', '옆으로 밀어 보고 골라 주세요(공식 목록 · 메뉴는 대표메뉴 기준)')); s.appendChild(eatCarousel(eats, STATE.eat_id, e => set(st => { st.eat_id = st.eat_id === e.id ? null : e.id; st.meal_skip = !st.eat_id; ga('plan_pick_eat', { id: e.id }); }))); }
     const skip = h('div', 'choices skiprow'); skip.appendChild(chip('식사 건너뛰기', !STATE.eat_id, () => set(st => { st.eat_id = null; st.meal_skip = true; }))); s.appendChild(skip);
     app.appendChild(s); }
 
   // 4) 카페
   { const s = section(5, '카페는 어떨까요?'); const cafes = (place.eats || []).filter(e => e.kind === '카페');
-    if (!cafes.length) s.appendChild(h('p', 'note', '이 장소의 카페 정보를 준비하고 있어요. 지금은 건너뛰기로 일정이 만들어져요.'));
+    if (!cafes.length) s.appendChild(h('p', 'note', (ENR[place.id] || {}).nearby ? '반경 2km 안에서 한국관광공사에 등록된 카페를 찾지 못했어요. 지금은 건너뛰기로 일정이 만들어져요.' : '이 장소의 카페 정보를 준비하고 있어요. 지금은 건너뛰기로 일정이 만들어져요.'));
     const skipC = h('div', 'choices skiprow'); skipC.appendChild(chip('카페 건너뛰기', !STATE.cafe_id, () => set(st => { st.cafe_id = null; st.cafe_skip = true; })));
     if (cafes.length) s.appendChild(eatCarousel(cafes, STATE.cafe_id, e => set(st => { st.cafe_id = st.cafe_id === e.id ? null : e.id; st.cafe_skip = !st.cafe_id; })));
     if (cafes.length) s.appendChild(skipC);
@@ -544,7 +545,8 @@ function renderBar(r) {
   const wantPoolPlace = isPoolId(new URLSearchParams(location.search).get('place')) || isPoolId(STATE.place_id) || !!(sharedPlan && isPoolId(sharedPlan.place_id));   // 풀(356KB)은 풀 장소를 쓸 때만 받는다
   if (wantPoolPlace) try {   // 테마 풀(TourAPI 키워드 수집·공공데이터 표준데이터): 시드 장소처럼 등록해 일정 만들기·5-1 후보에 쓴다
     const r = await fetch('./theme_spots_pool.json'); const j = await r.json();
-    Object.values(j.themes || {}).forEach(th => (th.items || []).forEach(q => { if (q && q.id && q.geo && !SEEDS[q.id]) { SEEDS[q.id] = { id: q.id, title: q.title, address: q.address || '', region: q.region || '', category: q.category || '', tag: '', parking: '' }; ENR[q.id] = { geo: q.geo, photo: q.photo || null }; } }));
+    let PE = {}; try { const r2 = await fetch('./pool_enriched.json'); PE = (await r2.json()).spots || {}; } catch (e) { PE = {}; }   // 풀 세부정보·주변 식당/카페(수도권부터, 없으면 비워 둔다)
+    Object.values(j.themes || {}).forEach(th => (th.items || []).forEach(q => { if (q && q.id && q.geo && !SEEDS[q.id]) { const pe = PE[q.id] || {}, d = pe.details || {}; SEEDS[q.id] = { id: q.id, title: q.title, address: q.address || '', region: q.region || '', category: q.category || '', tag: d.free === true ? '무료입장' : '', parking: /^무료/.test(d.parking_fee || '') ? '무료주차' : '' }; ENR[q.id] = { geo: q.geo, photo: q.photo || null, nearby: pe.nearby || undefined }; } }));
   } catch (e) { /* 풀이 없어도 계속 */ }
   { const qq = new URLSearchParams(location.search).get('place'); ensureSeedPlace(qq); ensureSeedPlace(STATE.place_id); const sq = new URLSearchParams(location.search).get('s'); const dd = sq && Planner.decodePlan(sq); if (dd) ensureSeedPlace(dd.place_id); }
   const q = new URLSearchParams(location.search).get('place');

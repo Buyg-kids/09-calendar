@@ -754,6 +754,19 @@ def _claude_extract(raw_text: str, influencer_name: str, reference_date: str) ->
 # 3) 하이브리드 디스패처
 # =============================================================================
 _credit_alert_sent = False
+_api_fail_seen: set[str] = set()   # 오류 종류별 '첫 1회만 Traceback' 기록용(프로세스당)
+
+
+def _log_api_failure(influencer_name: str, exc: Exception) -> None:
+    """Claude 호출 실패 로그. 종류(예외 타입 + 크레딧 소진 여부)별로 프로세스당 첫 1회만 logger.exception(Traceback)을 남겨
+    배포 게이트가 저품질 데이터 배포를 막게 하고, 같은 오류가 반복되면 한 줄로만 기록해 로그 소음(수백 건)을 줄인다.
+    (한 줄 로그에는 'Traceback' 문구를 넣지 않는다 - 게이트는 이 문자열로 판정한다.)"""
+    key = type(exc).__name__ + (":credit" if "credit balance" in str(exc).lower() else "")
+    if key not in _api_fail_seen:
+        _api_fail_seen.add(key)
+        logger.exception("[%s] Claude 2차 정제 실패 - 룰베이스 결과로 폴백", influencer_name)
+    else:
+        logger.error("[%s] Claude 2차 정제 실패(%s 반복) - 룰베이스 결과로 폴백 (동일 오류라 추적 출력 생략)", influencer_name, key)
 
 
 def _alert_if_credit_low(exc: Exception) -> None:
@@ -792,8 +805,8 @@ def extract_from_text(raw_text: str, influencer_name: str, reference_date: str) 
     try:
         claude_items = _claude_extract(raw_text, influencer_name, reference_date)
     except Exception as exc:
-        # 의도적으로 logger.exception 유지: 크레딧 소진 등 API 오류는 Traceback으로 배포를 멈춰 이상을 드러낸다.
-        logger.exception("[%s] Claude 2차 정제 실패 - 룰베이스 결과로 폴백", influencer_name)
+        # 의도적으로 첫 1회는 Traceback 유지: 크레딧 소진 등 API 오류는 Traceback으로 배포를 멈춰 이상을 드러낸다(이후 반복은 한 줄).
+        _log_api_failure(influencer_name, exc)
         _alert_if_credit_low(exc)
         return rule_items, "rule_fallback_error"
 

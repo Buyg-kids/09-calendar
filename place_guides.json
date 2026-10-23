@@ -1807,6 +1807,872 @@
         "source": "한국관광공사 TourAPI",
         "checked": "2026-10-21"
       }
+    },
+    "guide_suwon_hwaseong": {
+      "id": "guide_suwon_hwaseong",
+      "name": "수원화성",
+      "region": "경기",
+      "theme": "outdoor",
+      "copy": "무료로 언제든 걸을 수 있는 유네스코 세계유산 성곽길, 금~일엔 야간 개방도 해요",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource_photo/97/3478597_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource_photo/97/3478597_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "125555",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 수원시 장안구 영화동 320-2 [16268]",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "수원문화재단 031-290-3600",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "상시 개방 (화성행궁은 09:00~18:00)",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "연중무휴",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "수원화성(성곽) 무료 · 화성행궁·화령전은 유료(별도)",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "평지 구간이 많아 유모차 산책이 가능하고, 성곽을 오르내리며 걷는 아이에게 더 재미있어요. 구간이 길어 아이 컨디션에 맞춰 일부만 걷는 걸 추천해요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "수원화성 성곽은 입장료가 없고 연중무휴예요. 화성행궁·화령전 안에 들어가려면 입장권이 필요해요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "2026-05-01~11-01 금·토·일·공휴일에는 18:00~21:30(21:00 입장 마감) 야간 개방을 해요. 야간 요금은 개인 어른 2,000원·청소년 1,500원·어린이 1,000원이에요.",
+          "src": "https://www.swcf.or.kr/?p=392",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "반려동물 동반, 돗자리·텐트 설치 등은 입장이 제한돼요. 자세한 제한 사항은 수원문화재단 관람안내를 확인해 주세요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "매달 마지막 주 수요일 '문화가 있는 날'에는 화성행궁 입장료가 면제돼요(야간 개장 제외).",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "한국관광공사는 수원화성을 정조대왕이 아버지 사도세자의 효심으로 쌓은 평산성(군사·상업 기능을 함께 가진 성곽)으로 소개해요.",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "nursing": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "주차 가능 (한국관광공사 정보 · 위치·요금은 공식 안내 확인 필요)",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료가 있나요?",
+          "a": "성곽(수원화성)은 무료예요. 화성행궁·화령전은 유료(개인 어른 2,000원·청소년 1,500원·어린이 1,000원)이고 6세 이하 취학 전 어린이와 65세 이상은 면제예요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "쉬는 날이 있나요?",
+          "a": "연중무휴이고 상시 개방해요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "밤에도 갈 수 있나요?",
+          "a": "2026-05-01~11-01 금·토·일·공휴일 18:00~21:30(21:00 입장 마감)에 야간 개방을 해요.",
+          "src": "https://www.swcf.or.kr/?p=392",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "free",
+          "note": "수원화성(성곽) 입장 무료 · 화성행궁·화령전은 별도 유료(화성행궁 가이드 참고)",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "unknown",
+          "note": "주차 가능은 확인했지만 요금은 공식 안내에서 확인하지 못했어요",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.287298,
+        "lon": 127.012098,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
+    },
+    "guide_hwaseong_haenggung": {
+      "id": "guide_hwaseong_haenggung",
+      "name": "화성행궁",
+      "region": "경기",
+      "theme": "outdoor",
+      "copy": "정조의 임시 궁궐을 걸어 보는 수원의 대표 문화재, 6세 이하는 입장료가 없어요",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/62/4078262_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/62/4078262_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "129437",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 수원시 팔달구 정조로 825 (남창동) [16258]",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "매표소 031-5191-4677 · 안내소 031-5191-4480",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "09:00~18:00 (입장 마감은 관람 종료 1시간 전)",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "연중무휴",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "개인 어른 2,000원 · 군인·청소년 1,500원 · 어린이 1,000원 / 단체(20인 이상) 1,500·1,200·800원 · 6세 이하 취학 전·65세 이상(신분증) 면제",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "6세 이하는 입장이 면제라 영유아와 가볍게 가기 좋아요. 마당이 넓어 걷는 아이가 신나게 돌아다닐 수 있고, 계단·문턱 구간은 유모차 이동에 불편할 수 있어요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "6세 이하 취학 전 어린이와 65세 이상(신분증)은 입장료가 면제돼요. 한복을 입고 가도 면제 대상이에요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "화성행궁·수원화성박물관·수원박물관을 모두 보는 통합관람권(개인 어른 4,000원·청소년 2,500원·어린이 1,000원)이 따로 있어요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "입장 마감은 관람 종료 1시간 전이에요. 오후에 가면 마감 시간을 먼저 확인해 주세요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "한국관광공사 정보에는 하절기(3~10월) 09:00~18:00, 동절기(11~2월) 09:00~17:00로 적혀 있어요. 수원문화재단 관람안내는 09:00~18:00라서 11월 이후에는 방문 전에 마감 시간을 확인해 주세요.",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "2026-05-01~11-01 금~일·공휴일에는 야간 개장(18:00~21:30, 21:00 입장 마감, 요금 어른 2,000원·청소년 1,500원·어린이 1,000원)이 있어요.",
+          "src": "https://www.swcf.or.kr/?p=392",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "반려동물, 돗자리·텐트 반입 등은 입장이 제한돼요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "한국관광공사는 화성행궁에서 국궁 체험, 전통문화체험, 소원 성취 나무·스탬프 찍기 등을 할 수 있다고 소개해요.",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "nursing": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "주차 가능 (한국관광공사 정보 · 위치·요금은 공식 안내 확인 필요)",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료는 얼마인가요?",
+          "a": "개인은 어른 2,000원·군인·청소년 1,500원·어린이 1,000원이에요. 6세 이하 취학 전 어린이와 65세 이상(신분증 확인)은 면제예요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "통합관람권이 있나요?",
+          "a": "화성행궁·수원화성박물관·수원박물관 통합관람권이 있어요(개인 어른 4,000원·청소년 2,500원·어린이 1,000원).",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "쉬는 날이 있나요?",
+          "a": "연중무휴예요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "마지막 입장은 몇 시인가요?",
+          "a": "관람 종료 1시간 전에 입장을 마감해요(09:00~18:00 운영이면 17:00).",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "per_person",
+          "prices": {
+            "adult": 2000,
+            "teen": 1500,
+            "child": 1000,
+            "toddler": 0
+          },
+          "note": "화성(행궁·화령전) 개인 요금 기준 · 6세 이하 취학 전·65세 이상·한복 착용 등 면제 대상과 단체·통합관람권은 합산에 반영하지 않았어요",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "unknown",
+          "note": "주차 가능은 확인했지만 요금은 공식 안내에서 확인하지 못했어요",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.281816,
+        "lon": 127.016373,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
+    },
+    "guide_suwon_hwaseong_museum": {
+      "id": "guide_suwon_hwaseong_museum",
+      "name": "수원화성박물관",
+      "region": "경기",
+      "theme": "museum",
+      "copy": "12세 이하는 무료 관람, 예약하는 어린이체험실이 있는 화성 전문 박물관",
+      "photos": [],
+      "facts": {
+        "address": {
+          "v": "경기도 수원시 팔달구 창룡대로 21 (매향동) [16255]",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "031-5191-4242 (운영팀) · 어린이체험실 031-5191-4216·4217",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=139&menuLevel=3&menuNo=136",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "09:00~18:00 (매표 09:00~17:00, 종료 1시간 전 마감)",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "매주 월요일 (월요일이 공휴일이면 그다음 날 휴관)",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "개인 어른 2,000원 · 청소년·군인 1,000원 · 어린이(12세 이하)·노인(65세 이상) 무료 · 수원시민 25% 할인 · 통합관람권 별도",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": "어린이체험실은 회차제(15회차·회당 20분, 09:30~16:50) 예약 후 이용",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=144&menuLevel=3&menuNo=99",
+          "checked": "2026-10-21"
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "12세 이하는 무료이고 수유실·어린이체험실이 있어 영유아 동반이 편해요. 전시는 설명 중심이라 체험실 위주로 짧게 둘러보는 걸 추천해요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "어린이(12세 이하)와 65세 이상은 무료예요. 수원시민은 25% 할인이 돼요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "어린이체험실은 하루 15회차(회당 20분, 09:30~16:50) 예약제예요. 방문 전에 예약 방법과 연령 기준을 확인해 주세요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=144&menuLevel=3&menuNo=99",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "매표는 17:00에 마감하고 매주 월요일은 휴관이에요(월요일이 공휴일이면 그다음 날).",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "화성행궁·수원화성박물관·수원박물관을 함께 보는 통합관람권(개인 어른 4,000원·청소년 2,500원·어린이 1,000원)이 있어요.",
+          "src": "https://www.swcf.or.kr/?p=8",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "인포메이션에서 유모차와 휠체어를 무료로 빌릴 수 있어요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=132&menuLevel=3&menuNo=138",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "수유실에서 아기 수유와 기저귀 교체를 할 수 있어요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=132&menuLevel=3&menuNo=138",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": "유모차·휠체어 무료 대여(인포메이션)",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=132&menuLevel=3&menuNo=138",
+          "checked": "2026-10-21"
+        },
+        "nursing": {
+          "v": "수유실(아기 수유·기저귀 교체 공간)",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=132&menuLevel=3&menuNo=138",
+          "checked": "2026-10-21"
+        },
+        "diaper": {
+          "v": "수유실에서 기저귀 교체 가능",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=132&menuLevel=3&menuNo=138",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "v": "주차 141면 (요금은 공식 안내에서 확인하지 못했어요)",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=139&menuLevel=3&menuNo=136",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": "버스 11·60·400·400A·700-2·1(마을) · 수원역 9번/7번 출구 환승 안내는 공식 오시는 길 참고",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=139&menuLevel=3&menuNo=136",
+          "checked": "2026-10-21"
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료는 얼마인가요?",
+          "a": "개인은 어른 2,000원, 청소년·군인 1,000원이고 12세 이하 어린이와 65세 이상은 무료예요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "어린이체험실은 예약해야 하나요?",
+          "a": "하루 15회차(회당 20분, 09:30~16:50) 예약제로 운영해요. 문의는 031-5191-4216·4217이에요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=144&menuLevel=3&menuNo=99",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "유모차를 빌릴 수 있나요?",
+          "a": "인포메이션에서 유모차와 휠체어를 무료로 빌려줘요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=132&menuLevel=3&menuNo=138",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "수유실이 있나요?",
+          "a": "수유실이 있고 아기 수유와 기저귀 교체를 할 수 있어요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=132&menuLevel=3&menuNo=138",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "쉬는 날은 언제인가요?",
+          "a": "매주 월요일이 휴관이고, 월요일이 공휴일이면 그다음 날 쉬어요.",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "per_person",
+          "prices": {
+            "adult": 2000,
+            "teen": 1000,
+            "child": 0,
+            "toddler": 0
+          },
+          "note": "개인 요금 기준 · 어린이(12세 이하)·노인(65세 이상) 무료 · 수원시민 25% 할인·통합관람권은 합산에 반영하지 않았어요",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=129&menuLevel=3&menuNo=110",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "unknown",
+          "note": "주차 141면은 확인했지만 요금은 공식 안내에서 확인하지 못했어요",
+          "src": "https://smuseum.suwon.go.kr/hs/contents/view?contentsNo=139&menuLevel=3&menuNo=136",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.282085,
+        "lon": 127.01908,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
+    },
+    "guide_hantaek": {
+      "id": "guide_hantaek",
+      "name": "한택식물원",
+      "region": "경기",
+      "theme": "forest",
+      "copy": "연중무휴로 문을 여는 용인 백암의 식물원, 36개월 미만은 무료예요",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/61/4100661_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/61/4100661_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "127823",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 용인시 처인구 백암면 한택로 2 [17183]",
+          "src": "http://www.hantaek.co.kr/visit/waymap/",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "031-333-3558",
+          "src": "http://www.hantaek.co.kr/visit/waymap/",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "관람 09:00~일몰 · 매표 09:00~17:00 (계절에 따라 변동)",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "연중무휴",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "정규요금 개인 어른 10,000원·어린이 및 청소년 7,000원 / 동절기요금 어른 6,000원·청소년·경로 등 5,000원·어린이 4,000원 · 36개월 미만 무료(단체 제외) · 어린이·청소년은 만 36개월 이상~고등학생",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "36개월 미만은 무료이고 유모차 동반이 가능해 영유아와 산책하기 좋아요. 넓은 야외라 걷는 아이와 식물·곤충을 보며 천천히 다니기에 알맞아요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "정규요금표와 동절기요금표가 따로 있어요. 동절기요금은 지역·단체 할인이 적용되지 않고, 어느 기간에 동절기요금이 적용되는지는 공식 누리집에서 확인하지 못했어요.",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "식물원 안에서는 취사·금연·금주예요. 식물 보호를 위해 음식물은 국물 없는 도시락, 껍질 깐 과일, 음료수만 가져갈 수 있어요(개인용 소포장만 허용).",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "돗자리(유치원·어린이집 단체의 1인용 돗자리 제외), 카메라 삼각대·외다리, 애완동물, 놀이·운동기구는 반입할 수 없어요.",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "가든센터 1층 식당에서 돈가스·제육덮밥 같은 간단한 식사를 할 수 있지만 동절기에는 식당을 운영하지 않아요(예약·문의 031-333-3558).",
+          "src": "http://www.hantaek.co.kr/visit/equip/",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "2026 한택식물원 단풍 페스티벌이 10월 19일~11월 8일에 열려요(공지 2026-10-16, 자세한 일정은 누리집 확인).",
+          "src": "http://www.hantaek.co.kr/",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "가든센터 입구에서 계절 야생화·다육식물·벌레잡이 식물을 보고 살 수 있어요.",
+          "src": "http://www.hantaek.co.kr/visit/equip/",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "가든센터 1층 허브제품 판매장과 식당·기념품 가게가 있어요.",
+          "src": "http://www.hantaek.co.kr/visit/equip/",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": "유모차 동반 가능 (한국관광공사 정보)",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "nursing": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": "주차 가능 (한국관광공사 정보 · 위치·요금은 공식 안내 확인 필요)",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        },
+        "transit": {
+          "v": "버스 10-4번(용인터미널·백암터미널↔한택식물원, 용인–백암 30분·백암–한택 15분) · 남부터미널 등에서는 백암터미널로 간 뒤 10-4번 이용 · 시간표는 변동될 수 있어요",
+          "src": "http://www.hantaek.co.kr/visit/waymap/",
+          "checked": "2026-10-21"
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료는 얼마인가요?",
+          "a": "정규요금은 개인 어른 10,000원·어린이 및 청소년 7,000원이고, 동절기요금은 어른 6,000원·청소년·경로 등 5,000원·어린이 4,000원이에요. 36개월 미만은 무료예요(단체 제외).",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "어린이·청소년 기준이 어떻게 되나요?",
+          "a": "만 36개월 이상부터 고등학생까지예요.",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "도시락을 가져가도 되나요?",
+          "a": "식물 보호를 위해 국물 없는 도시락, 껍질 깐 과일, 음료수만 가능하고 개인용 소포장 음식만 허용돼요. 식물원 안에서는 취사가 금지예요.",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "쉬는 날이 있나요?",
+          "a": "연중무휴예요. 매표는 09:00~17:00(계절에 따라 변동)이에요.",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "대중교통은 어떻게 가나요?",
+          "a": "용인터미널이나 백암터미널에서 10-4번 버스를 타요(용인–백암 30분, 백암–한택 15분). 시간표는 변동될 수 있어요.",
+          "src": "http://www.hantaek.co.kr/visit/waymap/",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "unknown",
+          "note": "정규요금(어른 10,000원·어린이 및 청소년 7,000원)과 동절기요금(어른 6,000원·청소년 5,000원·어린이 4,000원)이 따로 있고 적용 기간을 확인하지 못해 합산하지 않았어요. 36개월 미만 무료",
+          "src": "http://www.hantaek.co.kr/visit/fee/",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "unknown",
+          "note": "주차 가능은 확인했지만 요금은 공식 안내에서 확인하지 못했어요",
+          "src": "https://api.visitkorea.or.kr/",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.094009,
+        "lon": 127.409749,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
+    },
+    "guide_yongin_insect_park": {
+      "id": "guide_yongin_insect_park",
+      "name": "용인곤충테마파크",
+      "region": "경기",
+      "theme": "indoor",
+      "copy": "금·토·일과 공휴일에 문을 여는 곤충 체험 파크, 실내 전시관은 난방이 돼요",
+      "photos": [
+        {
+          "url": "https://tong.visitkorea.or.kr/cms/resource/82/4127082_image2_1.jpg",
+          "thumb": "https://tong.visitkorea.or.kr/cms/resource/82/4127082_image3_1.jpg",
+          "credit": "한국관광공사 TourAPI",
+          "license": "공공누리 제1유형(출처표시)",
+          "contentid": "2662397",
+          "checked": "2026-10-21"
+        }
+      ],
+      "facts": {
+        "address": {
+          "v": "경기도 용인시 처인구 백암면 삼백로835번길 38 [17181]",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=location",
+          "checked": "2026-10-21"
+        },
+        "tel": {
+          "v": "031-321-8090",
+          "src": "http://www.yonggon.com/",
+          "checked": "2026-10-21"
+        },
+        "hours": {
+          "v": "일·토 10:00~18:00 · 금 11:00~17:00 · 공휴일 10:00~18:00 (가족 단위 개관)",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        "closed": {
+          "v": "가족 단위 관람은 월~목 휴관 (월~금 유치원·학교 단체체험 운영)",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        "fee": {
+          "v": "입장료 13,000원(성인·아이 동일) · 24개월 미만 무료 · 할인우대(10%) 11,700원 · 곤충코인 소지 재방문 11,000원 · 2026-03-12 적용 · 사전/당일 예약·현장 발권 금액 동일",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        "reservation": {
+          "v": "사전·당일 예약(네이버 예약) 또는 현장 발권 · 금액 동일",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        }
+      },
+      "age_fit": {
+        "baby": 1,
+        "toddler": 2,
+        "kid": 3,
+        "preschool": 3,
+        "basis": "editor",
+        "reviewed": false,
+        "note": "24개월 미만은 무료이고 1층 유아휴게실이 있어 영유아 동반이 가능해요. 곤충을 만지고 관찰하는 체험은 걸어 다니는 아이부터 더 즐겨요. (에디터 초안이에요 · 운영자 검수 전)"
+      },
+      "tips": [
+        {
+          "text": "가족 단위 개관은 금(11:00~17:00)·토·일·공휴일(10:00~18:00)이에요. 월~금은 유치원·학교 단체체험 중심이라 가족은 금·토·일·공휴일에 가요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "입장료에 곤충박물관·파충관(2026-03-01 개관)·곤충생태체험관·동물농장·야외놀이터, 곤충 관찰·만져보기, 곤충 라이브 스케치, 보물찾기가 포함돼요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "곤충코인(할인쿠폰)을 인당 1개 줘요. 유료체험 신청 때 1,000원 할인되거나 다음 방문 때 입장료 2,000원 할인이 돼요. 4종을 모아 오면 1인 무료 입장이에요. 할인우대(10%)와는 중복할 수 없어요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "관람만 약 100분, 체험 1~2가지는 30~40분, 곤충표본교실 50분, 체험패키지(4가지) 90분, 카페 30분 이상 걸려요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "박물관·파충관·곤충생태체험관·라운지 '곤'은 냉난방이 되는 실내예요. 동물농장·야외놀이터는 날씨와 상관없이 열고, 폭우일 때만 야외체험(동물 먹이주기·유정란 훔쳐오기)을 쉬어요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "차로 양지IC에서 약 14km(15분)예요. 양재IC 54km 45분, 판교IC 45km 40분, 수원IC 35km 32분이 걸려요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=location",
+          "checked": "2026-10-21"
+        }
+      ],
+      "highlights": [
+        {
+          "text": "1층 출입구 쪽에 유아휴게실이 있어요(시설 배치도 표기).",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=iinfo_all",
+          "checked": "2026-10-21"
+        },
+        {
+          "text": "라운지 '곤'에서 곤충 만져보기와 커피·음료를 함께 즐길 수 있어요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=iinfo_all",
+          "checked": "2026-10-21"
+        }
+      ],
+      "infra": {
+        "stroller": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "nursing": {
+          "v": "1층 출입구 쪽 유아휴게실 (시설 배치도 기준)",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=iinfo_all",
+          "checked": "2026-10-21"
+        },
+        "diaper": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "parking": {
+          "v": null,
+          "src": null,
+          "checked": null
+        },
+        "transit": {
+          "v": null,
+          "src": null,
+          "checked": null
+        }
+      },
+      "faq": [
+        {
+          "q": "입장료는 얼마인가요?",
+          "a": "성인·아이 동일 13,000원이고 24개월 미만은 무료예요. 용인시민·경로(만 70세 이상)·장애인·국가유공자는 증빙을 내면 10% 할인(11,700원)이에요(2026-03-12 적용).",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "예약해야 하나요?",
+          "a": "사전·당일 예약과 현장 발권 모두 가능하고 금액은 같아요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "언제 문을 여나요?",
+          "a": "가족 단위는 금요일 11:00~17:00, 토·일요일과 공휴일 10:00~18:00에 열어요. 월~목은 가족 관람이 쉬어요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "비 오는 날에도 괜찮나요?",
+          "a": "박물관·파충관·곤충생태체험관·라운지 '곤'은 냉난방 실내예요. 폭우일 때만 야외체험을 쉬어요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        {
+          "q": "얼마나 걸리나요?",
+          "a": "관람만 약 100분, 체험 1~2가지를 더하면 2시간 이상, 체험패키지와 카페까지 즐기면 4시간 이상 걸려요.",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        }
+      ],
+      "nearby": [],
+      "costs": {
+        "admission": {
+          "model": "per_person",
+          "prices": {
+            "adult": 13000,
+            "teen": 13000,
+            "child": 13000,
+            "toddler": 13000
+          },
+          "note": "입장료 13,000원(성인·아이 동일) 기준 · 24개월 미만 무료, 할인우대(10%)·곤충코인 할인은 합산에 반영하지 않았어요",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=guide",
+          "checked": "2026-10-21"
+        },
+        "parking": {
+          "model": "unknown",
+          "note": "주차 정보는 공식 안내에서 확인하지 못했어요(방문 전 031-321-8090 문의)",
+          "src": "http://www.yonggon.com/bbs/page.php?hid=location",
+          "checked": "2026-10-21"
+        }
+      },
+      "geo": {
+        "lat": 37.145341,
+        "lon": 127.364557,
+        "source": "한국관광공사 TourAPI",
+        "checked": "2026-10-21"
+      }
     }
   }
 }
