@@ -4148,8 +4148,10 @@ wcs_do();
   }
   function get(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
   tabs();
-  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_enriched.json')]).then(function (r) {
-    var base = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {}); ITEMS = base; POOL_BASE = base; draw();
+  Promise.all([get('./place_guides.json'), get('./free_spots_seed.json'), get('./spot_enriched.json'), get('./pool_free.json')]).then(function (r) {
+    var base = build((r[0] && r[0].places) || {}, (r[1] && r[1].spots) || [], (r[2] && r[2].spots) || {});
+    base = base.concat(poolItems(r[3], base));   // 입장 무료로 확인된 풀 장소(작은 파일)는 처음부터 합쳐 '전국 무료 나들이'에 보인다(메인 목록에는 테마를 고를 때만 보인다)
+    ITEMS = base; POOL_BASE = base; draw();
     window.__outingItems = ITEMS; window.__openSheet = openSheet; window.__redrawOuting = function () { tabs(); draw(); }; window.__outingCard = card; document.dispatchEvent(new Event('outing-ready'));
     if (typeof enableDragScroll === 'function') { var l = document.getElementById('outingList'); if (l) enableDragScroll(l); }
   });
